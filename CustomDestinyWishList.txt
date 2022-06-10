@@ -1,0 +1,40 @@
+title:Custom Wish List
+description:A list of custom rolls I'm interested in. Neither comprehensive nor extensive. A lot of items will be exclusively for craftable guns. 
+
+//notes:Generic perk exceptions
+dimwishlist:item=69420
+dimwishlist:ammoType=2&perks=3513791699#notes:Mulligan really only has a place on non primary weapons
+dimwishlist:item=953998645&perks=3513791699#notes:Mulligan really only has a place on non primary weapons
+
+//notes:Desired Roll: 
+dimwishlist:item=3428521585&perks=247725512,1048183818#notes:Rapid hit + adaptive munitions is an alternative to s/ofa. Useful for breaking barrier champions. 
+dimwishlist:item=3055790362&perks=1482024992,1885400500,699525795,2846385770#notes:Best pvp austringer roll
+dimwishlist:item=3652506829&perks=247725512,1771339417#notes:Stormchaser seems to have better dps than other linears. This is a roll to lookout for for group activities
+dimwishlist:item=3652506829&perks=2284787283,1771339417#notes:Stormchaser seems to have better dps than other linears. This is a roll to lookout for for group activities
+
+//notes:Generic desireable perk combinations
+dimwishlist:item=-69420&perks=1583705720,4049631843#notes:On their own, s/ofa are good but require effort they're often not worth. When combined s/ofa is an incredibly powerful combination, giving both stats and damage. 
+dimwishlist:item=-69420&perks=3523296417,11612903#notes:Most damage buffs that require a kill aren't amazing in endgame content, but this combination allows for a damage buff without requiring a kill and refils the method of getting that buff. 
+dimwishlist:item=-69420&perks=3161816588,1427256713#notes:Slideshot + reservoir burst is an incredibly powerful combination, allowing nearly constant activations of reservoir burst. 
+dimwishlist:item=-69420&perks=247725512,1015611457#notes:Rapid Hit + Kill Clip is a classic reload + damage combination. 
+dimwishlist:item=-69420&perks=1168162263,1015611457#notes:Outlaw + Kill Clip is a classic reload + damage combination. 
+dimwishlist:item=-69420&perks=1168162263,3425386926#notes:Outlaw + Rampage is a classic reload + damage combination. 
+dimwishlist:item=-69420&perks=776531651#notes:Repulsor brace is an incredible perk when combined with void 3.0
+dimwishlist:item=-69420&perks=4293542123#notes:Incandescentis an incredible perk when combined with solar 3.0
+
+//notes:Generic weapon type perk combinations
+dimwishlist:item=5&perks=1683379515#notes:Disruption break is amazing for killing barrier champions after breaking their shield
+dimwishlist:item=7&perks=1683379515#notes:Disruption break is amazing for killing barrier champions after breaking their shield
+dimwishlist:item=8&perks=1683379515#notes:Disruption break is amazing for killing barrier champions after breaking their shield
+dimwishlist:item=3317538576&perks=1683379515#notes:Disruption break is amazing for killing barrier champions after breaking their shield
+dimwishlist:item=9&perks=1048183818#notes:Adaptive munitions on a fusion rifle allows the damage increase to increase on the first burst, allowing fusions to completely ignore match game in most difficulties. 
+dimwishlist:item=3317538576&perks=1048183818#notes:Adaptive munitions on a bow means shields are broken within a few shots, allowing bows to completely ignore match game in most difficulties. 
+
+//notes:Generic undesireable gun/perk combinations
+//currently there isn't a way to do this but ideally I would filter by any gun without a specific perk
+dimwishlist:item=-3556999246#notes:Pleiades Corrector has no good perk combinations. Inferior to vision of confluence. 
+dimwishlist:item=69420&perks=-1172098417#Sleight of Hand works while stowed, but gives stats you would want while using the gun. Not a good trait. 
+dimwishlist:item=69420&perks=-744594675#notes:Well-Rounded provides a benefit that would be beneficial in pvp, but activates on a trigger only common in pve. 
+dimwishlist:item=69420&perks=-2621346526#notes:Ensemble is such a situational perk that only works in groups. Probably created as a pair to firing line, but better reload perks exist. 
+dimwishlist:item=69420&perks=-2039302152#notes:Slideways is inferior to slideshot in every way and provides very minimal benefits
+dimwishlist:item=69420&perks=-3513791699#notes:The impact of mulligan is so minimal that I can only recommend it on special weapons
