@@ -2,31 +2,41 @@ import java.util.*;
 import java.io.*;
 
 public class wishlistGenerator {
+	/**
+	 * the main method reads through the original file and collects data on each
+	 * roll, concating notes and eliminating duplicates
+	 * 
+	 * @param item
+	 *            the destiny api item number, used as the hash key
+	 * @param args
+	 *            any args needed for the main method, most likely to be a input
+	 *            file
+	 * @throws Exception
+	 */
 	public static void main(String[] args) throws Exception {
 		ArrayList<ArrayList> sourceList = new ArrayList(); // used to place each source and their description
-		HashMap<Long, ArrayList<List<String>>> itemAndRolls = new HashMap(); // used to hold each roll, where the key is
-																				// the item id
-		HashMap<Long, ArrayList<String>> itemRollsNotes = new HashMap(); // used to hold each roll's notes, where
-																			// the key is the item id
-		HashMap<Long, ArrayList<List<String>>> unwantedItems = new HashMap(); // used to hold each unwanted roll, where
-																				// the key is the item id
-		Scanner sc;
+		// used to hold each roll, where the key is the item id
+		HashMap<Long, ArrayList<List<String>>> itemAndRolls = new HashMap();
+		// used to hold each roll's notes, where the key is the item id
+		HashMap<Long, ArrayList<String>> itemRollsNotes = new HashMap();
+		// used to hold each unwanted roll, where the key is the item id
+		HashMap<Long, ArrayList<List<String>>> unwantedItems = new HashMap();
+		BufferedReader br;
 		try {
-			sc = new Scanner(new File("CompleteDestinyWishList.txt"));
+			br = new BufferedReader(new FileReader(new File("CompleteDestinyWishList.txt")));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			throw new FileNotFoundException();
-		} finally {
 		}
 		ArrayList td = new ArrayList<>();
-		int source = 0;
+		int sourceNum = 0;
 		String currentNote = ""; // used to store an item's notes, either per roll or per item
 		do {
-			String line = sc.nextLine();
+			String line = br.readLine();
 			switch (line.split(":")[0]) {
 				case "title":
 					td = new ArrayList<>();
-					td.add(source++);
+					td.add(sourceNum++);
 					td.add(line.split(":")[1]);
 					break;
 				case "description":
@@ -62,16 +72,23 @@ public class wishlistGenerator {
 					if (notes == null)
 						notes = currentNote;
 					try {
-						ArrayList<List<String>> unwantedList = unwantedItems.get(item); // gets the list of perksets of
-																						// an unwanted item
-						ArrayList<List<String>> rollList = itemAndRolls.get(item); // gets the list of perksets of an
-																					// item
-						ArrayList<String> noteList = itemRollsNotes.get(item); // gets the list of notes of an item
+						// gets the list of perksets of an item
+						if (!itemAndRolls.containsKey(item)) {
+							itemAndRolls.put(item, new ArrayList<List<String>>());
+						}
+						ArrayList<List<String>> rollList = itemAndRolls.get(item);
+						// gets the list of notes of an item
+						if (!itemRollsNotes.containsKey(item)) {
+							itemRollsNotes.put(item, new ArrayList<String>());
+						}
+						ArrayList<String> noteList = itemRollsNotes.get(item);
+						// gets the list of perksets of an unwanted item
+						if (!unwantedItems.containsKey(item)) {
+							unwantedItems.put(item, new ArrayList<List<String>>());
+						}
+						ArrayList<List<String>> unwantedList = unwantedItems.get(item);
+
 						if (ignoreitem) {
-							if (unwantedList == null) {
-								unwantedList = new ArrayList<>();
-								noteList = new ArrayList<>();
-							}
 							noteList.add(notes);
 							unwantedList.add(perks);
 							if (!unwantedList.contains(perks)) {
@@ -86,18 +103,12 @@ public class wishlistGenerator {
 								itemRollsNotes.put(item, noteList);
 							}
 						} else {
-							if (rollList == null) {
-								rollList = new ArrayList<>();
-								noteList = new ArrayList<>();
-							}
 							noteList.add(notes);
 							rollList.add(perks);
-							System.out.printf("Item %s's perklist: %s%n", item, rollList); 
 							if (!rollList.contains(perks)) {
 								// if the perk list does not contain the current perks, add them as a list to
 								// the item
 								itemAndRolls.put(item, rollList);
-								System.out.println("Complete roll list: " + itemAndRolls);
 								itemRollsNotes.put(item, noteList);
 							} else {
 								// if the item's perk list contains the current perks, only add the notes as an
@@ -105,7 +116,6 @@ public class wishlistGenerator {
 								noteList = itemRollsNotes.get(item);
 								itemRollsNotes.put(item, noteList);
 							}
-
 						}
 					} catch (ArrayIndexOutOfBoundsException e) {
 						System.out.printf("Error %s on line %s%n", e.getMessage(), line);
@@ -115,23 +125,22 @@ public class wishlistGenerator {
 							System.out.println("Unable to format " + line);
 					}
 					break;
-
 				case "//notes":
 					currentNote = line.split(":")[1];
 					break;
-
 				default:
 					break;
 			}
-		} while (sc.hasNextLine());
+		} while (br.ready());
 		itemAndRolls.forEach((key, value) -> {
 			System.out.printf("item: %s %nperks:%n", key);
 			for (List<String> perkList : value) {
-				System.out.printf("/t%s%n",perkList); 
+				System.out.printf("\t%s%n", perkList);
 			}
-		});
-		System.out.println("Source List: " + sourceList); 
-		System.out.println("Roll List: " + itemAndRolls); 
-		System.out.println("Notes List: " + itemRollsNotes); 
+		});		
+		br.close();
+		for (ArrayList source : sourceList) {
+			System.out.println(source);
+		}
 	}
 }
