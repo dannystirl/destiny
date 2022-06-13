@@ -2,6 +2,17 @@ import java.util.*;
 import java.io.*;
 
 public class wishlistGenerator {
+
+	public static ArrayList<ArrayList<Object>> sourceList = new ArrayList<>(); // used to place each source and their description
+	// used to hold each roll, where the key is the item id
+	public static Map<Long, ArrayList<List<String>>> itemAndRolls = new HashMap<>();
+	// used to hold each roll's notes, where the key is the item id
+	public static Map<Long, ArrayList<List<String>>> itemRollsNotes = new HashMap<>();
+	// used to hold each unwanted roll, where the key is the item id
+	public static Map<Long, ArrayList<List<String>>> unwantedItems = new HashMap<>();
+	// used to hold each roll's notes, where the key is the item id
+	public static Map<Long, ArrayList<List<String>>> unwantedRollsNotes = new HashMap<>();
+
 	/**
 	 * the main method reads through the original file and collects data on each
 	 * roll, concating notes and eliminating duplicates
@@ -14,16 +25,7 @@ public class wishlistGenerator {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		ArrayList<ArrayList> sourceList = new ArrayList(); // used to place each source and their description
-		// used to hold each roll, where the key is the item id
-		HashMap<Long, ArrayList<List<String>>> itemAndRolls = new HashMap<>();
-		// used to hold each roll's notes, where the key is the item id
-		HashMap<Long, ArrayList<List<String>>> itemRollsNotes = new HashMap<>();
-		// used to hold each unwanted roll, where the key is the item id
-		HashMap<Long, ArrayList<List<String>>> unwantedItems = new HashMap<>();
-		unwantedItems.put(69420L, new ArrayList<List<String>>());
-		// used to hold each roll's notes, where the key is the item id
-		HashMap<Long, ArrayList<List<String>>> unwantedRollsNotes = new HashMap();
+		unwantedItems.put(69420L, new ArrayList<>());
 		BufferedReader br;
 		try {
 			br = new BufferedReader(new FileReader(new File("CompleteDestinyWishList.txt")));
@@ -31,7 +33,7 @@ public class wishlistGenerator {
 			e.printStackTrace();
 			throw new FileNotFoundException();
 		}
-		ArrayList td = new ArrayList<>();
+		ArrayList<Object> td = new ArrayList<>();
 		int sourceNum = 0; // stores how many rolls a given source has
 		String currentNote = ""; // used to store an item's notes, either per roll or per item
 		do {
@@ -57,7 +59,7 @@ public class wishlistGenerator {
 					}
 					// GATHERING LINE INFORMATION (ITEM, PERKS, NOTES)
 					Long item = Long.parseLong(line.substring(startKey).split("&")[0].split("#")[0]);
-					List<String> perks = new ArrayList();
+					List<String> perks = new ArrayList<>();
 					String notes = null;
 					try {
 						perks = Arrays.asList(line.split("&perks=")[1].split("#notes:")[0].split(",")); // desired perks
@@ -69,7 +71,7 @@ public class wishlistGenerator {
 							try {
 								notes = line.split("#notes:")[1]; // desired notes of item with no perks
 							} catch (Exception missingInformation3) {
-								System.out.println("Unable to format " + line + " in perk collection");
+								System.out.println("/" + "/Unable to format " + line + " in perk collection");
 								throw new Exception();
 							}
 						}
@@ -93,6 +95,13 @@ public class wishlistGenerator {
 					}
 					if (notes == null)
 						notes = currentNote;
+					if (notes.contains("auto generated")) {
+						try {
+							notes = notes.split("tags:")[1];
+						} catch (Exception notesError) {
+							// System.out.println("/" + "/Unable to format notes: " + notes);
+						}
+					}
 					// 69420 is the key for all items. check if a perk is to be ignored on all
 					// items.
 					for (List<String> tempList : unwantedItems.get(69420L)) {
@@ -114,16 +123,16 @@ public class wishlistGenerator {
 						}
 					}
 					// ADD ITEM TO APPROPRIATE LIST
-					try {
+					/* try {
 						if (ignoreitem) {
 							// gets the list of perksets of an unwanted item
 							if (!unwantedItems.containsKey(item)) {
-								unwantedItems.put(item, new ArrayList<List<String>>());
+								unwantedItems.put(item, new ArrayList<>());
 							}
 							ArrayList<List<String>> unwantedList = unwantedItems.get(item);
 							// gets the list of notes of an item
 							if (!unwantedRollsNotes.containsKey(item)) {
-								unwantedRollsNotes.put(item, new ArrayList<List<String>>());
+								unwantedRollsNotes.put(item, new ArrayList<>());
 							}
 							ArrayList<List<String>> unwantedNoteList = unwantedRollsNotes.get(item);
 
@@ -138,12 +147,16 @@ public class wishlistGenerator {
 								unwantedList.add(perks);
 								unwantedItems.put(item, unwantedList);
 								// add notes to a new note list
-								if (!notes.contains("auto generated")) {
-									List<String> newNotes = new ArrayList();
+								List<String> newNotes = new ArrayList<>();
+								try {
+									List<String> tags = Arrays.asList(notes.split("tags:")[1].split(","));
+									notes = notes.split("tags:")[0];
+									unwantedNoteList.add(unwantedList.indexOf(perks), tags);
+								} catch (Exception notesError) {
+									// no tags in notes. not an error.
+								} finally {
 									newNotes.add(notes);
 									unwantedNoteList.add(unwantedList.indexOf(perks), newNotes);
-								} else {
-									unwantedNoteList.add(unwantedList.indexOf(perks), new ArrayList());
 								}
 								unwantedRollsNotes.put(item, unwantedNoteList);
 							} else {
@@ -152,7 +165,7 @@ public class wishlistGenerator {
 								List<String> oldNotes = unwantedNoteList.get(unwantedList.indexOf(perks)); // each perkset needs
 								// to have its own
 								// note position
-								if (!oldNotes.contains(notes) && !notes.contains("auto generated")) {
+								if (!oldNotes.contains(notes)) {
 									oldNotes.add(notes);
 									unwantedNoteList.set(unwantedList.indexOf(perks), oldNotes);
 								}
@@ -161,36 +174,49 @@ public class wishlistGenerator {
 						} else if (!ignoreUnwanteditem && !ignoreitem) {
 							// gets the list of perksets of an item
 							if (!itemAndRolls.containsKey(item)) {
-								itemAndRolls.put(item, new ArrayList<List<String>>());
+								itemAndRolls.put(item, new ArrayList<>());
 							}
 							ArrayList<List<String>> rollList = itemAndRolls.get(item);
 							// gets the list of notes of an item
 							if (!itemRollsNotes.containsKey(item)) {
-								itemRollsNotes.put(item, new ArrayList<List<String>>());
+								itemRollsNotes.put(item, new ArrayList<>());
 							}
 							ArrayList<List<String>> noteList = itemRollsNotes.get(item);
 
-							if (!rollList.contains(perks)) {
+							int tempIndex = 0;
+							for (List<String> tempList : itemAndRolls.get(item)) {
+								if (perks.containsAll(tempList)) {
+									ignoreUnwanteditem = true;
+									tempIndex = itemAndRolls.get(item).indexOf(tempList);
+									break;
+								}
+							}
+							if (!rollList.contains(perks) && !ignoreUnwanteditem) {
 								// if the perk list does not contain the current perks, add them as a list to
 								// the item
 								rollList.add(perks);
 								itemAndRolls.put(item, rollList);
 								// add notes to a new note list
-								if (!notes.contains("auto generated")) {
-									List<String> newNotes = new ArrayList();
-									newNotes.add(notes);
-									noteList.add(rollList.indexOf(perks), newNotes);
-								} else {
-									noteList.add(rollList.indexOf(perks), new ArrayList());
-								}
+								noteList.add(rollList.indexOf(perks), new ArrayList<>());
 								itemRollsNotes.put(item, noteList);
+							} else if (ignoreUnwanteditem) {
+								// if the item's perk list contains the a subset of the current perks,
+								// only add the notes as an addition to the note list
+								List<String> oldNotes = noteList.get(tempIndex); // each perkset needs
+																					// to have its own
+																					// note position
+								if (!oldNotes.contains(notes)) {
+									oldNotes.add(notes);
+									noteList.set(tempIndex, oldNotes);
+									itemRollsNotes.put(item, noteList);
+								}
 							} else {
 								// if the item's perk list contains the current perks, only add the notes as an
 								// addition to the note list
 								List<String> oldNotes = noteList.get(rollList.indexOf(perks)); // each perkset needs
 																								// to have its own
 																								// note position
-								if (!oldNotes.contains(notes) && !notes.contains("auto generated")) {
+								if (!oldNotes.contains(notes)) {
 									oldNotes.add(notes);
 									noteList.set(rollList.indexOf(perks), oldNotes);
 									itemRollsNotes.put(item, noteList);
@@ -199,11 +225,22 @@ public class wishlistGenerator {
 						}
 					} catch (Exception e) {
 						System.out.printf("Error %s on line %s%n", e.getMessage(), line);
-						if (e.getMessage().contains("1")) {
-							// either no perks or no notes set.
-						} else
-							System.out.println("Unable to format " + line);
 						throw new Exception(e);
+					} */
+					try {
+						if(ignoreitem) {
+							List<Map<Long, ArrayList<List<String>>>> returnList = constructLists(item, perks, notes, ignoreUnwanteditem, unwantedItems, unwantedRollsNotes);
+							unwantedItems = returnList.get(0); 
+							unwantedRollsNotes = returnList.get(1); 
+						} else {
+							List<Map<Long, ArrayList<List<String>>>> returnList = constructLists(item, perks, notes, ignoreUnwanteditem,
+									itemAndRolls, itemRollsNotes);
+							itemAndRolls = returnList.get(0);
+							itemRollsNotes = returnList.get(1);
+						}
+					}
+					catch(Exception listConstructorException) {
+
 					}
 					break;
 				case "//notes":
@@ -217,40 +254,80 @@ public class wishlistGenerator {
 			}
 		} while (br.ready());
 
-		/*
-		 * for (Map.Entry<Long, ArrayList<List<String>>> item : itemAndRolls.entrySet())
-		 * {
-		 * Long key = item.getKey();
-		 * if (key == 3556999246L) {
-		 * ArrayList<List<String>> itemPerkList = item.getValue();
-		 * ArrayList<List<String>> itemNotesList = itemRollsNotes.get(key);
-		 * System.out.printf("item: %s %n", key);
-		 * for (int i = 0; i < itemPerkList.size() - 1; i++) {
-		 * // print item and perks
-		 * System.out.printf("dimwishlist:item=%s&perks=", key);
-		 * for (int j = 0; j < itemPerkList.get(i).size() - 1; j++) {
-		 * System.out.print(itemPerkList.get(i).get(j) + ",");
-		 * }
-		 * System.out.print(itemPerkList.get(i).get(itemPerkList.get(i).size() - 1) +
-		 * "#notes:");
-		 * 
-		 * // print notes
-		 * for (int j = 0; j < itemNotesList.get(i).size() - 1; j++) {
-		 * System.out.print(itemNotesList.get(i).get(j) + ". ");
-		 * }
-		 * System.out.println();
-		 * }
-		 * }
-		 * }
-		 */
+		for (Map.Entry<Long, ArrayList<List<String>>> item : itemAndRolls.entrySet()) {
+			Long key = item.getKey();
+			ArrayList<List<String>> itemPerkList = itemAndRolls.get(key);
+			ArrayList<List<String>> itemNotesList = itemRollsNotes.get(key);
 
-		
-		for (Map.Entry<Long, ArrayList<List<String>>> item : itemAndRolls.entrySet())
-		{
-		 	Long key = item.getKey();
-		 	ArrayList<List<String>> itemPerkList = itemAndRolls.get(key);
-		 	ArrayList<List<String>> itemNotesList = itemRollsNotes.get(key);
-		 	System.out.println("item " + key + " " + itemPerkList + " ");
+			for (int j = 0; j < itemPerkList.size(); j++) {
+				System.out.printf("dimwishlist:item=%s&perks=", key);
+				for (int i = 0; i < itemPerkList.get(j).size() - 1; i++) {
+					System.out.printf("%s,", itemPerkList.get(j).get(i));
+				}
+				System.out.printf("%s#notes:", itemPerkList.get(j).get(itemPerkList.get(j).size() - 1));
+				for (int i = 0; i < itemNotesList.get(j).size(); i++) {
+					System.out.printf("%s. ", itemNotesList.get(j).get(i));
+				}
+				System.out.println();
+			}
 		}
+	}
+
+	public static List<Map<Long, ArrayList<List<String>>>> constructLists(Long item, List<String> perks, String notes, boolean ignoreUnwanteditem,
+			Map<Long, ArrayList<List<String>>> itemRolls, Map<Long, ArrayList<List<String>>> itemNotes) {
+		// gets the list of perksets of an item
+		if (!itemRolls.containsKey(item)) {
+			itemRolls.put(item, new ArrayList<>());
+		}
+		ArrayList<List<String>> rollList = itemRolls.get(item);
+		// gets the list of notes of an item
+		if (!itemNotes.containsKey(item)) {
+			itemNotes.put(item, new ArrayList<>());
+		}
+		ArrayList<List<String>> noteList = itemNotes.get(item);
+
+		int tempIndex = 0;
+		for (List<String> tempList : itemRolls.get(item)) {
+			if (perks.containsAll(tempList)) {
+				ignoreUnwanteditem = true;
+				tempIndex = itemRolls.get(item).indexOf(tempList);
+				break;
+			}
+		}
+		if (!rollList.contains(perks) && !ignoreUnwanteditem) {
+			// if the perk list does not contain the current perks, add them as a list to
+			// the item
+			rollList.add(perks);
+			itemRolls.put(item, rollList);
+			// add notes to a new note list
+			noteList.add(rollList.indexOf(perks), new ArrayList<>());
+			itemNotes.put(item, noteList);
+		} else if (ignoreUnwanteditem) {
+			// if the item's perk list contains the a subset of the current perks,
+			// only add the notes as an addition to the note list
+			List<String> oldNotes = noteList.get(tempIndex); // each perkset needs
+																// to have its own
+																// note position
+			if (!oldNotes.contains(notes)) {
+				oldNotes.add(notes);
+				noteList.set(tempIndex, oldNotes);
+				itemNotes.put(item, noteList);
+			}
+		} else {
+			// if the item's perk list contains the current perks, only add the notes as an
+			// addition to the note list
+			List<String> oldNotes = noteList.get(rollList.indexOf(perks)); // each perkset needs
+																			// to have its own
+																			// note position
+			if (!oldNotes.contains(notes)) {
+				oldNotes.add(notes);
+				noteList.set(rollList.indexOf(perks), oldNotes);
+				itemNotes.put(item, noteList);
+			}
+		}
+		List<Map<Long, ArrayList<List<String>>>> returnList = new ArrayList<>();
+		returnList.add(itemRolls);
+		returnList.add(itemNotes);
+		return returnList;
 	}
 }
