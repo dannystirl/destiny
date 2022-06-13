@@ -151,8 +151,8 @@ public class wishlistGenerator {
 								if (!oldNotes.contains(notes) && !notes.contains("auto generated")) {
 									oldNotes.add(notes);
 									noteList.set(rollList.indexOf(perks), oldNotes);
+									itemRollsNotes.put(item, noteList);
 								}
-								itemRollsNotes.put(item, noteList);
 							}
 						}
 					} catch (Exception e) {
@@ -174,7 +174,7 @@ public class wishlistGenerator {
 					break;
 			}
 		} while (br.ready());
-		for (Map.Entry<Long, ArrayList<List<String>>> item : itemAndRolls.entrySet()) {
+		/* for (Map.Entry<Long, ArrayList<List<String>>> item : itemAndRolls.entrySet()) {
 			Long key = item.getKey();
 			ArrayList<List<String>> itemPerkList = item.getValue();
 			ArrayList<List<String>> itemNotesList = itemRollsNotes.get(key);
@@ -182,17 +182,17 @@ public class wishlistGenerator {
 			for (int i = 0; i < itemPerkList.size() - 1; i++) {
 				// print item and perks
 				System.out.printf("dimwishlist:item=%s&perks=", key);
-				for (int j = 0; j < itemPerkList.get(i).size()-1; j++) {
+				for (int j = 0; j < itemPerkList.get(i).size() - 1; j++) {
 					System.out.print(itemPerkList.get(i).get(j) + ",");
 				}
-				System.out.print(itemPerkList.get(i).get(itemPerkList.get(i).size()-1) + "#notes:");
-				
+				System.out.print(itemPerkList.get(i).get(itemPerkList.get(i).size() - 1) + "#notes:");
+
 				// print notes
 				for (int j = 0; j < itemNotesList.get(i).size() - 1; j++) {
 					System.out.print(itemNotesList.get(i).get(j) + ". ");
 				}
 				System.out.println();
 			}
-		}
+		} */
 	}
 }
