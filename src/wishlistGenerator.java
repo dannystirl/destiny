@@ -268,7 +268,7 @@ public class wishlistGenerator {
 			} finally {
 				notes = notes.replace("\\s*.\\s*", "");
 				try {
-					for (String string : Arrays.asList(notes.split("\\.[^\\.]"))) {
+					for (String string : Arrays.asList(notes.split("^(light\\.gg)(\\.[^\\.])"))) {
 						if (string.equalsIgnoreCase("m+kb"))
 							string = "mkb";
 						if (!newNotes.contains(string))
@@ -305,7 +305,7 @@ public class wishlistGenerator {
 			} finally {
 				notes = notes.replace("\\s*.\\s*", "");
 				try {
-					for (String string : Arrays.asList(notes.split("\\.[^\\.]"))) {
+					for (String string : Arrays.asList(notes.split("^(light\\.gg)(\\.[^\\.])"))) {
 						if (!oldNotes.contains(string))
 							oldNotes.add(string);
 					}
