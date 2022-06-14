@@ -1,12 +1,6 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader; 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class wishlistGenerator {
@@ -71,12 +65,12 @@ public class wishlistGenerator {
 					Long item = Long.parseLong(line.substring(startKey).split("&")[0].split("#")[0]);
 					List<List<String>> returnInfo = lineParser(item, line, currentNote, ignoreitem);
 					// roll perks
-					List<String> perks = new ArrayList<>(); 
-					perks.addAll(returnInfo.get(0)); 
+					List<String> perks = new ArrayList<>();
+					perks.addAll(returnInfo.get(0));
 					// roll notes
 					String notes = returnInfo.get(1).get(0);
-					List<String> tags = new ArrayList<>(); 
-					perks.addAll(returnInfo.get(2)); 
+					List<String> tags = new ArrayList<>();
+					tags.addAll(returnInfo.get(2));
 					// unwanted roll/item ?
 					ignoreitem = Boolean.parseBoolean(returnInfo.get(3).get(0));
 
@@ -102,12 +96,12 @@ public class wishlistGenerator {
 					// ADD ITEM TO APPROPRIATE LIST
 					try {
 						if (ignoreitem) {
-							List<Map<Long, ArrayList<List<String>>>> returnList = constructLists(item, perks, notes, ignoreUnwanteditem,
+							List<Map<Long, ArrayList<List<String>>>> returnList = constructLists(item, perks, notes, tags, ignoreUnwanteditem,
 									true, unwantedItems, unwantedRollsNotes);
 							unwantedItems = returnList.get(0);
 							unwantedRollsNotes = returnList.get(1);
 						} else if (!ignoreUnwanteditem && !ignoreitem) {
-							List<Map<Long, ArrayList<List<String>>>> returnList = constructLists(item, perks, notes, ignoreUnwanteditem,
+							List<Map<Long, ArrayList<List<String>>>> returnList = constructLists(item, perks, notes, tags, ignoreUnwanteditem,
 									false, itemAndRolls, itemRollsNotes);
 							itemAndRolls = returnList.get(0);
 							itemRollsNotes = returnList.get(1);
@@ -134,21 +128,22 @@ public class wishlistGenerator {
 			ArrayList<List<String>> itemNotesList = itemRollsNotes.get(key);
 
 			for (int j = 0; j < itemPerkList.size(); j++) {
-				/* System.out.printf("dimwishlist:item=%s&perks=", key);			
+				System.out.printf("dimwishlist:item=%s&perks=", key);
 				for (int i = 0; i < itemPerkList.get(j).size() - 1; i++) {
 					System.out.printf("%s,", itemPerkList.get(j).get(i));
 				}
 				System.out.printf("%s#notes:",
-				itemPerkList.get(j).get(itemPerkList.get(j).size() - 1)); */
-				/* for (int i = 0; i < itemNotesList.get(j).size(); i++) {
+						itemPerkList.get(j).get(itemPerkList.get(j).size() - 1));
+				for (int i = 0; i < itemNotesList.get(j).size(); i++) {
 					System.out.printf("%s. ", itemNotesList.get(j).get(i));
 				}
-				System.out.println(); */
+				System.out.println();
 			}
 		}
 	}
 
-	public static List<Map<Long, ArrayList<List<String>>>> constructLists(Long item, List<String> perks, String notes, boolean ignoreUnwanteditem,
+	public static List<Map<Long, ArrayList<List<String>>>> constructLists(Long item, List<String> perks, String notes, List<String> tags,
+			boolean ignoreUnwanteditem,
 			boolean ignoreItem, Map<Long, ArrayList<List<String>>> itemRolls, Map<Long, ArrayList<List<String>>> itemNotes) {
 		// gets the list of perksets of an unwanted item
 		if (!itemRolls.containsKey(item)) {
@@ -193,6 +188,17 @@ public class wishlistGenerator {
 			// add notes to a new note list
 			List<String> newNotes = new ArrayList<>();
 			try {
+				if (notes.split("\\|tags:")[1].contains(",")) {
+					for (String string : Arrays.asList(notes.split("\\|tags:")[1].split(","))) {
+						if (!tags.contains(string))
+							tags.add(string);
+					}
+				} else {
+					if (!tags.contains(notes.split("\\|tags:")[1]))
+						tags.add(notes.split("\\|tags:")[1]);
+				}
+				tagList.add(tempIndex, tags);
+				itemTags.put(item, tagList);
 				notes = notes.split("\\|tags:")[0];
 			} catch (Exception notesError) {
 				// no tags in notes. not an error.
@@ -208,12 +214,18 @@ public class wishlistGenerator {
 			// addition to the note list
 			List<String> oldNotes = noteList.get(tempIndex);
 			try {
-				List<String> tags = Arrays.asList(notes.split("\\|tags:")[1].split(","));
-				notes = notes.split("\\|tags:")[0];
-				if (!tagList.contains(tags)) {
-					tagList.add(tempIndex, tags);
-					itemTags.put(item, tagList); 
+				if (notes.split("\\|tags:")[1].contains(",")) {
+					for (String string : Arrays.asList(notes.split("\\|tags:")[1].split(","))) {
+						if (!tags.contains(string))
+							tags.add(string);
+					}
+				} else {
+					if (!tags.contains(notes.split("\\|tags:")[1]))
+						tags.add(notes.split("\\|tags:")[1]);
 				}
+				tagList.add(tempIndex, tags);
+				itemTags.put(item, tagList);
+				notes = notes.split("\\|tags:")[0];
 			} catch (Exception notesError) {
 				// no tags in notes. not an error.
 			} finally {
@@ -234,7 +246,7 @@ public class wishlistGenerator {
 	public static List<List<String>> lineParser(Long item, String line, String currentNote, boolean ignoreitem) throws Exception {
 		List<String> perks = new ArrayList<>();
 		String notes;
-		List<String> tags = new ArrayList<>(); 
+		List<String> tags = new ArrayList<>();
 		try {
 			perks = Arrays.asList(line.split("&perks=")[1].split("#notes:")[0].split(",")); // desired perks
 			notes = line.split("#notes:")[1]; // notes
@@ -279,38 +291,72 @@ public class wishlistGenerator {
 			}
 		}
 		try {
-			if(notes.contains("Inspired by")) {
+			if (notes.contains("Inspired by")) {
 				notes = notes.split("Inspired by.*[.]")[1];
-			} else if(notes.contains("[YeezyGT")) {
+			} else if (notes.contains("[YeezyGT")) {
 				notes = notes.split("(\\[YeezyGT).*[]]")[1];
-			} else if(notes.contains("pandapaxxy")) {
+			} else if (notes.contains("pandapaxxy")) {
 				notes = notes.split("pandapaxxy")[1];
-			}
-			if(notes.charAt(0) == (' '))
-				notes = notes.substring(1);
-
-			String itemType = "(pv[pe]|m.{0,1}kb|controller|gambit)"; 
-			if(Pattern.compile(".*\\(" + itemType + "(\\s*[/]\\s*" + itemType + ")*\\).*", Pattern.CASE_INSENSITIVE).matcher(notes).matches()) {
-				/* StringTokenizer st = StringTokenizer(notes, "\\(" + itemType + "(\\s*[/]\\s*" + itemType + ")*\\):*", true);
-				while (st.hasMoreTokens()) {
-					System.out.println(st.nextToken());
-				} */
-				//tags = Arrays.asList(notes.replaceAll("(?i)^(\\(" + itemType + "(\\s*[/]\\s*" + itemType + ")*\\):*)", "").split("\\s[/]\\s"));
-				notes = notes.split("(?i).*\\(" + itemType + "(\\s*[/]\\s*" + itemType + ")*\\):*")[1]; 
-				//System.out.println(tags); 
-				//System.out.println(notes);
 			}
 			if (notes.charAt(0) == (' '))
 				notes = notes.substring(1);
-		}
-		catch(Exception e) {
+			if (notes.contains("’"))
+				notes = notes.replace("’", "\'");
+
+			String itemType = "pv[pe]|m.{0,1}kb|controller|gambit";
+			Pattern pattern = Pattern.compile("\\((" + itemType + ")(\\s*[/]+\\s*(" + itemType + "))*\\)", Pattern.CASE_INSENSITIVE);
+			Matcher matcher = pattern.matcher(notes);
+			while (matcher.find()) {
+				List<String> strArray = Arrays.asList(matcher.group().subSequence(1, matcher.group().length() - 1).toString().split("\\s*[/]\\s*"));
+				for (String str : strArray) {
+					if (!tags.contains(str.toLowerCase())) {
+						tags.add(str.toLowerCase());
+					}
+				}
+			}
+			String temp = "";
+			for (String string : notes.split("(?i)\\((" + itemType + ")(\\s*[/]+\\s*(" + itemType + "))*\\):*")) {
+				temp += string;
+			}
+			notes = temp;
+
+			if (notes.charAt(0) == (' '))
+				notes = notes.substring(1);
+			if (notes.contains("\\s\\s"))
+				notes = notes.replace("\\s\\s", "\\s");
+			if (notes.contains("\\.."))
+				notes = notes.replace("\\..", "\\.\\s");
+		} catch (Exception e) {
 
 		}
 		List<List<String>> returnList = new ArrayList<>();
-			returnList.add(perks);
+		returnList.add(perks);
 		returnList.add(Arrays.asList(notes));
-		returnList.add(tags); 
+		returnList.add(tags);
 		returnList.add(Arrays.asList(String.valueOf(ignoreitem)));
 		return returnList;
+	}
+
+	public static void main2(String[] args) {
+		List<String> tags = new ArrayList<>();
+
+		String itemType = "pv[pe]|m.{0,1}kb|controller|gambit";
+		Pattern pattern = Pattern.compile("\\((pv[pe]|m.{0,1}kb|controller|gambit)(\\s*[/]+\\s*(pv[pe]|m.{0,1}kb|controller|gambit))*\\)",
+				Pattern.CASE_INSENSITIVE);
+		String s = "(PvP / M+KB / Controller): In terms of PvP it's really close. Rapid hit and the adept mods to give a small edge to messenger, but needing only arrowhead brake to clean up the recoil and have a perfectly vertical recoil direction is really hard to pass up. It completely frees up your mod slot for radar tuner, targeting, or whatever else tickles your fancy. Recommended MW - Range (M+KB) or Stability (Controller).|tags:pvp,mkb,controller";
+		Matcher matcher = pattern.matcher(s);
+		while (matcher.find()) {
+			List<String> strArray = Arrays.asList(matcher.group().subSequence(1, matcher.group().length() - 1).toString().split("\\s*[/]\\s*"));
+			for (String str : strArray) {
+				if (!tags.contains(str.toLowerCase())) {
+					tags.add(str.toLowerCase());
+				}
+			}
+		}
+		System.out.println(tags);
+		for (String string : s.split("(?i)\\((" + itemType + ")(\\s*[/]+\\s*(" + itemType + "))*\\):*")) {
+			System.out.print(string);
+		}
+		System.out.println();
 	}
 }
