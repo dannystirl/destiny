@@ -1,5 +1,12 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -122,6 +129,9 @@ public class wishlistGenerator {
 			}
 		} while (br.ready());
 
+		// print wishlist rolls
+		// trashlist rolls don't need to be printed since they're all excluded during
+		// list creation
 		for (Map.Entry<Long, ArrayList<List<String>>> item : itemAndRolls.entrySet()) {
 			Long key = item.getKey();
 			ArrayList<List<String>> itemPerkList = itemAndRolls.get(key);
@@ -135,22 +145,30 @@ public class wishlistGenerator {
 				}
 				System.out.printf("%s#notes:", itemPerkList.get(j).get(itemPerkList.get(j).size() - 1));
 				for (int i = 0; i < itemNotesList.get(j).size(); i++) {
-					if (!itemNotesList.get(j).get(i).equals(""))
-						System.out.printf("%s. ", itemNotesList.get(j).get(i));
+					String note = itemNotesList.get(j).get(i);
+					if (!note.equals("") && note.length() > 2) {
+						if (note.charAt(0) == (' '))
+							note = note.substring(1);
+						if (note.contains("\\s\\s"))
+							itemNotesList.get(j).set(i, note.replace("\\s\\s", "\\s"));
+						System.out.print(note);
+						if (note.charAt(note.length() - 1) == '.')
+							System.out.print(' ');
+						if (note.charAt(note.length() - 1) != '.')
+							System.out.print(". ");
+					}
 				}
 				try {
-					if(!itemTagsList.get(j).get(0).equals("")) {
+					if (!itemTagsList.get(j).get(0).equals("")) {
 						System.out.print("|tags:");
-						for (int i = 0; i < itemTagsList.get(j).size()-1; i++) {
+						for (int i = 0; i < itemTagsList.get(j).size() - 1; i++) {
 							System.out.printf("%s, ", itemTagsList.get(j).get(i));
 						}
 						System.out.printf("%s", itemTagsList.get(j).get(itemTagsList.get(j).size() - 1));
 					}
-				}
-				catch(IndexOutOfBoundsException e) {
+				} catch (IndexOutOfBoundsException e) {
 					// item has no tags
-				}
-				finally {
+				} finally {
 					System.out.println();
 				}
 			}
@@ -219,9 +237,17 @@ public class wishlistGenerator {
 				// no tags in notes. not an error.
 			} finally {
 				notes = notes.replace("\\s*.\\s*", "");
-				newNotes.add(notes);
-				noteList.add(rollList.indexOf(perks), newNotes);
-				itemNotes.put(item, noteList);
+				try {
+					for (String string : Arrays.asList(notes.split("\\.[^\\.]"))) {
+						if (!newNotes.contains(string))
+							newNotes.add(string);
+					}
+				} catch (Exception e) {
+					newNotes.add(notes);
+				} finally {
+					noteList.add(rollList.indexOf(perks), newNotes);
+					itemNotes.put(item, noteList);
+				}
 			}
 		} else {
 			if (!ignoreUnwanteditem)
@@ -245,9 +271,15 @@ public class wishlistGenerator {
 			} catch (Exception notesError) {
 				// no tags in notes. not an error.
 			} finally {
-				if (!oldNotes.contains(notes)) {
-					notes = notes.replace("\\s*.\\s*", "");
+				notes = notes.replace("\\s*.\\s*", "");
+				try {
+					for (String string : Arrays.asList(notes.split("\\.[^\\.]"))) {
+						if (!oldNotes.contains(string))
+							oldNotes.add(string);
+					}
+				} catch (Exception e) {
 					oldNotes.add(notes);
+				} finally {
 					noteList.set(tempIndex, oldNotes);
 					itemNotes.put(item, noteList);
 				}
@@ -341,8 +373,6 @@ public class wishlistGenerator {
 				notes = notes.substring(1);
 			if (notes.contains("\\s\\s"))
 				notes = notes.replace("\\s\\s", "\\s");
-			if (notes.contains("\\.."))
-				notes = notes.replace("\\..", "\\.\\s");
 		} catch (Exception e) {
 
 		}
