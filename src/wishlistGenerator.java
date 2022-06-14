@@ -62,6 +62,9 @@ public class wishlistGenerator {
 					break;
 				case "dimwishlist":
 					int startKey = 17; // where the item id lies
+					// the naming of these seems to be backwards, but I think ignoreItem is for any
+					// unwanted item and ignoreUnwantedItem is for any item we only want the notes
+					// for
 					boolean ignoreitem = false;
 					boolean ignoreUnwanteditem = false;
 					if (line.charAt(startKey) == '-') {
@@ -74,13 +77,13 @@ public class wishlistGenerator {
 					// roll perks
 					List<String> perks = new ArrayList<>();
 					perks.addAll(returnInfo.get(0));
+
 					// roll notes
 					String notes = returnInfo.get(1).get(0);
 					List<String> tags = new ArrayList<>();
 					tags.addAll(returnInfo.get(2));
 					// unwanted roll/item ?
 					ignoreitem = Boolean.parseBoolean(returnInfo.get(3).get(0));
-
 					// 69420 is the key for all items. check if a perk should be ignored on all
 					for (List<String> tempList : unwantedItems.get(69420L)) {
 						if (perks.containsAll(tempList)) {
@@ -129,21 +132,30 @@ public class wishlistGenerator {
 			}
 		} while (br.ready());
 
+		System.out.printf("title:%s%n", sourceList.get(0).get(1));
+		System.out.printf("description:%s%n%n", sourceList.get(0).get(2));
 		// print wishlist rolls
 		// trashlist rolls don't need to be printed since they're all excluded during
 		// list creation
-		List<String> currentNoteFull = new ArrayList<>();
 		for (Map.Entry<Long, ArrayList<List<String>>> item : itemAndRolls.entrySet()) {
 			Long key = item.getKey();
 			ArrayList<List<String>> itemPerkList = itemAndRolls.get(key);
 			ArrayList<List<String>> itemNotesList = itemRollsNotes.get(key);
 			ArrayList<List<String>> itemTagsList = itemTags.get(key);
+			List<String> currentNoteFull = new ArrayList<>();
+			List<String> currentTagsFull = new ArrayList<>();
 
+			System.out.printf("%n//item %s: %n", key);
 			for (int j = 0; j < itemPerkList.size(); j++) {
-				try{ java.util.Collections.sort(itemTagsList.get(j), java.util.Collections.reverseOrder()); }
-				catch(java.lang.IndexOutOfBoundsException e) { /* no tags */ }
-				if (!currentNoteFull.equals(itemNotesList.get(j))) {
+				try {
+					java.util.Collections.sort(itemTagsList.get(j), java.util.Collections.reverseOrder());
+				} catch (java.lang.IndexOutOfBoundsException e) {
+					/* no tags */
+				}
+				// BUG: doesnt seem to keep current note for the first few items. only tags. 
+				if (!currentNoteFull.equals(itemNotesList.get(j)) && !currentTagsFull.equals(itemTagsList.get(j))) {
 					currentNoteFull = itemNotesList.get(j);
+					currentTagsFull = itemTagsList.get(j);
 					System.out.print("//notes:");
 					for (int i = 0; i < itemNotesList.get(j).size(); i++) {
 						String note = itemNotesList.get(j).get(i);
@@ -167,6 +179,7 @@ public class wishlistGenerator {
 								System.out.printf("%s, ", itemTagsList.get(j).get(i));
 							}
 							System.out.printf("%s", itemTagsList.get(j).get(itemTagsList.get(j).size() - 1));
+
 						}
 					} catch (IndexOutOfBoundsException e) {
 						// item has no tags
@@ -202,16 +215,20 @@ public class wishlistGenerator {
 		}
 		ArrayList<List<String>> tagList = itemTags.get(item);
 
-		int tempIndex = 0;
-		for (List<String> tempList : itemRolls.get(item)) {
-			if (perks.containsAll(tempList)) {
+		// is the current perk list stored on the item already
+		int perkListIndex = -1;
+		for (List<String> perkList : rollList) {
+			if (perkList.containsAll(perks)) {
 				ignoreUnwanteditem = true;
-				tempIndex = itemRolls.get(item).indexOf(tempList);
+				perkListIndex = itemRolls.get(item).indexOf(perkList);
 				break;
 			}
 		}
-		if (!rollList.contains(perks) && !ignoreUnwanteditem) {
-			// if ignoring an entire item, set the perk list to '-'
+
+		// perkListIndex == -1 means item is not already in perkList
+		if (perkListIndex == -1) {
+			// if entire item is unwanted, set the perk list to '-'
+			// otherwise add item and unwanted perks to perkList
 			if (ignoreItem) {
 				if (perks.isEmpty())
 					perks = Arrays.asList("-");
@@ -223,7 +240,8 @@ public class wishlistGenerator {
 					return returnList;
 				}
 			}
-
+			// the issue seems to be that sometimes there arent any tags, so if nothing gets
+			// added, the ordering gets messed up.
 			rollList.add(perks);
 			itemRolls.put(item, rollList);
 			// add notes to a new note list
@@ -240,11 +258,13 @@ public class wishlistGenerator {
 					if (!tags.contains(notes.split("\\|tags:")[1]))
 						tags.add(notes.split("\\|tags:")[1]);
 				}
-				tagList.add(tempIndex, tags);
+				tagList.add(rollList.indexOf(perks), tags);
 				itemTags.put(item, tagList);
 				notes = notes.split("\\|tags:")[0];
 			} catch (Exception notesError) {
 				// no tags in notes. not an error.
+				tagList.add(tags);
+				itemTags.put(item, tagList);
 			} finally {
 				notes = notes.replace("\\s*.\\s*", "");
 				try {
@@ -262,11 +282,9 @@ public class wishlistGenerator {
 				}
 			}
 		} else {
-			if (!ignoreUnwanteditem)
-				tempIndex = rollList.indexOf(perks);
 			// if the item's perk list contains the current perks, only add the notes as an
 			// addition to the note list
-			List<String> oldNotes = noteList.get(tempIndex);
+			List<String> oldNotes = noteList.get(perkListIndex);
 			try {
 				if (notes.split("\\|tags:")[1].contains(",")) {
 					for (String string : Arrays.asList(notes.split("\\|tags:")[1].split(","))) {
@@ -277,11 +295,13 @@ public class wishlistGenerator {
 					if (!tags.contains(notes.split("\\|tags:")[1]))
 						tags.add(notes.split("\\|tags:")[1]);
 				}
-				tagList.add(tempIndex, tags);
+				tagList.set(perkListIndex, tags);
 				itemTags.put(item, tagList);
 				notes = notes.split("\\|tags:")[0];
 			} catch (Exception notesError) {
 				// no tags in notes. not an error.
+				tagList.set(perkListIndex, new ArrayList<>());
+				itemTags.put(item, tagList);
 			} finally {
 				notes = notes.replace("\\s*.\\s*", "");
 				try {
@@ -292,7 +312,7 @@ public class wishlistGenerator {
 				} catch (Exception e) {
 					oldNotes.add(notes);
 				} finally {
-					noteList.set(tempIndex, oldNotes);
+					noteList.set(perkListIndex, oldNotes);
 					itemNotes.put(item, noteList);
 				}
 			}
@@ -390,6 +410,7 @@ public class wishlistGenerator {
 		} catch (Exception e) {
 
 		}
+
 		List<List<String>> returnList = new ArrayList<>();
 		returnList.add(perks);
 		returnList.add(Arrays.asList(notes));
