@@ -336,27 +336,4 @@ public class wishlistGenerator {
 		returnList.add(Arrays.asList(String.valueOf(ignoreitem)));
 		return returnList;
 	}
-
-	public static void main2(String[] args) {
-		List<String> tags = new ArrayList<>();
-
-		String itemType = "pv[pe]|m.{0,1}kb|controller|gambit";
-		Pattern pattern = Pattern.compile("\\((pv[pe]|m.{0,1}kb|controller|gambit)(\\s*[/]+\\s*(pv[pe]|m.{0,1}kb|controller|gambit))*\\)",
-				Pattern.CASE_INSENSITIVE);
-		String s = "(PvP / M+KB / Controller): In terms of PvP it's really close. Rapid hit and the adept mods to give a small edge to messenger, but needing only arrowhead brake to clean up the recoil and have a perfectly vertical recoil direction is really hard to pass up. It completely frees up your mod slot for radar tuner, targeting, or whatever else tickles your fancy. Recommended MW - Range (M+KB) or Stability (Controller).|tags:pvp,mkb,controller";
-		Matcher matcher = pattern.matcher(s);
-		while (matcher.find()) {
-			List<String> strArray = Arrays.asList(matcher.group().subSequence(1, matcher.group().length() - 1).toString().split("\\s*[/]\\s*"));
-			for (String str : strArray) {
-				if (!tags.contains(str.toLowerCase())) {
-					tags.add(str.toLowerCase());
-				}
-			}
-		}
-		System.out.println(tags);
-		for (String string : s.split("(?i)\\((" + itemType + ")(\\s*[/]+\\s*(" + itemType + "))*\\):*")) {
-			System.out.print(string);
-		}
-		System.out.println();
-	}
 }
