@@ -132,6 +132,7 @@ public class wishlistGenerator {
 		// print wishlist rolls
 		// trashlist rolls don't need to be printed since they're all excluded during
 		// list creation
+		List<String> currentNoteFull = new ArrayList<>();
 		for (Map.Entry<Long, ArrayList<List<String>>> item : itemAndRolls.entrySet()) {
 			Long key = item.getKey();
 			ArrayList<List<String>> itemPerkList = itemAndRolls.get(key);
@@ -139,38 +140,45 @@ public class wishlistGenerator {
 			ArrayList<List<String>> itemTagsList = itemTags.get(key);
 
 			for (int j = 0; j < itemPerkList.size(); j++) {
+				try{ java.util.Collections.sort(itemTagsList.get(j), java.util.Collections.reverseOrder()); }
+				catch(java.lang.IndexOutOfBoundsException e) { /* no tags */ }
+				if (!currentNoteFull.equals(itemNotesList.get(j))) {
+					currentNoteFull = itemNotesList.get(j);
+					System.out.print("//notes:");
+					for (int i = 0; i < itemNotesList.get(j).size(); i++) {
+						String note = itemNotesList.get(j).get(i);
+						if (!note.equals("") && note.length() > 2 && !currentNote.equals(note)) {
+							currentNote = note;
+							if (note.charAt(0) == (' '))
+								note = note.substring(1);
+							if (note.contains("\\s\\s"))
+								itemNotesList.get(j).set(i, note.replace("\\s\\s", "\\s"));
+							System.out.print(note);
+							if (note.charAt(note.length() - 1) == '.')
+								System.out.print(' ');
+							if (note.charAt(note.length() - 1) != '.')
+								System.out.print(". ");
+						}
+					}
+					try {
+						if (!itemTagsList.get(j).get(0).equals("")) {
+							System.out.print("|tags:");
+							for (int i = 0; i < itemTagsList.get(j).size() - 1; i++) {
+								System.out.printf("%s, ", itemTagsList.get(j).get(i));
+							}
+							System.out.printf("%s", itemTagsList.get(j).get(itemTagsList.get(j).size() - 1));
+						}
+					} catch (IndexOutOfBoundsException e) {
+						// item has no tags
+					} finally {
+						System.out.println();
+					}
+				}
 				System.out.printf("dimwishlist:item=%s&perks=", key);
 				for (int i = 0; i < itemPerkList.get(j).size() - 1; i++) {
 					System.out.printf("%s,", itemPerkList.get(j).get(i));
 				}
-				System.out.printf("%s#notes:", itemPerkList.get(j).get(itemPerkList.get(j).size() - 1));
-				for (int i = 0; i < itemNotesList.get(j).size(); i++) {
-					String note = itemNotesList.get(j).get(i);
-					if (!note.equals("") && note.length() > 2) {
-						if (note.charAt(0) == (' '))
-							note = note.substring(1);
-						if (note.contains("\\s\\s"))
-							itemNotesList.get(j).set(i, note.replace("\\s\\s", "\\s"));
-						System.out.print(note);
-						if (note.charAt(note.length() - 1) == '.')
-							System.out.print(' ');
-						if (note.charAt(note.length() - 1) != '.')
-							System.out.print(". ");
-					}
-				}
-				try {
-					if (!itemTagsList.get(j).get(0).equals("")) {
-						System.out.print("|tags:");
-						for (int i = 0; i < itemTagsList.get(j).size() - 1; i++) {
-							System.out.printf("%s, ", itemTagsList.get(j).get(i));
-						}
-						System.out.printf("%s", itemTagsList.get(j).get(itemTagsList.get(j).size() - 1));
-					}
-				} catch (IndexOutOfBoundsException e) {
-					// item has no tags
-				} finally {
-					System.out.println();
-				}
+				System.out.printf("%s%n", itemPerkList.get(j).get(itemPerkList.get(j).size() - 1));
 			}
 		}
 	}
@@ -223,6 +231,8 @@ public class wishlistGenerator {
 			try {
 				if (notes.split("\\|tags:")[1].contains(",")) {
 					for (String string : Arrays.asList(notes.split("\\|tags:")[1].split(","))) {
+						if (string.equalsIgnoreCase("m+kb"))
+							string = "mkb";
 						if (!tags.contains(string))
 							tags.add(string);
 					}
@@ -239,6 +249,8 @@ public class wishlistGenerator {
 				notes = notes.replace("\\s*.\\s*", "");
 				try {
 					for (String string : Arrays.asList(notes.split("\\.[^\\.]"))) {
+						if (string.equalsIgnoreCase("m+kb"))
+							string = "mkb";
 						if (!newNotes.contains(string))
 							newNotes.add(string);
 					}
@@ -358,6 +370,8 @@ public class wishlistGenerator {
 			while (matcher.find()) {
 				List<String> strArray = Arrays.asList(matcher.group().subSequence(1, matcher.group().length() - 1).toString().split("\\s*[/]\\s*"));
 				for (String str : strArray) {
+					if (str.equalsIgnoreCase("m+kb"))
+						str = "mkb";
 					if (!tags.contains(str.toLowerCase())) {
 						tags.add(str.toLowerCase());
 					}
