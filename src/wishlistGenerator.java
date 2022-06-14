@@ -126,18 +126,33 @@ public class wishlistGenerator {
 			Long key = item.getKey();
 			ArrayList<List<String>> itemPerkList = itemAndRolls.get(key);
 			ArrayList<List<String>> itemNotesList = itemRollsNotes.get(key);
+			ArrayList<List<String>> itemTagsList = itemTags.get(key);
 
 			for (int j = 0; j < itemPerkList.size(); j++) {
 				System.out.printf("dimwishlist:item=%s&perks=", key);
 				for (int i = 0; i < itemPerkList.get(j).size() - 1; i++) {
 					System.out.printf("%s,", itemPerkList.get(j).get(i));
 				}
-				System.out.printf("%s#notes:",
-						itemPerkList.get(j).get(itemPerkList.get(j).size() - 1));
+				System.out.printf("%s#notes:", itemPerkList.get(j).get(itemPerkList.get(j).size() - 1));
 				for (int i = 0; i < itemNotesList.get(j).size(); i++) {
-					System.out.printf("%s. ", itemNotesList.get(j).get(i));
+					if (!itemNotesList.get(j).get(i).equals(""))
+						System.out.printf("%s. ", itemNotesList.get(j).get(i));
 				}
-				System.out.println();
+				try {
+					if(!itemTagsList.get(j).get(0).equals("")) {
+						System.out.print("|tags:");
+						for (int i = 0; i < itemTagsList.get(j).size()-1; i++) {
+							System.out.printf("%s, ", itemTagsList.get(j).get(i));
+						}
+						System.out.printf("%s", itemTagsList.get(j).get(itemTagsList.get(j).size() - 1));
+					}
+				}
+				catch(IndexOutOfBoundsException e) {
+					// item has no tags
+				}
+				finally {
+					System.out.println();
+				}
 			}
 		}
 	}
@@ -203,6 +218,7 @@ public class wishlistGenerator {
 			} catch (Exception notesError) {
 				// no tags in notes. not an error.
 			} finally {
+				notes = notes.replace("\\s*.\\s*", "");
 				newNotes.add(notes);
 				noteList.add(rollList.indexOf(perks), newNotes);
 				itemNotes.put(item, noteList);
@@ -230,6 +246,7 @@ public class wishlistGenerator {
 				// no tags in notes. not an error.
 			} finally {
 				if (!oldNotes.contains(notes)) {
+					notes = notes.replace("\\s*.\\s*", "");
 					oldNotes.add(notes);
 					noteList.set(tempIndex, oldNotes);
 					itemNotes.put(item, noteList);
