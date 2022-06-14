@@ -11,18 +11,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class wishlistGenerator {
-
-	public static ArrayList<ArrayList<Object>> sourceList = new ArrayList<>(); // used to place each source and their description
-	// used to hold each roll, where the key is the item id
-	public static Map<Long, ArrayList<List<String>>> itemAndRolls = new HashMap<>();
-	// used to hold each roll's notes, where the key is the item id
-	public static Map<Long, ArrayList<List<String>>> itemRollsNotes = new HashMap<>();
-	// used to hold each roll, where the key is the item id
-	public static Map<Long, ArrayList<List<String>>> itemTags = new HashMap<>();
-	// used to hold each unwanted roll, where the key is the item id
-	public static Map<Long, ArrayList<List<String>>> unwantedItems = new HashMap<>();
-	// used to hold each roll's notes, where the key is the item id
-	public static Map<Long, ArrayList<List<String>>> unwantedRollsNotes = new HashMap<>();
+	public static Map<Long, Item> itemList = new HashMap<>();
+	public static Map<Long, Item> unwantedItemList = new HashMap<>();
 
 	/**
 	 * the main method reads through the original file and collects data on each
@@ -36,7 +26,7 @@ public class wishlistGenerator {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		unwantedItems.put(69420L, new ArrayList<>());
+		unwantedItemList.put(69420L, new Item(69420L, 0));
 		BufferedReader br;
 		try {
 			br = new BufferedReader(new FileReader(new File("CompleteDestinyWishList.txt")));
@@ -44,7 +34,8 @@ public class wishlistGenerator {
 			e.printStackTrace();
 			throw new FileNotFoundException();
 		}
-		ArrayList<Object> td = new ArrayList<>();
+		Item sources = new Item(0, "A list of desirable rolls created by the community",
+				"This list was generated from a collection of community rolls. Individual sources and users can be found within the list files. ")
 		int sourceNum = 0; // stores how many rolls a given source has
 		String currentNote = ""; // used to store an item's notes, either per roll or per item
 		do {
@@ -74,6 +65,10 @@ public class wishlistGenerator {
 					// GATHERING LINE INFORMATION (ITEM, PERKS, NOTES)
 					Long item = Long.parseLong(line.substring(startKey).split("&")[0].split("#")[0]);
 					List<List<String>> returnInfo = lineParser(item, line, currentNote, ignoreitem);
+
+					if (item != 1216319404L)
+						break;
+
 					// roll perks
 					List<String> perks = new ArrayList<>();
 					perks.addAll(returnInfo.get(0));
@@ -152,7 +147,7 @@ public class wishlistGenerator {
 				} catch (java.lang.IndexOutOfBoundsException e) {
 					/* no tags */
 				}
-				// BUG: doesnt seem to keep current note for the first few items. only tags. 
+				// BUG: doesnt seem to keep current note for the first few items. only tags.
 				if (!currentNoteFull.equals(itemNotesList.get(j)) && !currentTagsFull.equals(itemTagsList.get(j))) {
 					currentNoteFull = itemNotesList.get(j);
 					currentTagsFull = itemTagsList.get(j);
