@@ -11,6 +11,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class wishlistGenerator {
+	public static int sourceNum;
+	public static List<ArrayList<Object>> sourceList = new ArrayList<>();
 	public static Map<Long, Item> itemList = new HashMap<>();
 	public static Map<Long, Item> unwantedItemList = new HashMap<>();
 
@@ -27,6 +29,7 @@ public class wishlistGenerator {
 	 */
 	public static void main(String[] args) throws Exception {
 		unwantedItemList.put(69420L, new Item(69420L, 0));
+		itemList.put(69420L, new Item(69420L, 0));
 		BufferedReader br;
 		try {
 			br = new BufferedReader(new FileReader(new File("CompleteDestinyWishList.txt")));
@@ -34,9 +37,9 @@ public class wishlistGenerator {
 			e.printStackTrace();
 			throw new FileNotFoundException();
 		}
-		Item sources = new Item(0, "A list of desirable rolls created by the community",
-				"This list was generated from a collection of community rolls. Individual sources and users can be found within the list files. ")
-		int sourceNum = 0; // stores how many rolls a given source has
+
+		ArrayList<Object> td = new ArrayList<>();
+		sourceNum = 0; // stores how many rolls a given source has
 		String currentNote = ""; // used to store an item's notes, either per roll or per item
 		do {
 			String line = br.readLine();
@@ -53,9 +56,6 @@ public class wishlistGenerator {
 					break;
 				case "dimwishlist":
 					int startKey = 17; // where the item id lies
-					// the naming of these seems to be backwards, but I think ignoreItem is for any
-					// unwanted item and ignoreUnwantedItem is for any item we only want the notes
-					// for
 					boolean ignoreitem = false;
 					boolean ignoreUnwanteditem = false;
 					if (line.charAt(startKey) == '-') {
@@ -64,56 +64,42 @@ public class wishlistGenerator {
 					}
 					// GATHERING LINE INFORMATION (ITEM, PERKS, NOTES)
 					Long item = Long.parseLong(line.substring(startKey).split("&")[0].split("#")[0]);
-					List<List<String>> returnInfo = lineParser(item, line, currentNote, ignoreitem);
 
-					if (item != 1216319404L)
-						break;
+					Item returnInfo = lineParser(item, line, currentNote, ignoreitem);
 
-					// roll perks
-					List<String> perks = new ArrayList<>();
-					perks.addAll(returnInfo.get(0));
-
-					// roll notes
-					String notes = returnInfo.get(1).get(0);
-					List<String> tags = new ArrayList<>();
-					tags.addAll(returnInfo.get(2));
-					// unwanted roll/item ?
-					ignoreitem = Boolean.parseBoolean(returnInfo.get(3).get(0));
 					// 69420 is the key for all items. check if a perk should be ignored on all
-					for (List<String> tempList : unwantedItems.get(69420L)) {
-						if (perks.containsAll(tempList)) {
+
+					for (List<String> tempList : unwantedItemList.get(69420L).getFullList(1)) {
+						if (returnInfo.getItemList(1).containsAll(tempList)) {
 							ignoreUnwanteditem = true;
 							break;
 						}
 					}
 					// check if ignoring a specific item or a singular perkset
-					if (unwantedItems.containsKey(item) && !ignoreUnwanteditem) {
-						for (List<String> tempList : unwantedItems.get(item)) {
-							if (perks.containsAll(tempList)) {
+					if (unwantedItemList.containsKey(item) && !ignoreUnwanteditem) {
+						for (List<String> tempList : unwantedItemList.get(item).getFullList(1)) {
+							if (returnInfo.getItemList(1).containsAll(tempList)) {
 								ignoreUnwanteditem = true;
 								break;
 							}
 						}
-						if (ignoreUnwanteditem || unwantedItems.get(item).contains(Arrays.asList("-"))) {
+						// are we ignoring an entire item
+						if (ignoreUnwanteditem || unwantedItemList.get(item).getFullList(1).contains(Arrays.asList("-"))) {
 							ignoreUnwanteditem = true;
 						}
 					}
 					// ADD ITEM TO APPROPRIATE LIST
-					try {
-						if (ignoreitem) {
-							List<Map<Long, ArrayList<List<String>>>> returnList = constructLists(item, perks, notes, tags, ignoreUnwanteditem,
-									true, unwantedItems, unwantedRollsNotes);
-							unwantedItems = returnList.get(0);
-							unwantedRollsNotes = returnList.get(1);
-						} else if (!ignoreUnwanteditem && !ignoreitem) {
-							List<Map<Long, ArrayList<List<String>>>> returnList = constructLists(item, perks, notes, tags, ignoreUnwanteditem,
-									false, itemAndRolls, itemRollsNotes);
-							itemAndRolls = returnList.get(0);
-							itemRollsNotes = returnList.get(1);
+					if (!ignoreUnwanteditem) {
+						try {
+							if (returnInfo.isIgnoreItem()) {
+								constructLists(returnInfo, unwantedItemList);
+							} else {
+								constructLists(returnInfo, itemList);
+							}
+						} catch (Exception listConstructorException) {
+							System.out.printf("Error %s on line %s%n", listConstructorException.getMessage(), line);
+							throw new Exception(listConstructorException);
 						}
-					} catch (Exception listConstructorException) {
-						System.out.printf("Error %s on line %s%n", listConstructorException.getMessage(), line);
-						throw new Exception(listConstructorException);
 					}
 					break;
 				case "//notes":
@@ -132,11 +118,12 @@ public class wishlistGenerator {
 		// print wishlist rolls
 		// trashlist rolls don't need to be printed since they're all excluded during
 		// list creation
-		for (Map.Entry<Long, ArrayList<List<String>>> item : itemAndRolls.entrySet()) {
+
+		for (Map.Entry<Long, Item> item : itemList.entrySet()) {
 			Long key = item.getKey();
-			ArrayList<List<String>> itemPerkList = itemAndRolls.get(key);
-			ArrayList<List<String>> itemNotesList = itemRollsNotes.get(key);
-			ArrayList<List<String>> itemTagsList = itemTags.get(key);
+			List<List<String>> itemPerkList = item.getValue().getFullList(1);
+			List<List<String>> itemNotesList = item.getValue().getFullList(2);
+			List<List<String>> itemTagsList = item.getValue().getFullList(3);
 			List<String> currentNoteFull = new ArrayList<>();
 			List<String> currentTagsFull = new ArrayList<>();
 
@@ -156,6 +143,8 @@ public class wishlistGenerator {
 						String note = itemNotesList.get(j).get(i);
 						if (!note.equals("") && note.length() > 2 && !currentNote.equals(note)) {
 							currentNote = note;
+							if (note.charAt(0) == ('\"'))
+								note = note.substring(1);
 							if (note.charAt(0) == (' '))
 								note = note.substring(1);
 							if (note.contains("\\s\\s"))
@@ -182,6 +171,8 @@ public class wishlistGenerator {
 						System.out.println();
 					}
 				}
+				if (key == 69420L)
+					key = -69420L;
 				System.out.printf("dimwishlist:item=%s&perks=", key);
 				for (int i = 0; i < itemPerkList.get(j).size() - 1; i++) {
 					System.out.printf("%s,", itemPerkList.get(j).get(i));
@@ -191,135 +182,130 @@ public class wishlistGenerator {
 		}
 	}
 
-	public static List<Map<Long, ArrayList<List<String>>>> constructLists(Long item, List<String> perks, String notes, List<String> tags,
-			boolean ignoreUnwanteditem,
-			boolean ignoreItem, Map<Long, ArrayList<List<String>>> itemRolls, Map<Long, ArrayList<List<String>>> itemNotes) {
-		// gets the list of perksets of an unwanted item
-		if (!itemRolls.containsKey(item)) {
-			itemRolls.put(item, new ArrayList<>());
+	public static Map<Long, Item> constructLists(Item item, Map<Long, Item> itemMap) {
+		// get the full lists of the given item
+		List<List<String>> itemPerks = new ArrayList<>();
+		List<String> perks = new ArrayList<>();
+		if (itemMap.containsKey(item.getItemId())) {
+			itemPerks = itemMap.get(item.getItemId()).getFullList(1);
 		}
-		ArrayList<List<String>> rollList = itemRolls.get(item);
-		// gets the list of notes of an item
-		if (!itemNotes.containsKey(item)) {
-			itemNotes.put(item, new ArrayList<>());
+		List<List<String>> itemNotes = new ArrayList<>();
+		List<String> notes = new ArrayList<>();
+		if (itemMap.containsKey(item.getItemId())) {
+			itemNotes = itemMap.get(item.getItemId()).getFullList(2);
 		}
-		ArrayList<List<String>> noteList = itemNotes.get(item);
-		// gets the list of tags of an item
-		if (!itemTags.containsKey(item)) {
-			itemTags.put(item, new ArrayList<>());
+		List<List<String>> itemTags = new ArrayList<>();
+		List<String> tags = new ArrayList<>();
+		if (itemMap.containsKey(item.getItemId())) {
+			itemTags = itemMap.get(item.getItemId()).getFullList(3);
 		}
-		ArrayList<List<String>> tagList = itemTags.get(item);
 
 		// is the current perk list stored on the item already
 		int perkListIndex = -1;
-		for (List<String> perkList : rollList) {
-			if (perkList.containsAll(perks)) {
-				ignoreUnwanteditem = true;
-				perkListIndex = itemRolls.get(item).indexOf(perkList);
+		for (List<String> perkList : itemPerks) {
+			if (perkList.containsAll(item.getItemList(1))) {
+				perkListIndex = itemPerks.indexOf(perkList);
 				break;
 			}
 		}
 
-		// perkListIndex == -1 means item is not already in perkList
+		// perkListIndex == -1 means item with perks is not already in perkList
 		if (perkListIndex == -1) {
+			// PERKS
 			// if entire item is unwanted, set the perk list to '-'
 			// otherwise add item and unwanted perks to perkList
-			if (ignoreItem) {
-				if (perks.isEmpty())
-					perks = Arrays.asList("-");
-				// if an entire item is being ignored, we dont need to add specific perks"
-				if (rollList.contains(Arrays.asList("-"))) {
-					List<Map<Long, ArrayList<List<String>>>> returnList = new ArrayList<>();
-					returnList.add(itemRolls);
-					returnList.add(itemNotes);
-					return returnList;
-				}
+			if (item.isIgnoreItem() && item.getItemList(1).isEmpty()) {
+				item.put(Arrays.asList("-"));
+				itemMap.put(item.getItemId(), item);
+				return itemMap;
 			}
-			// the issue seems to be that sometimes there arent any tags, so if nothing gets
-			// added, the ordering gets messed up.
-			rollList.add(perks);
-			itemRolls.put(item, rollList);
+			itemPerks.add(item.getItemList(1));
+			// TAGS
 			// add notes to a new note list
-			List<String> newNotes = new ArrayList<>();
+			String note = item.getItemList(2).get(0);
 			try {
-				if (notes.split("\\|tags:")[1].contains(",")) {
-					for (String string : Arrays.asList(notes.split("\\|tags:")[1].split(","))) {
+				if (note.split("\\|tags:")[1].contains(",")) {
+					for (String string : Arrays.asList(note.split("\\|tags:")[1].split(","))) {
 						if (string.equalsIgnoreCase("m+kb"))
 							string = "mkb";
 						if (!tags.contains(string))
 							tags.add(string);
 					}
 				} else {
-					if (!tags.contains(notes.split("\\|tags:")[1]))
-						tags.add(notes.split("\\|tags:")[1]);
+					if (!tags.contains(note.split("\\|tags:")[1]))
+						tags.add(note.split("\\|tags:")[1]);
 				}
-				tagList.add(rollList.indexOf(perks), tags);
-				itemTags.put(item, tagList);
-				notes = notes.split("\\|tags:")[0];
+				note = note.split("\\|tags:")[0];
 			} catch (Exception notesError) {
 				// no tags in notes. not an error.
-				tagList.add(tags);
-				itemTags.put(item, tagList);
 			} finally {
-				notes = notes.replace("\\s*.\\s*", "");
+				itemTags.add(tags);
+				// NOTES
+
+				note = note.replace("\\s*.\\s*", "");
 				try {
-					for (String string : Arrays.asList(notes.split("^(light\\.gg)(\\.[^\\.])"))) {
-						if (string.equalsIgnoreCase("m+kb"))
-							string = "mkb";
-						if (!newNotes.contains(string))
-							newNotes.add(string);
+					note = note.replace("light.gg", "lightggg");
+					note = note.replace("...", "elipsez");
+					for (String string : Arrays.asList(note.split("\\.\\s|\\."))) {
+						if (!notes.contains(string))
+							notes.add(string);
 					}
 				} catch (Exception e) {
-					newNotes.add(notes);
+					notes.add(note);
 				} finally {
-					noteList.add(rollList.indexOf(perks), newNotes);
-					itemNotes.put(item, noteList);
+					itemNotes.add(notes);
 				}
+				Item returnItem = new Item(item.getItemId(), itemPerks, itemNotes, itemTags, item.isIgnoreItem());
+				itemMap.put(item.getItemId(), returnItem);
 			}
 		} else {
+			perks = itemPerks.get(itemMap.get(item.getItemId()).getItemNumber());
+			notes = itemNotes.get(itemMap.get(item.getItemId()).getItemNumber());
+			tags = itemTags.get(itemMap.get(item.getItemId()).getItemNumber());
 			// if the item's perk list contains the current perks, only add the notes as an
 			// addition to the note list
-			List<String> oldNotes = noteList.get(perkListIndex);
+
+			// TAGS
+			String note = item.getItemList(2).get(0);
 			try {
-				if (notes.split("\\|tags:")[1].contains(",")) {
-					for (String string : Arrays.asList(notes.split("\\|tags:")[1].split(","))) {
+				if (note.split("\\|tags:")[1].contains(",")) {
+					for (String string : Arrays.asList(note.split("\\|tags:")[1].split(","))) {
+						if (string.equalsIgnoreCase("m+kb"))
+							string = "mkb";
 						if (!tags.contains(string))
 							tags.add(string);
 					}
 				} else {
-					if (!tags.contains(notes.split("\\|tags:")[1]))
-						tags.add(notes.split("\\|tags:")[1]);
+					if (!tags.contains(note.split("\\|tags:")[1]))
+						tags.add(note.split("\\|tags:")[1]);
 				}
-				tagList.set(perkListIndex, tags);
-				itemTags.put(item, tagList);
-				notes = notes.split("\\|tags:")[0];
+				note = note.split("\\|tags:")[0];
 			} catch (Exception notesError) {
 				// no tags in notes. not an error.
-				tagList.set(perkListIndex, new ArrayList<>());
-				itemTags.put(item, tagList);
 			} finally {
-				notes = notes.replace("\\s*.\\s*", "");
+				itemTags.set(itemMap.get(item.getItemId()).getItemNumber(), tags);
+				// NOTES
+				note = note.replace("\\s*.\\s*", "");
 				try {
-					for (String string : Arrays.asList(notes.split("^(light\\.gg)(\\.[^\\.])"))) {
-						if (!oldNotes.contains(string))
-							oldNotes.add(string);
+					note = note.replace("light.gg", "lightggg");
+					note = note.replace("...", "elipsez");
+					for (String string : Arrays.asList(note.split("\\.\\s|\\."))) {
+						if (!notes.contains(string))
+							notes.add(string);
 					}
 				} catch (Exception e) {
-					oldNotes.add(notes);
+					notes.add(note);
 				} finally {
-					noteList.set(perkListIndex, oldNotes);
-					itemNotes.put(item, noteList);
+					itemNotes.set(itemMap.get(item.getItemId()).getItemNumber(), notes);
 				}
+				Item returnItem = new Item(item.getItemId(), itemPerks, itemNotes, itemTags, item.isIgnoreItem());
+				itemMap.put(item.getItemId(), returnItem);
 			}
 		}
-
-		List<Map<Long, ArrayList<List<String>>>> returnList = new ArrayList<>();
-		returnList.add(itemRolls);
-		returnList.add(itemNotes);
-		return returnList;
+		return itemMap;
 	}
 
-	public static List<List<String>> lineParser(Long item, String line, String currentNote, boolean ignoreitem) throws Exception {
+	public static Item lineParser(Long item, String line, String currentNote, boolean ignoreitem) throws Exception {
 		List<String> perks = new ArrayList<>();
 		String notes;
 		List<String> tags = new ArrayList<>();
@@ -344,7 +330,8 @@ public class wishlistGenerator {
 			perks = perks.subList(0, 4);
 		}
 		if (item == 69420L)
-			// -69420 is a key to apply a wanted set of perks to all items, so this is
+			// -69420 is a key to apply a wanted/unwanted set of perks to all items, so this
+			// is
 			// simply to offset that negative
 			ignoreitem = false;
 		// IS ANY ASPECT OF AN ITEM UNWANTED
@@ -405,12 +392,8 @@ public class wishlistGenerator {
 		} catch (Exception e) {
 
 		}
-
-		List<List<String>> returnList = new ArrayList<>();
-		returnList.add(perks);
-		returnList.add(Arrays.asList(notes));
-		returnList.add(tags);
-		returnList.add(Arrays.asList(String.valueOf(ignoreitem)));
-		return returnList;
+		Item returnItem = new Item(item, sourceNum);
+		returnItem.put(perks, Arrays.asList(notes), tags, ignoreitem);
+		return returnItem;
 	}
 }
