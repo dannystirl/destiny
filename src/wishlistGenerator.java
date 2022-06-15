@@ -149,6 +149,10 @@ public class wishlistGenerator {
 								note = note.substring(1);
 							if (note.contains("\\s\\s"))
 								itemNotesList.get(j).set(i, note.replace("\\s\\s", "\\s"));
+							if (note.contains("lightggg"))
+								note = note.replace("lightggg", "light.gg");
+							if (note.contains("elipsez"))
+								note = note.replace("elipsez", "...");
 							System.out.print(note);
 							if (note.charAt(note.length() - 1) == '.')
 								System.out.print(' ');
