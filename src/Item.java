@@ -29,6 +29,7 @@ public class Item {
 	 */
 	Item(Long num, int source) {
 		itemId = num;
+		this.source = source;
 		itemNumber = 0;
 		ignoreItem = false;
 		itemPerkList = new ArrayList<>();
@@ -37,7 +38,6 @@ public class Item {
 	}
 
 	/**
-	 * 
 	 * @param num
 	 * @param perks
 	 * @param notes
@@ -53,10 +53,6 @@ public class Item {
 		itemTagList = tags;
 	}
 
-	/* Item(Long num, List<List<String>> perks) {
-		this(num, perks, Arrays.asList(""), Arrays.asList(""), true); 
-	} */
-
 	/**
 	 * Set an item's info on an existing perkset
 	 * 
@@ -67,8 +63,8 @@ public class Item {
 	 *            will likely be unchanged
 	 * @param notes
 	 * @param tags
-	 * @param boolshould
-	 *            the item be ignored
+	 * @param bool
+	 *            should the item be ignored
 	 */
 	public void put(int num, List<String> perks, List<String> notes, List<String> tags, Boolean bool) {
 		itemPerkList.set(num, perks);
@@ -82,7 +78,7 @@ public class Item {
 	 * 
 	 * Set an item's info on a new item
 	 * 
-	 * @param perks
+	 * @param perks test
 	 * @param notes
 	 * @param tags
 	 * @param bool
@@ -103,7 +99,7 @@ public class Item {
 	 * @param perks
 	 */
 	public void put(List<String> perks) {
-		put(itemNumber-1, perks, Arrays.asList(""), Arrays.asList(""), ignoreItem);
+		put(itemNumber - 1, perks, Arrays.asList(""), Arrays.asList(""), ignoreItem);
 	}
 
 	/**

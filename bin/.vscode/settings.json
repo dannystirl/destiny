@@ -4,5 +4,9 @@
 		"."
 	],
 	"java.project.outputPath": "bin", 
-	"editor.stopRenderingLineAfter": -1
+	"editor.stopRenderingLineAfter": -1,
+	"[java]": {
+		"editor.detectIndentation": false
+	},
+	
 }

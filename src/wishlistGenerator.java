@@ -184,10 +184,18 @@ public class wishlistGenerator {
 		}
 	}
 
+	/**
+	 * Takes an item and maps it to the appropriate item list.
+	 * Excludes duplicate perk sets, notes, and tags
+	 * On duplicate perk sets, include non-duplicate notes and tags
+	 * 
+	 * @param item
+	 * @param itemMap
+	 * @return
+	 */
 	public static Map<Long, Item> constructLists(Item item, Map<Long, Item> itemMap) {
 		// get the full lists of the given item
 		List<List<String>> itemPerks = new ArrayList<>();
-		List<String> perks = new ArrayList<>();
 		if (itemMap.containsKey(item.getItemId())) {
 			itemPerks = itemMap.get(item.getItemId()).getFullList(1);
 		}
@@ -261,7 +269,6 @@ public class wishlistGenerator {
 				itemMap.put(item.getItemId(), returnItem);
 			}
 		} else {
-			perks = itemPerks.get(itemMap.get(item.getItemId()).getItemNumber());
 			notes = itemNotes.get(itemMap.get(item.getItemId()).getItemNumber());
 			tags = itemTags.get(itemMap.get(item.getItemId()).getItemNumber());
 			// if the item's perk list contains the current perks, only add the notes as an
@@ -307,6 +314,21 @@ public class wishlistGenerator {
 		return itemMap;
 	}
 
+	/**
+	 * Takes a line and extracts perk, note, and tag information
+	 * 
+	 * @param item
+	 * @param line
+	 * @param currentNote
+	 *            if item is imported en mass, the note from a similar previous item
+	 *            is used instead
+	 * @param ignoreitem
+	 *            should an item or it's perk list be excluded from the list
+	 * @return
+	 * @throws Exception
+	 *             acts as a method of catching notes without tags. should never
+	 *             actually throw an exception
+	 */
 	public static Item lineParser(Long item, String line, String currentNote, boolean ignoreitem) throws Exception {
 		List<String> perks = new ArrayList<>();
 		String notes = null;
