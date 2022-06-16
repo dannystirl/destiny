@@ -64,11 +64,9 @@ public class wishlistGenerator {
 					}
 					// GATHERING LINE INFORMATION (ITEM, PERKS, NOTES)
 					Long item = Long.parseLong(line.substring(startKey).split("&")[0].split("#")[0]);
-
 					Item returnInfo = lineParser(item, line, currentNote, ignoreitem);
 
 					// 69420 is the key for all items. check if a perk should be ignored on all
-
 					for (List<String> tempList : unwantedItemList.get(69420L).getFullList(1)) {
 						if (returnInfo.getItemList(1).containsAll(tempList)) {
 							ignoreUnwanteditem = true;
@@ -145,7 +143,7 @@ public class wishlistGenerator {
 							currentNote = note;
 							if (note.charAt(0) == ('\"'))
 								note = note.substring(1);
-							if (note.charAt(0) == (' '))
+							if (note.length() > 0 && note.charAt(0) == (' '))
 								note = note.substring(1);
 							if (note.contains("\\s\\s"))
 								itemNotesList.get(j).set(i, note.replace("\\s\\s", "\\s"));
@@ -206,8 +204,9 @@ public class wishlistGenerator {
 
 		// is the current perk list stored on the item already
 		int perkListIndex = -1;
+		List<String> itemPerkList = item.getItemList(1); // reduce calls of getItemList()
 		for (List<String> perkList : itemPerks) {
-			if (perkList.containsAll(item.getItemList(1))) {
+			if (perkList.containsAll(itemPerkList)) {
 				perkListIndex = itemPerks.indexOf(perkList);
 				break;
 			}
@@ -218,14 +217,14 @@ public class wishlistGenerator {
 			// PERKS
 			// if entire item is unwanted, set the perk list to '-'
 			// otherwise add item and unwanted perks to perkList
-			if (item.isIgnoreItem() && item.getItemList(1).isEmpty()) {
+			if (item.isIgnoreItem() && itemPerkList.isEmpty()) {
 				item.put(Arrays.asList("-"));
 				itemMap.put(item.getItemId(), item);
 				return itemMap;
 			}
 			itemPerks.add(item.getItemList(1));
 			// TAGS
-			// add notes to a new note list
+			// check if item's notes exist on other perklist
 			String note = item.getItemList(2).get(0);
 			try {
 				if (note.split("\\|tags:")[1].contains(",")) {
@@ -245,7 +244,6 @@ public class wishlistGenerator {
 			} finally {
 				itemTags.add(tags);
 				// NOTES
-
 				note = note.replace("\\s*.\\s*", "");
 				try {
 					note = note.replace("light.gg", "lightggg");
@@ -311,7 +309,7 @@ public class wishlistGenerator {
 
 	public static Item lineParser(Long item, String line, String currentNote, boolean ignoreitem) throws Exception {
 		List<String> perks = new ArrayList<>();
-		String notes;
+		String notes = null;
 		List<String> tags = new ArrayList<>();
 		try {
 			perks = Arrays.asList(line.split("&perks=")[1].split("#notes:")[0].split(",")); // desired perks
@@ -324,8 +322,7 @@ public class wishlistGenerator {
 				try {
 					notes = line.split("#notes:")[1]; // desired notes of item with no perks
 				} catch (Exception missingInformation3) {
-					System.out.println("/" + "/Unable to format " + line + " in perk collection");
-					throw new Exception();
+					// System.out.println("/" + "/Unable to format "+line+" in perk collection");
 				}
 			}
 		}
@@ -358,21 +355,21 @@ public class wishlistGenerator {
 			}
 		}
 		try {
-			if (notes.contains("Inspired by")) {
-				notes = notes.split("Inspired by.*[.]")[1];
-			} else if (notes.contains("[YeezyGT")) {
-				notes = notes.split("(\\[YeezyGT).*[]]")[1];
+			Matcher matcher = Pattern.compile("Inspired by[^\\.]*\\.", Pattern.CASE_INSENSITIVE).matcher(notes);
+			notes = matcher.replaceAll("");
+			if (notes.contains("[YeezyGT")) {
+				notes = notes.split("(\\[YeezyGT).*[\\]]")[1];
 			} else if (notes.contains("pandapaxxy")) {
 				notes = notes.split("pandapaxxy")[1];
 			}
-			if (notes.charAt(0) == (' '))
+			if (notes.length() > 0 && notes.charAt(0) == (' '))
 				notes = notes.substring(1);
 			if (notes.contains("’"))
 				notes = notes.replace("’", "\'");
 
 			String itemType = "pv[pe]|m.{0,1}kb|controller|gambit";
 			Pattern pattern = Pattern.compile("\\((" + itemType + ")(\\s*[/]+\\s*(" + itemType + "))*\\)", Pattern.CASE_INSENSITIVE);
-			Matcher matcher = pattern.matcher(notes);
+			matcher = pattern.matcher(notes);
 			while (matcher.find()) {
 				List<String> strArray = Arrays.asList(matcher.group().subSequence(1, matcher.group().length() - 1).toString().split("\\s*[/]\\s*"));
 				for (String str : strArray) {
@@ -389,12 +386,13 @@ public class wishlistGenerator {
 			}
 			notes = temp;
 
-			if (notes.charAt(0) == (' '))
+			if (notes.length() > 0 && notes.charAt(0) == (' '))
 				notes = notes.substring(1);
 			if (notes.contains("\\s\\s"))
 				notes = notes.replace("\\s\\s", "\\s");
 		} catch (Exception e) {
-
+			System.out.println(e + ": " + notes);
+			throw e;
 		}
 		Item returnItem = new Item(item, sourceNum);
 		returnItem.put(perks, Arrays.asList(notes), tags, ignoreitem);
