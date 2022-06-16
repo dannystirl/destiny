@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -16,8 +17,7 @@ public class wishlistGenerator {
 	public static Map<Long, Item> itemList = new HashMap<>();
 	public static Map<Long, Item> unwantedItemList = new HashMap<>();
 
-	/**
-	 * the main method reads through the original file and collects data on each
+	/** the main method reads through the original file and collects data on each
 	 * roll, concating notes and eliminating duplicates
 	 * 
 	 * @param item
@@ -25,8 +25,7 @@ public class wishlistGenerator {
 	 * @param args
 	 *            any args needed for the main method, most likely to be a input
 	 *            file
-	 * @throws Exception
-	 */
+	 * @throws Exception */
 	public static void main(String[] args) throws Exception {
 		unwantedItemList.put(69420L, new Item(69420L, 0));
 		itemList.put(69420L, new Item(69420L, 0));
@@ -82,7 +81,8 @@ public class wishlistGenerator {
 							}
 						}
 						// are we ignoring an entire item
-						if (ignoreUnwanteditem || unwantedItemList.get(item).getFullList(1).contains(Arrays.asList("-"))) {
+						if (ignoreUnwanteditem
+								|| unwantedItemList.get(item).getFullList(1).contains(Arrays.asList("-"))) {
 							ignoreUnwanteditem = true;
 						}
 					}
@@ -127,20 +127,27 @@ public class wishlistGenerator {
 
 			System.out.printf("%n//item %s: %n", key);
 			for (int j = 0; j < itemPerkList.size(); j++) {
+				// gamemode is in beginning, input type is at end
+				java.util.Collections.sort(itemTagsList.get(j), java.util.Collections.reverseOrder());
+				// some final formatting change that shouldnt even be necessary but somewhere i'm adding a '/' instead of an empty list
 				try {
-					java.util.Collections.sort(itemTagsList.get(j), java.util.Collections.reverseOrder());
-				} catch (java.lang.IndexOutOfBoundsException e) {
-					/* no tags */
+					for (int k = 0; k < itemTagsList.get(j).size(); k++) {
+						itemTagsList.get(j).set(k, itemTagsList.get(j).get(k).replaceAll("\\s", ""));
+					}
+				} catch (Exception noSpaces) {
 				}
-				// BUG: doesnt seem to keep current note for the first few items. only tags.
-				if (!currentNoteFull.equals(itemNotesList.get(j)) && !currentTagsFull.equals(itemTagsList.get(j))) {
-					currentNoteFull = itemNotesList.get(j);
-					currentTagsFull = itemTagsList.get(j);
+				for (int k = 0; k < itemNotesList.get(j).size(); k++) {
+					if (itemNotesList.get(j).get(k).length() < 2)
+						itemNotesList.get(j).set(k, "");
+				}
+
+				if (!currentNoteFull.equals(itemNotesList.get(j)) || !currentTagsFull.equals(itemTagsList.get(j))) {
 					System.out.print("//notes:");
+					currentTagsFull = itemTagsList.get(j);
+					currentNoteFull = itemNotesList.get(j);
 					for (int i = 0; i < itemNotesList.get(j).size(); i++) {
 						String note = itemNotesList.get(j).get(i);
-						if (!note.equals("") && note.length() > 2 && !currentNote.equals(note)) {
-							currentNote = note;
+						if (!note.equals("") && note.length() > 2) {
 							if (note.charAt(0) == ('\"'))
 								note = note.substring(1);
 							if (note.length() > 0 && note.charAt(0) == (' '))
@@ -159,13 +166,24 @@ public class wishlistGenerator {
 						}
 					}
 					try {
-						if (!itemTagsList.get(j).get(0).equals("")) {
-							System.out.print("|tags:");
-							for (int i = 0; i < itemTagsList.get(j).size() - 1; i++) {
-								System.out.printf("%s, ", itemTagsList.get(j).get(i));
+						try {
+							for (int k = 0; k < currentTagsFull.size(); k++) {
+								currentTagsFull.set(k, currentTagsFull.get(k).replaceAll("\\s", ""));
 							}
-							System.out.printf("%s", itemTagsList.get(j).get(itemTagsList.get(j).size() - 1));
+						} catch (Exception noSpaces) {
+						} finally {
+							if (!currentTagsFull.get(0).equals("")) {
+								// hashsetis a fast way to remove duplicates, however they may have gotten there
+								LinkedHashSet<String> linkedHashSet = new LinkedHashSet<>(currentTagsFull);
+								System.out.print("|tags:");
+								for (int i = 0; i < linkedHashSet.size(); i++) {
+									if (i == linkedHashSet.size() - 1)
+										System.out.print(linkedHashSet.toArray()[i]);
+									else
+										System.out.printf("%s,", linkedHashSet.toArray()[i]);
+								}
 
+							}
 						}
 					} catch (IndexOutOfBoundsException e) {
 						// item has no tags
@@ -184,15 +202,13 @@ public class wishlistGenerator {
 		}
 	}
 
-	/**
-	 * Takes an item and maps it to the appropriate item list.
+	/** Takes an item and maps it to the appropriate item list.
 	 * Excludes duplicate perk sets, notes, and tags
 	 * On duplicate perk sets, include non-duplicate notes and tags
 	 * 
 	 * @param item
 	 * @param itemMap
-	 * @return
-	 */
+	 * @return */
 	public static Map<Long, Item> constructLists(Item item, Map<Long, Item> itemMap) {
 		// get the full lists of the given item
 		List<List<String>> itemPerks = new ArrayList<>();
@@ -235,24 +251,26 @@ public class wishlistGenerator {
 			// check if item's notes exist on other perklist
 			String note = item.getItemList(2).get(0);
 			try {
-				if (note.split("\\|tags:")[1].contains(",")) {
-					for (String string : Arrays.asList(note.split("\\|tags:")[1].split(","))) {
-						if (string.equalsIgnoreCase("m+kb"))
-							string = "mkb";
-						if (!tags.contains(string))
-							tags.add(string);
-					}
-				} else {
-					if (!tags.contains(note.split("\\|tags:")[1]))
-						tags.add(note.split("\\|tags:")[1]);
+				for (String string : Arrays.asList(note.split("\\|*tags:")[1].split("\\s*\\,\\s*"))) {
+					if (string.equalsIgnoreCase("m+kb"))
+						string = "mkb";
+					if (string.charAt(string.length() - 1) == ')')
+						string = string.substring(0, string.length() - 1);
+					if (!tags.contains(string))
+						tags.add(string);
 				}
-				note = note.split("\\|tags:")[0];
+				note = note.split("\\|*tags:")[0];
 			} catch (Exception notesError) {
-				// no tags in notes. not an error.
+				try {
+					tags.add(note.split("\\|tags:")[1]);
+					note = note.split("\\|*tags:")[0];
+				} catch (Exception tagsError) {
+					// not an error. just item has no tags
+				}
 			} finally {
 				itemTags.add(tags);
 				// NOTES
-				note = note.replace("\\s*.\\s*", "");
+				note = note.replace("\\s+.\\s*", "");
 				try {
 					note = note.replace("light.gg", "lightggg");
 					note = note.replace("...", "elipsez");
@@ -269,32 +287,35 @@ public class wishlistGenerator {
 				itemMap.put(item.getItemId(), returnItem);
 			}
 		} else {
-			notes = itemNotes.get(itemMap.get(item.getItemId()).getItemNumber());
-			tags = itemTags.get(itemMap.get(item.getItemId()).getItemNumber());
+			notes = itemNotes.get(perkListIndex);
+			tags = itemTags.get(perkListIndex);
 			// if the item's perk list contains the current perks, only add the notes as an
 			// addition to the note list
 
 			// TAGS
 			String note = item.getItemList(2).get(0);
 			try {
-				if (note.split("\\|tags:")[1].contains(",")) {
-					for (String string : Arrays.asList(note.split("\\|tags:")[1].split(","))) {
-						if (string.equalsIgnoreCase("m+kb"))
-							string = "mkb";
-						if (!tags.contains(string))
-							tags.add(string);
-					}
-				} else {
-					if (!tags.contains(note.split("\\|tags:")[1]))
-						tags.add(note.split("\\|tags:")[1]);
+				for (String string : Arrays.asList(note.split("\\|*tags:")[1].split("\\s*\\,\\s*"))) {
+					if (string.equalsIgnoreCase("m+kb"))
+						string = "mkb";
+					// these next two if statements arent an ideal fix, but they work for now
+					if (string.charAt(string.length() - 1) == ')')
+						string = string.substring(0, string.length() - 1);
+					if (!tags.contains(string))
+						tags.add(string);
 				}
-				note = note.split("\\|tags:")[0];
+				note = note.split("\\|*tags:")[0];
 			} catch (Exception notesError) {
-				// no tags in notes. not an error.
+				try {
+					tags.add(note.split("\\|tags:")[1]);
+					note = note.split("\\|*tags:")[0];
+				} catch (Exception tagsError) {
+					// not an error. just item has no tags
+				}
 			} finally {
-				itemTags.set(itemMap.get(item.getItemId()).getItemNumber(), tags);
+				itemTags.set(perkListIndex, tags);
 				// NOTES
-				note = note.replace("\\s*.\\s*", "");
+				note = note.replace("\\s+.\\s*", "");
 				try {
 					note = note.replace("light.gg", "lightggg");
 					note = note.replace("...", "elipsez");
@@ -305,7 +326,7 @@ public class wishlistGenerator {
 				} catch (Exception e) {
 					notes.add(note);
 				} finally {
-					itemNotes.set(itemMap.get(item.getItemId()).getItemNumber(), notes);
+					itemNotes.set(perkListIndex, notes);
 				}
 				Item returnItem = new Item(item.getItemId(), itemPerks, itemNotes, itemTags, item.isIgnoreItem());
 				itemMap.put(item.getItemId(), returnItem);
@@ -314,8 +335,7 @@ public class wishlistGenerator {
 		return itemMap;
 	}
 
-	/**
-	 * Takes a line and extracts perk, note, and tag information
+	/** Takes a line and extracts perk, note, and tag information
 	 * 
 	 * @param item
 	 * @param line
@@ -327,8 +347,7 @@ public class wishlistGenerator {
 	 * @return
 	 * @throws Exception
 	 *             acts as a method of catching notes without tags. should never
-	 *             actually throw an exception
-	 */
+	 *             actually throw an exception */
 	public static Item lineParser(Long item, String line, String currentNote, boolean ignoreitem) throws Exception {
 		List<String> perks = new ArrayList<>();
 		String notes = null;
@@ -354,8 +373,7 @@ public class wishlistGenerator {
 		}
 		if (item == 69420L)
 			// -69420 is a key to apply a wanted/unwanted set of perks to all items, so this
-			// is
-			// simply to offset that negative
+			// is simply to offset that negative
 			ignoreitem = false;
 		// IS ANY ASPECT OF AN ITEM UNWANTED
 		if (!perks.isEmpty() && perks.get(0).charAt(0) == '-') {
@@ -371,7 +389,7 @@ public class wishlistGenerator {
 			notes = currentNote;
 		if (notes.contains("auto generated")) {
 			try {
-				notes = "|tags:" + notes.split("\\|tags:")[1];
+				notes = "\\|tags:" + notes.split("\\|*tags:")[1];
 			} catch (Exception notesError) {
 				// System.out.println("/" + "/Unable to format notes: " + notes);
 			}
@@ -390,10 +408,12 @@ public class wishlistGenerator {
 				notes = notes.replace("’", "\'");
 
 			String itemType = "pv[pe]|m.{0,1}kb|controller|gambit";
-			Pattern pattern = Pattern.compile("\\((" + itemType + ")(\\s*[/]+\\s*(" + itemType + "))*\\)", Pattern.CASE_INSENSITIVE);
+			Pattern pattern = Pattern.compile("\\((" + itemType + ")(\\s*[/]+\\s*(" + itemType + "))*\\)",
+					Pattern.CASE_INSENSITIVE);
 			matcher = pattern.matcher(notes);
 			while (matcher.find()) {
-				List<String> strArray = Arrays.asList(matcher.group().subSequence(1, matcher.group().length() - 1).toString().split("\\s*[/]\\s*"));
+				List<String> strArray = Arrays.asList(
+						matcher.group().subSequence(1, matcher.group().length() - 1).toString().split("\\s*[/]\\s*"));
 				for (String str : strArray) {
 					if (str.equalsIgnoreCase("m+kb"))
 						str = "mkb";
