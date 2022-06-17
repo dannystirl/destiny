@@ -122,8 +122,10 @@ public class wishlistGenerator {
 			List<List<String>> itemPerkList = item.getValue().getFullList(1);
 			List<List<String>> itemNotesList = item.getValue().getFullList(2);
 			List<List<String>> itemTagsList = item.getValue().getFullList(3);
+			List<List<String>> itemMWsList = item.getValue().getFullList(4);
 			List<String> currentNoteFull = new ArrayList<>();
 			List<String> currentTagsFull = new ArrayList<>();
+			List<String> currentMWsFull = new ArrayList<>();
 
 			System.out.printf("%n//item %s: %n", key);
 			for (int j = 0; j < itemPerkList.size(); j++) {
@@ -141,10 +143,13 @@ public class wishlistGenerator {
 						itemNotesList.get(j).set(k, "");
 				}
 
-				if (!currentNoteFull.equals(itemNotesList.get(j)) || !currentTagsFull.equals(itemTagsList.get(j))) {
+				// NOTES
+				if (!currentNoteFull.equals(itemNotesList.get(j)) || !currentTagsFull.equals(itemTagsList.get(j))
+						|| !currentMWsFull.equals(itemMWsList.get(j))) {
 					System.out.print("//notes:");
 					currentTagsFull = itemTagsList.get(j);
 					currentNoteFull = itemNotesList.get(j);
+					currentMWsFull = itemMWsList.get(j);
 					for (int i = 0; i < itemNotesList.get(j).size(); i++) {
 						String note = itemNotesList.get(j).get(i);
 						if (!note.equals("") && note.length() > 2) {
@@ -166,6 +171,14 @@ public class wishlistGenerator {
 						}
 					}
 					try {
+						for (int i = 0; i < itemMWsList.get(j).size(); i++) {
+							System.out.print(itemMWsList.get(j).get(i) + ". ");
+						}
+					} catch (Exception noMWs) {
+						// not an error, just a roll that has no mw information
+					}
+					try {
+						// TAGS
 						try {
 							for (int k = 0; k < currentTagsFull.size(); k++) {
 								currentTagsFull.set(k, currentTagsFull.get(k).replaceAll("\\s", ""));
@@ -193,6 +206,7 @@ public class wishlistGenerator {
 				}
 				if (key == 69420L)
 					key = -69420L;
+				// ITEM
 				System.out.printf("dimwishlist:item=%s&perks=", key);
 				for (int i = 0; i < itemPerkList.get(j).size() - 1; i++) {
 					System.out.printf("%s,", itemPerkList.get(j).get(i));
@@ -212,18 +226,17 @@ public class wishlistGenerator {
 	public static Map<Long, Item> constructLists(Item item, Map<Long, Item> itemMap) {
 		// get the full lists of the given item
 		List<List<String>> itemPerks = new ArrayList<>();
-		if (itemMap.containsKey(item.getItemId())) {
-			itemPerks = itemMap.get(item.getItemId()).getFullList(1);
-		}
 		List<List<String>> itemNotes = new ArrayList<>();
 		List<String> notes = new ArrayList<>();
-		if (itemMap.containsKey(item.getItemId())) {
-			itemNotes = itemMap.get(item.getItemId()).getFullList(2);
-		}
 		List<List<String>> itemTags = new ArrayList<>();
 		List<String> tags = new ArrayList<>();
+		List<List<String>> itemMWs = new ArrayList<>();
+		List<String> mws = new ArrayList<>();
 		if (itemMap.containsKey(item.getItemId())) {
+			itemPerks = itemMap.get(item.getItemId()).getFullList(1);
+			itemNotes = itemMap.get(item.getItemId()).getFullList(2);
 			itemTags = itemMap.get(item.getItemId()).getFullList(3);
+			itemMWs = itemMap.get(item.getItemId()).getFullList(4);
 		}
 
 		// is the current perk list stored on the item already
@@ -247,92 +260,78 @@ public class wishlistGenerator {
 				return itemMap;
 			}
 			itemPerks.add(item.getItemList(1));
-			// TAGS
-			// check if item's notes exist on other perklist
-			String note = item.getItemList(2).get(0);
-			try {
-				for (String string : Arrays.asList(note.split("\\|*tags:")[1].split("\\s*\\,\\s*"))) {
-					if (string.equalsIgnoreCase("m+kb"))
-						string = "mkb";
-					if (string.charAt(string.length() - 1) == ')')
-						string = string.substring(0, string.length() - 1);
-					if (!tags.contains(string))
-						tags.add(string);
-				}
-				note = note.split("\\|*tags:")[0];
-			} catch (Exception notesError) {
-				try {
-					tags.add(note.split("\\|tags:")[1]);
-					note = note.split("\\|*tags:")[0];
-				} catch (Exception tagsError) {
-					// not an error. just item has no tags
-				}
-			} finally {
-				itemTags.add(tags);
-				// NOTES
-				note = note.replace("\\s+.\\s*", "");
-				try {
-					note = note.replace("light.gg", "lightggg");
-					note = note.replace("...", "elipsez");
-					for (String string : Arrays.asList(note.split("\\.\\s|\\."))) {
-						if (!notes.contains(string))
-							notes.add(string);
-					}
-				} catch (Exception e) {
-					notes.add(note);
-				} finally {
-					itemNotes.add(notes);
-				}
-				Item returnItem = new Item(item.getItemId(), itemPerks, itemNotes, itemTags, item.isIgnoreItem());
-				itemMap.put(item.getItemId(), returnItem);
-			}
+
+			List<List<String>> returnList = createInnerLists(item, notes, tags, mws);
+			itemNotes.add(returnList.get(0));
+			itemTags.add(returnList.get(1));
+			itemMWs.add(returnList.get(2));
 		} else {
 			notes = itemNotes.get(perkListIndex);
 			tags = itemTags.get(perkListIndex);
 			// if the item's perk list contains the current perks, only add the notes as an
 			// addition to the note list
 
+			List<List<String>> returnList = createInnerLists(item, notes, tags, mws);
+			itemNotes.set(perkListIndex, returnList.get(0));
+			itemTags.set(perkListIndex, returnList.get(1));
+			itemMWs.set(perkListIndex, returnList.get(2));
+		}
+		Item returnItem = new Item(item.getItemId(), itemPerks, itemNotes, itemTags, itemMWs, item.isIgnoreItem());
+		itemMap.put(item.getItemId(), returnItem);
+		return itemMap;
+	}
+
+	/** A helper method to collect an item's information ensure each itemNumber has a unique set of information */
+	public static List<List<String>> createInnerLists(Item item, List<String> notes, List<String> tags,
+			List<String> mws) {
+		List<List<String>> returnList = new ArrayList<>();
+		String note = item.getItemList(2).get(0);
+		try {
 			// TAGS
-			String note = item.getItemList(2).get(0);
+			for (String string : Arrays.asList(note.split("\\|*tags:")[1].split("\\s*\\,\\s*"))) {
+				if (string.equalsIgnoreCase("m+kb"))
+					string = "mkb";
+				// these next two if statements arent an ideal fix, but they work for now
+				if (string.charAt(string.length() - 1) == ')')
+					string = string.substring(0, string.length() - 1);
+				if (!tags.contains(string))
+					tags.add(string);
+			}
+			note = note.split("\\|*tags:")[0];
+		} catch (Exception notesError) {
 			try {
-				for (String string : Arrays.asList(note.split("\\|*tags:")[1].split("\\s*\\,\\s*"))) {
-					if (string.equalsIgnoreCase("m+kb"))
-						string = "mkb";
-					// these next two if statements arent an ideal fix, but they work for now
-					if (string.charAt(string.length() - 1) == ')')
-						string = string.substring(0, string.length() - 1);
-					if (!tags.contains(string))
-						tags.add(string);
-				}
+				tags.add(note.split("\\|tags:")[1]);
 				note = note.split("\\|*tags:")[0];
-			} catch (Exception notesError) {
-				try {
-					tags.add(note.split("\\|tags:")[1]);
-					note = note.split("\\|*tags:")[0];
-				} catch (Exception tagsError) {
-					// not an error. just item has no tags
+			} catch (Exception tagsError) {
+				// not an error. just item has no tags
+			}
+		} finally {
+			// NOTES & MW
+			Pattern pattern = Pattern.compile("Recommended\\sMW(\\:\\s|\\s\\-\\s)[^.]*", Pattern.CASE_INSENSITIVE);
+			note = note.replace("\\s+.\\s*", "");
+			try {
+				note = note.replace("light.gg", "lightggg");
+				note = note.replace("...", "elipsez");
+				for (String string : Arrays.asList(note.split("\\.\\s|\"\\s|\\.|\""))) {
+					Matcher matcher = pattern.matcher(string);
+					if (matcher.matches()) {
+						mws.add(matcher.group());
+					} else if (!notes.contains(string))
+						notes.add(string);
 				}
-			} finally {
-				itemTags.set(perkListIndex, tags);
-				// NOTES
-				note = note.replace("\\s+.\\s*", "");
-				try {
-					note = note.replace("light.gg", "lightggg");
-					note = note.replace("...", "elipsez");
-					for (String string : Arrays.asList(note.split("\\.\\s|\\."))) {
-						if (!notes.contains(string))
-							notes.add(string);
-					}
-				} catch (Exception e) {
+			} catch (Exception e) {
+				Matcher matcher = pattern.matcher(note);
+				if (matcher.matches()) {
+					mws.add(matcher.group());
+				} else if (!notes.contains(note))
 					notes.add(note);
-				} finally {
-					itemNotes.set(perkListIndex, notes);
-				}
-				Item returnItem = new Item(item.getItemId(), itemPerks, itemNotes, itemTags, item.isIgnoreItem());
-				itemMap.put(item.getItemId(), returnItem);
+			} finally {
+				returnList.add(notes);
+				returnList.add(tags);
+				returnList.add(mws);
 			}
 		}
-		return itemMap;
+		return returnList;
 	}
 
 	/** Takes a line and extracts perk, note, and tag information
@@ -437,7 +436,7 @@ public class wishlistGenerator {
 			throw e;
 		}
 		Item returnItem = new Item(item, sourceNum);
-		returnItem.put(perks, Arrays.asList(notes), tags, ignoreitem);
+		returnItem.put(perks, Arrays.asList(notes), tags, new ArrayList<>(), ignoreitem);
 		return returnItem;
 	}
 }
