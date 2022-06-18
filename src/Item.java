@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Item {
+public class Item implements java.lang.Comparable<Item> {
 	// which source is the item from
 	private int source;
 
@@ -100,7 +100,35 @@ public class Item {
 	 * @param num is not an index, but is used for a switch statement:
 	 *            1 returns the perk list |
 	 *            2 returns the note list |
-	 *            3 returns the tag list
+	 *            3 returns the tags list |
+	 *            4 returns the mw list
+	 * @return */
+	public void setFullList(int num, List<List<String>> list) {
+		switch (num) {
+			case 1:
+				itemPerkList = list;
+				break;
+			case 2:
+				itemNoteList = list;
+				break;
+			case 3:
+				itemTagList = list;
+				break;
+			case 4:
+				itemMWList = list;
+				break;
+			default:
+				return;
+		}
+	}
+
+	/** returns a list of an item properties list
+	 * 
+	 * @param num is not an index, but is used for a switch statement:
+	 *            1 returns the perk list |
+	 *            2 returns the note list |
+	 *            3 returns the tags list |
+	 *            4 returns the mw list
 	 * @return */
 	public List<List<String>> getFullList(int num) {
 		switch (num) {
@@ -122,7 +150,8 @@ public class Item {
 	 * @param num is not an index, but is used for a switch statement:
 	 *            1 returns the perk list |
 	 *            2 returns the note list |
-	 *            3 returns the tag list
+	 *            3 returns the tags list |
+	 *            4 returns the mw list
 	 * @return */
 
 	public List<String> getItemList(int num) {
@@ -161,5 +190,10 @@ public class Item {
 		System.out.println(itemPerkList);
 		System.out.println(itemNoteList);
 		System.out.println(itemTagList);
+	}
+
+	@Override
+	public int compareTo(Item o) {
+		return this.itemId.compareTo(o.getItemId());
 	}
 }

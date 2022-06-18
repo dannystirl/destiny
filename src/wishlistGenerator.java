@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -16,6 +18,7 @@ public class wishlistGenerator {
 	public static List<ArrayList<Object>> sourceList = new ArrayList<>();
 	public static Map<Long, Item> itemList = new HashMap<>();
 	public static Map<Long, Item> unwantedItemList = new HashMap<>();
+	public static Map<List<String>, Integer> mapPositions = new HashMap<>();
 
 	/** the main method reads through the original file and collects data on each
 	 * roll, concating notes and eliminating duplicates
@@ -117,6 +120,47 @@ public class wishlistGenerator {
 		// trashlist rolls don't need to be printed since they're all excluded during
 		// list creation
 
+		// Sort the Arraylist using a custom comparator. 
+		Comparator<List<String>> comp = new Comparator<List<String>>() {
+			// so the goal here is to sort by the final 
+			@Override
+			public int compare(List<String> o1, List<String> o2) {
+				// we only needto sort by getFullList(1) (the perkSet list), but since the order of perkSets will change, so will the order of notes etc, so the whole item needs to be sorted and then looped through
+				// compare getItemList(1) on each index, starting at the last index
+				for (int i = 0; i < Math.min(o1.size(), o2.size()); i++) {
+					if (!o1.get(o1.size() - i - 1).equals(o2.get(o2.size() - i - 1))) {
+						return o1.get(o1.size() - i - 1).compareTo(o2.get(o2.size() - i - 1));
+					}
+				}
+				return o1.get(0).compareTo(o2.get(0));
+			}
+		};
+
+		for (Map.Entry<Long, Item> item : itemList.entrySet()) {
+			// each value has a list of the original list position and the new list position
+			List<List<String>> listD = item.getValue().getFullList(1);
+			List<List<String>> tempNoteList = new ArrayList<>();
+			List<List<String>> tempTagsList = new ArrayList<>();
+			List<List<String>> tempMWsList = new ArrayList<>();
+			for (int i = 0; i < listD.size(); i++) {
+				mapPositions.put(listD.get(i), i);
+				tempNoteList.add(new ArrayList<>());
+				tempTagsList.add(new ArrayList<>());
+				tempMWsList.add(new ArrayList<>());
+			}
+			Collections.sort(listD, comp);
+			for (int i = 0; i < listD.size(); i++) {
+				// map positions is the original map positions of items. should use this map to get values from fullLists 2..4
+				// listD is the sorted position of each item. value at index i (a perk list) should be the key for the original space in map positions
+				tempNoteList.set(mapPositions.get(listD.get(i)), item.getValue().getFullList(2).get(i));
+				tempTagsList.set(mapPositions.get(listD.get(i)), item.getValue().getFullList(3).get(i));
+				tempMWsList.set(mapPositions.get(listD.get(i)), item.getValue().getFullList(4).get(i));
+			}
+			item.getValue().setFullList(2, tempNoteList);
+			item.getValue().setFullList(3, tempTagsList);
+			item.getValue().setFullList(4, tempMWsList);
+		}
+
 		for (Map.Entry<Long, Item> item : itemList.entrySet()) {
 			Long key = item.getKey();
 			List<List<String>> itemPerkList = item.getValue().getFullList(1);
@@ -132,6 +176,7 @@ public class wishlistGenerator {
 				// gamemode is in beginning, input type is at end
 				java.util.Collections.sort(itemTagsList.get(j), java.util.Collections.reverseOrder());
 				// some final formatting change that shouldnt even be necessary but somewhere i'm adding a '/' instead of an empty list
+
 				try {
 					for (int k = 0; k < itemTagsList.get(j).size(); k++) {
 						itemTagsList.get(j).set(k, itemTagsList.get(j).get(k).replaceAll("\\s", ""));
