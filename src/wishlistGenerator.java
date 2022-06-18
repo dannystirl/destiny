@@ -18,7 +18,6 @@ public class wishlistGenerator {
 	public static List<ArrayList<Object>> sourceList = new ArrayList<>();
 	public static Map<Long, Item> itemList = new HashMap<>();
 	public static Map<Long, Item> unwantedItemList = new HashMap<>();
-	public static Map<List<String>, Integer> mapPositions = new HashMap<>();
 
 	/** the main method reads through the original file and collects data on each
 	 * roll, concating notes and eliminating duplicates
@@ -117,10 +116,9 @@ public class wishlistGenerator {
 		System.out.printf("title:%s%n", sourceList.get(0).get(1));
 		System.out.printf("description:%s%n%n", sourceList.get(0).get(2));
 		// print wishlist rolls
-		// trashlist rolls don't need to be printed since they're all excluded during
-		// list creation
+		// trashlist rolls don't need to be printed since they're all excluded during creation
 
-		// Sort the Arraylist using a custom comparator. 
+		// Create custom comparator to sort the Arraylist
 		Comparator<List<String>> comp = new Comparator<List<String>>() {
 			// so the goal here is to sort by the final 
 			@Override
@@ -136,6 +134,8 @@ public class wishlistGenerator {
 			}
 		};
 
+		// SORTING ITEMS
+		Map<List<String>, Integer> mapPositions = new HashMap<>();
 		for (Map.Entry<Long, Item> item : itemList.entrySet()) {
 			// each value has a list of the original list position and the new list position
 			List<List<String>> listD = item.getValue().getFullList(1);
@@ -161,6 +161,7 @@ public class wishlistGenerator {
 			item.getValue().setFullList(4, tempMWsList);
 		}
 
+		// PRINTING WISHLIST
 		for (Map.Entry<Long, Item> item : itemList.entrySet()) {
 			Long key = item.getKey();
 			List<List<String>> itemPerkList = item.getValue().getFullList(1);
