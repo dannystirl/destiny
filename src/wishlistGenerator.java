@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.print.event.PrintJobListener;
+
 public class wishlistGenerator {
 	public static int sourceNum;
 	public static List<ArrayList<Object>> sourceList = new ArrayList<>();
@@ -135,15 +137,19 @@ public class wishlistGenerator {
 		};
 
 		// SORTING ITEMS
-		Map<List<String>, Integer> mapPositions = new HashMap<>();
+		// sort each item in itemList by the perkList, starting with the final entry in each perkList
+		// then reorder the noteList, tagList, and mwList accordingly
 		for (Map.Entry<Long, Item> item : itemList.entrySet()) {
 			// each value has a list of the original list position and the new list position
-			List<List<String>> listD = item.getValue().getFullList(1);
+			List<List<String>> listD = new ArrayList<List<String>>(item.getValue().getFullList(1));
+			Map<List<String>, Integer> mapPositions = new HashMap<>(); // original ordering. used to reorder the lists
+			List<List<String>> tempPerkList = new ArrayList<>();
 			List<List<String>> tempNoteList = new ArrayList<>();
 			List<List<String>> tempTagsList = new ArrayList<>();
 			List<List<String>> tempMWsList = new ArrayList<>();
 			for (int i = 0; i < listD.size(); i++) {
 				mapPositions.put(listD.get(i), i);
+				tempPerkList.add(new ArrayList<>());
 				tempNoteList.add(new ArrayList<>());
 				tempTagsList.add(new ArrayList<>());
 				tempMWsList.add(new ArrayList<>());
@@ -152,14 +158,18 @@ public class wishlistGenerator {
 			for (int i = 0; i < listD.size(); i++) {
 				// map positions is the original map positions of items. should use this map to get values from fullLists 2..4
 				// listD is the sorted position of each item. value at index i (a perk list) should be the key for the original space in map positions
-				tempNoteList.set(mapPositions.get(listD.get(i)), item.getValue().getFullList(2).get(i));
-				tempTagsList.set(mapPositions.get(listD.get(i)), item.getValue().getFullList(3).get(i));
-				tempMWsList.set(mapPositions.get(listD.get(i)), item.getValue().getFullList(4).get(i));
+				tempPerkList.set(i, item.getValue().getFullList(1).get(mapPositions.get(listD.get(i))));
+				tempNoteList.set(i, item.getValue().getFullList(2).get(mapPositions.get(listD.get(i))));
+				tempTagsList.set(i, item.getValue().getFullList(3).get(mapPositions.get(listD.get(i))));
+				tempMWsList.set(i, item.getValue().getFullList(4).get(mapPositions.get(listD.get(i))));
 			}
+			item.getValue().setFullList(1, tempPerkList);
 			item.getValue().setFullList(2, tempNoteList);
 			item.getValue().setFullList(3, tempTagsList);
 			item.getValue().setFullList(4, tempMWsList);
 		}
+
+		// would love to add a second sort here to organize by notes again (happens to be how it's sorted without the above sorting method) to reduce output file size. ideally by size of note so the ones with more information (generally the ones that lists had originally) would be at the top of the list, and therefor easier to see in dim. this would also put anything without notes (usually just collections of perks) at the bottom. could also sort inversely by the number of perksets under each note to achieve a similar affect. would need to see this in action. 
 
 		// PRINTING WISHLIST
 		for (Map.Entry<Long, Item> item : itemList.entrySet()) {
@@ -190,6 +200,7 @@ public class wishlistGenerator {
 				}
 
 				// NOTES
+				// bug: I still don't think these are printing correctly. dimwishlist:item=821154603&perks=4134353779,2869569095,3523296417 should be a unique note listing, but is lumped in with the other roll's notes. The notes for it are just thrown in randomly too (on the same item at least)). 
 				if (!currentNoteFull.equals(itemNotesList.get(j)) || !currentTagsFull.equals(itemTagsList.get(j))
 						|| !currentMWsFull.equals(itemMWsList.get(j))) {
 					System.out.print("//notes:");
@@ -201,10 +212,11 @@ public class wishlistGenerator {
 						if (!note.equals("") && note.length() > 2) {
 							if (note.charAt(0) == ('\"'))
 								note = note.substring(1);
-							if (note.length() > 0 && note.charAt(0) == (' '))
+							if (note.charAt(0) == (' '))
 								note = note.substring(1);
-							if (note.contains("\\s\\s"))
-								itemNotesList.get(j).set(i, note.replace("\\s\\s", "\\s"));
+							// replace all double spaces in note with single spaces
+							note = note.replaceAll("  ", " ");
+							// reverse the outlier changes made earlier
 							if (note.contains("lightggg"))
 								note = note.replace("lightggg", "light.gg");
 							if (note.contains("elipsez"))
@@ -314,8 +326,7 @@ public class wishlistGenerator {
 		} else {
 			notes = itemNotes.get(perkListIndex);
 			tags = itemTags.get(perkListIndex);
-			// if the item's perk list contains the current perks, only add the notes as an
-			// addition to the note list
+			// if the item's perk list contains the current perks, only add the notes as an addition to the note list
 
 			List<List<String>> returnList = createInnerLists(item, notes, tags, mws);
 			itemNotes.set(perkListIndex, returnList.get(0));
@@ -327,7 +338,7 @@ public class wishlistGenerator {
 		return itemMap;
 	}
 
-	/** A helper method to collect an item's information ensure each itemNumber has a unique set of information */
+	/** A helper method to collect an item's information and ensure each itemNumber has a unique set of information */
 	public static List<List<String>> createInnerLists(Item item, List<String> notes, List<String> tags,
 			List<String> mws) {
 		List<List<String>> returnList = new ArrayList<>();
@@ -358,20 +369,24 @@ public class wishlistGenerator {
 			try {
 				note = note.replace("light.gg", "lightggg");
 				note = note.replace("...", "elipsez");
-				for (String string : Arrays.asList(note.split("\\.\\s|\"\\s|\\.|\""))) {
+				for (String string : Arrays.asList(note.split("\\.\\s|\"\\s|\""))) {
 					Matcher matcher = pattern.matcher(string);
 					if (matcher.matches()) {
 						mws.add(matcher.group());
-					} else if (!notes.contains(string))
+					} else if (!notes.contains(string) && !string.isEmpty()) {
+						// if notes does not contain string, add it
 						notes.add(string);
+					}
 				}
 			} catch (Exception e) {
 				Matcher matcher = pattern.matcher(note);
 				if (matcher.matches()) {
 					mws.add(matcher.group());
-				} else if (!notes.contains(note))
+				} else if (!notes.contains(note) && !note.isEmpty()) {
 					notes.add(note);
+				}
 			} finally {
+				// add notes, tags, and mws to returnList
 				returnList.add(notes);
 				returnList.add(tags);
 				returnList.add(mws);

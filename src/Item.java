@@ -190,6 +190,7 @@ public class Item implements java.lang.Comparable<Item> {
 		System.out.println(itemPerkList);
 		System.out.println(itemNoteList);
 		System.out.println(itemTagList);
+		System.out.println();
 	}
 
 	@Override
