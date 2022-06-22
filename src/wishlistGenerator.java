@@ -167,6 +167,8 @@ public class wishlistGenerator {
 			item.getValue().setFullList(2, tempNoteList);
 			item.getValue().setFullList(3, tempTagsList);
 			item.getValue().setFullList(4, tempMWsList);
+
+			// you can't sort by note list here becuase notes aren't unique entries so theres no way to map them back to the original list
 		}
 
 		// would love to add a second sort here to organize by notes again (happens to be how it's sorted without the above sorting method) to reduce output file size. ideally by size of note so the ones with more information (generally the ones that lists had originally) would be at the top of the list, and therefor easier to see in dim. this would also put anything without notes (usually just collections of perks) at the bottom. could also sort inversely by the number of perksets under each note to achieve a similar affect. would need to see this in action. 
