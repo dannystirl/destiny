@@ -4,8 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -13,27 +11,23 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.print.event.PrintJobListener;
-
-public class wishlistGenerator {
+public class WishlistGenerator implements AutoCloseable {
 	public static int sourceNum;
 	public static List<ArrayList<Object>> sourceList = new ArrayList<>();
 	public static Map<Long, Item> itemList = new HashMap<>();
 	public static Map<Long, Item> unwantedItemList = new HashMap<>();
+	public static BufferedReader br;
 
 	/** the main method reads through the original file and collects data on each
 	 * roll, concating notes and eliminating duplicates
 	 * 
-	 * @param item
-	 *            the destiny api item number, used as the hash key
-	 * @param args
-	 *            any args needed for the main method, most likely to be a input
-	 *            file
+	 * @param item the destiny api item number, used as the hash key
+	 * @param args any args needed for the main method, most likely to be a input
 	 * @throws Exception */
 	public static void main(String[] args) throws Exception {
-		unwantedItemList.put(69420L, new Item(69420L, 0));
-		itemList.put(69420L, new Item(69420L, 0));
-		BufferedReader br;
+		unwantedItemList.put(69420L, new Item(69420L));
+		itemList.put(69420L, new Item(69420L));
+
 		try {
 			br = new BufferedReader(new FileReader(new File("CompleteDestinyWishList.txt")));
 		} catch (FileNotFoundException e) {
@@ -120,28 +114,12 @@ public class wishlistGenerator {
 		// print wishlist rolls
 		// trashlist rolls don't need to be printed since they're all excluded during creation
 
-		// Create custom comparator to sort the Arraylist
-		Comparator<List<String>> comp = new Comparator<List<String>>() {
-			// so the goal here is to sort by the final 
-			@Override
-			public int compare(List<String> o1, List<String> o2) {
-				// we only needto sort by getFullList(1) (the perkSet list), but since the order of perkSets will change, so will the order of notes etc, so the whole item needs to be sorted and then looped through
-				// compare getItemList(1) on each index, starting at the last index
-				for (int i = 0; i < Math.min(o1.size(), o2.size()); i++) {
-					if (!o1.get(o1.size() - i - 1).equals(o2.get(o2.size() - i - 1))) {
-						return o1.get(o1.size() - i - 1).compareTo(o2.get(o2.size() - i - 1));
-					}
-				}
-				return o1.get(0).compareTo(o2.get(0));
-			}
-		};
-
 		// SORTING ITEMS
 		// sort each item in itemList by the perkList, starting with the final entry in each perkList
 		// then reorder the noteList, tagList, and mwList accordingly
 		for (Map.Entry<Long, Item> item : itemList.entrySet()) {
 			// each value has a list of the original list position and the new list position
-			List<List<String>> listD = new ArrayList<List<String>>(item.getValue().getFullList(1));
+			List<List<String>> listD = new ArrayList<>(item.getValue().getFullList(1));
 			Map<List<String>, Integer> mapPositions = new HashMap<>(); // original ordering. used to reorder the lists
 			List<List<String>> tempPerkList = new ArrayList<>();
 			List<List<String>> tempNoteList = new ArrayList<>();
@@ -154,7 +132,18 @@ public class wishlistGenerator {
 				tempTagsList.add(new ArrayList<>());
 				tempMWsList.add(new ArrayList<>());
 			}
-			Collections.sort(listD, comp);
+
+			listD.sort((List<String> o1, List<String> o2) -> {
+				// we only need to sort by getFullList(1) (the perkSet list), but since the order of perkSets will change, so will the order of notes etc, so the whole item needs to be sorted and then looped through
+				// compare getItemList(1) on each index, starting at the last index
+				for (int i = 0; i < Math.min(o1.size(), o2.size()); i++) {
+					if (!o1.get(o1.size() - i - 1).equals(o2.get(o2.size() - i - 1))) {
+						return o1.get(o1.size() - i - 1).compareTo(o2.get(o2.size() - i - 1));
+					}
+				}
+				return o1.get(0).compareTo(o2.get(0));
+			});
+
 			for (int i = 0; i < listD.size(); i++) {
 				// map positions is the original map positions of items. should use this map to get values from fullLists 2..4
 				// listD is the sorted position of each item. value at index i (a perk list) should be the key for the original space in map positions
@@ -169,6 +158,7 @@ public class wishlistGenerator {
 			item.getValue().setFullList(4, tempMWsList);
 
 			// you can't sort by note list here becuase notes aren't unique entries so theres no way to map them back to the original list
+			// also dim already does this on import, so it would really be for a minor file reduction
 		}
 
 		// would love to add a second sort here to organize by notes again (happens to be how it's sorted without the above sorting method) to reduce output file size. ideally by size of note so the ones with more information (generally the ones that lists had originally) would be at the top of the list, and therefor easier to see in dim. this would also put anything without notes (usually just collections of perks) at the bottom. could also sort inversely by the number of perksets under each note to achieve a similar affect. would need to see this in action. 
@@ -188,13 +178,11 @@ public class wishlistGenerator {
 			for (int j = 0; j < itemPerkList.size(); j++) {
 				// gamemode is in beginning, input type is at end
 				java.util.Collections.sort(itemTagsList.get(j), java.util.Collections.reverseOrder());
-				// some final formatting change that shouldnt even be necessary but somewhere i'm adding a '/' instead of an empty list
 
-				try {
-					for (int k = 0; k < itemTagsList.get(j).size(); k++) {
-						itemTagsList.get(j).set(k, itemTagsList.get(j).get(k).replaceAll("\\s", ""));
-					}
-				} catch (Exception noSpaces) {
+				// some final formatting change that shouldnt even be necessary but somewhere i'm adding a '/' instead of an empty list
+				// if any item in itemTagsList.get(j) has a space, remove it
+				for (int i = 0; i < itemTagsList.get(j).size(); i++) {
+					itemTagsList.get(j).set(i, itemTagsList.get(j).get(i).replace(" ", ""));
 				}
 				for (int k = 0; k < itemNotesList.get(j).size(); k++) {
 					if (itemNotesList.get(j).get(k).length() < 2)
@@ -217,12 +205,10 @@ public class wishlistGenerator {
 							if (note.charAt(0) == (' '))
 								note = note.substring(1);
 							// replace all double spaces in note with single spaces
-							note = note.replaceAll("  ", " ");
+							note = note.replace("  ", " ");
 							// reverse the outlier changes made earlier
-							if (note.contains("lightggg"))
-								note = note.replace("lightggg", "light.gg");
-							if (note.contains("elipsez"))
-								note = note.replace("elipsez", "...");
+							note = note.replace("lightggg", "light.gg");
+							note = note.replace("elipsez", "...");
 							System.out.print(note);
 							if (note.charAt(note.length() - 1) == '.')
 								System.out.print(' ');
@@ -239,24 +225,21 @@ public class wishlistGenerator {
 					}
 					try {
 						// TAGS
-						try {
-							for (int k = 0; k < currentTagsFull.size(); k++) {
-								currentTagsFull.set(k, currentTagsFull.get(k).replaceAll("\\s", ""));
+						// remove any spaces from currentTagsFull
+						for (int i = 0; i < currentTagsFull.size(); i++) {
+							currentTagsFull.set(i, currentTagsFull.get(i).replace(" ", ""));
+						}
+						if (!currentTagsFull.get(0).equals("")) {
+							// hashsetis a fast way to remove duplicates, however they may have gotten there
+							LinkedHashSet<String> linkedHashSet = new LinkedHashSet<>(currentTagsFull);
+							System.out.print("|tags:");
+							for (int i = 0; i < linkedHashSet.size(); i++) {
+								if (i == linkedHashSet.size() - 1)
+									System.out.print(linkedHashSet.toArray()[i]);
+								else
+									System.out.printf("%s,", linkedHashSet.toArray()[i]);
 							}
-						} catch (Exception noSpaces) {
-						} finally {
-							if (!currentTagsFull.get(0).equals("")) {
-								// hashsetis a fast way to remove duplicates, however they may have gotten there
-								LinkedHashSet<String> linkedHashSet = new LinkedHashSet<>(currentTagsFull);
-								System.out.print("|tags:");
-								for (int i = 0; i < linkedHashSet.size(); i++) {
-									if (i == linkedHashSet.size() - 1)
-										System.out.print(linkedHashSet.toArray()[i]);
-									else
-										System.out.printf("%s,", linkedHashSet.toArray()[i]);
-								}
 
-							}
 						}
 					} catch (IndexOutOfBoundsException e) {
 						// item has no tags
@@ -422,11 +405,8 @@ public class wishlistGenerator {
 				perks = Arrays.asList(line.split("&perks=")[1].split(",")); // desired perks with no notes
 				notes = null;
 			} catch (Exception missingInformation2) {
-				try {
+				if (notes != null && notes.contains("#notes:"))
 					notes = line.split("#notes:")[1]; // desired notes of item with no perks
-				} catch (Exception missingInformation3) {
-					// System.out.println("/" + "/Unable to format "+line+" in perk collection");
-				}
 			}
 		}
 		if (perks.size() == 5) {
@@ -453,7 +433,7 @@ public class wishlistGenerator {
 			try {
 				notes = "\\|tags:" + notes.split("\\|*tags:")[1];
 			} catch (Exception notesError) {
-				// System.out.println("/" + "/Unable to format notes: " + notes);
+				// not an error. just item has no tags
 			}
 		}
 		try {
@@ -466,8 +446,7 @@ public class wishlistGenerator {
 			}
 			if (notes.length() > 0 && notes.charAt(0) == (' '))
 				notes = notes.substring(1);
-			if (notes.contains("’"))
-				notes = notes.replace("’", "\'");
+			notes = notes.replace("’", "\'");
 
 			String itemType = "pv[pe]|m.{0,1}kb|controller|gambit";
 			Pattern pattern = Pattern.compile("\\((" + itemType + ")(\\s*[/]+\\s*(" + itemType + "))*\\)",
@@ -492,14 +471,18 @@ public class wishlistGenerator {
 
 			if (notes.length() > 0 && notes.charAt(0) == (' '))
 				notes = notes.substring(1);
-			if (notes.contains("\\s\\s"))
-				notes = notes.replace("\\s\\s", "\\s");
+			notes = notes.replace("\\s\\s", "\\s");
 		} catch (Exception e) {
 			System.out.println(e + ": " + notes);
 			throw e;
 		}
-		Item returnItem = new Item(item, sourceNum);
+		Item returnItem = new Item(item);
 		returnItem.put(perks, Arrays.asList(notes), tags, new ArrayList<>(), ignoreitem);
 		return returnItem;
+	}
+
+	@Override
+	public void close() throws Exception {
+		br.close();
 	}
 }

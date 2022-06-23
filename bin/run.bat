@@ -5,4 +5,4 @@ javac -d bin/ -cp "." src/*.java
 rd /q /s "output" 2>nul
 mkdir output
 
-java -cp bin wishlistGenerator %1 > output\WishListScripted.txt
+java -cp bin WishlistGenerator %1 > output\WishListScripted.txt

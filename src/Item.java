@@ -2,10 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Item implements java.lang.Comparable<Item> {
-	// which source is the item from
-	private int source;
-
+public class Item {
 	// item information
 	private Long itemId;
 	private int itemNumber;
@@ -23,13 +20,11 @@ public class Item implements java.lang.Comparable<Item> {
 	// used to hold each roll's masterworks, where the key is the item id
 	private List<List<String>> itemMWList;
 
-	/** Used to store each items information, including source
+	/** Used to store each items information
 	 * 
-	 * @param num itemID
-	 * @param source where is the item first pulled from, since this value is never updated. */
-	Item(Long num, int source) {
+	 * @param num itemID */
+	Item(Long num) {
 		itemId = num;
-		this.source = source;
 		itemNumber = 0;
 		ignoreItem = false;
 		itemPerkList = new ArrayList<>();
@@ -191,10 +186,5 @@ public class Item implements java.lang.Comparable<Item> {
 		System.out.println(itemNoteList);
 		System.out.println(itemTagList);
 		System.out.println();
-	}
-
-	@Override
-	public int compareTo(Item o) {
-		return this.itemId.compareTo(o.getItemId());
 	}
 }
