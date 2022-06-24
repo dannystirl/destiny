@@ -20,7 +20,7 @@ public class AppTest {
 
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = Unirest
-                .get("https://www.bungie.net/en/OAuth/Authorize?735ad4372078466a8b68a09ff9c02edb&40678")
+                .get("https://www.bungie.net/Platform")
                 .asString();
 
     }
