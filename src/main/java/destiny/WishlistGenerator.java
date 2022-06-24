@@ -13,6 +13,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+
 public class WishlistGenerator implements AutoCloseable {
 	public static int sourceNum;
 	public static List<ArrayList<Object>> sourceList = new ArrayList<>();
@@ -35,6 +38,17 @@ public class WishlistGenerator implements AutoCloseable {
 			e.printStackTrace();
 			throw new FileNotFoundException();
 		}
+
+		Unirest.setTimeouts(0, 0);
+        HttpResponse<String> response = Unirest
+                .get("https://www.bungie.net/platform/Destiny/Manifest/InventoryItem/1274330687/")
+                .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
+                .asString();
+        System.out.println(response.getBody()); 
+
+
+
+		////
 
 		ArrayList<Object> td = new ArrayList<>();
 		sourceNum = 0; // stores how many rolls a given source has
