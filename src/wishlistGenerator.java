@@ -79,8 +79,7 @@ public class WishlistGenerator implements AutoCloseable {
 							}
 						}
 						// are we ignoring an entire item
-						if (ignoreUnwanteditem
-								|| unwantedItemList.get(item).getFullList(1).contains(Arrays.asList("-"))) {
+						if (ignoreUnwanteditem || unwantedItemList.get(item).getFullList(1).contains(Arrays.asList("-"))) {
 							ignoreUnwanteditem = true;
 						}
 					}
@@ -180,7 +179,6 @@ public class WishlistGenerator implements AutoCloseable {
 				java.util.Collections.sort(itemTagsList.get(j), java.util.Collections.reverseOrder());
 
 				// some final formatting change that shouldnt even be necessary but somewhere i'm adding a '/' instead of an empty list
-				// if any item in itemTagsList.get(j) has a space, remove it
 				for (int i = 0; i < itemTagsList.get(j).size(); i++) {
 					itemTagsList.get(j).set(i, itemTagsList.get(j).get(i).replace(" ", ""));
 				}
@@ -190,7 +188,6 @@ public class WishlistGenerator implements AutoCloseable {
 				}
 
 				// NOTES
-				// bug: I still don't think these are printing correctly. dimwishlist:item=821154603&perks=4134353779,2869569095,3523296417 should be a unique note listing, but is lumped in with the other roll's notes. The notes for it are just thrown in randomly too (on the same item at least)). 
 				if (!currentNoteFull.equals(itemNotesList.get(j)) || !currentTagsFull.equals(itemTagsList.get(j))
 						|| !currentMWsFull.equals(itemMWsList.get(j))) {
 					System.out.print("//notes:");
@@ -303,16 +300,14 @@ public class WishlistGenerator implements AutoCloseable {
 				return itemMap;
 			}
 			itemPerks.add(item.getItemList(1));
-
 			List<List<String>> returnList = createInnerLists(item, notes, tags, mws);
 			itemNotes.add(returnList.get(0));
 			itemTags.add(returnList.get(1));
 			itemMWs.add(returnList.get(2));
 		} else {
+			// if the item's perk list contains the current perks, only add the notes as an addition to the note list
 			notes = itemNotes.get(perkListIndex);
 			tags = itemTags.get(perkListIndex);
-			// if the item's perk list contains the current perks, only add the notes as an addition to the note list
-
 			List<List<String>> returnList = createInnerLists(item, notes, tags, mws);
 			itemNotes.set(perkListIndex, returnList.get(0));
 			itemTags.set(perkListIndex, returnList.get(1));
@@ -359,7 +354,6 @@ public class WishlistGenerator implements AutoCloseable {
 					if (matcher.matches()) {
 						mws.add(matcher.group());
 					} else if (!notes.contains(string) && !string.isEmpty()) {
-						// if notes does not contain string, add it
 						notes.add(string);
 					}
 				}
