@@ -79,7 +79,8 @@ public class WishlistGenerator implements AutoCloseable {
 							}
 						}
 						// are we ignoring an entire item
-						if (ignoreUnwanteditem || unwantedItemList.get(item).getFullList(1).contains(Arrays.asList("-"))) {
+						if (ignoreUnwanteditem
+								|| unwantedItemList.get(item).getFullList(1).contains(Arrays.asList("-"))) {
 							ignoreUnwanteditem = true;
 						}
 					}
