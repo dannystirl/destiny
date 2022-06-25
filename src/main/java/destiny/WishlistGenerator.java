@@ -1,4 +1,4 @@
-package destiny; 
+package destiny;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,12 +13,20 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
+
 public class WishlistGenerator implements AutoCloseable {
 	public static int sourceNum;
 	public static List<ArrayList<Object>> sourceList = new ArrayList<>();
 	public static Map<Long, Item> itemList = new HashMap<>();
 	public static Map<Long, Item> unwantedItemList = new HashMap<>();
-	public static Map<Long, Long> itemMatchingList = new HashMap<>(); 
+	public static Map<String, String> itemMatchingList = new HashMap<>();
+	public static List<String> checkedItemList = new ArrayList<>();
 	public static BufferedReader br;
 
 	/** the main method reads through the original file and collects data on each
@@ -63,6 +71,10 @@ public class WishlistGenerator implements AutoCloseable {
 					}
 					// GATHERING LINE INFORMATION (ITEM, PERKS, NOTES)
 					Long item = Long.parseLong(line.substring(startKey).split("&")[0].split("#")[0]);
+					// if item != 3652506829L, break
+					if (item != 3652506829L) {
+						break;
+					}
 					Item returnInfo = lineParser(item, line, currentNote, ignoreitem);
 
 					// 69420 is the key for all items. check if a perk should be ignored on all
@@ -265,8 +277,9 @@ public class WishlistGenerator implements AutoCloseable {
 	 * 
 	 * @param item
 	 * @param itemMap
-	 * @return */
-	public static Map<Long, Item> constructLists(Item item, Map<Long, Item> itemMap) {
+	 * @return
+	 * @throws UnirestException */
+	public static Map<Long, Item> constructLists(Item item, Map<Long, Item> itemMap) throws UnirestException {
 		// get the full lists of the given item
 		List<List<String>> itemPerks = new ArrayList<>();
 		List<List<String>> itemNotes = new ArrayList<>();
@@ -289,6 +302,20 @@ public class WishlistGenerator implements AutoCloseable {
 			if (perkList.containsAll(itemPerkList)) {
 				perkListIndex = itemPerks.indexOf(perkList);
 				break;
+			}
+		}
+
+		List<String> tempPerkList = new ArrayList<>();
+		for (String perk : item.getItemList(1)) {
+			// if checkedItemList doesnt contain perk, call checkPerk
+			if (!checkedItemList.contains(perk)) {
+				checkPerk(perk);
+			}
+			try {
+				tempPerkList.add(itemMatchingList.get(perk));
+			} catch (NullPointerException e) {
+				// if there is no enhanced perk, add the regular version
+				tempPerkList.add(perk);
 			}
 		}
 
@@ -480,6 +507,45 @@ public class WishlistGenerator implements AutoCloseable {
 		Item returnItem = new Item(item);
 		returnItem.put(perks, Arrays.asList(notes), tags, new ArrayList<>(), ignoreitem);
 		return returnItem;
+	}
+
+	/** @param perkHash - the hash of the perk to be checked
+	 * @throws UnirestException */
+	public static void checkPerk(String perkHash) throws UnirestException {
+		Unirest.setTimeouts(0, 0);
+		HttpResponse<String> response = Unirest
+				.get("https://www.bungie.net/Platform/Destiny2/Manifest/DestinyInventoryItemDefinition/{perkHash}/")
+				.header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
+				.routeParam("perkHash", perkHash)
+				.asString();
+		JSONObject itemDefinition = new JSONObject(response.getBody());
+		itemDefinition = itemDefinition.getJSONObject("Response");
+		itemDefinition = itemDefinition.getJSONObject("displayProperties");
+
+		response = Unirest.get(
+				"https://www.bungie.net/Platform/Destiny2/Armory/Search/DestinyInventoryItemDefinition/{searchTerm}/")
+				.header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
+				.routeParam("searchTerm", itemDefinition.getString("name"))
+				.asString();
+
+		JSONObject mJsonObject = new JSONObject(response.getBody());
+		JSONObject userJObject = mJsonObject.getJSONObject("Response");
+		JSONObject statusJObject = userJObject.getJSONObject("results");
+		JSONArray resultSet = statusJObject.getJSONArray("results");
+		Long key = null, entry = null;
+		for (Object object : resultSet) {
+			JSONObject jsonObject = (JSONObject) object;
+			if (key == null) {
+				key = jsonObject.getLong("hash");
+			} else {
+				entry = jsonObject.getLong("hash");
+			}
+		}
+		// add entry to itemMatchingList at key
+		if (entry != null)
+			itemMatchingList.put(key.toString(), entry.toString());
+		if (key != null)
+			checkedItemList.add(key.toString());
 	}
 
 	@Override

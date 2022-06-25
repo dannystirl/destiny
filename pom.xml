@@ -24,9 +24,9 @@
             <version>1.4.9</version>
         </dependency>
         <dependency>
-            <groupId>com.googlecode.json-simple</groupId>
-            <artifactId>json-simple</artifactId>
-            <version>1.1</version>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -90,4 +90,28 @@
             </plugins>
         </pluginManagement>
     </build>
+
+
+    <dependencyManagement>
+    
+
+        <dependencies>
+
+            <dependency>
+                <groupId>org.json</groupId>
+                <artifactId>json</artifactId>
+                <version>20220320</version>
+            </dependency>
+
+        
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.5.13</version>
+            </dependency>
+
+        </dependencies>
+
+    </dependencyManagement>
 </project>
