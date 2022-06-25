@@ -13,14 +13,12 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-
 public class WishlistGenerator implements AutoCloseable {
 	public static int sourceNum;
 	public static List<ArrayList<Object>> sourceList = new ArrayList<>();
 	public static Map<Long, Item> itemList = new HashMap<>();
 	public static Map<Long, Item> unwantedItemList = new HashMap<>();
+	public static Map<Long, Long> itemMatchingList = new HashMap<>(); 
 	public static BufferedReader br;
 
 	/** the main method reads through the original file and collects data on each
@@ -38,7 +36,6 @@ public class WishlistGenerator implements AutoCloseable {
 			e.printStackTrace();
 			throw new FileNotFoundException();
 		}
-		////
 
 		ArrayList<Object> td = new ArrayList<>();
 		sourceNum = 0; // stores how many rolls a given source has

@@ -10,5 +10,5 @@ mkdir output
 :: the above only works when using a workspace, not a maven folder
 :: the below works when using a maven folder (-q hides info lines)
 
-mvn test > output/TestResults.txt
+::mvn test -f "e:\Code\wishlistgenerator\pom.xml" -q > output/TestResults.txt
 mvn compile exec:java -e -q > output/WishListScripted.txt
