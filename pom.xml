@@ -7,9 +7,10 @@
     <artifactId>wishlistgenerator</artifactId>
     <version>1.0.0</version>
 
+    <packaging>jar</packaging>
+
     <name>wishlistgenerator</name>
-    <!-- FIXME change it to the project's website -->
-    <url>http://www.example.com</url>
+    <url>https://github.com/dannystirl/wishlist</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,20 +20,33 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.mashape.unirest</groupId>
+            <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
-            <version>1.4.9</version>
+            <version>3.13.6</version>
         </dependency>
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpasyncclient</artifactId>
+            <version>4.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>4.3.3</version>
         </dependency>
     </dependencies>
 
@@ -69,7 +83,17 @@
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>3.0.2</version>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <addClasspath>true</addClasspath>
+                                <!-- here we specify that we want to use the main method within the App class -->
+                                <mainClass>destiny.WishlistGenerator</mainClass>
+                            </manifest>
+                        </archive>
+                    </configuration>
                 </plugin>
+
                 <plugin>
                     <artifactId>maven-install-plugin</artifactId>
                     <version>2.5.2</version>
@@ -91,19 +115,20 @@
         </pluginManagement>
     </build>
 
-
     <dependencyManagement>
-    
-
         <dependencies>
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpcore</artifactId>
+                <version>4.4.4</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.json</groupId>
                 <artifactId>json</artifactId>
                 <version>20220320</version>
             </dependency>
-
-        
 
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
@@ -112,6 +137,5 @@
             </dependency>
 
         </dependencies>
-
     </dependencyManagement>
 </project>

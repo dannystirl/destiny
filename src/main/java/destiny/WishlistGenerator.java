@@ -16,9 +16,9 @@ import java.util.regex.Pattern;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
+import kong.unirest.UnirestException;
 
 public class WishlistGenerator implements AutoCloseable {
 	public static int sourceNum;
@@ -305,6 +305,10 @@ public class WishlistGenerator implements AutoCloseable {
 			}
 		}
 
+		// TODO: replacing all enhanced perks with their normal value would go a long way in reducing the number of items, as well as cleaning the perk organization in dim. 
+		// this would, however, require a connection to the destiny api OR a manually created collection of perks to link normal perks to enhanced perks.
+		// translate  https://www.light.gg/db/all/?page=1&f=4(3),10(Trait)  to  https://www.light.gg/db/all/?page=1&f=4(2),10(Trait)
+
 		List<String> tempPerkList = new ArrayList<>();
 		for (String perk : item.getItemList(1)) {
 			// if checkedItemList doesnt contain perk, call checkPerk
@@ -318,10 +322,6 @@ public class WishlistGenerator implements AutoCloseable {
 				tempPerkList.add(perk);
 			}
 		}
-
-		// TODO: replacing all enhanced perks with their normal value would go a long way in reducing the number of items, as well as cleaning the perk organization in dim. 
-		// this would, however, require a connection to the destiny api OR a manually created collection of perks to link normal perks to enhanced perks.
-		// translate  https://www.light.gg/db/all/?page=1&f=4(3),10(Trait)  to  https://www.light.gg/db/all/?page=1&f=4(2),10(Trait)
 
 		// perkListIndex == -1 means item with perks is not already in perkList
 		if (perkListIndex == -1) {
@@ -512,7 +512,9 @@ public class WishlistGenerator implements AutoCloseable {
 	/** @param perkHash - the hash of the perk to be checked
 	 * @throws UnirestException */
 	public static void checkPerk(String perkHash) throws UnirestException {
-		Unirest.setTimeouts(0, 0);
+		Unirest.config()
+				.socketTimeout(0)
+				.connectTimeout(0);
 		HttpResponse<String> response = Unirest
 				.get("https://www.bungie.net/Platform/Destiny2/Manifest/DestinyInventoryItemDefinition/{perkHash}/")
 				.header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")

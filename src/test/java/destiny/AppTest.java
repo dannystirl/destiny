@@ -1,15 +1,14 @@
 package destiny;
 
-import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import org.junit.Test;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
+import kong.unirest.UnirestException;
 
 /** Unit test for simple App. */
 public class AppTest {
@@ -18,7 +17,9 @@ public class AppTest {
      */
     @Test
     public void testResponse() throws UnirestException {
-        Unirest.setTimeouts(0, 0);
+        Unirest.config()
+                .socketTimeout(0)
+                .connectTimeout(0);
         HttpResponse<String> response = Unirest
                 .get("https://www.bungie.net/Platform/Destiny2/Manifest/DestinyInventoryItemDefinition/3523296417/")
                 .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
