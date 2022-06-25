@@ -512,9 +512,7 @@ public class WishlistGenerator implements AutoCloseable {
 	/** @param perkHash - the hash of the perk to be checked
 	 * @throws UnirestException */
 	public static void checkPerk(String perkHash) throws UnirestException {
-		Unirest.config()
-				.socketTimeout(0)
-				.connectTimeout(0);
+		Unirest.config().connectTimeout(5000);
 		HttpResponse<String> response = Unirest
 				.get("https://www.bungie.net/Platform/Destiny2/Manifest/DestinyInventoryItemDefinition/{perkHash}/")
 				.header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
