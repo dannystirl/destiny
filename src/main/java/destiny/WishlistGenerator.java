@@ -13,12 +13,11 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
-import kong.unirest.UnirestException;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class WishlistGenerator implements AutoCloseable {
 	public static int sourceNum;
@@ -36,6 +35,9 @@ public class WishlistGenerator implements AutoCloseable {
 	 * @param args any args needed for the main method, most likely to be a input
 	 * @throws Exception */
 	public static void main(String[] args) throws Exception {
+		Unirest.config().reset();
+		Unirest.config().connectTimeout(5000).socketTimeout(5000);
+
 		unwantedItemList.put(69420L, new Item(69420L));
 		itemList.put(69420L, new Item(69420L));
 		try {
@@ -71,10 +73,6 @@ public class WishlistGenerator implements AutoCloseable {
 					}
 					// GATHERING LINE INFORMATION (ITEM, PERKS, NOTES)
 					Long item = Long.parseLong(line.substring(startKey).split("&")[0].split("#")[0]);
-					// if item != 3652506829L, break
-					if (item != 3652506829L) {
-						break;
-					}
 					Item returnInfo = lineParser(item, line, currentNote, ignoreitem);
 
 					// 69420 is the key for all items. check if a perk should be ignored on all
@@ -278,8 +276,8 @@ public class WishlistGenerator implements AutoCloseable {
 	 * @param item
 	 * @param itemMap
 	 * @return
-	 * @throws UnirestException */
-	public static Map<Long, Item> constructLists(Item item, Map<Long, Item> itemMap) throws UnirestException {
+	 * @throws Exception */
+	public static Map<Long, Item> constructLists(Item item, Map<Long, Item> itemMap) throws Exception {
 		// get the full lists of the given item
 		List<List<String>> itemPerks = new ArrayList<>();
 		List<List<String>> itemNotes = new ArrayList<>();
@@ -305,26 +303,31 @@ public class WishlistGenerator implements AutoCloseable {
 			}
 		}
 
-		// TODO: replacing all enhanced perks with their normal value would go a long way in reducing the number of items, as well as cleaning the perk organization in dim. 
-		// this would, however, require a connection to the destiny api OR a manually created collection of perks to link normal perks to enhanced perks.
-		// translate  https://www.light.gg/db/all/?page=1&f=4(3),10(Trait)  to  https://www.light.gg/db/all/?page=1&f=4(2),10(Trait)
-
-		List<String> tempPerkList = new ArrayList<>();
-		for (String perk : item.getItemList(1)) {
-			// if checkedItemList doesnt contain perk, call checkPerk
-			if (!checkedItemList.contains(perk)) {
-				checkPerk(perk);
-			}
-			try {
-				tempPerkList.add(itemMatchingList.get(perk));
-			} catch (NullPointerException e) {
-				// if there is no enhanced perk, add the regular version
-				tempPerkList.add(perk);
-			}
-		}
-
 		// perkListIndex == -1 means item with perks is not already in perkList
 		if (perkListIndex == -1) {
+			// translate  https://www.light.gg/db/all/?page=1&f=4(3),10(Trait)  to  https://www.light.gg/db/all/?page=1&f=4(2),10(Trait)
+
+			List<String> tempPerkList = new ArrayList<>(itemPerkList);
+			int j = 0;
+			if (itemPerkList.size() == 4)
+				j = 2;
+			for (int i = j; i < itemPerkList.size(); i++) {
+				// if checkedItemList doesnt contain perk, call checkPerk
+				if (!checkedItemList.contains(itemPerkList.get(i))) {
+					try {
+						checkPerk(itemPerkList.get(i));
+					} catch (Exception e) {
+						// Really could be any number of reasons for this to happen, but it's probably a timeout. 
+					}
+				}
+				// if itemMatchingList contains itemPerkList.get(i), set tempPerkList to the itemMatchingList
+				if (itemMatchingList.containsKey(itemPerkList.get(i))) {
+					tempPerkList.set(i, itemMatchingList.get(itemPerkList.get(i)));
+				}
+			}
+			// if each item in itemPerkList isnt the same as each item in tempPerkList, print them both
+			itemPerkList = new ArrayList<>(tempPerkList);
+
 			// PERKS
 			// if entire item is unwanted, set the perk list to '-'
 			// otherwise add item and unwanted perks to perkList
@@ -333,7 +336,7 @@ public class WishlistGenerator implements AutoCloseable {
 				itemMap.put(item.getItemId(), item);
 				return itemMap;
 			}
-			itemPerks.add(item.getItemList(1));
+			itemPerks.add(itemPerkList);
 			List<List<String>> returnList = createInnerLists(item, notes, tags, mws);
 			itemNotes.add(returnList.get(0));
 			itemTags.add(returnList.get(1));
@@ -509,14 +512,13 @@ public class WishlistGenerator implements AutoCloseable {
 		return returnItem;
 	}
 
-	/** @param perkHash - the hash of the perk to be checked
-	 * @throws UnirestException */
-	public static void checkPerk(String perkHash) throws UnirestException {
-		Unirest.config().connectTimeout(5000);
+	/** @param hashIdentifier - the hash of the perk to be checked
+	 * @throws Exception */
+	public static void checkPerk(String hashIdentifier) throws Exception {
 		HttpResponse<String> response = Unirest
-				.get("https://www.bungie.net/Platform/Destiny2/Manifest/DestinyInventoryItemDefinition/{perkHash}/")
+				.get("https://www.bungie.net/Platform/Destiny2/Manifest/DestinyInventoryItemDefinition/{hashIdentifier}/")
 				.header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
-				.routeParam("perkHash", perkHash)
+				.routeParam("hashIdentifier", hashIdentifier)
 				.asString();
 		JSONObject itemDefinition = new JSONObject(response.getBody());
 		itemDefinition = itemDefinition.getJSONObject("Response");
@@ -532,20 +534,24 @@ public class WishlistGenerator implements AutoCloseable {
 		JSONObject userJObject = mJsonObject.getJSONObject("Response");
 		JSONObject statusJObject = userJObject.getJSONObject("results");
 		JSONArray resultSet = statusJObject.getJSONArray("results");
-		Long key = null, entry = null;
+		Long normal = null, enhanced = null;
 		for (Object object : resultSet) {
 			JSONObject jsonObject = (JSONObject) object;
-			if (key == null) {
-				key = jsonObject.getLong("hash");
-			} else {
-				entry = jsonObject.getLong("hash");
+			if (jsonObject.getJSONObject("displayProperties").length() == 5) {
+				if (normal == null) {
+					normal = jsonObject.getLong("hash");
+				} else {
+					enhanced = jsonObject.getLong("hash");
+				}
 			}
 		}
 		// add entry to itemMatchingList at key
-		if (entry != null)
-			itemMatchingList.put(key.toString(), entry.toString());
-		if (key != null)
-			checkedItemList.add(key.toString());
+		if (enhanced != null) {
+			itemMatchingList.put(enhanced.toString(), normal.toString());
+		}
+		if (normal != null) {
+			checkedItemList.add(normal.toString());
+		}
 	}
 
 	@Override
