@@ -24,6 +24,9 @@ Syntax highlighted code block
 **Bold** and _Italic_ and `Code` text
 
 [Link](url) and ![Image](src)
+
+![Destiny: The Moon](https://user-images.githubusercontent.com/77759414/175799964-1eaed344-eccf-43d3-be89-4b5595432e80.png)
+
 ```
 
 For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
