@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -35,8 +37,21 @@ public class WishlistGenerator implements AutoCloseable {
 	 * @param args any args needed for the main method, most likely to be a input
 	 * @throws Exception */
 	public static void main(String[] args) throws Exception {
+
+		String eol = System.getProperty("line.separator");
+		try (BufferedReader reader = new BufferedReader(new FileReader(new File("input//enhancedMapping.csv")));) {
+			while (reader.ready()) {
+				String item = reader.readLine();
+				itemMatchingList.put(item.split(",")[0], item.split(",")[1]);
+				checkedItemList.add(item.split(",")[0]);
+				checkedItemList.add(item.split(",")[1]);
+			}
+		} catch (Exception e) {
+			System.out.println("//Unable to read in existing item matching list");
+		}
+
 		Unirest.config().reset();
-		Unirest.config().connectTimeout(5000).socketTimeout(5000);
+		Unirest.config().connectTimeout(5000).socketTimeout(5000).concurrency(10, 5);
 
 		unwantedItemList.put(69420L, new Item(69420L));
 		itemList.put(69420L, new Item(69420L));
@@ -265,6 +280,20 @@ public class WishlistGenerator implements AutoCloseable {
 				}
 				System.out.printf("%s%n", itemPerkList.get(j).get(itemPerkList.get(j).size() - 1));
 			}
+		}
+
+		// Print the itemMatchingList to a file so I don't need to call HTTP.GET every time I run the script
+		eol = System.getProperty("line.separator");
+		try (Writer writer = new FileWriter("input/enhancedMapping.csv");) {
+			for (Map.Entry<String, String> entry : itemMatchingList.entrySet()) {
+				writer.append(entry.getKey())
+						.append(',')
+						.append(entry.getValue())
+						.append(eol);
+			}
+			writer.flush();
+		} catch (Exception e) {
+			System.out.println("//Unable to save item matching list");
 		}
 	}
 

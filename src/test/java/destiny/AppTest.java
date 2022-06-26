@@ -5,6 +5,11 @@ import org.json.JSONObject;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.FileWriter;
+import java.io.Writer;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Test;
 
 import kong.unirest.GetRequest;
@@ -55,5 +60,29 @@ public class AppTest {
         assertNotNull(key);
         assertNotNull(entry);
         System.out.println("Test testResponse() passed");
+    }
+
+    /** Ensure the ability to write to a file is working
+     *
+     * @throws Exception */
+    @Test
+    public void writeHashMapToCsv() throws Exception {
+        String eol = System.getProperty("line.separator");
+
+        Map<String, String> map = new HashMap<>();
+        map.put("abc", "aabbcc");
+        map.put("def", "ddeeff");
+
+        Writer writer = new FileWriter("output/test.csv");
+
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            writer.append(entry.getKey())
+                    .append(',')
+                    .append(entry.getValue())
+                    .append(eol);
+        }
+        writer.flush();
+        assertNotNull(writer);
+        System.out.println("Test writeHashMapToCsv() passed");
     }
 }
