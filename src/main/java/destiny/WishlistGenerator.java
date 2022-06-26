@@ -191,6 +191,15 @@ public class WishlistGenerator implements AutoCloseable {
 				// gamemode is in beginning, input type is at end
 				java.util.Collections.sort(itemTagsList.get(j), java.util.Collections.reverseOrder());
 
+				// some final formatting change that shouldnt even be necessary but somewhere i'm adding a '/' instead of an empty list
+				for (int i = 0; i < itemTagsList.get(j).size(); i++) {
+					itemTagsList.get(j).set(i, itemTagsList.get(j).get(i).replace(" ", ""));
+				}
+				for (int k = 0; k < itemNotesList.get(j).size(); k++) {
+					if (itemNotesList.get(j).get(k).length() < 2)
+						itemNotesList.get(j).set(k, "");
+				}
+
 				// NOTES
 				if (!currentNoteFull.equals(itemNotesList.get(j)) || !currentTagsFull.equals(itemTagsList.get(j))
 						|| !currentMWsFull.equals(itemMWsList.get(j))) {
@@ -198,10 +207,8 @@ public class WishlistGenerator implements AutoCloseable {
 					currentTagsFull = itemTagsList.get(j);
 					currentNoteFull = itemNotesList.get(j);
 					currentMWsFull = itemMWsList.get(j);
-					for (int i = 0; i < currentNoteFull.size(); i++) {
-						if (currentNoteFull.get(i).length() < 2)
-							currentNoteFull.set(i, "");
-						String note = currentNoteFull.get(i);
+					for (int i = 0; i < itemNotesList.get(j).size(); i++) {
+						String note = itemNotesList.get(j).get(i);
 						if (!note.equals("") && note.length() > 2) {
 							if (note.charAt(0) == ('\"'))
 								note = note.substring(1);
@@ -220,8 +227,8 @@ public class WishlistGenerator implements AutoCloseable {
 						}
 					}
 					try {
-						for (int i = 0; i < currentMWsFull.size(); i++) {
-							System.out.print(currentMWsFull.get(i) + ". ");
+						for (int i = 0; i < itemMWsList.get(j).size(); i++) {
+							System.out.print(itemMWsList.get(j).get(i) + ". ");
 						}
 					} catch (Exception noMWs) {
 						// not an error, just a roll that has no mw information
@@ -295,27 +302,27 @@ public class WishlistGenerator implements AutoCloseable {
 			}
 		}
 
-		// perkListIndex == -1 means item with perks is not already in perkList
-		if (perkListIndex == -1) {
-			// translate  https://www.light.gg/db/all/?page=1&f=4(3),10(Trait)  to  https://www.light.gg/db/all/?page=1&f=4(2),10(Trait)
-
-			List<String> tempPerkList = new ArrayList<>(itemPerkList);
-			int j = 0;
-			if (itemPerkList.size() == 4)
-				j = 2;
-			for (int i = j; i < itemPerkList.size(); i++) {
-				if (!checkedItemList.contains(itemPerkList.get(i))) {
-					try {
-						checkPerk(itemPerkList.get(i));
-					} catch (Exception e) {
-						// Really could be any number of reasons for this to happen, but it's probably a timeout. 
-					}
-				}
-				// if itemMatchingList contains itemPerkList.get(i), set tempPerkList to the itemMatchingList
-				if (itemMatchingList.containsKey(itemPerkList.get(i))) {
-					tempPerkList.set(i, itemMatchingList.get(itemPerkList.get(i)));
+		// translate  https://www.light.gg/db/all/?page=1&f=4(3),10(Trait)  to  https://www.light.gg/db/all/?page=1&f=4(2),10(Trait)
+		List<String> tempPerkList = new ArrayList<>(itemPerkList);
+		int j = 0;
+		if (itemPerkList.size() == 4)
+			j = 2;
+		for (int i = j; i < itemPerkList.size(); i++) {
+			if (!checkedItemList.contains(itemPerkList.get(i))) {
+				try {
+					checkPerk(itemPerkList.get(i));
+				} catch (Exception e) {
+					// Really could be any number of reasons for this to happen, but it's probably a timeout. 
 				}
 			}
+			// if itemMatchingList contains itemPerkList.get(i), set tempPerkList to the itemMatchingList
+			if (itemMatchingList.containsKey(itemPerkList.get(i))) {
+				tempPerkList.set(i, itemMatchingList.get(itemPerkList.get(i)));
+			}
+		}
+
+		// perkListIndex == -1 means item with perks is not already in perkList
+		if (perkListIndex == -1) {
 			// if each item in itemPerkList isnt the same as each item in tempPerkList, print them both
 			itemPerkList = new ArrayList<>(tempPerkList);
 
