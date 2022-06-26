@@ -573,36 +573,56 @@ public class WishlistGenerator implements AutoCloseable {
 	public static void hardCodedCases(String perk) throws Exception {
 		switch (perk) {
 			case "3528046508": {
+				// Auto-Loading Holster
 				itemMatchingList.put("3528046508", "3300816228");
 				checkedItemList.add("3528046508");
 				checkedItemList.add("3300816228");
 				break;
 			}
+			case "2717805783": {
+				// Moving Target 
+				itemMatchingList.put("2717805783", "588594999");
+				checkedItemList.add("2717805783");
+				checkedItemList.add("588594999");
+				break;
+			}
+			case "2014892510": {
+				// Perpetual Motion (Has E in the name)
+				itemMatchingList.put("2014892510", "1428297954");
+				checkedItemList.add("2014892510");
+				checkedItemList.add("1428297954");
+				break;
+			}
 			case "288411554": {
+				// Rampage (Duplicate in API)
 				itemMatchingList.put("288411554", "3425386926");
 				checkedItemList.add("288411554");
 				checkedItemList.add("3425386926");
 				break;
 			}
 			case "1523649716": {
+				// Tap the Trigger
 				itemMatchingList.put("1523649716", "1890422124");
 				checkedItemList.add("1523649716");
 				checkedItemList.add("1890422124");
 				break;
 			}
 			case "3797647183": {
+				// Ambitious Assassin
 				itemMatchingList.put("3797647183", "2010801679");
 				checkedItemList.add("3797647183");
 				checkedItemList.add("2010801679");
 				break;
 			}
 			case "2002547233": {
+				// High-Impact Reserves
 				itemMatchingList.put("2002547233", "2213355989");
 				checkedItemList.add("2002547233");
 				checkedItemList.add("2213355989");
 				break;
 			}
 			case "494941759": {
+				// Threat Detector
 				itemMatchingList.put("494941759", "4071163871");
 				checkedItemList.add("494941759");
 				checkedItemList.add("4071163871");
@@ -615,6 +635,7 @@ public class WishlistGenerator implements AutoCloseable {
 				// repeating case
 			}
 			case "2396489472": {
+				// Chain Reaction (Comes up as sandbox perk)
 				itemMatchingList.put("598607952", "2396489472");
 				itemMatchingList.put("3076459908", "2396489472");
 				checkedItemList.add("598607952");
@@ -625,10 +646,11 @@ public class WishlistGenerator implements AutoCloseable {
 			case "2216471363": {
 				// repeating case
 			}
-			case "3871884143": {
+			case "1683379515": {
 				// repeating case
 			}
-			case "1683379515": {
+			case "3871884143": {
+				// Disruption Break (Barrel)
 				itemMatchingList.put("2216471363", "1683379515");
 				itemMatchingList.put("3871884143", "1683379515");
 				checkedItemList.add("2216471363");
@@ -643,6 +665,7 @@ public class WishlistGenerator implements AutoCloseable {
 				// repeating case
 			}
 			case "806159697": {
+				// Trench Barrel (Barrel)
 				itemMatchingList.put("2459015849", "2360754333");
 				itemMatchingList.put("806159697", "2360754333");
 				checkedItemList.add("2459015849");
