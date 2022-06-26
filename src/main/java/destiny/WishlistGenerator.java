@@ -191,15 +191,6 @@ public class WishlistGenerator implements AutoCloseable {
 				// gamemode is in beginning, input type is at end
 				java.util.Collections.sort(itemTagsList.get(j), java.util.Collections.reverseOrder());
 
-				// some final formatting change that shouldnt even be necessary but somewhere i'm adding a '/' instead of an empty list
-				for (int i = 0; i < itemTagsList.get(j).size(); i++) {
-					itemTagsList.get(j).set(i, itemTagsList.get(j).get(i).replace(" ", ""));
-				}
-				for (int k = 0; k < itemNotesList.get(j).size(); k++) {
-					if (itemNotesList.get(j).get(k).length() < 2)
-						itemNotesList.get(j).set(k, "");
-				}
-
 				// NOTES
 				if (!currentNoteFull.equals(itemNotesList.get(j)) || !currentTagsFull.equals(itemTagsList.get(j))
 						|| !currentMWsFull.equals(itemMWsList.get(j))) {
@@ -207,8 +198,10 @@ public class WishlistGenerator implements AutoCloseable {
 					currentTagsFull = itemTagsList.get(j);
 					currentNoteFull = itemNotesList.get(j);
 					currentMWsFull = itemMWsList.get(j);
-					for (int i = 0; i < itemNotesList.get(j).size(); i++) {
-						String note = itemNotesList.get(j).get(i);
+					for (int i = 0; i < currentNoteFull.size(); i++) {
+						if (currentNoteFull.get(i).length() < 2)
+							currentNoteFull.set(i, "");
+						String note = currentNoteFull.get(i);
 						if (!note.equals("") && note.length() > 2) {
 							if (note.charAt(0) == ('\"'))
 								note = note.substring(1);
@@ -227,8 +220,8 @@ public class WishlistGenerator implements AutoCloseable {
 						}
 					}
 					try {
-						for (int i = 0; i < itemMWsList.get(j).size(); i++) {
-							System.out.print(itemMWsList.get(j).get(i) + ". ");
+						for (int i = 0; i < currentMWsFull.size(); i++) {
+							System.out.print(currentMWsFull.get(i) + ". ");
 						}
 					} catch (Exception noMWs) {
 						// not an error, just a roll that has no mw information
@@ -249,7 +242,6 @@ public class WishlistGenerator implements AutoCloseable {
 								else
 									System.out.printf("%s,", linkedHashSet.toArray()[i]);
 							}
-
 						}
 					} catch (IndexOutOfBoundsException e) {
 						// item has no tags
@@ -312,7 +304,6 @@ public class WishlistGenerator implements AutoCloseable {
 			if (itemPerkList.size() == 4)
 				j = 2;
 			for (int i = j; i < itemPerkList.size(); i++) {
-				// if checkedItemList doesnt contain perk, call checkPerk
 				if (!checkedItemList.contains(itemPerkList.get(i))) {
 					try {
 						checkPerk(itemPerkList.get(i));
@@ -515,6 +506,14 @@ public class WishlistGenerator implements AutoCloseable {
 	/** @param hashIdentifier - the hash of the perk to be checked
 	 * @throws Exception */
 	public static void checkPerk(String hashIdentifier) throws Exception {
+
+		try {
+			hardCodedCases(hashIdentifier);
+			return;
+		} catch (Exception e) {
+			// For some reason the api doesn't work for the values in here, so I'm just gonna hard code it and ignore the error
+		}
+
 		HttpResponse<String> response = Unirest
 				.get("https://www.bungie.net/Platform/Destiny2/Manifest/DestinyInventoryItemDefinition/{hashIdentifier}/")
 				.header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
@@ -530,14 +529,16 @@ public class WishlistGenerator implements AutoCloseable {
 				.routeParam("searchTerm", itemDefinition.getString("name"))
 				.asString();
 
-		JSONObject mJsonObject = new JSONObject(response.getBody());
-		JSONObject userJObject = mJsonObject.getJSONObject("Response");
-		JSONObject statusJObject = userJObject.getJSONObject("results");
-		JSONArray resultSet = statusJObject.getJSONArray("results");
+		JSONObject searchDefinition = new JSONObject(response.getBody());
+		searchDefinition = searchDefinition.getJSONObject("Response");
+		searchDefinition = searchDefinition.getJSONObject("results");
+		JSONArray resultSet = searchDefinition.getJSONArray("results");
 		Long normal = null, enhanced = null;
 		for (Object object : resultSet) {
 			JSONObject jsonObject = (JSONObject) object;
-			if (jsonObject.getJSONObject("displayProperties").length() == 5) {
+			if (jsonObject.getJSONObject("displayProperties").length() == itemDefinition.length() &&
+					jsonObject.getJSONObject("displayProperties").getString("name")
+							.equals(itemDefinition.getString("name"))) {
 				if (normal == null) {
 					normal = jsonObject.getLong("hash");
 				} else {
@@ -548,9 +549,103 @@ public class WishlistGenerator implements AutoCloseable {
 		// add entry to itemMatchingList at key
 		if (enhanced != null) {
 			itemMatchingList.put(enhanced.toString(), normal.toString());
+			checkedItemList.add(enhanced.toString());
 		}
 		if (normal != null) {
 			checkedItemList.add(normal.toString());
+		}
+	}
+
+	/** Helper method because some stuff in the api isn't matching up
+	 * this seems to be mostly accurate except for frames that were turned into perks (ex. Disruption Break) have more
+	 * than two entries
+	 * high impact reserves and Ambitious Assassin also seems to have an issue (only returning one value), but I think
+	 * thats more an issue with the api, not my code.
+	 * 
+	 * @param perk - the perk to be checked */
+	public static void hardCodedCases(String perk) throws Exception {
+		switch (perk) {
+			case "3528046508": {
+				itemMatchingList.put("3528046508", "3300816228");
+				checkedItemList.add("3528046508");
+				checkedItemList.add("3300816228");
+				break;
+			}
+			case "288411554": {
+				itemMatchingList.put("288411554", "3425386926");
+				checkedItemList.add("288411554");
+				checkedItemList.add("3425386926");
+				break;
+			}
+			case "1523649716": {
+				itemMatchingList.put("1523649716", "1890422124");
+				checkedItemList.add("1523649716");
+				checkedItemList.add("1890422124");
+				break;
+			}
+			case "3797647183": {
+				itemMatchingList.put("3797647183", "2010801679");
+				checkedItemList.add("3797647183");
+				checkedItemList.add("2010801679");
+				break;
+			}
+			case "2002547233": {
+				itemMatchingList.put("2002547233", "2213355989");
+				checkedItemList.add("2002547233");
+				checkedItemList.add("2213355989");
+				break;
+			}
+			case "494941759": {
+				itemMatchingList.put("494941759", "4071163871");
+				checkedItemList.add("494941759");
+				checkedItemList.add("4071163871");
+				break;
+			}
+			case "3076459908": {
+				// repeating case
+			}
+			case "598607952": {
+				// repeating case
+			}
+			case "2396489472": {
+				itemMatchingList.put("598607952", "2396489472");
+				itemMatchingList.put("3076459908", "2396489472");
+				checkedItemList.add("598607952");
+				checkedItemList.add("3076459908");
+				checkedItemList.add("2396489472");
+				break;
+			}
+			case "2216471363": {
+				// repeating case
+			}
+			case "3871884143": {
+				// repeating case
+			}
+			case "1683379515": {
+				itemMatchingList.put("2216471363", "1683379515");
+				itemMatchingList.put("3871884143", "1683379515");
+				checkedItemList.add("2216471363");
+				checkedItemList.add("3871884143");
+				checkedItemList.add("1683379515");
+				break;
+			}
+			case "2360754333": {
+				// repeating case
+			}
+			case "2459015849": {
+				// repeating case
+			}
+			case "806159697": {
+				itemMatchingList.put("2459015849", "2360754333");
+				itemMatchingList.put("806159697", "2360754333");
+				checkedItemList.add("2459015849");
+				checkedItemList.add("806159697");
+				checkedItemList.add("2360754333");
+				break;
+			}
+			default: {
+				throw new Exception();
+			}
 		}
 	}
 
