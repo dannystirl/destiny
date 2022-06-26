@@ -1,3 +1,5 @@
+package destiny; 
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,7 +13,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class WishlistGenerator implements AutoCloseable {
+public class renameTo implements AutoCloseable {
 	public static int sourceNum;
 	public static List<ArrayList<Object>> sourceList = new ArrayList<>();
 	public static Map<Long, Item> itemList = new HashMap<>();
