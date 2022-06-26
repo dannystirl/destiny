@@ -15,11 +15,11 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import kong.unirest.HttpResponse;
-import kong.unirest.Unirest;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
 
 public class WishlistGenerator implements AutoCloseable {
 	public static int sourceNum;
