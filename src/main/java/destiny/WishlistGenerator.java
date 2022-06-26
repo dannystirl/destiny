@@ -38,7 +38,6 @@ public class WishlistGenerator implements AutoCloseable {
 	 * @throws Exception */
 	public static void main(String[] args) throws Exception {
 
-		String eol = System.getProperty("line.separator");
 		try (BufferedReader reader = new BufferedReader(new FileReader(new File("input//enhancedMapping.csv")));) {
 			while (reader.ready()) {
 				String item = reader.readLine();
@@ -283,7 +282,7 @@ public class WishlistGenerator implements AutoCloseable {
 		}
 
 		// Print the itemMatchingList to a file so I don't need to call HTTP.GET every time I run the script
-		eol = System.getProperty("line.separator");
+		String eol = System.getProperty("line.separator");
 		try (Writer writer = new FileWriter("input/enhancedMapping.csv");) {
 			for (Map.Entry<String, String> entry : itemMatchingList.entrySet()) {
 				writer.append(entry.getKey())

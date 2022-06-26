@@ -1,40 +1,67 @@
 title:Custom Wish List
-description:A list of custom rolls I'm interested in. Neither comprehensive nor extensive. A lot of items will be exclusively for craftable guns. 
+description:A list of custom rolls I'm interested in. Neither comprehensive nor extensive. 
 
-//notes:Generic perk exceptions
-dimwishlist:item=69420
-dimwishlist:ammoType=2&perks=3513791699#notes:Mulligan really only has a place on non primary weapons
-dimwishlist:item=953998645&perks=3513791699#notes:Mulligan really only has a place on non primary weapons
+// Desired Roll: 
+dimwishlist:item=3428521585&perks=247725512,1048183818#notes:Rapid hit + adaptive munitions is useful for breaking barrier champions. Could be an alternative to s/ofa.|tags:pve,mkb,controller 
+dimwishlist:item=3055790362&perks=1482024992,1885400500,699525795,2846385770#notes:Best pvp austringer roll.|tags:pvp,mkb,controller
+dimwishlist:item=3652506829&perks=247725512,1771339417#notes:Stormchaser seems to have better dps than other linears. This is a roll to lookout for for group activities.|tags:pve,mkb,controller
+dimwishlist:item=3652506829&perks=2284787283,1771339417#notes:Stormchaser seems to have better dps than other linears. This is a roll to lookout for for group activities.|tags:pve,mkb,controller
+dimwishlist:item=821154603&perks=4134353779,2869569095,3523296417#notes:Normally, field prep on a primary doesn't do a whole lot, but this thing reloads nearly instantly, especially with drop mag. Any of the damage perks are viable, but demo has increased utility. 
+dimwishlist:item=3000847393&perks=1482024992,3230963543,3523296417,776531651#notes:Repulsor Brace is a powerful perk, and demo allows it to have a higher uptime since we can activate volitile rounds on grenade kills. |tags:pve, mkb, controller
+dimwishlist:item=3000847393&perks=1482024992,1885400500,3523296417,776531651#notes:Repulsor Brace is a powerful perk, and demo allows it to have a higher uptime since we can activate volitile rounds on grenade kills. |tags:pve, mkb, controller
+dimwishlist:item=3000847393&perks=1482024992,3230963543,2779035018,776531651#notes:Repulsor Brace is a powerful perk, and demo allows it to have a higher uptime since we can activate volitile rounds on grenade kills. |tags:pve, mkb, controller
+dimwishlist:item=3000847393&perks=1482024992,1885400500,2779035018,776531651#notes:Repulsor Brace is a powerful perk, and demo allows it to have a higher uptime since we can activate volitile rounds on grenade kills. |tags:pve, mkb, controller
+dimwishlist:item=2490988246&perks=3250034553,3230963543,3108830275,4293542123#notes:Best PvE roll. Recommended MW - Range/Reload. |tags:god-pve, pve, mkb
+dimwishlist:item=2490988246&perks=1392496348,3230963543,3108830275,4293542123#notes:Best PvE roll. Recommended MW - Stability/Reload. |tags:god-pve, pve, controller
+dimwishlist:item=2490988246&perks=3250034553,3230963543,4071163871,4293542123#notes:Backup PvE roll. Recommended MW - Range. |tags:pve, mkb
+dimwishlist:item=2490988246&perks=1392496348,3230963543,4071163871,4293542123#notes:Backup PvE roll. Recommended MW - Stability. |tags:pve, controller
+dimwishlist:item=2490988246&perks=202670084,3230963543,3108830275,4293542123#notes: Calus mini-tool doesn't have a ton in the first column, but unrelenting seems like it would pair well with incandescent. |tags:pve, mkb
+dimwishlist:item=1959650777&perks=1478423395,3796465595,3300816228,2978966579#notes:Bump in the Night can get some real damage out with Autoloading + Chill Clip if an ally has Gjallarhorn equipped. 
 
-//notes:Desired Roll: 
-dimwishlist:item=3428521585&perks=247725512,1048183818#notes:Rapid hit + adaptive munitions is an alternative to s/ofa. Useful for breaking barrier champions. 
-dimwishlist:item=3055790362&perks=1482024992,1885400500,699525795,2846385770#notes:Best pvp austringer roll
-dimwishlist:item=3652506829&perks=247725512,1771339417#notes:Stormchaser seems to have better dps than other linears. This is a roll to lookout for for group activities
-dimwishlist:item=3652506829&perks=2284787283,1771339417#notes:Stormchaser seems to have better dps than other linears. This is a roll to lookout for for group activities
+// Generic desireable perk combinations
+dimwishlist:item=-69420&perks=1583705720,4049631843#notes:On their own, s/ofa are good but require effort they're often not worth. When combined s/ofa is an incredibly powerful combination, giving both stats and damage.|tags:pve,mkb,controller
+dimwishlist:item=-69420&perks=3523296417,11612903#notes:Most damage buffs that require a kill aren't amazing in endgame content, but demo + adrenaline junkie allows for a damage buff without requiring a kill and refils the method of getting that buff.|tags:pve,mkb,controller
+dimwishlist:item=-69420&perks=3161816588,1427256713#notes:Slideshot is an incredibly powerful complement to Reservoir Burst, allowing constant activations without a kill or reloading.|tags:pve,mkb,controller
+dimwishlist:item=-69420&perks=1820235745,1427256713#notes:Subsistence is an incredibly powerful complement to Reservoir Burst, allowing nearly constant activations with almost no downtime.|tags:pve,mkb,controller
+dimwishlist:item=-69420&perks=247725512,1015611457#notes:Rapid Hit + Kill Clip is a classic reload + damage combination.|tags:pve,mkb,controller,pvp
+dimwishlist:item=-69420&perks=1168162263,1015611457#notes:Outlaw + Kill Clip is a classic reload + damage combination.|tags:pve,mkb,controller,pvp
+dimwishlist:item=-69420&perks=1168162263,3425386926#notes:Outlaw + Rampage is a classic reload + damage combination.|tags:pve,mkb,controller,pvp
+dimwishlist:item=-69420&perks=776531651#notes:Repulsor brace is an incredible perk when combined with void 3.0.|tags:pve,mkb,controller
+dimwishlist:item=-69420&perks=4293542123#notes:Incandescentis an incredible perk when combined with solar 3.0.|tags:pve,mkb,controller
 
-//notes:Generic desireable perk combinations
-dimwishlist:item=-69420&perks=1583705720,4049631843#notes:On their own, s/ofa are good but require effort they're often not worth. When combined s/ofa is an incredibly powerful combination, giving both stats and damage. 
-dimwishlist:item=-69420&perks=3523296417,11612903#notes:Most damage buffs that require a kill aren't amazing in endgame content, but this combination allows for a damage buff without requiring a kill and refils the method of getting that buff. 
-dimwishlist:item=-69420&perks=3161816588,1427256713#notes:Slideshot + reservoir burst is an incredibly powerful combination, allowing nearly constant activations of reservoir burst. 
-dimwishlist:item=-69420&perks=247725512,1015611457#notes:Rapid Hit + Kill Clip is a classic reload + damage combination. 
-dimwishlist:item=-69420&perks=1168162263,1015611457#notes:Outlaw + Kill Clip is a classic reload + damage combination. 
-dimwishlist:item=-69420&perks=1168162263,3425386926#notes:Outlaw + Rampage is a classic reload + damage combination. 
-dimwishlist:item=-69420&perks=776531651#notes:Repulsor brace is an incredible perk when combined with void 3.0
-dimwishlist:item=-69420&perks=4293542123#notes:Incandescentis an incredible perk when combined with solar 3.0
+// Generic weapon type perk combinations
+dimwishlist:item=5&perks=1683379515#notes:Disruption break is amazing for killing barrier champions after breaking their shield.|tags:pve,mkb,controller
+dimwishlist:item=7&perks=1683379515#notes:Disruption break is amazing for killing barrier champions after breaking their shield.|tags:pve,mkb,controller
+dimwishlist:item=8&perks=1683379515#notes:Disruption break is amazing for killing barrier champions after breaking their shield.|tags:pve,mkb,controller
+dimwishlist:item=3317538576&perks=1683379515#notes:Disruption break is amazing for killing barrier champions after breaking their shield.|tags:pve,mkb,controller
+dimwishlist:item=9&perks=1048183818#notes:Adaptive munitions on a fusion rifle allows the damage increase to increase on the first burst, allowing fusions to completely ignore match game in most difficulties.|tags:pve,mkb,controller
+dimwishlist:item=3317538576&perks=1048183818#notes:Adaptive munitions on a bow means shields are broken within a few shots, allowing bows to completely ignore match game in most difficulties.|tags:pve,mkb,controller
 
-//notes:Generic weapon type perk combinations
-dimwishlist:item=5&perks=1683379515#notes:Disruption break is amazing for killing barrier champions after breaking their shield
-dimwishlist:item=7&perks=1683379515#notes:Disruption break is amazing for killing barrier champions after breaking their shield
-dimwishlist:item=8&perks=1683379515#notes:Disruption break is amazing for killing barrier champions after breaking their shield
-dimwishlist:item=3317538576&perks=1683379515#notes:Disruption break is amazing for killing barrier champions after breaking their shield
-dimwishlist:item=9&perks=1048183818#notes:Adaptive munitions on a fusion rifle allows the damage increase to increase on the first burst, allowing fusions to completely ignore match game in most difficulties. 
-dimwishlist:item=3317538576&perks=1048183818#notes:Adaptive munitions on a bow means shields are broken within a few shots, allowing bows to completely ignore match game in most difficulties. 
-
-//notes:Generic undesireable gun/perk combinations
+// Generic undesireable gun/perk combinations
 //currently there isn't a way to do this but ideally I would filter by any gun without a specific perk
 dimwishlist:item=-3556999246#notes:Pleiades Corrector has no good perk combinations. Inferior to vision of confluence. 
-dimwishlist:item=69420&perks=-1172098417#Sleight of Hand works while stowed, but gives stats you would want while using the gun. Not a good trait. 
+dimwishlist:item=-1028582252#notesComedian has no good perks in the first column. 
+dimwishlist:item=-2443900757#notesComedian (A) has no good perks in the first column. 
+dimwishlist:item=69420&perks=-2172504645#notes:Sleight of Hand works while stowed, but gives stats you would want while using the gun. Not a good trait. 
+dimwishlist:item=69420&perks=-1172098417#notes:Sleight of Hand (E) works while stowed, but gives stats you would want while using the gun. Not a good trait. 
 dimwishlist:item=69420&perks=-744594675#notes:Well-Rounded provides a benefit that would be beneficial in pvp, but activates on a trigger only common in pve. 
+dimwishlist:item=69420&perks=-2139363611#notes:Well-Rounded (E) provides a benefit that would be beneficial in pvp, but activates on a trigger only common in pve. 
 dimwishlist:item=69420&perks=-2621346526#notes:Ensemble is such a situational perk that only works in groups. Probably created as a pair to firing line, but better reload perks exist. 
+dimwishlist:item=69420&perks=-2495011826#notes:Ensemble (E) is such a situational perk that only works in groups. Probably created as a pair to firing line, but better reload perks exist. 
 dimwishlist:item=69420&perks=-2039302152#notes:Slideways is inferior to slideshot in every way and provides very minimal benefits
-dimwishlist:item=69420&perks=-3513791699#notes:The impact of mulligan is so minimal that I can only recommend it on special weapons
+dimwishlist:item=69420&perks=-2396422520#notes:Slideways (E) is inferior to slideshot in every way and provides very minimal benefits
+dimwishlist:item=69420&perks=-162561147#notes:The impact of mulligan (E) is so minimal that I can only recommend it on special weapons. No special weapons currently have enhanced mulligan. 
+dimwishlist:item=69420&perks=-671806388#notes:Compulsive reloader only works at above 70% mag, which is basically nothing. 
+dimwishlist:item=69420&perks=-595108252#notes:Compulsive reloader (E) only works at above 70% mag, which is basically nothing. 
+dimwishlist:item=69420&perks=-3511092054#notes:Elemental Capacitor isn't a terrible perk, but there are certainly better options for PvP. 
+dimwishlist:item=69420&perks=-711234314#notes:Elemental Capacitor (E) isn't a terrible perk, but there are certainly better options for PvP. 
+dimwishlist:item=69420&perks=-205890336#notes:Underdog is too situational to be useful. There aren't many times when I'm already weak and being able to reload faster would help. 
+dimwishlist:item=69420&perks=-320071920#notes:Underdog (E) is too situational to be useful. There aren't many times when I'm already weak and being able to reload faster would help. 
+dimwishlist:item=69420&perks=-972757866#notes:Pulse Monitor is too situational to be useful. There aren't many times when I'm already weak and being able to reload faster would help. 
+dimwishlist:item=69420&perks=-1685378950#notes:Pulse Monitor (E) is too situational to be useful. There aren't many times when I'm already weak and being able to reload faster would help. 
+dimwishlist:item=69420&perks=-3526486541#notes:Tilting at Windmills just ... doesn't do anything. 
+dimwishlist:item=69420&perks=-1738338041#notes:Tilting at Windmills (E) just ... doesn't do anything. 
+dimwishlist:item=69420&perks=-3700496672#notes:Shoot to Loot has some use in endgame content, but certainly not above some other perk that would be in columns 3 or 4. 
+dimwishlist:item=69420&perks=-2840833776#notes:Shoot to Loot (E) has some use in endgame content, but certainly not above some other perk that would be in columns 3 or 4. 
+dimwishlist:item=69420&perks=-3722653512#notes:Air Assault only has a use in PvP and has a requirement to activate, and even then doesn't do much. Always a better perk in column
+dimwishlist:item=69420&perks=-2898218424#notes:Air Assault (E) )nly has a use in PvP and has a requirement to activate, and even then doesn't do much. Always a better perk in column
