@@ -1,9 +1,11 @@
-package destiny; 
+package destiny;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,11 +15,19 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class renameTo implements AutoCloseable {
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
+
+public class WishlistGenerator implements AutoCloseable {
 	public static int sourceNum;
 	public static List<ArrayList<Object>> sourceList = new ArrayList<>();
 	public static Map<Long, Item> itemList = new HashMap<>();
 	public static Map<Long, Item> unwantedItemList = new HashMap<>();
+	public static Map<String, String> itemMatchingList = new HashMap<>();
+	public static List<String> checkedItemList = new ArrayList<>();
 	public static BufferedReader br;
 
 	/** the main method reads through the original file and collects data on each
@@ -27,11 +37,25 @@ public class renameTo implements AutoCloseable {
 	 * @param args any args needed for the main method, most likely to be a input
 	 * @throws Exception */
 	public static void main(String[] args) throws Exception {
+
+		try (BufferedReader reader = new BufferedReader(new FileReader(new File("input//enhancedMapping.csv")));) {
+			while (reader.ready()) {
+				String item = reader.readLine();
+				itemMatchingList.put(item.split(",")[0], item.split(",")[1]);
+				checkedItemList.add(item.split(",")[0]);
+				checkedItemList.add(item.split(",")[1]);
+			}
+		} catch (Exception e) {
+			System.out.println("//Unable to read in existing item matching list");
+		}
+
+		Unirest.config().reset();
+		Unirest.config().connectTimeout(5000).socketTimeout(5000).concurrency(10, 5);
+
 		unwantedItemList.put(69420L, new Item(69420L));
 		itemList.put(69420L, new Item(69420L));
-
 		try {
-			br = new BufferedReader(new FileReader(new File("CompleteDestinyWishList.txt")));
+			br = new BufferedReader(new FileReader(new File("input//CompleteDestinyWishList.txt")));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			throw new FileNotFoundException();
@@ -239,7 +263,6 @@ public class renameTo implements AutoCloseable {
 								else
 									System.out.printf("%s,", linkedHashSet.toArray()[i]);
 							}
-
 						}
 					} catch (IndexOutOfBoundsException e) {
 						// item has no tags
@@ -257,6 +280,20 @@ public class renameTo implements AutoCloseable {
 				System.out.printf("%s%n", itemPerkList.get(j).get(itemPerkList.get(j).size() - 1));
 			}
 		}
+
+		// Print the itemMatchingList to a file so I don't need to call HTTP.GET every time I run the script
+		String eol = System.getProperty("line.separator");
+		try (Writer writer = new FileWriter("input/enhancedMapping.csv");) {
+			for (Map.Entry<String, String> entry : itemMatchingList.entrySet()) {
+				writer.append(entry.getKey())
+						.append(',')
+						.append(entry.getValue())
+						.append(eol);
+			}
+			writer.flush();
+		} catch (Exception e) {
+			System.out.println("//Unable to save item matching list");
+		}
 	}
 
 	/** Takes an item and maps it to the appropriate item list.
@@ -265,8 +302,9 @@ public class renameTo implements AutoCloseable {
 	 * 
 	 * @param item
 	 * @param itemMap
-	 * @return */
-	public static Map<Long, Item> constructLists(Item item, Map<Long, Item> itemMap) {
+	 * @return
+	 * @throws Exception */
+	public static Map<Long, Item> constructLists(Item item, Map<Long, Item> itemMap) throws Exception {
 		// get the full lists of the given item
 		List<List<String>> itemPerks = new ArrayList<>();
 		List<List<String>> itemNotes = new ArrayList<>();
@@ -292,8 +330,30 @@ public class renameTo implements AutoCloseable {
 			}
 		}
 
+		// translate  https://www.light.gg/db/all/?page=1&f=4(3),10(Trait)  to  https://www.light.gg/db/all/?page=1&f=4(2),10(Trait)
+		List<String> tempPerkList = new ArrayList<>(itemPerkList);
+		int j = 0;
+		if (itemPerkList.size() == 4)
+			j = 2;
+		for (int i = j; i < itemPerkList.size(); i++) {
+			if (!checkedItemList.contains(itemPerkList.get(i))) {
+				try {
+					checkPerk(itemPerkList.get(i));
+				} catch (Exception e) {
+					// Really could be any number of reasons for this to happen, but it's probably a timeout. 
+				}
+			}
+			// if itemMatchingList contains itemPerkList.get(i), set tempPerkList to the itemMatchingList
+			if (itemMatchingList.containsKey(itemPerkList.get(i))) {
+				tempPerkList.set(i, itemMatchingList.get(itemPerkList.get(i)));
+			}
+		}
+
 		// perkListIndex == -1 means item with perks is not already in perkList
 		if (perkListIndex == -1) {
+			// if each item in itemPerkList isnt the same as each item in tempPerkList, print them both
+			itemPerkList = new ArrayList<>(tempPerkList);
+
 			// PERKS
 			// if entire item is unwanted, set the perk list to '-'
 			// otherwise add item and unwanted perks to perkList
@@ -302,7 +362,7 @@ public class renameTo implements AutoCloseable {
 				itemMap.put(item.getItemId(), item);
 				return itemMap;
 			}
-			itemPerks.add(item.getItemList(1));
+			itemPerks.add(itemPerkList);
 			List<List<String>> returnList = createInnerLists(item, notes, tags, mws);
 			itemNotes.add(returnList.get(0));
 			itemTags.add(returnList.get(1));
@@ -476,6 +536,175 @@ public class renameTo implements AutoCloseable {
 		Item returnItem = new Item(item);
 		returnItem.put(perks, Arrays.asList(notes), tags, new ArrayList<>(), ignoreitem);
 		return returnItem;
+	}
+
+	/** @param hashIdentifier - the hash of the perk to be checked
+	 * @throws Exception */
+	public static void checkPerk(String hashIdentifier) throws Exception {
+
+		try {
+			hardCodedCases(hashIdentifier);
+			return;
+		} catch (Exception e) {
+			// For some reason the api doesn't work for the values in here, so I'm just gonna hard code it and ignore the error
+		}
+
+		HttpResponse<String> response = Unirest
+				.get("https://www.bungie.net/Platform/Destiny2/Manifest/DestinyInventoryItemDefinition/{hashIdentifier}/")
+				.header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
+				.routeParam("hashIdentifier", hashIdentifier)
+				.asString();
+		JSONObject itemDefinition = new JSONObject(response.getBody());
+		itemDefinition = itemDefinition.getJSONObject("Response");
+		itemDefinition = itemDefinition.getJSONObject("displayProperties");
+
+		response = Unirest.get(
+				"https://www.bungie.net/Platform/Destiny2/Armory/Search/DestinyInventoryItemDefinition/{searchTerm}/")
+				.header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
+				.routeParam("searchTerm", itemDefinition.getString("name"))
+				.asString();
+
+		JSONObject searchDefinition = new JSONObject(response.getBody());
+		searchDefinition = searchDefinition.getJSONObject("Response");
+		searchDefinition = searchDefinition.getJSONObject("results");
+		JSONArray resultSet = searchDefinition.getJSONArray("results");
+		Long normal = null, enhanced = null;
+		for (Object object : resultSet) {
+			JSONObject jsonObject = (JSONObject) object;
+			if (jsonObject.getJSONObject("displayProperties").length() == itemDefinition.length() &&
+					jsonObject.getJSONObject("displayProperties").getString("name")
+							.equals(itemDefinition.getString("name"))) {
+				if (normal == null) {
+					normal = jsonObject.getLong("hash");
+				} else {
+					enhanced = jsonObject.getLong("hash");
+				}
+			}
+		}
+		// add entry to itemMatchingList at key
+		if (enhanced != null) {
+			itemMatchingList.put(enhanced.toString(), normal.toString());
+			checkedItemList.add(enhanced.toString());
+		}
+		if (normal != null) {
+			checkedItemList.add(normal.toString());
+		}
+	}
+
+	/** Helper method because some stuff in the api isn't matching up
+	 * this seems to be mostly accurate except for frames that were turned into perks (ex. Disruption Break) have more
+	 * than two entries
+	 * high impact reserves and Ambitious Assassin also seems to have an issue (only returning one value), but I think
+	 * thats more an issue with the api, not my code.
+	 * 
+	 * @param perk - the perk to be checked */
+	public static void hardCodedCases(String perk) throws Exception {
+		switch (perk) {
+			case "3528046508": {
+				// Auto-Loading Holster
+				itemMatchingList.put("3528046508", "3300816228");
+				checkedItemList.add("3528046508");
+				checkedItemList.add("3300816228");
+				break;
+			}
+			case "2717805783": {
+				// Moving Target 
+				itemMatchingList.put("2717805783", "588594999");
+				checkedItemList.add("2717805783");
+				checkedItemList.add("588594999");
+				break;
+			}
+			case "2014892510": {
+				// Perpetual Motion (Has E in the name)
+				itemMatchingList.put("2014892510", "1428297954");
+				checkedItemList.add("2014892510");
+				checkedItemList.add("1428297954");
+				break;
+			}
+			case "288411554": {
+				// Rampage (Duplicate in API)
+				itemMatchingList.put("288411554", "3425386926");
+				checkedItemList.add("288411554");
+				checkedItemList.add("3425386926");
+				break;
+			}
+			case "1523649716": {
+				// Tap the Trigger
+				itemMatchingList.put("1523649716", "1890422124");
+				checkedItemList.add("1523649716");
+				checkedItemList.add("1890422124");
+				break;
+			}
+			case "3797647183": {
+				// Ambitious Assassin
+				itemMatchingList.put("3797647183", "2010801679");
+				checkedItemList.add("3797647183");
+				checkedItemList.add("2010801679");
+				break;
+			}
+			case "2002547233": {
+				// High-Impact Reserves
+				itemMatchingList.put("2002547233", "2213355989");
+				checkedItemList.add("2002547233");
+				checkedItemList.add("2213355989");
+				break;
+			}
+			case "494941759": {
+				// Threat Detector
+				itemMatchingList.put("494941759", "4071163871");
+				checkedItemList.add("494941759");
+				checkedItemList.add("4071163871");
+				break;
+			}
+			case "3076459908": {
+				// repeating case
+			}
+			case "598607952": {
+				// repeating case
+			}
+			case "2396489472": {
+				// Chain Reaction (Comes up as sandbox perk)
+				itemMatchingList.put("598607952", "2396489472");
+				itemMatchingList.put("3076459908", "2396489472");
+				checkedItemList.add("598607952");
+				checkedItemList.add("3076459908");
+				checkedItemList.add("2396489472");
+				break;
+			}
+			case "2216471363": {
+				// repeating case
+			}
+			case "1683379515": {
+				// repeating case
+			}
+			case "3871884143": {
+				// Disruption Break (Barrel)
+				itemMatchingList.put("2216471363", "1683379515");
+				itemMatchingList.put("3871884143", "1683379515");
+				checkedItemList.add("2216471363");
+				checkedItemList.add("3871884143");
+				checkedItemList.add("1683379515");
+				break;
+			}
+			case "2360754333": {
+				// repeating case
+			}
+			case "2459015849": {
+				// repeating case
+			}
+			case "806159697": {
+				// Trench Barrel (Barrel)
+				itemMatchingList.put("2459015849", "2360754333");
+				itemMatchingList.put("806159697", "2360754333");
+				checkedItemList.add("2459015849");
+				checkedItemList.add("806159697");
+				checkedItemList.add("2360754333");
+				break;
+			}
+			default: {
+				throw new Exception();
+			}
+		}
 	}
 
 	@Override
