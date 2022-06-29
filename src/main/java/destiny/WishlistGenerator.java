@@ -187,7 +187,9 @@ public class WishlistGenerator implements AutoCloseable {
 			// also dim already does this on import, so it would really be for a minor file reduction
 		}
 
+		// TODO
 		// would love to add a second sort here to organize by notes again (happens to be how it's sorted without the above sorting method) to reduce output file size. ideally by size of note so the ones with more information (generally the ones that lists had originally) would be at the top of the list, and therefor easier to see in dim. this would also put anything without notes (usually just collections of perks) at the bottom. could also sort inversely by the number of perksets under each note to achieve a similar affect. would need to see this in action. 
+		// BUT i'm not even sure I need to do this since dim already does this.
 
 		// PRINTING WISHLIST
 		for (Map.Entry<Long, Item> item : itemList.entrySet()) {
@@ -407,6 +409,8 @@ public class WishlistGenerator implements AutoCloseable {
 			}
 		} finally {
 			// NOTES & MW
+			// TODO - BUG: I'm not sure this is actually pulling the recommended mw? For example: dimwishlist:item=2638190703&perks=839105230,1968497646,3400784728,1546637391,2988596335 gives multiple mws when compiled, but they're not at the end. If this was working, the mw would be at the end, but there's one in the middle. 
+			// dimwishlist:item=2638190703&perks=1840239774,1561002382,2946784966,2458213969,2988596335 on the other hand, does have two mws at the end, but it also has less notes, so they would just have been in that order. 
 			Pattern pattern = Pattern.compile("Recommended\\sMW(\\:\\s|\\s\\-\\s)[^.]*", Pattern.CASE_INSENSITIVE);
 			note = note.replace("\\s+.\\s*", "");
 			try {
