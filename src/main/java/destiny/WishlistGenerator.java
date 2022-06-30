@@ -135,11 +135,6 @@ public class WishlistGenerator implements AutoCloseable {
 			}
 		} while (br.ready());
 
-		System.out.printf("title:%s%n", sourceList.get(0).get(1));
-		System.out.printf("description:%s%n%n", sourceList.get(0).get(2));
-		// print wishlist rolls
-		// trashlist rolls don't need to be printed since they're all excluded during creation
-
 		// SORTING ITEMS
 		// sort each item in itemList by the perkList, starting with the final entry in each perkList
 		// then reorder the noteList, tagList, and mwList accordingly
@@ -190,8 +185,19 @@ public class WishlistGenerator implements AutoCloseable {
 		// TODO
 		// would love to add a second sort here to organize by notes again (happens to be how it's sorted without the above sorting method) to reduce output file size. ideally by size of note so the ones with more information (generally the ones that lists had originally) would be at the top of the list, and therefor easier to see in dim. this would also put anything without notes (usually just collections of perks) at the bottom. could also sort inversely by the number of perksets under each note to achieve a similar affect. would need to see this in action. 
 		// BUT i'm not even sure I need to do this since dim already does this.
+		
+		printWishlist(); 
+	}
 
-		// PRINTING WISHLIST
+	/*
+	 * PRINTING WISHLIST
+	 */
+	public static void printWishlist() {
+		System.out.printf("title:%s%n", sourceList.get(0).get(1));
+		System.out.printf("description:%s%n%n", sourceList.get(0).get(2));
+		// print wishlist rolls
+		// trashlist rolls don't need to be printed since they're all excluded during creation
+
 		for (Map.Entry<Long, Item> item : itemList.entrySet()) {
 			Long key = item.getKey();
 			List<List<String>> itemPerkList = item.getValue().getFullList(1);
