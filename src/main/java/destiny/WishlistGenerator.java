@@ -135,11 +135,6 @@ public class WishlistGenerator implements AutoCloseable {
 			}
 		} while (br.ready());
 
-		System.out.printf("title:%s%n", sourceList.get(0).get(1));
-		System.out.printf("description:%s%n%n", sourceList.get(0).get(2));
-		// print wishlist rolls
-		// trashlist rolls don't need to be printed since they're all excluded during creation
-
 		// SORTING ITEMS
 		// sort each item in itemList by the perkList, starting with the final entry in each perkList
 		// then reorder the noteList, tagList, and mwList accordingly
@@ -190,8 +185,19 @@ public class WishlistGenerator implements AutoCloseable {
 		// TODO
 		// would love to add a second sort here to organize by notes again (happens to be how it's sorted without the above sorting method) to reduce output file size. ideally by size of note so the ones with more information (generally the ones that lists had originally) would be at the top of the list, and therefor easier to see in dim. this would also put anything without notes (usually just collections of perks) at the bottom. could also sort inversely by the number of perksets under each note to achieve a similar affect. would need to see this in action. 
 		// BUT i'm not even sure I need to do this since dim already does this.
+		
+		printWishlist(); 
+	}
 
-		// PRINTING WISHLIST
+	/*
+	 * PRINTING WISHLIST
+	 */
+	public static void printWishlist() {
+		System.out.printf("title:%s%n", sourceList.get(0).get(1));
+		System.out.printf("description:%s%n%n", sourceList.get(0).get(2));
+		// print wishlist rolls
+		// trashlist rolls don't need to be printed since they're all excluded during creation
+
 		for (Map.Entry<Long, Item> item : itemList.entrySet()) {
 			Long key = item.getKey();
 			List<List<String>> itemPerkList = item.getValue().getFullList(1);
@@ -212,25 +218,22 @@ public class WishlistGenerator implements AutoCloseable {
 					itemTagsList.get(j).set(i, itemTagsList.get(j).get(i).replace(" ", ""));
 				}
 				for (int k = 0; k < itemNotesList.get(j).size(); k++) {
-					if (itemNotesList.get(j).get(k).length() < 2)
+					if (itemNotesList.get(j).get(k).length() < 3)
 						itemNotesList.get(j).set(k, "");
 				}
 
 				// NOTES
-				if (!currentNoteFull.equals(itemNotesList.get(j)) || !currentTagsFull.equals(itemTagsList.get(j))
-						|| !currentMWsFull.equals(itemMWsList.get(j))) {
+				if (!currentNoteFull.equals(itemNotesList.get(j)) || !currentTagsFull.equals(itemTagsList.get(j)) || !currentMWsFull.equals(itemMWsList.get(j))) {
 					System.out.print("//notes:");
 					currentTagsFull = itemTagsList.get(j);
 					currentNoteFull = itemNotesList.get(j);
 					currentMWsFull = itemMWsList.get(j);
 					for (int i = 0; i < itemNotesList.get(j).size(); i++) {
 						String note = itemNotesList.get(j).get(i);
-						if (!note.equals("") && note.length() > 2) {
-							if (note.charAt(0) == ('\"'))
-								note = note.substring(1);
+						if (!note.equals("")) {
 							if (note.charAt(0) == (' '))
 								note = note.substring(1);
-							// replace all double spaces in note with single spaces
+							note = note.replace("\"", "");
 							note = note.replace("  ", " ");
 							// reverse the outlier changes made earlier
 							note = note.replace("lightggg", "light.gg");
@@ -373,6 +376,7 @@ public class WishlistGenerator implements AutoCloseable {
 			// if the item's perk list contains the current perks, only add the notes as an addition to the note list
 			notes = itemNotes.get(perkListIndex);
 			tags = itemTags.get(perkListIndex);
+			mws = itemMWs.get(perkListIndex);
 			List<List<String>> returnList = createInnerLists(item, notes, tags, mws);
 			itemNotes.set(perkListIndex, returnList.get(0));
 			itemTags.set(perkListIndex, returnList.get(1));
@@ -409,24 +413,24 @@ public class WishlistGenerator implements AutoCloseable {
 			}
 		} finally {
 			// NOTES & MW
-			// TODO - BUG: I'm not sure this is actually pulling the recommended mw? For example: dimwishlist:item=2638190703&perks=839105230,1968497646,3400784728,1546637391,2988596335 gives multiple mws when compiled, but they're not at the end. If this was working, the mw would be at the end, but there's one in the middle. 
-			// dimwishlist:item=2638190703&perks=1840239774,1561002382,2946784966,2458213969,2988596335 on the other hand, does have two mws at the end, but it also has less notes, so they would just have been in that order. 
-			Pattern pattern = Pattern.compile("Recommended\\sMW(\\:\\s|\\s\\-\\s)[^.]*", Pattern.CASE_INSENSITIVE);
+			Pattern pattern = Pattern.compile("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))[^.]*", Pattern.CASE_INSENSITIVE);
 			note = note.replace("\\s+.\\s*", "");
+			note = note.replace("  ", " "); 
 			try {
 				note = note.replace("light.gg", "lightggg");
 				note = note.replace("...", "elipsez");
-				for (String string : Arrays.asList(note.split("\\.\\s|\"\\s|\""))) {
+				for (String string : Arrays.asList(note.split("\\.[\\s]*|\"[\\s]*"))) {
 					Matcher matcher = pattern.matcher(string);
 					if (matcher.matches()) {
-						mws.add(matcher.group());
+						if (!mws.contains(matcher.group()))
+							mws.add(matcher.group());
 					} else if (!notes.contains(string) && !string.isEmpty()) {
 						notes.add(string);
 					}
 				}
 			} catch (Exception e) {
 				Matcher matcher = pattern.matcher(note);
-				if (matcher.matches()) {
+				if (!mws.contains(matcher.group())) {
 					mws.add(matcher.group());
 				} else if (!notes.contains(note) && !note.isEmpty()) {
 					notes.add(note);
