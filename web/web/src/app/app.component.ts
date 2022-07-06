@@ -1,6 +1,7 @@
-import { Observable, Subject } from '@angular/common/src/facade/async';
-import { Component, Inject, Injectable } from '@angular/core';
-import { DOCUMENT } from '@angular/platform-browser';
+import { Component, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -8,28 +9,17 @@ import { DOCUMENT } from '@angular/platform-browser';
   styleUrls: ['./app.component.css'],
 })
 
-
 export class AppComponent {
-  public projectTitle = 'Destiny Applications';
-  title = 'Destiny Applications';
+  public projectTitle: string;
+  public title: string;
 
-  constructor(@Inject(DOCUMENT) private document: Document, @Inject(DataSender) private myService: DataSender) {
+  constructor(@Inject(DOCUMENT) private document: Document, private http: HttpClient, private router: Router, private route: ActivatedRoute) {
+    this.title = 'Welcome';
+    this.projectTitle = 'Daniel Stirling';
     console.log(this.document.location.href);
-    this.myService.myMethod(this.projectTitle);
-  }
-}
-
-@Injectable()
-export class DataSender {
-  myMethod$: Observable<any>;
-  private myMethodSubject = new Subject<any>();
-
-  constructor() {
-    this.myMethod$ = this.myMethodSubject.asObservable();
   }
 
-  myMethod(data) {
-    console.log(data);
-    this.myMethodSubject.next(data);
+  public getProjectTitle() {
+    return this.projectTitle;
   }
 }

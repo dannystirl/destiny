@@ -1,8 +1,6 @@
 :: script to compile + run files
 :: requires classpath, src, and output to be set in project settings
 mkdir bin
-rd /q /s "output" 2>nul
-mkdir output
 
 call mvn clean compile
 :: dont' actually need this since package calls test

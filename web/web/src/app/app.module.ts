@@ -1,27 +1,31 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { WelcomePageComponent } from './welcome-page/welcome-page.component';
+import { ProjectPageComponent } from './projects/projects.component';
+import { DestinyComponent } from './projects/destiny/destiny.component';
+import { RoguelikeComponent } from './projects/roguelike/roguelike.component';
 
-
-const ROUTES = [
+const ROUTES: Routes = [
   { path: '', component: AppComponent },
-  { path: 'welcome', component: WelcomePageComponent },
+  { path: 'projects', component: ProjectPageComponent },
+  { path: 'projects/destiny', component: DestinyComponent },
+  { path: 'projects/roguelike', component: RoguelikeComponent },
 ]
 @NgModule({
   declarations: [
     AppComponent,
-    WelcomePageComponent
+    ProjectPageComponent,
+    DestinyComponent,
+    RoguelikeComponent
   ],
   imports: [
+    // Angular Modules - Do not fix
+    RouterModule.forRoot(ROUTES),
     BrowserModule,
     FormsModule,
-    HttpModule,
-    RouterModule.forChild(ROUTES)
   ],
   providers: [],
   bootstrap: [AppComponent]
