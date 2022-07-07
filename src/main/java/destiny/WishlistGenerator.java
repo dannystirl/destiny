@@ -2,9 +2,12 @@ package destiny;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.PrintStream;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +32,7 @@ public class WishlistGenerator implements AutoCloseable {
 	public static Map<String, String> itemMatchingList = new HashMap<>();
 	public static List<String> checkedItemList = new ArrayList<>();
 	public static BufferedReader br;
+	public static PrintStream stream;
 
 	/** the main method reads through the original file and collects data on each
 	 * roll, concating notes and eliminating duplicates
@@ -37,7 +41,6 @@ public class WishlistGenerator implements AutoCloseable {
 	 * @param args any args needed for the main method, most likely to be a input
 	 * @throws Exception */
 	public static void main(String[] args) throws Exception {
-
 		try (BufferedReader reader = new BufferedReader(new FileReader(new File("input//enhancedMapping.csv")));) {
 			while (reader.ready()) {
 				String item = reader.readLine();
@@ -46,7 +49,17 @@ public class WishlistGenerator implements AutoCloseable {
 				checkedItemList.add(item.split(",")[1]);
 			}
 		} catch (Exception e) {
-			System.out.println("//Unable to read in existing item matching list");
+			errorPrint("Unable to read in existing item matching list", e);
+			String eol = System.getProperty("line.separator");
+			try (Writer writer = new FileWriter("input/enhancedMapping.csv");) {
+				writer.append("From")
+						.append(',')
+						.append("To")
+						.append(eol);
+				writer.flush();
+			} catch (Exception er) {
+				errorPrint("Unable to save itemMatchingList to \\input", er);
+			}
 		}
 
 		Unirest.config().reset();
@@ -57,7 +70,14 @@ public class WishlistGenerator implements AutoCloseable {
 		try {
 			br = new BufferedReader(new FileReader(new File("input//CompleteDestinyWishList.txt")));
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			errorPrint("Error reading input file", e);
+			throw new FileNotFoundException();
+		}
+		try {
+			stream = new PrintStream("bin//errors.txt");
+			errorPrint("Testing error file creating", new Exception("Test Successful"));
+		} catch (FileNotFoundException e) {
+			errorPrint("Error creating error file", e);
 			throw new FileNotFoundException();
 		}
 
@@ -119,7 +139,7 @@ public class WishlistGenerator implements AutoCloseable {
 								constructLists(returnInfo, itemList);
 							}
 						} catch (Exception listConstructorException) {
-							System.out.printf("Error %s on line %s%n", listConstructorException.getMessage(), line);
+							errorPrint("Error on line " + line, listConstructorException);
 							throw new Exception(listConstructorException);
 						}
 					}
@@ -185,8 +205,22 @@ public class WishlistGenerator implements AutoCloseable {
 		// TODO
 		// would love to add a second sort here to organize by notes again (happens to be how it's sorted without the above sorting method) to reduce output file size. ideally by size of note so the ones with more information (generally the ones that lists had originally) would be at the top of the list, and therefor easier to see in dim. this would also put anything without notes (usually just collections of perks) at the bottom. could also sort inversely by the number of perksets under each note to achieve a similar affect. would need to see this in action. 
 		// BUT i'm not even sure I need to do this since dim already does this.
-		
-		printWishlist(); 
+
+		printWishlist();
+
+		// Print the itemMatchingList to a file so I don't need to call HTTP.GET every time I run the script
+		String eol = System.getProperty("line.separator");
+		try (Writer writer = new FileWriter("input/enhancedMapping.csv");) {
+			for (Map.Entry<String, String> entry : itemMatchingList.entrySet()) {
+				writer.append(entry.getKey())
+						.append(',')
+						.append(entry.getValue())
+						.append(eol);
+			}
+			writer.flush();
+		} catch (Exception e) {
+			errorPrint("Unable to save itemMatchingList to \\input", e);
+		}
 	}
 
 	/*
@@ -223,7 +257,8 @@ public class WishlistGenerator implements AutoCloseable {
 				}
 
 				// NOTES
-				if (!currentNoteFull.equals(itemNotesList.get(j)) || !currentTagsFull.equals(itemTagsList.get(j)) || !currentMWsFull.equals(itemMWsList.get(j))) {
+				if (!currentNoteFull.equals(itemNotesList.get(j)) || !currentTagsFull.equals(itemTagsList.get(j))
+						|| !currentMWsFull.equals(itemMWsList.get(j))) {
 					System.out.print("//notes:");
 					currentTagsFull = itemTagsList.get(j);
 					currentNoteFull = itemNotesList.get(j);
@@ -285,20 +320,6 @@ public class WishlistGenerator implements AutoCloseable {
 				System.out.printf("%s%n", itemPerkList.get(j).get(itemPerkList.get(j).size() - 1));
 			}
 		}
-
-		// Print the itemMatchingList to a file so I don't need to call HTTP.GET every time I run the script
-		String eol = System.getProperty("line.separator");
-		try (Writer writer = new FileWriter("input/enhancedMapping.csv");) {
-			for (Map.Entry<String, String> entry : itemMatchingList.entrySet()) {
-				writer.append(entry.getKey())
-						.append(',')
-						.append(entry.getValue())
-						.append(eol);
-			}
-			writer.flush();
-		} catch (Exception e) {
-			System.out.println("//Unable to save item matching list");
-		}
 	}
 
 	/** Takes an item and maps it to the appropriate item list.
@@ -325,16 +346,7 @@ public class WishlistGenerator implements AutoCloseable {
 			itemMWs = itemMap.get(item.getItemId()).getFullList(4);
 		}
 
-		// is the current perk list stored on the item already
-		int perkListIndex = -1;
 		List<String> itemPerkList = item.getItemList(1); // reduce calls of getItemList()
-		for (List<String> perkList : itemPerks) {
-			if (perkList.containsAll(itemPerkList)) {
-				perkListIndex = itemPerks.indexOf(perkList);
-				break;
-			}
-		}
-
 		// translate  https://www.light.gg/db/all/?page=1&f=4(3),10(Trait)  to  https://www.light.gg/db/all/?page=1&f=4(2),10(Trait)
 		List<String> tempPerkList = new ArrayList<>(itemPerkList);
 		int j = 0;
@@ -346,6 +358,7 @@ public class WishlistGenerator implements AutoCloseable {
 					checkPerk(itemPerkList.get(i));
 				} catch (Exception e) {
 					// Really could be any number of reasons for this to happen, but it's probably a timeout. 
+					errorPrint("HTTP Error", e);
 				}
 			}
 			// if itemMatchingList contains itemPerkList.get(i), set tempPerkList to the itemMatchingList
@@ -353,12 +366,19 @@ public class WishlistGenerator implements AutoCloseable {
 				tempPerkList.set(i, itemMatchingList.get(itemPerkList.get(i)));
 			}
 		}
+		itemPerkList = new ArrayList<>(tempPerkList);
+
+		// is the current perk list stored on the item already
+		int perkListIndex = -1;
+		for (List<String> perkList : itemPerks) {
+			if (perkList.containsAll(itemPerkList)) {
+				perkListIndex = itemPerks.indexOf(perkList);
+				break;
+			}
+		}
 
 		// perkListIndex == -1 means item with perks is not already in perkList
 		if (perkListIndex == -1) {
-			// if each item in itemPerkList isnt the same as each item in tempPerkList, print them both
-			itemPerkList = new ArrayList<>(tempPerkList);
-
 			// PERKS
 			// if entire item is unwanted, set the perk list to '-'
 			// otherwise add item and unwanted perks to perkList
@@ -413,9 +433,10 @@ public class WishlistGenerator implements AutoCloseable {
 			}
 		} finally {
 			// NOTES & MW
-			Pattern pattern = Pattern.compile("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))[^.]*", Pattern.CASE_INSENSITIVE);
+			Pattern pattern = Pattern.compile("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))[^.]*",
+					Pattern.CASE_INSENSITIVE);
 			note = note.replace("\\s+.\\s*", "");
-			note = note.replace("  ", " "); 
+			note = note.replace("  ", " ");
 			try {
 				note = note.replace("light.gg", "lightggg");
 				note = note.replace("...", "elipsez");
@@ -538,7 +559,7 @@ public class WishlistGenerator implements AutoCloseable {
 				notes = notes.substring(1);
 			notes = notes.replace("\\s\\s", "\\s");
 		} catch (Exception e) {
-			System.out.println(e + ": " + notes);
+			errorPrint("Error with notes " + notes, e);
 			throw e;
 		}
 		Item returnItem = new Item(item);
@@ -549,12 +570,13 @@ public class WishlistGenerator implements AutoCloseable {
 	/** @param hashIdentifier - the hash of the perk to be checked
 	 * @throws Exception */
 	public static void checkPerk(String hashIdentifier) throws Exception {
-
 		try {
 			hardCodedCases(hashIdentifier);
 			return;
 		} catch (Exception e) {
 			// For some reason the api doesn't work for the values in here, so I'm just gonna hard code it and ignore the error
+			// this really should only occur once for each hashIdentifier
+			errorPrint("Error getting " + hashIdentifier, e);
 		}
 
 		HttpResponse<String> response = Unirest
@@ -596,6 +618,11 @@ public class WishlistGenerator implements AutoCloseable {
 		}
 		if (normal != null) {
 			checkedItemList.add(normal.toString());
+			// TODO - this probably removes a lot of the edge cases, so maybe go through and remove them?
+			checkedItemList.add(hashIdentifier);
+			if (enhanced == null) {
+				itemMatchingList.put(hashIdentifier, normal.toString());
+			}
 		}
 	}
 
@@ -679,6 +706,36 @@ public class WishlistGenerator implements AutoCloseable {
 				checkedItemList.add("2396489472");
 				break;
 			}
+			case "2848615171": {
+				// repeating case
+			}
+			case "169755979": {
+				// repeating case
+			}
+			case "3865257976": {
+				// Dragonfly
+				itemMatchingList.put("2848615171", "3865257976");
+				itemMatchingList.put("169755979", "3865257976");
+				checkedItemList.add("2848615171");
+				checkedItemList.add("169755979");
+				checkedItemList.add("3865257976");
+				break;
+			}
+			case "3513791699": {
+				// repeating case
+			}
+			case "162561147": {
+				// repeating case
+			}
+			case "3337692349": {
+				// Dragonfly
+				itemMatchingList.put("3513791699", "3337692349");
+				itemMatchingList.put("162561147", "3337692349");
+				checkedItemList.add("3513791699");
+				checkedItemList.add("162561147");
+				checkedItemList.add("3337692349");
+				break;
+			}
 			case "2216471363": {
 				// repeating case
 			}
@@ -718,5 +775,22 @@ public class WishlistGenerator implements AutoCloseable {
 	@Override
 	public void close() throws Exception {
 		br.close();
+	}
+
+	/** print any errors to bin\errors folder
+	 * 
+	 * @param err the error and error message to be printed */
+	public static void errorPrint(String err, Exception e) {
+		System.setOut(stream);
+		System.setErr(stream);
+
+		System.out.println(err + ": " + e.getMessage());
+		e.printStackTrace();
+		System.out.println("\n");
+
+		// reset stream to console
+		stream.close();
+		System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
+		System.setErr(new PrintStream(new FileOutputStream(FileDescriptor.out)));
 	}
 }

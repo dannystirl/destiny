@@ -1,5 +1,6 @@
 :: script to compile + run files
 :: requires classpath, src, and output to be set in project settings
+rd /q /s "bin" 2>nul
 mkdir bin
 
 call mvn clean compile
