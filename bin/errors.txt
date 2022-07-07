@@ -1,5 +1,8 @@
-Testing error file creating: Test Successful
-java.lang.Exception: Test Successful
-	at destiny.WishlistGenerator.main(WishlistGenerator.java:78)
+Error getting 699525795: null
+java.lang.Exception
+	at destiny.WishlistGenerator.hardCodedCases(WishlistGenerator.java:840)
+	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:644)
+	at destiny.WishlistGenerator.constructLists(WishlistGenerator.java:428)
+	at destiny.WishlistGenerator.main(WishlistGenerator.java:165)
 
 

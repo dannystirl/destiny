@@ -62,6 +62,27 @@ public class AppTest {
         System.out.println("Test testResponse() passed");
     }
 
+    /*
+     * Try getting a specific item's name
+     */
+    @Test
+    public void testGetName() throws UnirestException {
+        Unirest.config().reset();
+        Unirest.config().connectTimeout(10000).socketTimeout(10000);
+        HttpResponse<String> response = Unirest
+                .get("https://www.bungie.net/Platform/Destiny2/Manifest/DestinyInventoryItemDefinition/{hashIdentifier}/")
+                .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
+                .routeParam("hashIdentifier", "4083045006")
+                .asString();
+
+        JSONObject itemDefinition = new JSONObject(response.getBody());
+        itemDefinition = itemDefinition.getJSONObject("Response");
+        itemDefinition = itemDefinition.getJSONObject("displayProperties");
+
+        assertEquals("Persuader", itemDefinition.getString("name"));
+        System.out.println("Test testGetName() passed");
+    }
+
     /** Ensure the ability to write to a file is working
      *
      * @throws Exception */
@@ -70,10 +91,11 @@ public class AppTest {
         String eol = System.getProperty("line.separator");
 
         Map<String, String> map = new HashMap<>();
+        map.put("Key", "Value");
         map.put("abc", "aabbcc");
         map.put("def", "ddeeff");
 
-        Writer writer = new FileWriter("output/test.csv");
+        Writer writer = new FileWriter("src/test/data/destiny/test.csv");
 
         for (Map.Entry<String, String> entry : map.entrySet()) {
             writer.append(entry.getKey())

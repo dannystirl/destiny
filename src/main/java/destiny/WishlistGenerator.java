@@ -23,6 +23,7 @@ import org.json.JSONObject;
 
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
+import kong.unirest.UnirestException;
 
 public class WishlistGenerator implements AutoCloseable {
 	public static int sourceNum;
@@ -30,6 +31,7 @@ public class WishlistGenerator implements AutoCloseable {
 	public static Map<Long, Item> itemList = new HashMap<>();
 	public static Map<Long, Item> unwantedItemList = new HashMap<>();
 	public static Map<String, String> itemMatchingList = new HashMap<>();
+	public static Map<String, String> itemNamingList = new HashMap<>();
 	public static List<String> checkedItemList = new ArrayList<>();
 	public static BufferedReader br;
 	public static PrintStream stream;
@@ -41,7 +43,16 @@ public class WishlistGenerator implements AutoCloseable {
 	 * @param args any args needed for the main method, most likely to be a input
 	 * @throws Exception */
 	public static void main(String[] args) throws Exception {
-		try (BufferedReader reader = new BufferedReader(new FileReader(new File("input//enhancedMapping.csv")));) {
+		// Create the error file
+		try {
+			stream = new PrintStream("bin//errors.txt");
+		} catch (FileNotFoundException e) {
+			System.out.println("Error creating error file: " + e);
+			throw new FileNotFoundException();
+		}
+		// Try to read in existing enhanced -> normal perk mappings
+		try (BufferedReader reader = new BufferedReader(
+				new FileReader(new File("src//main//data//destiny//enhancedMapping.csv")));) {
 			while (reader.ready()) {
 				String item = reader.readLine();
 				itemMatchingList.put(item.split(",")[0], item.split(",")[1]);
@@ -51,14 +62,36 @@ public class WishlistGenerator implements AutoCloseable {
 		} catch (Exception e) {
 			errorPrint("Unable to read in existing item matching list", e);
 			String eol = System.getProperty("line.separator");
-			try (Writer writer = new FileWriter("input/enhancedMapping.csv");) {
+			try (Writer writer = new FileWriter("src/main/data/destiny/enhancedMapping.csv", false);) {
 				writer.append("From")
 						.append(',')
 						.append("To")
 						.append(eol);
 				writer.flush();
 			} catch (Exception er) {
-				errorPrint("Unable to save itemMatchingList to \\input", er);
+				errorPrint("Unable to save itemMatchingList to .\\data", er);
+			}
+		}
+		// Try to read in item -> name mappings
+		try (BufferedReader reader = new BufferedReader(
+				new FileReader(new File("src//main//data//destiny//nameMapping.csv")));) {
+			while (reader.ready()) {
+				String item = reader.readLine();
+				itemNamingList.put(item.split(",")[0], item.split(",")[1]);
+				checkedItemList.add(item.split(",")[0]);
+				checkedItemList.add(item.split(",")[1]);
+			}
+		} catch (Exception e) {
+			errorPrint("Unable to read in existing item naming list", e);
+			String eol = System.getProperty("line.separator");
+			try (Writer writer = new FileWriter("src/main/data/destiny/nameMapping.csv", false);) {
+				writer.append("Item ID")
+						.append(',')
+						.append("Name")
+						.append(eol);
+				writer.flush();
+			} catch (Exception er) {
+				errorPrint("Unable to save itemNamingList to .\\data", er);
 			}
 		}
 
@@ -73,18 +106,11 @@ public class WishlistGenerator implements AutoCloseable {
 			errorPrint("Error reading input file", e);
 			throw new FileNotFoundException();
 		}
-		try {
-			stream = new PrintStream("bin//errors.txt");
-			errorPrint("Testing error file creating", new Exception("Test Successful"));
-		} catch (FileNotFoundException e) {
-			errorPrint("Error creating error file", e);
-			throw new FileNotFoundException();
-		}
 
 		ArrayList<Object> td = new ArrayList<>();
 		sourceNum = 0; // stores how many rolls a given source has
 		String currentNote = ""; // used to store an item's notes, either per roll or per item
-		do {
+		while (br.ready()) {
 			String line = br.readLine();
 			switch (line.split(":")[0]) {
 				case "title":
@@ -153,7 +179,7 @@ public class WishlistGenerator implements AutoCloseable {
 				default:
 					break;
 			}
-		} while (br.ready());
+		}
 
 		// SORTING ITEMS
 		// sort each item in itemList by the perkList, starting with the final entry in each perkList
@@ -210,7 +236,7 @@ public class WishlistGenerator implements AutoCloseable {
 
 		// Print the itemMatchingList to a file so I don't need to call HTTP.GET every time I run the script
 		String eol = System.getProperty("line.separator");
-		try (Writer writer = new FileWriter("input/enhancedMapping.csv");) {
+		try (Writer writer = new FileWriter("src/main/data/destiny/enhancedMapping.csv", true);) {
 			for (Map.Entry<String, String> entry : itemMatchingList.entrySet()) {
 				writer.append(entry.getKey())
 						.append(',')
@@ -219,7 +245,19 @@ public class WishlistGenerator implements AutoCloseable {
 			}
 			writer.flush();
 		} catch (Exception e) {
-			errorPrint("Unable to save itemMatchingList to \\input", e);
+			errorPrint("Unable to save itemMatchingList to .\\data", e);
+		}
+		// Print the itemNamingList to a file so I don't need to call HTTP.GET every time I run the script
+		try (Writer writer = new FileWriter("src/main/data/destiny/nameMapping.csv", true);) {
+			for (Map.Entry<String, String> entry : itemNamingList.entrySet()) {
+				writer.append(entry.getKey())
+						.append(',')
+						.append(entry.getValue())
+						.append(eol);
+			}
+			writer.flush();
+		} catch (Exception e) {
+			errorPrint("Unable to save itemNamingList to .\\data", e);
 		}
 	}
 
@@ -242,7 +280,18 @@ public class WishlistGenerator implements AutoCloseable {
 			List<String> currentTagsFull = new ArrayList<>();
 			List<String> currentMWsFull = new ArrayList<>();
 
-			System.out.printf("%n//item %s: %n", key);
+			String name = "";
+			if (itemNamingList.containsKey(key.toString())) {
+				name = itemNamingList.get(key.toString());
+			} else {
+				try {
+					name = getName(key.toString());
+					itemNamingList.put(key.toString(), name);
+				} catch (Exception e) {
+					errorPrint("Unable to get name for item " + key, e);
+				}
+			}
+			System.out.printf("%n//item %s: %s%n", key, name);
 			for (int j = 0; j < itemPerkList.size(); j++) {
 				// gamemode is in beginning, input type is at end
 				java.util.Collections.sort(itemTagsList.get(j), java.util.Collections.reverseOrder());
@@ -320,6 +369,27 @@ public class WishlistGenerator implements AutoCloseable {
 				System.out.printf("%s%n", itemPerkList.get(j).get(itemPerkList.get(j).size() - 1));
 			}
 		}
+	}
+
+	/** Takes an item id and returns the associated name as a string
+	 * 
+	 * @param hashIdentifier the item id to get the name of
+	 * @return the name of the item as a string
+	 * @throws UnirestException */
+	public static String getName(String hashIdentifier) throws UnirestException {
+		Unirest.config().reset();
+		Unirest.config().connectTimeout(10000).socketTimeout(10000);
+		HttpResponse<String> response = Unirest
+				.get("https://www.bungie.net/Platform/Destiny2/Manifest/DestinyInventoryItemDefinition/{hashIdentifier}/")
+				.header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
+				.routeParam("hashIdentifier", hashIdentifier)
+				.asString();
+
+		JSONObject itemDefinition = new JSONObject(response.getBody());
+		itemDefinition = itemDefinition.getJSONObject("Response");
+		itemDefinition = itemDefinition.getJSONObject("displayProperties");
+
+		return itemDefinition.getString("name");
 	}
 
 	/** Takes an item and maps it to the appropriate item list.
@@ -631,6 +701,8 @@ public class WishlistGenerator implements AutoCloseable {
 	 * than two entries
 	 * high impact reserves and Ambitious Assassin also seems to have an issue (only returning one value), but I think
 	 * thats more an issue with the api, not my code.
+	 * Some of these values could be removed now? (Stuff with only two entries) since I changed some stuff in the
+	 * checkPerk() method
 	 * 
 	 * @param perk - the perk to be checked */
 	public static void hardCodedCases(String perk) throws Exception {
