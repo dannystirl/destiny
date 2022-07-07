@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="destiny.AppTest" time="1.454" tests="5" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="destiny.AppTest" time="1.428" tests="5" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="C:\Users\dan30\Downloads\File Downloads\graalvm-ce-java17-22.0.0.2\bin"/>
-    <property name="sun.java.command" value="C:\Users\dan30\AppData\Local\Temp\surefire4537178489765114490\surefirebooter2727333708286294431.jar C:\Users\dan30\AppData\Local\Temp\surefire4537178489765114490 2022-07-07T18-06-35_568-jvmRun1 surefire11301117405558280287tmp surefire_017012574108470439173tmp"/>
+    <property name="sun.java.command" value="C:\Users\dan30\AppData\Local\Temp\surefire12934471312263825194\surefirebooter10930486249884467941.jar C:\Users\dan30\AppData\Local\Temp\surefire12934471312263825194 2022-07-07T18-53-24_160-jvmRun1 surefire6226450818345966409tmp surefire_02585406640593108438tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="E:\Code\destiny\target\test-classes;E:\Code\destiny\target\classes;C:\Users\dan30\.m2\repository\org\json\json\20211205\json-20211205.jar;C:\Users\dan30\.m2\repository\com\konghq\unirest-java\3.13.10\unirest-java-3.13.10.jar;C:\Users\dan30\.m2\repository\org\apache\httpcomponents\httpclient\4.5.13\httpclient-4.5.13.jar;C:\Users\dan30\.m2\repository\org\apache\httpcomponents\httpcore\4.4.13\httpcore-4.4.13.jar;C:\Users\dan30\.m2\repository\commons-logging\commons-logging\1.2\commons-logging-1.2.jar;C:\Users\dan30\.m2\repository\org\apache\httpcomponents\httpmime\4.5.13\httpmime-4.5.13.jar;C:\Users\dan30\.m2\repository\org\apache\httpcomponents\httpcore-nio\4.4.13\httpcore-nio-4.4.13.jar;C:\Users\dan30\.m2\repository\org\apache\httpcomponents\httpasyncclient\4.1.5\httpasyncclient-4.1.5.jar;C:\Users\dan30\.m2\repository\commons-codec\commons-codec\1.15\commons-codec-1.15.jar;C:\Users\dan30\.m2\repository\com\google\code\gson\gson\2.9.0\gson-2.9.0.jar;C:\Users\dan30\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\dan30\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -31,7 +31,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\dan30\AppData\Local\Temp\surefire4537178489765114490\surefirebooter2727333708286294431.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\dan30\AppData\Local\Temp\surefire12934471312263825194\surefirebooter10930486249884467941.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.2+8-jvmci-22.0-b05"/>
@@ -58,9 +58,9 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testInput" classname="destiny.AppTest" time="0.004"/>
-  <testcase name="testMWPattern" classname="destiny.AppTest" time="0.001"/>
+  <testcase name="testInput" classname="destiny.AppTest" time="0.003"/>
+  <testcase name="testMWPattern" classname="destiny.AppTest" time="0"/>
   <testcase name="writeHashMapToCsv" classname="destiny.AppTest" time="0.001"/>
-  <testcase name="testGetName" classname="destiny.AppTest" time="0.837"/>
-  <testcase name="testResponse" classname="destiny.AppTest" time="0.573"/>
+  <testcase name="testGetName" classname="destiny.AppTest" time="0.706"/>
+  <testcase name="testResponse" classname="destiny.AppTest" time="0.682"/>
 </testsuite>
