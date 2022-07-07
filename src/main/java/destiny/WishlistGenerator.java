@@ -53,6 +53,7 @@ public class WishlistGenerator implements AutoCloseable {
 		// Try to read in existing enhanced -> normal perk mappings
 		try (BufferedReader reader = new BufferedReader(
 				new FileReader(new File("src//main//data//destiny//enhancedMapping.csv")));) {
+			reader.readLine(); // skip the header line
 			while (reader.ready()) {
 				String item = reader.readLine();
 				itemMatchingList.put(item.split(",")[0], item.split(",")[1]);
@@ -75,6 +76,7 @@ public class WishlistGenerator implements AutoCloseable {
 		// Try to read in item -> name mappings
 		try (BufferedReader reader = new BufferedReader(
 				new FileReader(new File("src//main//data//destiny//nameMapping.csv")));) {
+			reader.readLine(); // skip the header line
 			while (reader.ready()) {
 				String item = reader.readLine();
 				itemNamingList.put(item.split(",")[0], item.split(",")[1]);

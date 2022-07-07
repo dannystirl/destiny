@@ -1,14 +1,21 @@
 package destiny;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-
-import java.io.FileWriter;
-import java.io.Writer;
-import java.util.HashMap;
-import java.util.Map;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -17,7 +24,7 @@ import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import kong.unirest.UnirestException;
 
-/** Unit test for simple App. */
+/** Unit test for Destiny App. */
 public class AppTest {
     /*
      * Ensure the connection to the destiny api is working and getting a response
@@ -106,5 +113,34 @@ public class AppTest {
         writer.flush();
         assertNotNull(writer);
         System.out.println("Test writeHashMapToCsv() passed");
+    }
+
+    @Test
+    public void testInput() throws Exception {
+        Map<String, String> itemMatchingList = new HashMap<>();
+        List<String> checkedItemList = new ArrayList<>();
+        File file = new File("src/test/data/destiny/mapTest.csv");
+        try (Writer writer = new FileWriter(file, false);) {
+            writer.append("From").append(',').append("To")
+                    .append(System.getProperty("line.separator"));
+            writer.flush();
+        } catch (Exception er) {
+            fail();
+        }
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        reader.readLine(); // skip the header line
+        while (reader.ready()) {
+            String item = reader.readLine();
+            itemMatchingList.put(item.split(",")[0], item.split(",")[1]);
+            checkedItemList.add(item.split(",")[0]);
+            checkedItemList.add(item.split(",")[1]);
+        }
+        assertFalse(itemMatchingList.containsKey("From"));
+        assertFalse(itemMatchingList.containsValue("TO"));
+        reader.close();
+        // delete the file src/test/data/destiny/mapTest.csv
+        if (file.exists()) {
+            file.delete();
+        }
     }
 }
