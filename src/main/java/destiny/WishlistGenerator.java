@@ -332,12 +332,8 @@ public class WishlistGenerator implements AutoCloseable {
 								System.out.print(". ");
 						}
 					}
-					try {
-						for (int i = 0; i < itemMWsList.get(j).size(); i++) {
-							System.out.print(itemMWsList.get(j).get(i) + ". ");
-						}
-					} catch (Exception noMWs) {
-						// not an error, just a roll that has no mw information
+					for (int i = 0; i < itemMWsList.get(j).size(); i++) {
+						System.out.print(itemMWsList.get(j).get(i) + ". ");
 					}
 					try {
 						// TAGS
