@@ -332,8 +332,12 @@ public class WishlistGenerator implements AutoCloseable {
 								System.out.print(". ");
 						}
 					}
-					for (int i = 0; i < itemMWsList.get(j).size(); i++) {
-						System.out.print(itemMWsList.get(j).get(i) + ". ");
+					if (!itemMWsList.get(j).isEmpty()) {
+						System.out.print("Recommended MW: ");
+						for (int i = 0; i < itemMWsList.get(j).size() - 1; i++) {
+							System.out.print(itemMWsList.get(j).get(i) + ", ");
+						}
+						System.out.print(itemMWsList.get(j).get(itemMWsList.get(j).size()-1) + ". ");
 					}
 					try {
 						// TAGS
@@ -504,8 +508,8 @@ public class WishlistGenerator implements AutoCloseable {
 			// NOTES & MW
 			Pattern pattern = Pattern.compile("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))[^.]*",
 					Pattern.CASE_INSENSITIVE);
+			note = note.replaceAll("\\s{2,}", " ");
 			note = note.replace("\\s+.\\s*", "");
-			note = note.replace("  ", " ");
 			try {
 				note = note.replace("light.gg", "lightggg");
 				note = note.replace("...", "elipsez");
@@ -513,16 +517,16 @@ public class WishlistGenerator implements AutoCloseable {
 				for (String string : Arrays.asList(note.split("\\.[\\s]*|\"[\\s]*"))) {
 					Matcher matcher = pattern.matcher(string);
 					if (matcher.matches()) {
-						if (!mws.contains(matcher.group()))
-							mws.add(matcher.group());
+						if (!mws.contains(matcher.group().split("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))")[1]))
+							mws.add(matcher.group().split("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))")[1]);
 					} else if (!notes.contains(string) && !string.isEmpty()) {
 						notes.add(string);
 					}
 				}
 			} catch (Exception e) {
 				Matcher matcher = pattern.matcher(note);
-				if (!mws.contains(matcher.group())) {
-					mws.add(matcher.group());
+				if (!mws.contains(matcher.group().split("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))")[1])) {
+					mws.add(matcher.group().split("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))")[1]);
 				} else if (!notes.contains(note) && !note.isEmpty()) {
 					notes.add(note);
 				}

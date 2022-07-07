@@ -6,15 +6,19 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
@@ -115,6 +119,9 @@ public class AppTest {
         System.out.println("Test writeHashMapToCsv() passed");
     }
 
+    /** Ensure the ability to read from a file is working
+     * 
+     * @throws Exception */
     @Test
     public void testInput() throws Exception {
         Map<String, String> itemMatchingList = new HashMap<>();
@@ -141,6 +148,43 @@ public class AppTest {
         // delete the file src/test/data/destiny/mapTest.csv
         if (file.exists()) {
             file.delete();
+        }
+    }
+
+    /** Testing that each note string is being properly parsed and placed into a list */
+    @Test
+    public void testMWPattern() {
+        String note = "Testing   initial text. Recommended MW - Range. Testing middle text. Recommended MW: Stability. . Recommended MW: Range with Targeting Adjuster mod. ";
+        Pattern pattern = Pattern.compile("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))[^.]*", Pattern.CASE_INSENSITIVE);
+        List<String> mws = new ArrayList<>();
+        List<String> notes = new ArrayList<>();
+
+        note = note.replaceAll("\\s{2,}", " ");
+        note = note.replace("\\s+.\\s*", "");
+        try {
+            for (String string : Arrays.asList(note.split("\\.[\\s]*|\"[\\s]*"))) {
+                Matcher matcher = pattern.matcher(string);
+                if (matcher.matches()) {
+                    if (!mws.contains(matcher.group().split("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))")[1]))
+                        mws.add(matcher.group().split("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))")[1]);
+                } else if (!notes.contains(string) && !string.isEmpty()) {
+                    notes.add(string);
+                }
+            }
+        } catch (Exception e) {
+            Matcher matcher = pattern.matcher(note);
+            if (!mws.contains(matcher.group().split("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))")[1])) {
+                mws.add(matcher.group().split("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))")[1]);
+            } else if (!notes.contains(note) && !note.isEmpty()) {
+                notes.add(note);
+            }
+        } finally {
+            // add notes, tags, and mws to returnList
+            assertTrue(notes.contains("Testing initial text"));
+            assertTrue(notes.contains("Testing middle text"));
+            assertTrue(mws.contains("Range"));
+            assertTrue(mws.contains("Stability"));
+            assertTrue(mws.contains("Range with Targeting Adjuster mod"));
         }
     }
 }
