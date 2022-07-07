@@ -526,7 +526,7 @@ public class WishlistGenerator implements AutoCloseable {
 			Matcher matcher = Pattern.compile("Inspired by[^\\.]*\\.", Pattern.CASE_INSENSITIVE).matcher(notes);
 			notes = matcher.replaceAll("");
 			if (notes.contains("[YeezyGT")) {
-				notes = notes.split("(\\[YeezyGT).*[\\]]")[1];
+				notes = notes.split("(\\[YeezyGT).*\\]")[1];
 			} else if (notes.contains("pandapaxxy")) {
 				notes = notes.split("pandapaxxy")[1];
 			}
@@ -534,13 +534,13 @@ public class WishlistGenerator implements AutoCloseable {
 				notes = notes.substring(1);
 			notes = notes.replace("’", "\'");
 
-			String itemType = "pv[pe]|m.{0,1}kb|controller|gambit";
-			Pattern pattern = Pattern.compile("\\((" + itemType + ")(\\s*[/]+\\s*(" + itemType + "))*\\)",
+			String itemType = "pv[pe]|m.?kb|controller|gambit";
+			Pattern pattern = Pattern.compile("\\((" + itemType + ")(\\s*\\/+\\s*(" + itemType + "))*\\)",
 					Pattern.CASE_INSENSITIVE);
 			matcher = pattern.matcher(notes);
 			while (matcher.find()) {
 				List<String> strArray = Arrays.asList(
-						matcher.group().subSequence(1, matcher.group().length() - 1).toString().split("\\s*[/]\\s*"));
+						matcher.group().subSequence(1, matcher.group().length() - 1).toString().split("\\s*\\/\\s*"));
 				for (String str : strArray) {
 					if (str.equalsIgnoreCase("m+kb"))
 						str = "mkb";
@@ -549,11 +549,11 @@ public class WishlistGenerator implements AutoCloseable {
 					}
 				}
 			}
-			String temp = "";
-			for (String string : notes.split("(?i)\\((" + itemType + ")(\\s*[/]+\\s*(" + itemType + "))*\\):*")) {
-				temp += string;
+			StringBuilder temp = new StringBuilder();
+			for (String string : notes.split("(?i)\\((" + itemType + ")(\\s*\\/+\\s*(" + itemType + "))*\\):*")) {
+				temp.append(string);
 			}
-			notes = temp;
+			notes = temp.toString();
 
 			if (notes.length() > 0 && notes.charAt(0) == (' '))
 				notes = notes.substring(1);
