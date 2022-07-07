@@ -322,6 +322,7 @@ public class WishlistGenerator implements AutoCloseable {
 							// reverse the outlier changes made earlier
 							note = note.replace("lightggg", "light.gg");
 							note = note.replace("elipsez", "...");
+							note = note.replace("v30", "3.0");
 							System.out.print(note);
 							if (note.charAt(note.length() - 1) == '.')
 								System.out.print(' ');
@@ -510,6 +511,7 @@ public class WishlistGenerator implements AutoCloseable {
 			try {
 				note = note.replace("light.gg", "lightggg");
 				note = note.replace("...", "elipsez");
+				note = note.replace("3.0", "v30");
 				for (String string : Arrays.asList(note.split("\\.[\\s]*|\"[\\s]*"))) {
 					Matcher matcher = pattern.matcher(string);
 					if (matcher.matches()) {
