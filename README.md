@@ -22,8 +22,13 @@ Perks that can be applied to any item are given the `hashIdentifier` _-69420_ (T
 
 A list of items and perks can be found on [Destiny Sets Data](https://data.destinysets.com). 
 
+## Armor Examiner
+Takes all of the user's armor as a .csv file exported from **DIM** and searches for armor that is strictly worse than other armor. Exported as a [text file](https://raw.githubusercontent.com/dannystirl/destiny/master/output/ArmorExamined.txt), which includes a list of armor that should be replaced, as well as the armor that should replace it, and a search string for **DIM** at the end of the file. 
+
+The script can be run using `./runArmorer`
+
 ### Backup
 There is a [backup](https://github.com/dannystirl/destiny/tree/pre_maven_project) of this program that has no connection to an API and doesn't use maven. It takes less time to run, but has larger and less accurate files. 
 
-## Dim Data
+## **DIM** Data
 A backup of dim data can be found [here](https://github.com/dannystirl/destiny/blob/master/src/main/data/destiny/dim-data.json).
