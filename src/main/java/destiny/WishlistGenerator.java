@@ -39,7 +39,6 @@ public class WishlistGenerator implements AutoCloseable {
 	/** the main method reads through the original file and collects data on each
 	 * roll, concating notes and eliminating duplicates
 	 * 
-	 * @param item the destiny api item number, used as the hash key
 	 * @param args any args needed for the main method, most likely to be a input
 	 * @throws Exception */
 	public static void main(String[] args) throws Exception {
@@ -480,7 +479,14 @@ public class WishlistGenerator implements AutoCloseable {
 		return itemMap;
 	}
 
-	/** A helper method to collect an item's information and ensure each itemNumber has a unique set of information */
+	/** A helper method to collect an item's information and ensure each itemNumber has a unique set of information 
+	 * @param item the item to collect information from
+	 * @param notes the list of notes to add to
+	 * @param tags the list of tags to add to
+	 * @param mws the list of mws to add to
+	 * 
+	 * @return a list of lists of notes, tags, and mws
+	 */
 	public static List<List<String>> createInnerLists(Item item, List<String> notes, List<String> tags,
 			List<String> mws) {
 		List<List<String>> returnList = new ArrayList<>();
