@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintStream;
+import java.io.StringReader;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -101,18 +102,112 @@ public class WishlistGenerator implements AutoCloseable {
 
 		unwantedItemList.put(69420L, new Item(69420L));
 		itemList.put(69420L, new Item(69420L));
+
 		try {
-			br = new BufferedReader(new FileReader(new File("input//CompleteDestinyWishList.txt")));
+			br = new BufferedReader(new FileReader(new File("input//CustomDestinyWishlist.txt")));
+			loopRead(br);
 		} catch (FileNotFoundException e) {
 			errorPrint("Error reading input file", e);
 			throw new FileNotFoundException();
 		}
 
+		HttpResponse<String> response = Unirest
+				.get("https://raw.githubusercontent.com/48klocs/dim-wish-list-sources/master/voltron.txt").asString();
+		try {
+			br = new BufferedReader(new StringReader(response.getBody()));
+			loopRead(br);
+		} catch (Exception e) {
+			errorPrint("Error reading default wishlist from url", e);
+		}
+
+		// SORTING ITEMS
+		// sort each item in itemList by the perkList, starting with the final entry in each perkList
+		// then reorder the noteList, tagList, and mwList accordingly
+		for (Map.Entry<Long, Item> item : itemList.entrySet()) {
+			// each value has a list of the original list position and the new list position
+			List<List<String>> listD = new ArrayList<>(item.getValue().getFullList(1));
+			Map<List<String>, Integer> mapPositions = new HashMap<>(); // original ordering. used to reorder the lists
+			List<List<String>> tempPerkList = new ArrayList<>();
+			List<List<String>> tempNoteList = new ArrayList<>();
+			List<List<String>> tempTagsList = new ArrayList<>();
+			List<List<String>> tempMWsList = new ArrayList<>();
+			for (int i = 0; i < listD.size(); i++) {
+				mapPositions.put(listD.get(i), i);
+				tempPerkList.add(new ArrayList<>());
+				tempNoteList.add(new ArrayList<>());
+				tempTagsList.add(new ArrayList<>());
+				tempMWsList.add(new ArrayList<>());
+			}
+
+			listD.sort((List<String> o1, List<String> o2) -> {
+				// we only need to sort by getFullList(1) (the perkSet list), but since the order of perkSets will change, so will the order of notes etc, so the whole item needs to be sorted and then looped through
+				// compare getItemList(1) on each index, starting at the last index
+				for (int i = 0; i < Math.min(o1.size(), o2.size()); i++) {
+					if (!o1.get(o1.size() - i - 1).equals(o2.get(o2.size() - i - 1))) {
+						return o1.get(o1.size() - i - 1).compareTo(o2.get(o2.size() - i - 1));
+					}
+				}
+				return o1.get(0).compareTo(o2.get(0));
+			});
+
+			for (int i = 0; i < listD.size(); i++) {
+				// map positions is the original map positions of items. should use this map to get values from fullLists 2..4
+				// listD is the sorted position of each item. value at index i (a perk list) should be the key for the original space in map positions
+				tempPerkList.set(i, item.getValue().getFullList(1).get(mapPositions.get(listD.get(i))));
+				tempNoteList.set(i, item.getValue().getFullList(2).get(mapPositions.get(listD.get(i))));
+				tempTagsList.set(i, item.getValue().getFullList(3).get(mapPositions.get(listD.get(i))));
+				tempMWsList.set(i, item.getValue().getFullList(4).get(mapPositions.get(listD.get(i))));
+			}
+			item.getValue().setFullList(1, tempPerkList);
+			item.getValue().setFullList(2, tempNoteList);
+			item.getValue().setFullList(3, tempTagsList);
+			item.getValue().setFullList(4, tempMWsList);
+
+			// you can't sort by note list here becuase notes aren't unique entries so theres no way to map them back to the original list
+			// also dim already does this on import, so it would really be for a minor file reduction
+		}
+
+		// TODO would love to add a second sort here to organize by notes again (happens to be how it's sorted without the above sorting method) to reduce output file size. ideally by size of note so the ones with more information (generally the ones that lists had originally) would be at the top of the list, and therefor easier to see in dim. this would also put anything without notes (usually just collections of perks) at the bottom. could also sort inversely by the number of perksets under each note to achieve a similar affect. would need to see this in action. 
+		// BUT i'm not even sure I need to do this since dim already does this.
+
+		printWishlist();
+
+		// Print the itemMatchingList to a file so I don't need to call HTTP.GET every time I run the script
+		String eol = System.getProperty("line.separator");
+		try (Writer writer = new FileWriter("src/main/data/destiny/enhancedMapping.csv", true);) {
+			for (Map.Entry<String, String> entry : itemMatchingList.entrySet()) {
+				writer.append(entry.getKey())
+						.append(',')
+						.append(entry.getValue())
+						.append(eol);
+			}
+			writer.flush();
+		} catch (Exception e) {
+			errorPrint("Unable to save itemMatchingList to .\\data", e);
+		}
+		// Print the itemNamingList to a file so I don't need to call HTTP.GET every time I run the script
+		try (Writer writer = new FileWriter("src/main/data/destiny/nameMapping.csv", true);) {
+			for (Map.Entry<String, String> entry : itemNamingList.entrySet()) {
+				writer.append(entry.getKey())
+						.append(',')
+						.append(entry.getValue())
+						.append(eol);
+			}
+			writer.flush();
+		} catch (Exception e) {
+			errorPrint("Unable to save itemNamingList to .\\data", e);
+		}
+	}
+
+	/** Reads a wishlist file and adds it to the appropriate lists.
+	 * 
+	 * @throws Exception */
+	public static void loopRead(BufferedReader br) throws Exception {
 		ArrayList<Object> td = new ArrayList<>();
 		sourceNum = 0; // stores how many rolls a given source has
 		String currentNote = ""; // used to store an item's notes, either per roll or per item
-		while (br.ready()) {
-			String line = br.readLine();
+		String line; 
+		while ((line = br.readLine()) != null) {
 			switch (line.split(":")[0]) {
 				case "title":
 					td = new ArrayList<>();
@@ -180,85 +275,6 @@ public class WishlistGenerator implements AutoCloseable {
 				default:
 					break;
 			}
-		}
-
-		// SORTING ITEMS
-		// sort each item in itemList by the perkList, starting with the final entry in each perkList
-		// then reorder the noteList, tagList, and mwList accordingly
-		for (Map.Entry<Long, Item> item : itemList.entrySet()) {
-			// each value has a list of the original list position and the new list position
-			List<List<String>> listD = new ArrayList<>(item.getValue().getFullList(1));
-			Map<List<String>, Integer> mapPositions = new HashMap<>(); // original ordering. used to reorder the lists
-			List<List<String>> tempPerkList = new ArrayList<>();
-			List<List<String>> tempNoteList = new ArrayList<>();
-			List<List<String>> tempTagsList = new ArrayList<>();
-			List<List<String>> tempMWsList = new ArrayList<>();
-			for (int i = 0; i < listD.size(); i++) {
-				mapPositions.put(listD.get(i), i);
-				tempPerkList.add(new ArrayList<>());
-				tempNoteList.add(new ArrayList<>());
-				tempTagsList.add(new ArrayList<>());
-				tempMWsList.add(new ArrayList<>());
-			}
-
-			listD.sort((List<String> o1, List<String> o2) -> {
-				// we only need to sort by getFullList(1) (the perkSet list), but since the order of perkSets will change, so will the order of notes etc, so the whole item needs to be sorted and then looped through
-				// compare getItemList(1) on each index, starting at the last index
-				for (int i = 0; i < Math.min(o1.size(), o2.size()); i++) {
-					if (!o1.get(o1.size() - i - 1).equals(o2.get(o2.size() - i - 1))) {
-						return o1.get(o1.size() - i - 1).compareTo(o2.get(o2.size() - i - 1));
-					}
-				}
-				return o1.get(0).compareTo(o2.get(0));
-			});
-
-			for (int i = 0; i < listD.size(); i++) {
-				// map positions is the original map positions of items. should use this map to get values from fullLists 2..4
-				// listD is the sorted position of each item. value at index i (a perk list) should be the key for the original space in map positions
-				tempPerkList.set(i, item.getValue().getFullList(1).get(mapPositions.get(listD.get(i))));
-				tempNoteList.set(i, item.getValue().getFullList(2).get(mapPositions.get(listD.get(i))));
-				tempTagsList.set(i, item.getValue().getFullList(3).get(mapPositions.get(listD.get(i))));
-				tempMWsList.set(i, item.getValue().getFullList(4).get(mapPositions.get(listD.get(i))));
-			}
-			item.getValue().setFullList(1, tempPerkList);
-			item.getValue().setFullList(2, tempNoteList);
-			item.getValue().setFullList(3, tempTagsList);
-			item.getValue().setFullList(4, tempMWsList);
-
-			// you can't sort by note list here becuase notes aren't unique entries so theres no way to map them back to the original list
-			// also dim already does this on import, so it would really be for a minor file reduction
-		}
-
-		// TODO
-		// would love to add a second sort here to organize by notes again (happens to be how it's sorted without the above sorting method) to reduce output file size. ideally by size of note so the ones with more information (generally the ones that lists had originally) would be at the top of the list, and therefor easier to see in dim. this would also put anything without notes (usually just collections of perks) at the bottom. could also sort inversely by the number of perksets under each note to achieve a similar affect. would need to see this in action. 
-		// BUT i'm not even sure I need to do this since dim already does this.
-
-		printWishlist();
-
-		// Print the itemMatchingList to a file so I don't need to call HTTP.GET every time I run the script
-		String eol = System.getProperty("line.separator");
-		try (Writer writer = new FileWriter("src/main/data/destiny/enhancedMapping.csv", true);) {
-			for (Map.Entry<String, String> entry : itemMatchingList.entrySet()) {
-				writer.append(entry.getKey())
-						.append(',')
-						.append(entry.getValue())
-						.append(eol);
-			}
-			writer.flush();
-		} catch (Exception e) {
-			errorPrint("Unable to save itemMatchingList to .\\data", e);
-		}
-		// Print the itemNamingList to a file so I don't need to call HTTP.GET every time I run the script
-		try (Writer writer = new FileWriter("src/main/data/destiny/nameMapping.csv", true);) {
-			for (Map.Entry<String, String> entry : itemNamingList.entrySet()) {
-				writer.append(entry.getKey())
-						.append(',')
-						.append(entry.getValue())
-						.append(eol);
-			}
-			writer.flush();
-		} catch (Exception e) {
-			errorPrint("Unable to save itemNamingList to .\\data", e);
 		}
 	}
 
@@ -336,7 +352,7 @@ public class WishlistGenerator implements AutoCloseable {
 						for (int i = 0; i < itemMWsList.get(j).size() - 1; i++) {
 							System.out.print(itemMWsList.get(j).get(i) + ", ");
 						}
-						System.out.print(itemMWsList.get(j).get(itemMWsList.get(j).size()-1) + ". ");
+						System.out.print(itemMWsList.get(j).get(itemMWsList.get(j).size() - 1) + ". ");
 					}
 					try {
 						// TAGS
@@ -398,9 +414,9 @@ public class WishlistGenerator implements AutoCloseable {
 	 * Excludes duplicate perk sets, notes, and tags
 	 * On duplicate perk sets, include non-duplicate notes and tags
 	 * 
-	 * @param item
-	 * @param itemMap
-	 * @return
+	 * @param item An input item
+	 * @param itemMap A map of item ids to item names
+	 * @return A mapping of the appropriate item list
 	 * @throws Exception */
 	public static Map<Long, Item> constructLists(Item item, Map<Long, Item> itemMap) throws Exception {
 		// get the full lists of the given item
@@ -479,14 +495,13 @@ public class WishlistGenerator implements AutoCloseable {
 		return itemMap;
 	}
 
-	/** A helper method to collect an item's information and ensure each itemNumber has a unique set of information 
+	/** A helper method to collect an item's information and ensure each itemNumber has a unique set of information
+	 * 
 	 * @param item the item to collect information from
 	 * @param notes the list of notes to add to
 	 * @param tags the list of tags to add to
 	 * @param mws the list of mws to add to
-	 * 
-	 * @return a list of lists of notes, tags, and mws
-	 */
+	 * @return a list of lists of notes, tags, and mws */
 	public static List<List<String>> createInnerLists(Item item, List<String> notes, List<String> tags,
 			List<String> mws) {
 		List<List<String>> returnList = new ArrayList<>();
@@ -656,7 +671,7 @@ public class WishlistGenerator implements AutoCloseable {
 		} catch (Exception e) {
 			// For some reason the api doesn't work for the values in here, so I'm just gonna hard code it and ignore the error
 			// this really should only occur once for each hashIdentifier
-			errorPrint("Error getting " + hashIdentifier, e);
+			//errorPrint("Error getting " + hashIdentifier, e);
 		}
 
 		HttpResponse<String> response = Unirest

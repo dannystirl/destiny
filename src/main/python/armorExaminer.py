@@ -1,4 +1,4 @@
-# Most of this code was written by u/ParasiticUniverse and u/MrFlood360
+# Most of this code was written by u/ParasiticUniverse and u/MrFlood360, but has been formatted and sipmlified. Ignores class items and sunset armor, as well as items already tagged for removal in DIM. 
 
 from asyncio.windows_events import NULL
 import csv
@@ -86,7 +86,7 @@ class armorPiece:
 
 def run():
     #Prompting and config
-    #print("Setup: Decide what parameters to use. Press Y fo yes, any other key for no.")
+    #print("Setup: Decide what parameters to use. Press Y for yes, any other key for no.")
     global skipMasterTier, skipMob, skipRec, skipes, skipDis, skipInt, skipStr
     # skipMob = input("Ignore Mobility? Y/N (Default: No)\n") in [Y', 'y', 'yes', 'Yes', 'YES']
     # skipRec = input("Ignore Recovery? Y/N (Default: No)\n") in [Y', 'y', 'yes', 'Yes', 'YES']

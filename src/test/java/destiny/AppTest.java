@@ -2,25 +2,28 @@ package destiny;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringReader;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
 import org.junit.Test;
 
 import kong.unirest.GetRequest;
@@ -70,7 +73,7 @@ public class AppTest {
         // assert that key and entry are not null
         assertNotNull(key);
         assertNotNull(entry);
-        System.out.println("Test testResponse() passed");
+        System.out.printf("Test %s passed%n", new Object() {}.getClass().getEnclosingMethod().getName());
     }
 
     /*
@@ -91,7 +94,7 @@ public class AppTest {
         itemDefinition = itemDefinition.getJSONObject("displayProperties");
 
         assertEquals("Persuader", itemDefinition.getString("name"));
-        System.out.println("Test testGetName() passed");
+        System.out.printf("Test %s passed%n", new Object() {}.getClass().getEnclosingMethod().getName());
     }
 
     /** Ensure the ability to write to a file is working
@@ -116,7 +119,7 @@ public class AppTest {
         }
         writer.flush();
         assertNotNull(writer);
-        System.out.println("Test writeHashMapToCsv() passed");
+        System.out.printf("Test %s passed%n", new Object() {}.getClass().getEnclosingMethod().getName());
     }
 
     /** Ensure the ability to read from a file is working
@@ -149,6 +152,8 @@ public class AppTest {
         if (file.exists()) {
             file.delete();
         }
+        System.out.printf("Test %s passed%n", new Object() {}.getClass().getEnclosingMethod().getName());
+
     }
 
     /** Testing that each note string is being properly parsed and placed into a list */
@@ -186,5 +191,32 @@ public class AppTest {
             assertTrue(mws.contains("Stability"));
             assertTrue(mws.contains("Range with Targeting Adjuster mod"));
         }
+        System.out.printf("Test %s passed%n", new Object() {}.getClass().getEnclosingMethod().getName());
+    }
+
+    /** Method to test getting content from a url
+     * 
+     * @throws UnirestException when unable to establish a connection to the url
+     * @throws IOException when unable to read from the text file */
+    @Test
+    public void testWishlistUrl() throws UnirestException, IOException {
+        Unirest.config().reset();
+        Unirest.config().connectTimeout(10000).socketTimeout(10000);
+        HttpResponse<String> response = Unirest
+                .get("https://raw.githubusercontent.com/48klocs/dim-wish-list-sources/master/voltron.txt")
+                .asString();
+        assertNotEquals("404: Not Found", response.getBody());
+
+        try {
+            BufferedReader reader = new BufferedReader(new StringReader(response.getBody()));
+            int lineCount = 0;
+            while (reader.ready() && lineCount < 15) {
+                assertNotNull(reader.readLine());
+                lineCount++;
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Error reading default wishlist from url: " + e.getStackTrace());
+        }
+        System.out.printf("Test %s passed%n", new Object() {}.getClass().getEnclosingMethod().getName());
     }
 }
