@@ -1,0 +1,37 @@
+title:Sample Title. 
+description:Sample Description. 
+
+// Desired Roll: 
+dimwishlist:item=1&perks=11,12#notes:Sample notes first.|tags:test,weapon
+dimwishlist:item=1&perks=11,13#notes:Sample notes second.|tags:test,weapon
+dimwishlist:item=1&perks=111,112,11,12#notes:Sample notes first.|tags:test,weapon
+dimwishlist:item=1&perks=111,113,11,12#notes:Sample notes second.|tags:test,weapon
+dimwishlist:item=1&perks=111,113,11,12,99#notes:Sample notes origin.|tags:test,weapon,origin
+dimwishlist:item=1&perks=111,112,13,12#notes:Checking masterwork. Recommended MW - Range/Reload. |tags:test,weapon,masterwork
+dimwishlist:item=2&perks=15,14#notes:Sample notes first.|tags:test,weapon
+dimwishlist:item=2&perks=11,13#notes:Sample notes second.|tags:test,weapon
+dimwishlist:item=2&perks=114,112,13,12#notes:Sample notes first.|tags:test,weapon
+dimwishlist:item=2&perks=116,115,12,15#notes:Sample notes second.|tags:test,weapon
+dimwishlist:item=2&perks=117,112,11,16,98#notes:Sample notes origin.|tags:test,weapon,origin
+dimwishlist:item=2&perks=114,113,14,17#notes:Checking masterwork. Recommended MW - Range/Reload. |tags:test,weapon,masterwork
+dimwishlist:item=3&perks=11,15
+dimwishlist:item=4&perks=12,16#notes:Sample notes no tags
+dimwishlist:item=5&perks=13,17#notes:tags:test,weapon,no-notes
+dimwishlist:item=6&perks=14,18#notes:|tags:test,weapon,no-notes
+
+// Generic desireable perk combinations
+dimwishlist:item=-69420&perks=11,12#notes:Sample notes generic.|tags:test,weapon,generic
+
+// Generic undesireable gun/perk combinations
+dimwishlist:item=-8#notes:Sample undesireable item
+dimwishlist:item=-9#notes:Sample undesireable item
+dimwishlist:item=-9#notes:Sample undesireable item (A)
+dimwishlist:item=69420&perks=-21#notes:Sample undesireable perk
+dimwishlist:item=69420&perks=-22#notes:Sample undesireable perk
+dimwishlist:item=69420&perks=-22#notes:Sample undesireable perk
+
+dimwishlist:item=51&perks=413,424#notes:Sample armor with perks and no tags.
+dimwishlist:item=52&perks=414,425#notes:tags:test,armor,delete,perks,no-notes
+dimwishlist:item=53&perks=415,426#notes:|tags:test,armor,delete,perks,no-notes
+dimwishlist:item=54&perks=416,427#notes:Sample armor with perks.|tags:test,armor,delete,perks,notes
+dimwishlist:item=55&#notes:Sample armor with no perks.|tags:test,armor,delete,no-perks

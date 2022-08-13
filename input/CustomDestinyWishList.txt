@@ -47,7 +47,7 @@ dimwishlist:item=-69420&perks=247725512,1015611457#notes:Rapid Hit + Kill Clip i
 dimwishlist:item=-69420&perks=1168162263,1015611457#notes:Outlaw + Kill Clip is a classic reload + damage combination.|tags:pve,mkb,controller,pvp
 dimwishlist:item=-69420&perks=1168162263,3425386926#notes:Outlaw + Rampage is a classic reload + damage combination.|tags:pve,mkb,controller,pvp
 dimwishlist:item=-69420&perks=776531651#notes:Repulsor brace is an incredible perk when combined with void 3.0.|tags:pve,mkb,controller
-dimwishlist:item=-69420&perks=4293542123#notes:Incandescentis an incredible perk when combined with solar 3.0.|tags:pve,mkb,controller
+dimwishlist:item=-69420&perks=4293542123#notes:Incandescent is an incredible perk when combined with solar 3.0.|tags:pve,mkb,controller
 
 // Generic weapon type perk combinations
 dimwishlist:item=5&perks=1683379515#notes:Disruption break is amazing for killing barrier champions after breaking their shield.|tags:pve,mkb,controller
@@ -58,10 +58,10 @@ dimwishlist:item=9&perks=1048183818#notes:Adaptive munitions on a fusion rifle a
 dimwishlist:item=3317538576&perks=1048183818#notes:Adaptive munitions on a bow means shields are broken within a few shots, allowing bows to completely ignore match game in most difficulties.|tags:pve,mkb,controller
 
 // Generic undesireable gun/perk combinations
-//currently there isn't a way to do this but ideally I would filter by any gun without a specific perk
+// To filer a gun without a specific perk, I think I would just add the desired roll to one of the above sections and then filter the rest with the below section
 dimwishlist:item=-3556999246#notes:Pleiades Corrector has no good perk combinations. Inferior to vision of confluence. 
-dimwishlist:item=-1028582252#notesComedian has no good perks in the first column. 
-dimwishlist:item=-2443900757#notesComedian (A) has no good perks in the first column. 
+dimwishlist:item=-1028582252#notes:Comedian has no good perks in the first column. 
+dimwishlist:item=-2443900757#notes:Comedian (A) has no good perks in the first column. 
 dimwishlist:item=69420&perks=-2172504645#notes:Sleight of Hand works while stowed, but gives stats you would want while using the gun. Not a good trait. 
 dimwishlist:item=69420&perks=-1172098417#notes:Sleight of Hand (E) works while stowed, but gives stats you would want while using the gun. Not a good trait. 
 dimwishlist:item=69420&perks=-744594675#notes:Well-Rounded provides a benefit that would be beneficial in pvp, but activates on a trigger only common in pve. 
@@ -85,3 +85,5 @@ dimwishlist:item=69420&perks=-3700496672#notes:Shoot to Loot has some use in end
 dimwishlist:item=69420&perks=-2840833776#notes:Shoot to Loot (E) has some use in endgame content, but certainly not above some other perk that would be in columns 3 or 4. 
 dimwishlist:item=69420&perks=-3722653512#notes:Air Assault only has a use in PvP and has a requirement to activate, and even then doesn't do much. Always a better perk in column
 dimwishlist:item=69420&perks=-2898218424#notes:Air Assault (E) only has a use in PvP and has a requirement to activate, and even then doesn't do much. Always a better perk in column
+
+dimwishlist:item=2748020989#notes:Should be replaced by 2819810688.|tags:delete

@@ -2,8 +2,8 @@ Unable to get name for item 5: JSONObject["Response"] not found.
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.WishlistGenerator.getName(WishlistGenerator.java:407)
-	at destiny.WishlistGenerator.printWishlist(WishlistGenerator.java:305)
-	at destiny.WishlistGenerator.main(WishlistGenerator.java:173)
+	at destiny.WishlistGenerator.getName(WishlistGenerator.java:427)
+	at destiny.WishlistGenerator.printWishlist(WishlistGenerator.java:312)
+	at destiny.WishlistGenerator.main(WishlistGenerator.java:175)
 
 

@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Item {
 	// item information
-	private Long itemId;
+	private final Long itemId;
 	private int itemNumber;
 	private boolean ignoreItem;
 
@@ -57,6 +57,7 @@ public class Item {
 	 * @param perks will likely be unchanged
 	 * @param notes
 	 * @param tags
+	 * @param mw
 	 * @param bool
 	 *            should the item be ignored */
 	public void put(int num, List<String> perks, List<String> notes, List<String> tags, List<String> mw,
@@ -71,9 +72,10 @@ public class Item {
 
 	/** Set an item's info on a new item
 	 * 
-	 * @param perks test
+	 * @param perks
 	 * @param notes
 	 * @param tags
+	 * @param mw
 	 * @param bool should the item go in the ignore list */
 	public void put(List<String> perks, List<String> notes, List<String> tags, List<String> mw, Boolean bool) {
 		itemPerkList.add(perks);
@@ -99,7 +101,8 @@ public class Item {
 	 *            2 returns the note list |
 	 *            3 returns the tags list |
 	 *            4 returns the mw list
-	 * @return */
+	 * @param list is the list to set to the item's properties
+	 */
 	public void setFullList(int num, List<List<String>> list) {
 		switch (num) {
 			case 1:

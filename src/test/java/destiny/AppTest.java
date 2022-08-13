@@ -31,8 +31,11 @@ import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import kong.unirest.UnirestException;
 
-/** Unit test for Destiny App. */
+/**
+ * Unit test for Destiny App.
+ */
 public class AppTest {
+
     /*
      * Ensure the connection to the destiny api is working and getting a response
      */
@@ -73,7 +76,8 @@ public class AppTest {
         // assert that key and entry are not null
         assertNotNull(key);
         assertNotNull(entry);
-        System.out.printf("Test %s passed%n", new Object() {}.getClass().getEnclosingMethod().getName());
+        System.out.printf("Test %s passed%n", new Object() {
+        }.getClass().getEnclosingMethod().getName());
     }
 
     /*
@@ -94,12 +98,15 @@ public class AppTest {
         itemDefinition = itemDefinition.getJSONObject("displayProperties");
 
         assertEquals("Persuader", itemDefinition.getString("name"));
-        System.out.printf("Test %s passed%n", new Object() {}.getClass().getEnclosingMethod().getName());
+        System.out.printf("Test %s passed%n", new Object() {
+        }.getClass().getEnclosingMethod().getName());
     }
 
-    /** Ensure the ability to write to a file is working
+    /**
+     * Ensure the ability to write to a file is working
      *
-     * @throws Exception */
+     * @throws Exception
+     */
     @Test
     public void writeHashMapToCsv() throws Exception {
         String eol = System.getProperty("line.separator");
@@ -119,18 +126,21 @@ public class AppTest {
         }
         writer.flush();
         assertNotNull(writer);
-        System.out.printf("Test %s passed%n", new Object() {}.getClass().getEnclosingMethod().getName());
+        System.out.printf("Test %s passed%n", new Object() {
+        }.getClass().getEnclosingMethod().getName());
     }
 
-    /** Ensure the ability to read from a file is working
-     * 
-     * @throws Exception */
+    /**
+     * Ensure the ability to read from a file is working
+     *
+     * @throws Exception
+     */
     @Test
     public void testInput() throws Exception {
         Map<String, String> itemMatchingList = new HashMap<>();
         List<String> checkedItemList = new ArrayList<>();
         File file = new File("src/test/data/destiny/mapTest.csv");
-        try (Writer writer = new FileWriter(file, false);) {
+        try ( Writer writer = new FileWriter(file, false);) {
             writer.append("From").append(',').append("To")
                     .append(System.getProperty("line.separator"));
             writer.flush();
@@ -152,11 +162,15 @@ public class AppTest {
         if (file.exists()) {
             file.delete();
         }
-        System.out.printf("Test %s passed%n", new Object() {}.getClass().getEnclosingMethod().getName());
+        System.out.printf("Test %s passed%n", new Object() {
+        }.getClass().getEnclosingMethod().getName());
 
     }
 
-    /** Testing that each note string is being properly parsed and placed into a list */
+    /**
+     * Testing that each note string is being properly parsed and placed into a
+     * list
+     */
     @Test
     public void testMWPattern() {
         String note = "Testing   initial text. Recommended MW - Range. Testing middle text. Recommended MW: Stability. . Recommended MW: Range with Targeting Adjuster mod. ";
@@ -170,8 +184,9 @@ public class AppTest {
             for (String string : Arrays.asList(note.split("\\.[\\s]*|\"[\\s]*"))) {
                 Matcher matcher = pattern.matcher(string);
                 if (matcher.matches()) {
-                    if (!mws.contains(matcher.group().split("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))")[1]))
+                    if (!mws.contains(matcher.group().split("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))")[1])) {
                         mws.add(matcher.group().split("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))")[1]);
+                    }
                 } else if (!notes.contains(string) && !string.isEmpty()) {
                     notes.add(string);
                 }
@@ -191,13 +206,16 @@ public class AppTest {
             assertTrue(mws.contains("Stability"));
             assertTrue(mws.contains("Range with Targeting Adjuster mod"));
         }
-        System.out.printf("Test %s passed%n", new Object() {}.getClass().getEnclosingMethod().getName());
+        System.out.printf("Test %s passed%n", new Object() {
+        }.getClass().getEnclosingMethod().getName());
     }
 
-    /** Method to test getting content from a url
-     * 
+    /**
+     * Method to test getting content from a url
+     *
      * @throws UnirestException when unable to establish a connection to the url
-     * @throws IOException when unable to read from the text file */
+     * @throws IOException when unable to read from the text file
+     */
     @Test
     public void testWishlistUrl() throws UnirestException, IOException {
         Unirest.config().reset();
@@ -217,6 +235,36 @@ public class AppTest {
         } catch (FileNotFoundException e) {
             System.out.println("Error reading default wishlist from url: " + e.getStackTrace());
         }
-        System.out.printf("Test %s passed%n", new Object() {}.getClass().getEnclosingMethod().getName());
+        System.out.printf("Test %s passed%n", new Object() {
+        }.getClass().getEnclosingMethod().getName());
+    }
+
+    /**
+     * @throws Exception
+     */
+    @Test
+    public void testArmor() throws Exception {
+        BufferedReader br = new BufferedReader(new FileReader(new File("input//TestDestinyWishlist.txt")));
+        String line;
+        while ((line = br.readLine()) != null) {
+            if (line.split(":")[0].equals("dimwishlist")) {
+                int startKey = 17; // where the item id lies
+                boolean ignoreitem = false;
+                if (line.charAt(startKey) == '-') {
+                    ignoreitem = true;
+                    startKey = 18;
+                }
+                // GATHERING LINE INFORMATION (ITEM, PERKS, NOTES)
+                Long item = Long.parseLong(line.substring(startKey).split("&")[0].split("#")[0]);
+                Item returnInfo = WishlistGenerator.lineParser(item, line, "", ignoreitem);
+                
+                if (line.contains("&perks=")) {
+                    assertTrue(returnInfo.getItemList(1) != null);
+                }
+                if (line.contains("#notes:")) {
+                    assertTrue(returnInfo.getItemList(2) != null);
+                }
+            }
+        }
     }
 }
