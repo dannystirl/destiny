@@ -13,6 +13,7 @@ Takes an input of a list of wishlists and outputs an [organized list](https://gi
 The script can be run using `./run`, and takes item input from [this](https://raw.githubusercontent.com/dannystirl/destiny/master/input/CompleteDestinyWishLIst.txt) text file. Once completed, your **DIM** wishlist should be set to [this link](https://raw.githubusercontent.com/dannystirl/destiny/master/output/WishListScripted.txt) in your [**DIM** settings](https://app.destinyitemmanager.com/settings). 
 
 If you'd like to add your own items to the wishlist, formatting for **DIM** wishlists can be found [here](https://github.com/DestinyItemManager/DIM/wiki/Wish-Lists).
+Alternatively, you can use the [Little Light](https://wishlists.littlelight.club/#/) wishlist generator and paste the results into the [CustomDestinyWishlist.txt](https://wishlists.littlelight.club/#/) file. 
 
 ![**DIM** Logo](https://user-images.githubusercontent.com/77759414/175800099-d71fb12d-e03f-44dd-81b5-bfc31746ceac.png)
 
