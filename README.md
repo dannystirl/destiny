@@ -16,7 +16,7 @@ If you'd like to add your own items to the wishlist, formatting for **DIM** wish
 
 ![**DIM** Logo](https://user-images.githubusercontent.com/77759414/175800099-d71fb12d-e03f-44dd-81b5-bfc31746ceac.png)
 
-Wishlist items can exclude any information except the `hashIdentifier`, but most follow the format of `dimwishlist:item=hashIdentifier&perks=long_1,long_2,long_3,long_4#notes:Example_note_text.|tags:example-tag`. 
+Any information except the `hashIdentifier` is optional, but most follow the format of `dimwishlist:item=hashIdentifier&perks=long_1,long_2,long_3,long_4#notes:Example_note_text.|tags:example-tag`. 
 
 Perks that can be applied to any item are given the `hashIdentifier` _-69420_ (That's what it is on **DIM**, I don't have the ability to change it) and perks or items that are to be excluded from the wishlist are given a `-` in front of them. 
 
