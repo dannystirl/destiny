@@ -1,36 +1,8 @@
-id:6917529430646320853 or id:6917529712615322822
-"6917529430646320853" : Kabr's Battlecage (Arc Titan Helmet at 1558 power) > 
-"6917529712615322822" : Iron Forerunner Helm (Void Titan Helmet at 1550 power)
-
-id:6917529279213723780 or id:6917529200627787537
-"6917529279213723780" : Moonfang-X7 Gloves (Stasis Warlock Gauntlets at 1560 power) > 
-"6917529200627787537" : Gloves of the Great Hunt (Void Warlock Gauntlets at 1350 power)
-
-id:6917529420810143017 or id:6917529478784186895
-"6917529420810143017" : Illuminus Grasps (Magnificent) (Void Hunter Gauntlets at 1350 power) > 
-"6917529478784186895" : Icarus Drifter Grips (Stasis Hunter Gauntlets at 1350 power)
-
-id:6917529470515063186 or id:6917529201500556464
-"6917529470515063186" : Moonfang-X7 Chassis (Arc Titan Chest Armor at 1568 power) > 
-"6917529201500556464" : Crushing Plate (CODA) (Solar Titan Chest Armor at 1350 power)
-
-id:6917529474036419156 or id:6917529552533358675
-"6917529474036419156" : Lightkin Grips (Void Hunter Gauntlets at 1350 power) > 
-"6917529552533358675" : Twisting Echo Grips (Void Hunter Gauntlets at 1350 power)
-
 id:6917529589967405432 or id:6917529366749374980
 "6917529589967405432" : Anti-Extinction Gloves (Void Warlock Gauntlets at 1350 power) > 
 "6917529366749374980" : Lightkin Gloves (Void Warlock Gauntlets at 1547 power)
 
-id:6917529806491248219 or id:6917529806518483945
-"6917529806491248219" : Deep Explorer Mask (Stasis Hunter Helmet at 1560 power) > 
-"6917529806518483945" : Deep Explorer Mask (Solar Hunter Helmet at 1560 power)
-
-id:6917529450862848596 or id:6917529220480360043
-"6917529450862848596" : Prime Zealot Mask (Arc Hunter Helmet at 1554 power) > 
-"6917529220480360043" : Legacy's Oath Mask (Solar Hunter Helmet at 1350 power)
-
-Vault Spaces Saveable: 8
+Vault Spaces Saveable: 1
 
 DIM string for items to delete:      
-id:6917529712615322822 or id:6917529200627787537 or id:6917529478784186895 or id:6917529201500556464 or id:6917529552533358675 or id:6917529366749374980 or id:6917529806518483945 or id:6917529220480360043
+id:6917529366749374980

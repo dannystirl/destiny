@@ -1,18 +1,19 @@
-# Most of this code was written by u/ParasiticUniverse and u/MrFlood360, but has been formatted and sipmlified. Ignores class items and sunset armor, as well as items already tagged for removal in DIM. 
+# Most of this code was written by u/ParasiticUniverse and u/MrFlood360, but has been formatted and sipmlified. Ignores class items and sunset armor, as well as items already tagged for removal in DIM.
 
 from asyncio.windows_events import NULL
 from msilib.schema import File
 import csv
 import sys
 # Config options
-skipMob = True
-skipRec = False
+skipMob = False
 skipRes = False
+skipRec = False
 skipDis = False
 skipInt = False
 skipStr = False
 
 testClasses = {"Warlock", "Hunter", "Titan"}
+
 
 class armorPiece:
     def __init__(self, info):
@@ -69,13 +70,7 @@ class armorPiece:
             if self.identicalStats(test):
                 return False
             # Check if all stats are equal to or better than test piece, respecting config options
-            return (self.mob >= test.mob or skipMob) and (
-                self.res >= test.res
-                or skipRes) and (self.rec >= test.rec or skipRec) and (
-                    self.dis >= test.dis
-                    or skipDis) and (self.int >= test.int or skipInt) and (
-                        self.str >= test.str
-                        or skipStr)
+            return (self.mob >= test.mob or skipMob) and (self.res >= test.res or skipRes) and (self.rec >= test.rec or skipRec) and (self.dis >= test.dis or skipDis) and (self.int >= test.int or skipInt) and (self.str >= test.str or skipStr)
         return False
 
     # Simpler way to print armor piece
@@ -88,13 +83,13 @@ def run():
     #Prompting and config
     print("Setup: Decide what parameters to use. Press Y for yes, any other key for no.")
     global skipMob, skipRec, skipRes, skipDis, skipInt, skipStr
-    """ skipMob = input("Ignore Mobility? Y/N (Default: No)\n").upper() in yes
-    skipRec = input("Ignore Recovery? Y/N (Default: No)\n").upper() in yes
+    skipMob = input("Ignore Mobility? Y/N (Default: No)\n").upper() in yes
     skipRes = input("Ignore Resilience? Y/N (Default: No)\n").upper() in yes
+    skipRec = input("Ignore Recovery? Y/N (Default: No)\n").upper() in yes
     skipDis = input("Ignore Discipline? Y/N (Default: No)\n").upper() in yes
     skipInt = input("Ignore Intellect? Y/N (Default: No)\n").upper() in yes
-    skipStr = input("Ignore Strength? Y/N (Default: No)\n").upper() in yes """
-    
+    skipStr = input("Ignore Strength? Y/N (Default: No)\n").upper() in yes
+
     classes = input("Classes to check? W,H,T (Default: All)\n")
 
     if len(classes) > 0:
@@ -143,19 +138,21 @@ def run():
         with open('output/ArmorExamined.txt', 'w') as f:
             sys.stdout = f
             for element in simpleSuperiorityList:
-                print("id:" + element[0].split(',')[7].replace("\"", "") + " or id:" + element[1][0].split(',')[7].replace("\"", ""))
+                print("id:" + element[0].split(',')[7].replace("\"", "") +
+                      " or id:" + element[1][0].split(',')[7].replace("\"", ""))
                 printformatted(element[0], element[1][0])
-                
-            print("Vault Spaces Saveable: " + str(len(worstArmor)),end="\n\n")
-            
+
+            print("Vault Spaces Saveable: " + str(len(worstArmor)), end="\n\n")
+
             armorSet = set()
             printstr = "DIM string for items to delete:      \n"
             for element in simpleSuperiorityList:
                 if element[1][0] not in armorSet:
                     armorSet.add(element[1][0])
-                    printstr += "id:" + element[1][0].split(',')[7].replace("\"", "") + " or "
+                    printstr += "id:" + \
+                        element[1][0].split(',')[7].replace("\"", "") + " or "
             print(printstr[0:len(printstr)-4])
-            
+
         sys.stdout = original_stdout  # Reset the standard output to its original value
 
 
