@@ -1,36 +1,16 @@
-id:6917529804409271596 or id:6917529687597866512
-"6917529804409271596" : Deep Explorer Boots (Arc Warlock Leg Armor at 1560 power) > 
-"6917529687597866512" : Resonant Fury Boots (Solar Warlock Leg Armor at 1558 power)
+id:6917529504615225698 or id:6917529210058211451
+"6917529504615225698" : Lightkin Cover (Void Warlock Helmet at 1560 power) > 
+"6917529210058211451" : Insight Vikti Hood (Stasis Warlock Helmet at 1560 power)
 
-id:6917529798195741328 or id:6917529793486838804
-"6917529798195741328" : Tusked Allegiance Greaves (Stasis Titan Leg Armor at 1560 power) > 
-"6917529793486838804" : Deep Explorer Greaves (Arc Titan Leg Armor at 1569 power)
+id:6917529428638906705 or id:6917529448570987204
+"6917529428638906705" : Kabr's Battlecage (Void Titan Helmet at 1570 power) > 
+"6917529448570987204" : Crushing Helm (CODA) (Stasis Titan Helmet at 1560 power)
 
-id:6917529803477960510 or id:6917529801054413485
-"6917529803477960510" : Candescent Greaves (Stasis Titan Leg Armor at 1560 power) > 
-"6917529801054413485" : Candescent Greaves (Arc Titan Leg Armor at 1570 power)
+id:6917529799176313255 or id:6917529351007749920
+"6917529799176313255" : Candescent Boots (Void Warlock Leg Armor at 1570 power) > 
+"6917529351007749920" : Lightkin Boots (Void Warlock Leg Armor at 1565 power)
 
-id:6917529589967405432 or id:6917529366749374980
-"6917529589967405432" : Anti-Extinction Gloves (Void Warlock Gauntlets at 1350 power) > 
-"6917529366749374980" : Lightkin Gloves (Void Warlock Gauntlets at 1547 power)
+Vault Spaces Saveable: 3
 
-id:6917529804387537165 or id:6917529806269423413
-"6917529804387537165" : Eidolon Pursuant Helm (Solar Titan Helmet at 1560 power) > 
-"6917529806269423413" : Atavistic Idol Helmet (Void Titan Helmet at 1560 power)
-
-id:6917529200627787537 or id:6917529799196891537
-"6917529200627787537" : Gloves of the Great Hunt (Void Warlock Gauntlets at 1350 power) > 
-"6917529799196891537" : Candescent Gloves (Void Warlock Gauntlets at 1570 power)
-
-id:6917529504712367258 or id:6917529220051881848
-"6917529504712367258" : Annealed Shaper Robes (Arc Warlock Chest Armor at 1568 power) > 
-"6917529220051881848" : Wild Hunt Vestment (Solar Warlock Chest Armor at 1570 power)
-
-id:6917529557559532687 or id:6917529196900219632
-"6917529557559532687" : Corrupting Echo Robes (Void Warlock Chest Armor at 1560 power) > 
-"6917529196900219632" : Iron Fellowship Robes (Arc Warlock Chest Armor at 1560 power)
-
-Vault Spaces Saveable: 8
-
-DIM string for items to delete: 
-id:6917529687597866512 or id:6917529793486838804 or id:6917529801054413485 or id:6917529366749374980 or id:6917529806269423413 or id:6917529799196891537 or id:6917529220051881848 or id:6917529196900219632
+DIM string for items to delete:      
+id:6917529210058211451 or id:6917529448570987204 or id:6917529351007749920
