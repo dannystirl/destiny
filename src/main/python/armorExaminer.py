@@ -97,12 +97,13 @@ def run():
     
     classes = input("Classes to check? W,H,T (Default: All)\n")
 
-    if "W" not in str(classes).upper():
-        testClasses.remove("Warlock")
-    if "H" not in str(classes).upper():
-        testClasses.remove("Hunter")
-    if "T" not in str(classes).upper():
-        testClasses.remove("Titan")
+    if len(classes) > 0:
+        if "W" not in str(classes).upper():
+            testClasses.remove("Warlock")
+        if "H" not in str(classes).upper():
+            testClasses.remove("Hunter")
+        if "T" not in str(classes).upper():
+            testClasses.remove("Titan")
 
     # Open CSV from DIM
     with open('src/main/data/destiny/destinyArmor.csv', newline='') as f:
