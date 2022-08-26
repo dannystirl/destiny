@@ -1,9 +1,10 @@
-Unable to get name for item 5: JSONObject["Response"] not found.
+HTTP Error: JSONObject["Response"] not found.
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.WishlistGenerator.getName(WishlistGenerator.java:427)
-	at destiny.WishlistGenerator.printWishlist(WishlistGenerator.java:312)
-	at destiny.WishlistGenerator.main(WishlistGenerator.java:175)
+	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:722)
+	at destiny.WishlistGenerator.constructLists(WishlistGenerator.java:469)
+	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:265)
+	at destiny.WishlistGenerator.main(WishlistGenerator.java:112)
 
 

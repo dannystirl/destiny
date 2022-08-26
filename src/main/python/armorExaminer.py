@@ -1,6 +1,7 @@
 # Most of this code was written by u/ParasiticUniverse and u/MrFlood360, but has been formatted and sipmlified. Ignores class items and sunset armor, as well as items already tagged for removal in DIM.
 
 from asyncio.windows_events import NULL
+from cmath import log
 from msilib.schema import File
 import csv
 import sys
@@ -79,18 +80,17 @@ class armorPiece:
 
 
 def run():
-    yes = "[Y', 'YES']"
+    global skipMob, skipRec, skipRes, skipDis, skipInt, skipStr, testClasses
+    yes = ['Y','YES']
     #Prompting and config
     print("Setup: Decide what parameters to use. Press Y for yes, any other key for no.")
-    global skipMob, skipRec, skipRes, skipDis, skipInt, skipStr
+    classes = input("Classes to check? W,H,T (Default: All)\n")
     skipMob = input("Ignore Mobility? Y/N (Default: No)\n").upper() in yes
     skipRes = input("Ignore Resilience? Y/N (Default: No)\n").upper() in yes
     skipRec = input("Ignore Recovery? Y/N (Default: No)\n").upper() in yes
     skipDis = input("Ignore Discipline? Y/N (Default: No)\n").upper() in yes
     skipInt = input("Ignore Intellect? Y/N (Default: No)\n").upper() in yes
     skipStr = input("Ignore Strength? Y/N (Default: No)\n").upper() in yes
-
-    classes = input("Classes to check? W,H,T (Default: All)\n")
 
     if len(classes) > 0:
         if "W" not in str(classes).upper():

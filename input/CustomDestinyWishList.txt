@@ -35,6 +35,9 @@ dimwishlist:item=640114618&perks=1467527085,1087426260,3643424744,4104185692#not
 dimwishlist:item=1780464822&perks=839105230,3230963543,2779035018,1048183818
 dimwishlist:item=1780464822&perks=839105230,1561002382,2779035018,1048183818
 dimwishlist:item=1780464822&perks=839105230,679225683,2779035018,1048183818
+//notes:I believe sfa works with the explosions from headstone, giving reload speed similar to feeding frenzy, requiring a precision kill instead of multiple kills
+dimwishlist:item=1856262127&perks=1840239774,1087426260,1583705720,124408337
+dimwishlist:item=1856262127&perks=1840239774,3230963543,1583705720,124408337
 
 
 
@@ -85,5 +88,6 @@ dimwishlist:item=69420&perks=-3700496672#notes:Shoot to Loot has some use in end
 dimwishlist:item=69420&perks=-2840833776#notes:Shoot to Loot (E) has some use in endgame content, but certainly not above some other perk that would be in columns 3 or 4. 
 dimwishlist:item=69420&perks=-3722653512#notes:Air Assault only has a use in PvP and has a requirement to activate, and even then doesn't do much. Always a better perk in column
 dimwishlist:item=69420&perks=-2898218424#notes:Air Assault (E) only has a use in PvP and has a requirement to activate, and even then doesn't do much. Always a better perk in column
-
-dimwishlist:item=2748020989#notes:Should be replaced by 2819810688.|tags:delete
+dimwishlist:item=69420&perks=-2458213969#notes:Multi-killclip just is not a perk I care about. I'm sure it's good but I'd rather have a ramage buff after each kill since the count resets after a reload, it sometimes it takes more than a clip to kill something. 
+dimwishlist:item=69420&perks=-1870851715#notes:Under-Over is just adaptive munitions but worse. 
+dimwishlist:item=69420&perks=-838780105#notes:Shattering Blade

@@ -1,8 +1,3 @@
-id:6917529589967405432 or id:6917529366749374980
-"6917529589967405432" : Anti-Extinction Gloves (Void Warlock Gauntlets at 1350 power) > 
-"6917529366749374980" : Lightkin Gloves (Void Warlock Gauntlets at 1547 power)
+Vault Spaces Saveable: 0
 
-Vault Spaces Saveable: 1
-
-DIM string for items to delete:      
-id:6917529366749374980
+DIM string for items to delete:   
