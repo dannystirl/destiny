@@ -831,6 +831,17 @@ public class WishlistGenerator implements AutoCloseable {
                 checkedItemList.add("4071163871");
                 break;
             }
+            case "3143051906": {
+                // repeating case
+            }
+            case "25606670": {
+                // Dual Loader (I really only want the enhanced version and this seems much simpler than making a lot of changes to the code)
+                itemMatchingList.put("25606670", "3143051906");
+                itemMatchingList.put("3143051906", "3143051906");
+                checkedItemList.add("25606670");
+                checkedItemList.add("3143051906");
+                break;
+            }
             case "3076459908": {
                 // repeating case
             }

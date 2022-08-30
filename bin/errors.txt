@@ -1,10 +1,9 @@
-HTTP Error: JSONObject["Response"] not found.
-org.json.JSONException: JSONObject["Response"] not found.
-	at org.json.JSONObject.get(JSONObject.java:580)
-	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:722)
-	at destiny.WishlistGenerator.constructLists(WishlistGenerator.java:469)
-	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:265)
-	at destiny.WishlistGenerator.main(WishlistGenerator.java:112)
+Unable to read in existing item matching list: src\main\data\destiny\enhancedMapping.csv (The system cannot find the file specified)
+java.io.FileNotFoundException: src\main\data\destiny\enhancedMapping.csv (The system cannot find the file specified)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:216)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:157)
+	at java.base/java.io.FileReader.<init>(FileReader.java:75)
+	at destiny.WishlistGenerator.main(WishlistGenerator.java:58)
 
 

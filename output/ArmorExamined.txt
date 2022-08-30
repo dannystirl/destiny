@@ -1,3 +1,192 @@
-Vault Spaces Saveable: 0
+id:6917529214184589822 or id:6917529205169116905
+"6917529214184589822" : Moonfang-X7 Helm (Arc Titan Helmet at 1560 power) > 
+"6917529205169116905" : Helm of the Emperor's Champion (Arc Titan Helmet at 1350 power)
 
-DIM string for items to delete:   
+id:6917529798513193485 or id:6917529760130299083
+"6917529798513193485" : Eidolon Pursuant Gauntlets (Stasis Titan Gauntlets at 1560 power) > 
+"6917529760130299083" : Tusked Allegiance Gauntlets (Void Titan Gauntlets at 1557 power)
+
+id:6917529674978966501 or id:6917529202874956490
+"6917529674978966501" : Resonant Fury Greaves (Solar Titan Leg Armor at 1568 power) > 
+"6917529202874956490" : Terra Concord Greaves (Solar Titan Leg Armor at 1551 power)
+
+id:6917529211611674985 or id:6917529353289756034
+"6917529211611674985" : Wild Hunt Gauntlets (Void Titan Gauntlets at 1550 power) > 
+"6917529353289756034" : Lightkin Gauntlets (Solar Titan Gauntlets at 1350 power)
+
+id:6917529803477960510 or id:6917529801054413485
+"6917529803477960510" : Candescent Greaves (Stasis Titan Leg Armor at 1560 power) > 
+"6917529801054413485" : Candescent Greaves (Arc Titan Leg Armor at 1570 power)
+
+id:6917529459095091264 or id:6917529687656502257
+"6917529459095091264" : Gloves of the Hezen Lords (Arc Warlock Gauntlets at 1570 power) > 
+"6917529687656502257" : Resonant Fury Gloves (Arc Warlock Gauntlets at 1567 power)
+
+id:6917529791126586221 or id:6917529466963143190
+"6917529791126586221" : Eidolon Pursuant Pants (Solar Warlock Leg Armor at 1560 power) > 
+"6917529466963143190" : Philomath Boots (Solar Warlock Leg Armor at 1570 power)
+
+id:6917529811432705200 or id:6917529200982161158
+"6917529811432705200" : Eidolon Pursuant Plate (Void Titan Chest Armor at 1568 power) > 
+"6917529200982161158" : Holdfast Plate (Arc Titan Chest Armor at 1550 power)
+
+id:6917529200977106487 or id:6917529199634942505
+"6917529200977106487" : Solstice Plate (Magnificent) (Void Titan Chest Armor at 1557 power) > 
+"6917529199634942505" : Holdfast Plate (Solar Titan Chest Armor at 1550 power)
+
+id:6917529393487351081 or id:6917529687656502257
+"6917529393487351081" : Lightkin Gloves (Arc Warlock Gauntlets at 1350 power) > 
+"6917529687656502257" : Resonant Fury Gloves (Arc Warlock Gauntlets at 1567 power)
+
+id:6917529669845832046 or id:6917529804402310701
+"6917529669845832046" : Resonant Fury Boots (Solar Warlock Leg Armor at 1560 power) > 
+"6917529804402310701" : Deep Explorer Boots (Stasis Warlock Leg Armor at 1570 power)
+
+id:6917529724905245048 or id:6917529200982161158
+"6917529724905245048" : Resonant Fury Plate (Arc Titan Chest Armor at 1550 power) > 
+"6917529200982161158" : Holdfast Plate (Arc Titan Chest Armor at 1550 power)
+
+id:6917529197657682679 or id:6917529196231403561
+"6917529197657682679" : Robes of the Emperor's Minister (Arc Warlock Chest Armor at 1350 power) > 
+"6917529196231403561" : Channeling Robes (CODA) (Void Warlock Chest Armor at 1560 power)
+
+id:6917529804395101100 or id:6917529804444665193
+"6917529804395101100" : Eidolon Pursuant Greaves (Arc Titan Leg Armor at 1560 power) > 
+"6917529804444665193" : Deep Explorer Greaves (Solar Titan Leg Armor at 1560 power)
+
+id:6917529616768793679 or id:6917529200982161158
+"6917529616768793679" : Pathfinder's Chestplate (Void Titan Chest Armor at 1350 power) > 
+"6917529200982161158" : Holdfast Plate (Arc Titan Chest Armor at 1550 power)
+
+id:6917529557559532687 or id:6917529385965741161
+"6917529557559532687" : Corrupting Echo Robes (Void Warlock Chest Armor at 1560 power) > 
+"6917529385965741161" : Cuirass of the Hezen Lords (Arc Warlock Chest Armor at 1570 power)
+
+id:6917529800391443629 or id:6917529804387537165
+"6917529800391443629" : Wild Hunt Helm (Solar Titan Helmet at 1570 power) > 
+"6917529804387537165" : Eidolon Pursuant Helm (Solar Titan Helmet at 1560 power)
+
+id:6917529629783158403 or id:6917529687656502257
+"6917529629783158403" : Gloves of the Hezen Lords (Void Warlock Gauntlets at 1570 power) > 
+"6917529687656502257" : Resonant Fury Gloves (Arc Warlock Gauntlets at 1567 power)
+
+id:6917529466963143190 or id:6917529804402310701
+"6917529466963143190" : Philomath Boots (Solar Warlock Leg Armor at 1570 power) > 
+"6917529804402310701" : Deep Explorer Boots (Stasis Warlock Leg Armor at 1570 power)
+
+id:6917529555561423262 or id:6917529405523100261
+"6917529555561423262" : Corrupting Echo Cover (Arc Warlock Helmet at 1350 power) > 
+"6917529405523100261" : Lightkin Cover (Arc Warlock Helmet at 1350 power)
+
+id:6917529589967405432 or id:6917529196695592888
+"6917529589967405432" : Anti-Extinction Gloves (Void Warlock Gauntlets at 1350 power) > 
+"6917529196695592888" : Holdfast Gloves (Void Warlock Gauntlets at 1560 power)
+
+id:6917529352350378919 or id:6917529353289756034
+"6917529352350378919" : Phobos Warden Gauntlets (Solar Titan Gauntlets at 1560 power) > 
+"6917529353289756034" : Lightkin Gauntlets (Solar Titan Gauntlets at 1350 power)
+
+id:6917529712599557911 or id:6917529211611674985
+"6917529712599557911" : Iron Forerunner Gauntlets (Solar Titan Gauntlets at 1570 power) > 
+"6917529211611674985" : Wild Hunt Gauntlets (Void Titan Gauntlets at 1550 power)
+
+id:6917529799382160907 or id:6917529211611674985
+"6917529799382160907" : Candescent Gauntlets (Stasis Titan Gauntlets at 1569 power) > 
+"6917529211611674985" : Wild Hunt Gauntlets (Void Titan Gauntlets at 1550 power)
+
+id:6917529370035686911 or id:6917529202874956490
+"6917529370035686911" : Kerak Type 2 (Solar Titan Leg Armor at 1570 power) > 
+"6917529202874956490" : Terra Concord Greaves (Solar Titan Leg Armor at 1551 power)
+
+id:6917529470515063186 or id:6917529753082253165
+"6917529470515063186" : Moonfang-X7 Chassis (Arc Titan Chest Armor at 1568 power) > 
+"6917529753082253165" : Descending Echo Cage (Arc Titan Chest Armor at 1559 power)
+
+id:6917529629835813216 or id:6917529735159370398
+"6917529629835813216" : Facade of the Hezen Lords (Solar Warlock Helmet at 1529 power) > 
+"6917529735159370398" : Resonant Fury Cowl (Stasis Warlock Helmet at 1560 power)
+
+id:6917529795817650676 or id:6917529200696756732
+"6917529795817650676" : Tusked Allegiance Greaves (Solar Titan Leg Armor at 1567 power) > 
+"6917529200696756732" : Greaves of the Great Hunt (Solar Titan Leg Armor at 1350 power)
+
+id:6917529715211531982 or id:6917529353289756034
+"6917529715211531982" : Resonant Fury Gauntlets (Stasis Titan Gauntlets at 1560 power) > 
+"6917529353289756034" : Lightkin Gauntlets (Solar Titan Gauntlets at 1350 power)
+
+id:6917529798195741328 or id:6917529809269424704
+"6917529798195741328" : Tusked Allegiance Greaves (Stasis Titan Leg Armor at 1560 power) > 
+"6917529809269424704" : Deep Explorer Greaves (Solar Titan Leg Armor at 1560 power)
+
+id:6917529811439351544 or id:6917529200982161158
+"6917529811439351544" : Eidolon Pursuant Plate (Stasis Titan Chest Armor at 1568 power) > 
+"6917529200982161158" : Holdfast Plate (Arc Titan Chest Armor at 1550 power)
+
+id:6917529279213723780 or id:6917529687656502257
+"6917529279213723780" : Moonfang-X7 Gloves (Stasis Warlock Gauntlets at 1560 power) > 
+"6917529687656502257" : Resonant Fury Gloves (Arc Warlock Gauntlets at 1567 power)
+
+id:6917529196695592888 or id:6917529620194152466
+"6917529196695592888" : Holdfast Gloves (Void Warlock Gauntlets at 1560 power) > 
+"6917529620194152466" : BrayTech Researcher's Gloves (Solar Warlock Gauntlets at 1350 power)
+
+id:6917529597272206186 or id:6917529466963143190
+"6917529597272206186" : Crystocrene Boots (Solar Warlock Leg Armor at 1350 power) > 
+"6917529466963143190" : Philomath Boots (Solar Warlock Leg Armor at 1570 power)
+
+id:6917529795810794406 or id:6917529353289756034
+"6917529795810794406" : Tusked Allegiance Gauntlets (Void Titan Gauntlets at 1567 power) > 
+"6917529353289756034" : Lightkin Gauntlets (Solar Titan Gauntlets at 1350 power)
+
+id:6917529196900219632 or id:6917529196231403561
+"6917529196900219632" : Iron Fellowship Robes (Arc Warlock Chest Armor at 1560 power) > 
+"6917529196231403561" : Channeling Robes (CODA) (Void Warlock Chest Armor at 1560 power)
+
+id:6917529669914639454 or id:6917529385965741161
+"6917529669914639454" : Resonant Fury Robes (Arc Warlock Chest Armor at 1555 power) > 
+"6917529385965741161" : Cuirass of the Hezen Lords (Arc Warlock Chest Armor at 1570 power)
+
+id:6917529735159370398 or id:6917529358545151613
+"6917529735159370398" : Resonant Fury Cowl (Stasis Warlock Helmet at 1560 power) > 
+"6917529358545151613" : Lightkin Cover (Solar Warlock Helmet at 1570 power)
+
+id:6917529760062212524 or id:6917529205169116905
+"6917529760062212524" : Tusked Allegiance Helmet (Void Titan Helmet at 1572 power) > 
+"6917529205169116905" : Helm of the Emperor's Champion (Arc Titan Helmet at 1350 power)
+
+id:6917529801054413485 or id:6917529803477960510
+"6917529801054413485" : Candescent Greaves (Arc Titan Leg Armor at 1570 power) > 
+"6917529803477960510" : Candescent Greaves (Stasis Titan Leg Armor at 1560 power)
+
+id:6917529811414990987 or id:6917529292589255797
+"6917529811414990987" : Eidolon Pursuant Helm (Arc Titan Helmet at 1568 power) > 
+"6917529292589255797" : Wild Hunt Helm (Void Titan Helmet at 1560 power)
+
+id:6917529428333642673 or id:6917529358545151613
+"6917529428333642673" : Iron Truage Hood (Solar Warlock Helmet at 1350 power) > 
+"6917529358545151613" : Lightkin Cover (Solar Warlock Helmet at 1570 power)
+
+id:6917529428586363524 or id:6917529804402310701
+"6917529428586363524" : Tread of the Hezen Lords (Solar Warlock Leg Armor at 1570 power) > 
+"6917529804402310701" : Deep Explorer Boots (Stasis Warlock Leg Armor at 1570 power)
+
+id:6917529571759468449 or id:6917529405523100261
+"6917529571759468449" : Corrupting Echo Cover (Void Warlock Helmet at 1560 power) > 
+"6917529405523100261" : Lightkin Cover (Arc Warlock Helmet at 1350 power)
+
+id:6917529197537417242 or id:6917529405523100261
+"6917529197537417242" : Hood of the Great Hunt (Void Warlock Helmet at 1553 power) > 
+"6917529405523100261" : Lightkin Cover (Arc Warlock Helmet at 1350 power)
+
+id:6917529698316018340 or id:6917529385965741161
+"6917529698316018340" : Resonant Fury Robes (Void Warlock Chest Armor at 1567 power) > 
+"6917529385965741161" : Cuirass of the Hezen Lords (Arc Warlock Chest Armor at 1570 power)
+
+id:6917529546367662451 or id:6917529504712367258
+"6917529546367662451" : Simulator Robes (Stasis Warlock Chest Armor at 1350 power) > 
+"6917529504712367258" : Annealed Shaper Robes (Arc Warlock Chest Armor at 1568 power)
+
+Vault Spaces Saveable: 37
+
+DIM string for items to delete:      
+id:6917529205169116905 or id:6917529760130299083 or id:6917529202874956490 or id:6917529353289756034 or id:6917529801054413485 or id:6917529687656502257 or id:6917529466963143190 or id:6917529200982161158 or id:6917529199634942505 or id:6917529804402310701 or id:6917529196231403561 or id:6917529804444665193 or id:6917529385965741161 or id:6917529804387537165 or id:6917529405523100261 or id:6917529196695592888 or id:6917529211611674985 or id:6917529753082253165 or id:6917529735159370398 or id:6917529200696756732 or id:6917529809269424704 or id:6917529620194152466 or id:6917529358545151613 or id:6917529803477960510 or id:6917529292589255797 or id:6917529504712367258

@@ -38,7 +38,8 @@ dimwishlist:item=1780464822&perks=839105230,679225683,2779035018,1048183818
 //notes:I believe sfa works with the explosions from headstone, giving reload speed similar to feeding frenzy, requiring a precision kill instead of multiple kills
 dimwishlist:item=1856262127&perks=1840239774,1087426260,1583705720,124408337
 dimwishlist:item=1856262127&perks=1840239774,3230963543,1583705720,124408337
-
+//notes:Dual Loader (E) provides a big boost to how often you have a full mag, and while the non-enhanced version feels like it has a heavy downside, the enhanced version does not. 
+dimwishlist:item=4225322581&perks=1047830412,106909392,3143051906,2679249093
 
 
 // Generic desireable perk combinations
