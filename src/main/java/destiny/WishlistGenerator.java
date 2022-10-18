@@ -178,11 +178,11 @@ public class WishlistGenerator implements AutoCloseable {
 
         //itemList.get(999767358L).print();
 
-        // TODO would love to add a second sort here to organize by notes again (happens to be how it's sorted without the above sorting method) to reduce output file size. ideally by size of note so the ones with more information (generally the ones that lists had originally) would be at the top of the list, and therefor easier to see in dim. this would also put anything without notes (usually just collections of perks) at the bottom. could also sort inversely by the number of perksets under each note to achieve a similar affect. would need to see this in action BUT i'm not even sure I need to do this since dim already does this.
+        // TODO - would love to add a second sort here to organize by notes again (happens to be how it's sorted without the above sorting method) to reduce output file size. ideally by size of note so the ones with more information (generally the ones that lists had originally) would be at the top of the list, and therefor easier to see in dim. this would also put anything without notes (usually just collections of perks) at the bottom. could also sort inversely by the number of perksets under each note to achieve a similar affect. would need to see this in action BUT i'm not even sure I need to do this since dim already does this.
         printWishlist();
 
         // Print the itemMatchingList to a file so I don't need to call HTTP.GET every time I run the script
-        // TODO this is adding items every time even if theyre already in the file, might be best to wipe it and print everything
+        // TODO - this is adding items every time even if theyre already in the file, might be best to wipe it and print everything
         String eol = System.getProperty("line.separator");
         try ( Writer writer = new FileWriter("src/main/data/destiny/enhancedMapping.csv", true);) {
             for (Map.Entry<String, String> entry : itemMatchingList.entrySet()) {
@@ -196,7 +196,7 @@ public class WishlistGenerator implements AutoCloseable {
             errorPrint("Unable to save itemMatchingList to .\\data", e);
         }
         // Print the itemNamingList to a file so I don't need to call HTTP.GET every time I run the script
-        // TODO "First in Last out is adding an extra column to the name. Github copilot gave a reason (csv reader issue) but im not sure it's actually correct"
+        // TODO - "First in Last out is adding an extra column to the name. Github copilot gave a reason (csv reader issue) but im not sure it's actually correct"
         try ( Writer writer = new FileWriter("src/main/data/destiny/nameMapping.csv", true);) {
             for (Map.Entry<String, String> entry : itemNamingList.entrySet()) {
                 writer.append(entry.getKey())
@@ -220,7 +220,6 @@ public class WishlistGenerator implements AutoCloseable {
         ArrayList<Object> td = new ArrayList<>();
         sourceNum = 0; // stores how many rolls a given source has
         String currentNote = ""; // used to store an item's notes, either per roll or per item
-        Long currentItem = 69420L;
         String line;
         while ((line = br.readLine()) != null) {
             switch (line.split(":")[0]) {
@@ -330,7 +329,7 @@ public class WishlistGenerator implements AutoCloseable {
         }
     }
 
-    /*
+    /**
 	 * PRINTING WISHLIST
      */
     public static void printWishlist() {
@@ -358,8 +357,11 @@ public class WishlistGenerator implements AutoCloseable {
         }
     }
 
-    /*
+    /**
      * A helper method for printing, allowing to loop for adept and normal versions of items
+     * 
+     * @param item the original item to compare to
+     * @param key the item id to check for similarity from
      */
     public static void printWishlistInner(Map.Entry<Long, Item> item, Long key) {
         List<List<String>> itemPerkList = item.getValue().getFullList(1);
@@ -658,13 +660,13 @@ public class WishlistGenerator implements AutoCloseable {
     /**
      * Takes a line and extracts perk, note, and tag information
      *
-     * @param item
-     * @param line
+     * @param item Long of the item number
+     * @param line String of the complete line
      * @param currentNote if item is imported en mass, the note from a similar
      * previous item is used instead
      * @param ignoreitem should an item or it's perk list be excluded from the
      * list
-     * @return
+     * @return Item with item number, perks, notes, and other various information
      * @throws Exception acts as a method of catching notes without tags. should
      * never actually throw an exception
      */

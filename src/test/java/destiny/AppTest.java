@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -173,6 +172,7 @@ public class AppTest {
 
     /**
      * Try getting a specific item's name
+     * @throws UnirestException
      */
     @Test
     public void testGetName() throws UnirestException {
@@ -258,6 +258,9 @@ public class AppTest {
 
     }
 
+    /**
+     * Get an adept item's traits from the connected normal item's traits (if that item exists)
+     */
     @Test
     public void testAdeptConversion() {
         Long item = 2886339027L;
@@ -273,18 +276,16 @@ public class AppTest {
             assertTrue(adeptMatchingList.containsKey(2886339027L));
             item = adeptMatchingList.get(item);
         }
-        assertTrue(item==999767358L);
-
+        assertEquals((Long) 999767358L, item);
         if(adeptMatchingList.containsValue(item)) {
             for (Map.Entry<Long, Long> entry : adeptMatchingList.entrySet()) {
-                assertTrue(Objects.equals(item, entry.getValue()));
+                assertEquals(item, entry.getValue());
             }
         }
     }
 
     /**
-     * Testing that each note string is being properly parsed and placed into a
-     * list
+     * Testing that each note string is being properly parsed and placed into a list
      */
     @Test
     public void testMWPattern() {
@@ -348,13 +349,16 @@ public class AppTest {
                 lineCount++;
             }
         } catch (FileNotFoundException e) {
-            System.out.println("Error reading default wishlist from url: " + e.getStackTrace());
+            System.out.println("Error reading default wishlist from url: ");
+            e.printStackTrace();
         }
         System.out.printf("Test %s passed%n", new Object() {
         }.getClass().getEnclosingMethod().getName());
     }
 
     /**
+     * Reading an armor item's information from a line, the same way an item's information is obtained. 
+     * That item is then formatted //TODO - finish this
      * @throws Exception
      */
     @Test
@@ -374,10 +378,10 @@ public class AppTest {
                 Item returnInfo = WishlistGenerator.lineParser(item, line, "", ignoreitem);
                 
                 if (line.contains("&perks=")) {
-                    assertTrue(returnInfo.getItemList(1) != null);
+                    assertNotNull(returnInfo.getItemList(1));
                 }
                 if (line.contains("#notes:")) {
-                    assertTrue(returnInfo.getItemList(2) != null);
+                    assertNotNull(returnInfo.getItemList(2));
                 }
             }
         }
