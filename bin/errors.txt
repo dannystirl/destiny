@@ -1,9 +1,10 @@
-Unable to read in existing item matching list: src\main\data\destiny\enhancedMapping.csv (The system cannot find the file specified)
-java.io.FileNotFoundException: src\main\data\destiny\enhancedMapping.csv (The system cannot find the file specified)
-	at java.base/java.io.FileInputStream.open0(Native Method)
-	at java.base/java.io.FileInputStream.open(FileInputStream.java:216)
-	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:157)
-	at java.base/java.io.FileReader.<init>(FileReader.java:75)
-	at destiny.WishlistGenerator.main(WishlistGenerator.java:58)
+Unable to get name for item 69420: JSONObject["Response"] not found.
+org.json.JSONException: JSONObject["Response"] not found.
+	at org.json.JSONObject.get(JSONObject.java:580)
+	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
+	at destiny.WishlistGenerator.getName(WishlistGenerator.java:484)
+	at destiny.WishlistGenerator.printWishlistInner(WishlistGenerator.java:370)
+	at destiny.WishlistGenerator.printWishlist(WishlistGenerator.java:348)
+	at destiny.WishlistGenerator.main(WishlistGenerator.java:173)
 
 

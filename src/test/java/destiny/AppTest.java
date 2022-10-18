@@ -8,15 +8,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -36,8 +33,8 @@ import kong.unirest.UnirestException;
  */
 public class AppTest {
 
-    /*
-     * Ensure the connection to the destiny api is working and getting a response
+    /**
+     * Ensure the connection to the destiny api is working and getting a response, as well as connecting normal and enhanced perks
      */
     @Test
     public void testResponse() throws UnirestException {
@@ -80,7 +77,97 @@ public class AppTest {
         }.getClass().getEnclosingMethod().getName());
     }
 
-    /*
+    /**
+     * Ensure the api is making a connection between normal and adept weapons when there is one
+     * @throws UnirestException
+     */
+    @Test
+    public void testAdeptConnection() throws UnirestException {
+        Unirest.config().reset();
+        Unirest.config().connectTimeout(10000).socketTimeout(10000);
+        HttpResponse<String> response = Unirest
+                .get("https://www.bungie.net/Platform/Destiny2/Manifest/DestinyInventoryItemDefinition/{hashIdentifier}/")
+                .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
+                .routeParam("hashIdentifier", "2886339027")
+                .asString();
+
+        JSONObject itemDefinition = new JSONObject(response.getBody());
+        itemDefinition = itemDefinition.getJSONObject("Response");
+        itemDefinition = itemDefinition.getJSONObject("displayProperties");
+        assertEquals("Cataclysmic", itemDefinition.getString("name").split("\s\\(Adept\\)")[0]);
+
+        GetRequest get = Unirest.get(
+                        "https://www.bungie.net/Platform/Destiny2/Armory/Search/DestinyInventoryItemDefinition/{searchTerm}/")
+                .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb");
+        response = get.routeParam("searchTerm", itemDefinition.getString("name").split("\s\\(Adept\\)")[0]).asString();
+
+        JSONObject mJsonObject = new JSONObject(response.getBody());
+        JSONObject userJObject = mJsonObject.getJSONObject("Response");
+        JSONObject statusJObject = userJObject.getJSONObject("results");
+        JSONArray resultSet = statusJObject.getJSONArray("results");
+        Long normal = null, adept = null;
+        // ensure that there are only two versions of the gun
+        assertEquals(2, resultSet.length());
+        for (Object object : resultSet) {
+            JSONObject jsonObject = (JSONObject) object;
+            if (normal == null) {
+                normal = jsonObject.getLong("hash");
+            } else {
+                adept = jsonObject.getLong("hash");
+            }
+        }
+        // assert that key and entry are not null
+        assertNotNull(normal);
+        assertNotNull(adept);
+        System.out.printf("Test %s passed%n", new Object() {
+        }.getClass().getEnclosingMethod().getName());
+    }
+
+    /**
+     * Ensure the api is making a connection between normal and adept weapons when there isn't one
+     * @throws UnirestException
+     */
+    @Test
+    public void testNonAdeptConnection() throws UnirestException {
+        Unirest.config().reset();
+        Unirest.config().connectTimeout(10000).socketTimeout(10000);
+        HttpResponse<String> response = Unirest
+                .get("https://www.bungie.net/Platform/Destiny2/Manifest/DestinyInventoryItemDefinition/{hashIdentifier}/")
+                .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
+                .routeParam("hashIdentifier", "2886339027")
+                .asString();
+
+        JSONObject itemDefinition = new JSONObject(response.getBody());
+        itemDefinition = itemDefinition.getJSONObject("Response");
+        itemDefinition = itemDefinition.getJSONObject("displayProperties");
+        assertTrue(itemDefinition.getString("name").contains("(Adept)"));
+        assertEquals("Cataclysmic", itemDefinition.getString("name").split("\s\\(Adept\\)")[0]);
+
+        GetRequest get = Unirest.get(
+                        "https://www.bungie.net/Platform/Destiny2/Armory/Search/DestinyInventoryItemDefinition/{searchTerm}/")
+                .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb");
+        response = get.routeParam("searchTerm", itemDefinition.getString("name").split("\s\\(Adept\\)")[0]).asString();
+
+        JSONObject mJsonObject = new JSONObject(response.getBody());
+        JSONObject userJObject = mJsonObject.getJSONObject("Response");
+        JSONObject statusJObject = userJObject.getJSONObject("results");
+        JSONArray resultSet = statusJObject.getJSONArray("results");
+        // ensure that there are only two versions of the gun
+        assertEquals(2, resultSet.length());
+        for (Object object : resultSet) {
+            JSONObject jsonObject = (JSONObject) object;
+            itemDefinition = jsonObject.getJSONObject("displayProperties");
+            if(!itemDefinition.getString("name").contains("(Adept)")) {
+                assertEquals("Cataclysmic", itemDefinition.getString("name"));
+                assertEquals(999767358, jsonObject.getLong("hash"));
+            }
+        }
+        // assert that key and entry are not null
+        System.out.printf("Test %s passed%n", new Object() {
+        }.getClass().getEnclosingMethod().getName());
+    }
+
+    /**
      * Try getting a specific item's name
      */
     @Test
@@ -165,6 +252,33 @@ public class AppTest {
         System.out.printf("Test %s passed%n", new Object() {
         }.getClass().getEnclosingMethod().getName());
 
+    }
+
+    @Test
+    public void testAdeptConversion() {
+        Long item = 2886339027L;
+        Map<Long, Long> adeptMatchingList = new HashMap<>();
+        if(!adeptMatchingList.containsKey(item)) {
+            Long oldItem = item;
+            item = 999767358L;
+
+            // used to get the normal version of an item from the adept version
+            adeptMatchingList.put(oldItem, item);
+            assertTrue(adeptMatchingList.containsKey(2886339027L));
+        } else {
+            assertTrue(adeptMatchingList.containsKey(2886339027L));
+            item = adeptMatchingList.get(item);
+        }
+        assertTrue(item==999767358L);
+
+        if(adeptMatchingList.containsValue(key)) {
+            for (Map.Entry<Long, Long> entry : adeptMatchingList.entrySet()) {
+                if (Objects.equals(key, entry.getValue())) {
+                    if(!keysList.contains(entry.getKey()))
+                        keysList.add(entry.getKey());
+                }
+            }
+        }
     }
 
     /**

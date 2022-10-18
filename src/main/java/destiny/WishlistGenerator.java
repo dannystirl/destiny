@@ -10,16 +10,14 @@ import java.io.FileWriter;
 import java.io.PrintStream;
 import java.io.StringReader;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import kong.unirest.GetRequest;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import kong.unirest.HttpResponse;
@@ -33,6 +31,7 @@ public class WishlistGenerator implements AutoCloseable {
     public static Map<Long, Item> itemList = new HashMap<>();
     public static Map<Long, Item> unwantedItemList = new HashMap<>();
     public static Map<String, String> itemMatchingList = new HashMap<>();
+    public static Map<Long, Long> adeptMatchingList = new HashMap<>();
     public static Map<String, String> itemNamingList = new HashMap<>();
     public static List<String> checkedItemList = new ArrayList<>();
     public static BufferedReader br;
@@ -170,11 +169,13 @@ public class WishlistGenerator implements AutoCloseable {
             // also dim already does this on import, so it would really be for a minor file size reduction
         }
 
-        // TODO would love to add a second sort here to organize by notes again (happens to be how it's sorted without the above sorting method) to reduce output file size. ideally by size of note so the ones with more information (generally the ones that lists had originally) would be at the top of the list, and therefor easier to see in dim. this would also put anything without notes (usually just collections of perks) at the bottom. could also sort inversely by the number of perksets under each note to achieve a similar affect. would need to see this in action. 
-        // BUT i'm not even sure I need to do this since dim already does this.
+        itemList.get(999767358L).print();
+
+        // TODO would love to add a second sort here to organize by notes again (happens to be how it's sorted without the above sorting method) to reduce output file size. ideally by size of note so the ones with more information (generally the ones that lists had originally) would be at the top of the list, and therefor easier to see in dim. this would also put anything without notes (usually just collections of perks) at the bottom. could also sort inversely by the number of perksets under each note to achieve a similar affect. would need to see this in action BUT i'm not even sure I need to do this since dim already does this.
         printWishlist();
 
         // Print the itemMatchingList to a file so I don't need to call HTTP.GET every time I run the script
+        // TODO this is adding items every time even if theyre already in the file, might be best to wipe it and print everything
         String eol = System.getProperty("line.separator");
         try ( Writer writer = new FileWriter("src/main/data/destiny/enhancedMapping.csv", true);) {
             for (Map.Entry<String, String> entry : itemMatchingList.entrySet()) {
@@ -212,6 +213,7 @@ public class WishlistGenerator implements AutoCloseable {
         ArrayList<Object> td = new ArrayList<>();
         sourceNum = 0; // stores how many rolls a given source has
         String currentNote = ""; // used to store an item's notes, either per roll or per item
+        Long currentItem = 69420L;
         String line;
         while ((line = br.readLine()) != null) {
             switch (line.split(":")[0]) {
@@ -235,11 +237,47 @@ public class WishlistGenerator implements AutoCloseable {
                     }
                     // GATHERING LINE INFORMATION (ITEM, PERKS, NOTES)
                     Long item = Long.parseLong(line.substring(startKey).split("&")[0].split("#")[0]);
+                    /*if(item!=768621510L && item!=999767358L) {
+                        break;
+                    }*/
+                    // Convert from adept to normal so they all have the same perks and notes. Convert back when printing so adepts and normals are next to each other in the file
+                    if(!adeptMatchingList.containsKey(item)) {
+                        Long oldItem = item;
+                        try {
+                            String name = getName(item.toString());
+                            if(name.contains("(Adept)")) {
+                                // After checking if the item is adept, find the normal version and convert
+                                GetRequest get = Unirest.get(
+                                                "https://www.bungie.net/Platform/Destiny2/Armory/Search/DestinyInventoryItemDefinition/{searchTerm}/")
+                                        .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb");
+                                HttpResponse<String> response = get.routeParam("searchTerm", name.split("\s\\(Adept\\)")[0]).asString();
+
+                                JSONObject mJsonObject = new JSONObject(response.getBody());
+                                JSONObject userJObject = mJsonObject.getJSONObject("Response");
+                                JSONObject statusJObject = userJObject.getJSONObject("results");
+                                JSONArray resultSet = statusJObject.getJSONArray("results");
+                                for (Object object : resultSet) {
+                                    JSONObject jsonObject = (JSONObject) object;
+                                    JSONObject itemDefinition = jsonObject.getJSONObject("displayProperties");
+                                    if(!itemDefinition.getString("name").contains("(Adept)")) {
+                                        item = jsonObject.getLong("hash");
+                                    }
+                                }
+                            }
+                        } catch (JSONException e) {
+                            errorPrint("Error checking for adept version of item. Probably occurs when checking item type instead of item", e);
+                        } finally {
+                            // used to get the normal version of an item from the adept version
+                            adeptMatchingList.put(oldItem, item);
+                        }
+                    } else {
+                        item = adeptMatchingList.get(item);
+                    }
                     Item returnInfo = lineParser(item, line, currentNote, ignoreitem);
 
                     // 69420 is the key for all items. check if a perk should be ignored on all
                     for (List<String> tempList : unwantedItemList.get(69420L).getFullList(1)) {
-                        if (returnInfo.getItemList(1).containsAll(tempList)) {
+                        if (new HashSet<>(returnInfo.getItemList(1)).containsAll(tempList)) {
                             ignoreUnwanteditem = true;
                             break;
                         }
@@ -247,14 +285,14 @@ public class WishlistGenerator implements AutoCloseable {
                     // check if ignoring a specific item or a singular perkset
                     if (unwantedItemList.containsKey(item) && !ignoreUnwanteditem) {
                         for (List<String> tempList : unwantedItemList.get(item).getFullList(1)) {
-                            if (returnInfo.getItemList(1).containsAll(tempList)) {
+                            if (new HashSet<>(returnInfo.getItemList(1)).containsAll(tempList)) {
                                 ignoreUnwanteditem = true;
                                 break;
                             }
                         }
                         // are we ignoring an entire item
                         if (ignoreUnwanteditem
-                                || unwantedItemList.get(item).getFullList(1).contains(Arrays.asList("-"))) {
+                                || unwantedItemList.get(item).getFullList(1).contains(List.of("-"))) {
                             ignoreUnwanteditem = true;
                         }
                     }
@@ -296,113 +334,133 @@ public class WishlistGenerator implements AutoCloseable {
 
         for (Map.Entry<Long, Item> item : itemList.entrySet()) {
             Long key = item.getKey();
-            List<List<String>> itemPerkList = item.getValue().getFullList(1);
-            List<List<String>> itemNotesList = item.getValue().getFullList(2);
-            List<List<String>> itemTagsList = item.getValue().getFullList(3);
-            List<List<String>> itemMWsList = item.getValue().getFullList(4);
-            List<String> currentNoteFull = new ArrayList<>();
-            List<String> currentTagsFull = new ArrayList<>();
-            List<String> currentMWsFull = new ArrayList<>();
+            List<Long> keysList = new ArrayList<>(List.of(key));
 
-            String name = "";
-            if (itemNamingList.containsKey(key.toString())) {
-                name = itemNamingList.get(key.toString());
-            } else {
-                try {
-                    name = getName(key.toString());
-                    itemNamingList.put(key.toString(), name);
-                } catch (Exception e) {
-                    errorPrint("Unable to get name for item " + key, e);
+            // Convert back any items that have adept versions and print both
+            if(adeptMatchingList.containsValue(key)) {
+                for (Map.Entry<Long, Long> entry : adeptMatchingList.entrySet()) {
+                    if (Objects.equals(key, entry.getValue())) {
+                        if(!keysList.contains(entry.getKey()))
+                            keysList.add(entry.getKey());
+                    }
                 }
             }
-            System.out.printf("%n//item %s: %s%n", key, name);
-            for (int j = 0; j < itemPerkList.size(); j++) {
-                // gamemode is in beginning, input type is at end
-                java.util.Collections.sort(itemTagsList.get(j), java.util.Collections.reverseOrder());
+            for (Long k: keysList) {
+                printWishlistInner(item, k);
+            }
+        }
+    }
 
-                // some final formatting change that shouldnt even be necessary but somewhere i'm adding a '/' instead of an empty list
-                for (int i = 0; i < itemTagsList.get(j).size(); i++) {
-                    itemTagsList.get(j).set(i, itemTagsList.get(j).get(i).replace(" ", ""));
-                }
-                for (int k = 0; k < itemNotesList.get(j).size(); k++) {
-                    if (itemNotesList.get(j).get(k).length() < 3) {
-                        itemNotesList.get(j).set(k, "");
-                    }
-                }
+    /*
+     * A helper method for printing, allowing to loop for adept and normal versions of items
+     */
+    public static void printWishlistInner(Map.Entry<Long, Item> item, Long key) {
+        List<List<String>> itemPerkList = item.getValue().getFullList(1);
+        List<List<String>> itemNotesList = item.getValue().getFullList(2);
+        List<List<String>> itemTagsList = item.getValue().getFullList(3);
+        List<List<String>> itemMWsList = item.getValue().getFullList(4);
+        List<String> currentNoteFull = new ArrayList<>();
+        List<String> currentTagsFull = new ArrayList<>();
+        List<String> currentMWsFull = new ArrayList<>();
 
-                // NOTES
-                if (!currentNoteFull.equals(itemNotesList.get(j))
-                        || !currentTagsFull.equals(itemTagsList.get(j))
-                        || !currentMWsFull.equals(itemMWsList.get(j))) {
-                    System.out.print("//notes:");
-                    currentTagsFull = itemTagsList.get(j);
-                    currentNoteFull = itemNotesList.get(j);
-                    currentMWsFull = itemMWsList.get(j);
-                    for (int i = 0; i < itemNotesList.get(j).size(); i++) {
-                        String note = itemNotesList.get(j).get(i);
-                        if (!note.equals("")) {
-                            if (note.charAt(0) == (' ')) {
-                                note = note.substring(1);
-                            }
-                            note = note.replace("\"", "");
-                            note = note.replace("  ", " ");
-                            // reverse the outlier changes made earlier
-                            note = note.replace("lightggg", "light.gg");
-                            note = note.replace("elipsez", "...");
-                            note = note.replace("v30", "3.0");
-                            System.out.print(note);
-                            if (note.charAt(note.length() - 1) == '.') {
-                                System.out.print(' ');
-                            }
-                            if (note.charAt(note.length() - 1) != '.') {
-                                System.out.print(". ");
-                            }
+        String name = "";
+        if (itemNamingList.containsKey(key.toString())) {
+            name = itemNamingList.get(key.toString());
+        } else {
+            try {
+                name = getName(key.toString());
+                itemNamingList.put(key.toString(), name);
+            } catch (Exception e) {
+                errorPrint("Unable to get name for item " + key, e);
+            }
+        }
+        System.out.printf("%n//item %s: %s%n", key, name);
+        for (int j = 0; j < itemPerkList.size(); j++) {
+            // gamemode is in beginning, input type is at end
+            java.util.Collections.sort(itemTagsList.get(j), java.util.Collections.reverseOrder());
+
+            // some final formatting change that shouldnt even be necessary but somewhere i'm adding a '/' instead of an empty list
+            for (int i = 0; i < itemTagsList.get(j).size(); i++) {
+                itemTagsList.get(j).set(i, itemTagsList.get(j).get(i).replace(" ", ""));
+            }
+            for (int k = 0; k < itemNotesList.get(j).size(); k++) {
+                if (itemNotesList.get(j).get(k).length() < 3) {
+                    itemNotesList.get(j).set(k, "");
+                }
+            }
+
+            // NOTES
+            if (!currentNoteFull.equals(itemNotesList.get(j))
+                    || !currentTagsFull.equals(itemTagsList.get(j))
+                    || !currentMWsFull.equals(itemMWsList.get(j))) {
+                System.out.print("//notes:");
+                currentTagsFull = itemTagsList.get(j);
+                currentNoteFull = itemNotesList.get(j);
+                currentMWsFull = itemMWsList.get(j);
+                for (int i = 0; i < itemNotesList.get(j).size(); i++) {
+                    String note = itemNotesList.get(j).get(i);
+                    if (!note.equals("")) {
+                        if (note.charAt(0) == (' ')) {
+                            note = note.substring(1);
                         }
-                    }
-                    if (!itemMWsList.get(j).isEmpty()) {
-                        System.out.print("Recommended MW: ");
-                        for (int i = 0; i < itemMWsList.get(j).size() - 1; i++) {
-                            System.out.print(itemMWsList.get(j).get(i) + ", ");
+                        note = note.replace("\"", "");
+                        note = note.replace("  ", " ");
+                        // reverse the outlier changes made earlier
+                        note = note.replace("lightggg", "light.gg");
+                        note = note.replace("elipsez", "...");
+                        note = note.replace("v30", "3.0");
+                        System.out.print(note);
+                        if (note.charAt(note.length() - 1) == '.') {
+                            System.out.print(' ');
                         }
-                        System.out.print(itemMWsList.get(j).get(itemMWsList.get(j).size() - 1) + ". ");
-                    }
-                    try {
-                        // TAGS
-                        // remove any spaces from currentTagsFull
-                        for (int i = 0; i < currentTagsFull.size(); i++) {
-                            currentTagsFull.set(i, currentTagsFull.get(i).replace(" ", ""));
+                        if (note.charAt(note.length() - 1) != '.') {
+                            System.out.print(". ");
                         }
-                        if (!currentTagsFull.get(0).equals("")) {
-                            // hashsetis a fast way to remove duplicates, however they may have gotten there
-                            LinkedHashSet<String> linkedHashSet = new LinkedHashSet<>(currentTagsFull);
-                            System.out.print("|tags:");
-                            for (int i = 0; i < linkedHashSet.size(); i++) {
-                                if (i == linkedHashSet.size() - 1) {
-                                    System.out.print(linkedHashSet.toArray()[i]);
-                                } else {
-                                    System.out.printf("%s,", linkedHashSet.toArray()[i]);
-                                }
-                            }
-                        }
-                    } catch (IndexOutOfBoundsException e) {
-                        // item has no tags
-                    } finally {
-                        System.out.println();
                     }
                 }
-                if (key == 69420L) {
-                    key = -69420L;
-                }
-                System.out.printf("dimwishlist:item=%s", key);
-                if (!itemPerkList.get(j).isEmpty()) {
-                    // ITEM
-                    System.out.print("&perks=");
-                    // if there is an item in itemPerkList.get(j)
-                    for (int i = 0; i < itemPerkList.get(j).size() - 1; i++) {
-                        System.out.printf("%s,", itemPerkList.get(j).get(i));
+                if (!itemMWsList.get(j).isEmpty()) {
+                    System.out.print("Recommended MW: ");
+                    for (int i = 0; i < itemMWsList.get(j).size() - 1; i++) {
+                        System.out.print(itemMWsList.get(j).get(i) + ", ");
                     }
-                    System.out.printf("%s%n", itemPerkList.get(j).get(itemPerkList.get(j).size() - 1));
+                    System.out.print(itemMWsList.get(j).get(itemMWsList.get(j).size() - 1) + ". ");
                 }
+                try {
+                    // TAGS
+                    // remove any spaces from currentTagsFull
+                    for (int i = 0; i < currentTagsFull.size(); i++) {
+                        currentTagsFull.set(i, currentTagsFull.get(i).replace(" ", ""));
+                    }
+                    if (!currentTagsFull.get(0).equals("")) {
+                        // hashsetis a fast way to remove duplicates, however they may have gotten there
+                        LinkedHashSet<String> linkedHashSet = new LinkedHashSet<>(currentTagsFull);
+                        System.out.print("|tags:");
+                        for (int i = 0; i < linkedHashSet.size(); i++) {
+                            if (i == linkedHashSet.size() - 1) {
+                                System.out.print(linkedHashSet.toArray()[i]);
+                            } else {
+                                System.out.printf("%s,", linkedHashSet.toArray()[i]);
+                            }
+                        }
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    // item has no tags
+                } finally {
+                    System.out.println();
+                }
+            }
+            if (key == 69420L) {
+                key = -69420L;
+            }
+            System.out.printf("dimwishlist:item=%s", key);
+            if (!itemPerkList.get(j).isEmpty()) {
+                // ITEM
+                System.out.print("&perks=");
+                // if there is an item in itemPerkList.get(j)
+                for (int i = 0; i < itemPerkList.get(j).size() - 1; i++) {
+                    System.out.printf("%s,", itemPerkList.get(j).get(i));
+                }
+                System.out.printf("%s%n", itemPerkList.get(j).get(itemPerkList.get(j).size() - 1));
             }
         }
     }
@@ -528,8 +586,7 @@ public class WishlistGenerator implements AutoCloseable {
      * @param mws the list of mws to add to
      * @return a list of lists of notes, tags, and mws
      */
-    public static List<List<String>> createInnerLists(Item item, List<String> notes, List<String> tags,
-            List<String> mws) {
+    public static @NotNull List<List<String>> createInnerLists(Item item, List<String> notes, List<String> tags, List<String> mws) {
         List<List<String>> returnList = new ArrayList<>();
         String note = item.getItemList(2).get(0);
         try {
