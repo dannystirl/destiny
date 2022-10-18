@@ -8,12 +8,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.Writer;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -271,12 +275,9 @@ public class AppTest {
         }
         assertTrue(item==999767358L);
 
-        if(adeptMatchingList.containsValue(key)) {
+        if(adeptMatchingList.containsValue(item)) {
             for (Map.Entry<Long, Long> entry : adeptMatchingList.entrySet()) {
-                if (Objects.equals(key, entry.getValue())) {
-                    if(!keysList.contains(entry.getKey()))
-                        keysList.add(entry.getKey());
-                }
+                assertTrue(Objects.equals(item, entry.getValue()));
             }
         }
     }

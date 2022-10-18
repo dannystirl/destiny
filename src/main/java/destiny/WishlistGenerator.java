@@ -10,16 +10,23 @@ import java.io.FileWriter;
 import java.io.PrintStream;
 import java.io.StringReader;
 import java.io.Writer;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import kong.unirest.GetRequest;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import kong.unirest.GetRequest;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import kong.unirest.UnirestException;
@@ -169,7 +176,7 @@ public class WishlistGenerator implements AutoCloseable {
             // also dim already does this on import, so it would really be for a minor file size reduction
         }
 
-        itemList.get(999767358L).print();
+        //itemList.get(999767358L).print();
 
         // TODO would love to add a second sort here to organize by notes again (happens to be how it's sorted without the above sorting method) to reduce output file size. ideally by size of note so the ones with more information (generally the ones that lists had originally) would be at the top of the list, and therefor easier to see in dim. this would also put anything without notes (usually just collections of perks) at the bottom. could also sort inversely by the number of perksets under each note to achieve a similar affect. would need to see this in action BUT i'm not even sure I need to do this since dim already does this.
         printWishlist();
@@ -683,9 +690,7 @@ public class WishlistGenerator implements AutoCloseable {
             // get rid of origin traits since they're static and just clog up the perk list
             perks = perks.subList(0, 4);
         }
-        if (item == 69420L) // -69420 is a key to apply a wanted/unwanted set of perks to all items, so this
-        // is simply to offset that negative
-        {
+        if (item == 69420L) { // -69420 is a key to apply a wanted/unwanted set of perks to all items, so this is simply to offset that negative
             ignoreitem = false;
         }
         // IS ANY ASPECT OF AN ITEM UNWANTED

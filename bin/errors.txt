@@ -1,10 +1,9 @@
-Unable to get name for item 69420: JSONObject["Response"] not found.
+Error checking for adept version of item. Probably occurs when checking item type instead of item: JSONObject["Response"] not found.
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.WishlistGenerator.getName(WishlistGenerator.java:484)
-	at destiny.WishlistGenerator.printWishlistInner(WishlistGenerator.java:370)
-	at destiny.WishlistGenerator.printWishlist(WishlistGenerator.java:348)
-	at destiny.WishlistGenerator.main(WishlistGenerator.java:173)
+	at destiny.WishlistGenerator.getName(WishlistGenerator.java:492)
+	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:254)
+	at destiny.WishlistGenerator.main(WishlistGenerator.java:118)
 
 
