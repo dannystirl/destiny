@@ -94,17 +94,17 @@ public class Item {
 		put(itemNumber - 1, perks, Arrays.asList(""), Arrays.asList(""), Arrays.asList(""), ignoreItem);
 	}
 
-	/** Returns a list of an item properties list
+	/** Sets a list of an item's properties
 	 * 
-	 * @param num is not an index, but is used for a switch statement:
+	 * @param listType is not an index, but is used for a switch statement:
 	 *            1 returns the perk list |
 	 *            2 returns the note list |
 	 *            3 returns the tags list |
 	 *            4 returns the mw list
 	 * @param list is the list to set to the item's properties
 	 */
-	public void setFullList(int num, List<List<String>> list) {
-		switch (num) {
+	public void setFullList(int listType, List<List<String>> list) {
+		switch (listType) {
 			case 1 -> itemPerkList = list;
 			case 2 -> itemNoteList = list;
 			case 3 -> itemTagList = list;
@@ -115,16 +115,16 @@ public class Item {
 		}
 	}
 
-	/** returns a list of an item properties list
+	/** Returns a list of an item properties list
 	 * 
-	 * @param num is not an index, but is used for a switch statement:
+	 * @param listType is not an index, but is used for a switch statement:
 	 *            1 returns the perk list |
 	 *            2 returns the note list |
 	 *            3 returns the tags list |
 	 *            4 returns the mw list
 	 * @return */
-	public List<List<String>> getFullList(int num) {
-		return switch (num) {
+	public List<List<String>> getFullList(int listType) {
+		return switch (listType) {
 			case 1 -> itemPerkList;
 			case 2 -> itemNoteList;
 			case 3 -> itemTagList;
@@ -135,15 +135,14 @@ public class Item {
 
 	/** returns a list of a singular item's properties
 	 * 
-	 * @param num is not an index, but is used for a switch statement:
+	 * @param listType is not an index, but is used for a switch statement:
 	 *            1 returns the perk list |
 	 *            2 returns the note list |
 	 *            3 returns the tags list |
 	 *            4 returns the mw list
 	 * @return */
-
-	public List<String> getItemList(int num) {
-		return switch (num) {
+	public List<String> getItemList(int listType) {
+		return switch (listType) {
 			case 1 -> itemPerkList.get(0);
 			case 2 -> itemNoteList.get(0);
 			case 3 -> itemTagList.get(0);
@@ -151,6 +150,24 @@ public class Item {
 			default -> new ArrayList<>();
 		}; 
 	}
+
+	/**
+     * Sets a list of a singular item's properties
+     *
+     * @param listType is not an index, but is used for a switch statement: 1
+     * returns the perk list | 2 returns the note list | 3 returns the tags list
+     * | 4 returns the mw list
+     * @param list is the list to set
+     */
+    public void setItemList(int listType, List<String> list) {
+        switch (listType) {
+            case 1 -> itemPerkList.set(0, list);
+            case 2 -> itemNoteList.get(0);
+            case 3 -> itemTagList.get(0);
+            case 4 -> itemMWList.get(0);
+            default -> {}
+        };
+    }
 
 	/** @return the ignoreItem */
 	public boolean isIgnoreItem() {

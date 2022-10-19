@@ -11,6 +11,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -24,6 +25,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import org.junit.Before;
 import org.junit.Test;
 
 import junit.framework.AssertionFailedError;
@@ -36,6 +38,17 @@ import kong.unirest.UnirestException;
  * Unit test for Destiny App.
  */
 public class AppTest {
+
+    public static Map<Long, Item> unwantedItemList; 
+    public static Map<Long, Item> wantedItemList; 
+
+    @Before
+    public void setup() {
+        unwantedItemList = new HashMap<>();
+        wantedItemList = new HashMap<>();
+        unwantedItemList.put(69420L, new Item(69420L));
+        wantedItemList.put(69420L, new Item(69420L));
+    }
 
     /**
      * Ensure the connection to the destiny api is working and getting a response, as well as connecting normal and enhanced perks
@@ -395,13 +408,60 @@ public class AppTest {
         Long itemId = 69420L; 
         String currentNote = ""; 
         boolean ignoreitem = false;
-        Item item = testLineParser(itemId, line, currentNote, ignoreitem); 
+        Item item = lineParser(itemId, line, currentNote, ignoreitem); 
         // Test Results
         assertEquals(itemId, item.getItemId());
         assertEquals(1, item.getFullList(1).get(0).size());
         assertEquals(List.of("2172504645"), item.getFullList(1).get(0)); 
         assertEquals(List.of("Sleight of Hand works while stowed, but gives stats you would want while using the gun. Not a good trait. "), item.getFullList(2).get(0));
         assertTrue(item.isIgnoreItem());
+        // Check Item
+        checkItemWanted(item); 
+        assertTrue(unwantedItemList.containsKey(item.getItemId())); 
+        assertTrue(unwantedItemList.get(item.getItemId()).getFullList(1).contains(List.of("2172504645"))); 
+    }
+
+    @Test
+    public void testLineParserItemWithIgnore() throws Exception {
+        // Run related required tests
+        testLineParserAllWithIgnore();  // add the perk to ignore
+        testLineParserItem();           // test adding the item with different perks
+        // Setup test values
+        String line = "dimwishlist:item=768621510&perks=1392496348,2969185026,2172504645,438098033";
+        Long itemId = 768621510L;
+        String currentNote = "";
+        boolean ignoreitem = false;
+        Item item = lineParser(itemId, line, currentNote, ignoreitem);
+        // Test Results
+        assertEquals(itemId, item.getItemId());
+        assertEquals(4, item.getFullList(1).get(0).size());
+        assertEquals(List.of("1392496348", "2969185026", "2172504645", "438098033"), item.getFullList(1).get(0));
+        assertEquals(List.of(""), item.getFullList(2).get(0));
+        assertEquals(0, item.getFullList(3).get(0).size());
+        assertFalse(item.isIgnoreItem());
+        // Check Item
+        checkItemWanted(item);
+        assertFalse(wantedItemList.get(item.getItemId()).getFullList(1).contains(List.of("1392496348", "2969185026", "2172504645", "438098033")));
+    }
+
+    @Test
+    public void testLineParserItem() throws Exception {
+        // Setup test values
+        String line = "dimwishlist:item=768621510&perks=1392496348,2969185026,3523296417,438098033";
+        Long itemId = 768621510L;
+        String currentNote = "//notes:Inspired by Destiny Massive Breakdowns from Podcast 251. PvP first choice roll for chaining (6s). Strong subtype with vertical recoil, very good stats, and very good perk combinations from the first ever legendary stasis (kinetic slot) fusion rifle. Looking to get both Range to 80 and Stability to 70 with Masterwork, barrel, and mag traits. Sleight of Hand and Harmony are an ideal pairing for chaining kills, after a kill with another weapon. Recommended MW: Range or Stability with Quick Access Sling or Targeting Adjuster mod depending on play style.";
+        boolean ignoreitem = false;
+        Item item = lineParser(itemId, line, currentNote, ignoreitem);
+        // Test Results
+        assertEquals(itemId, item.getItemId());
+        assertEquals(4, item.getFullList(1).get(0).size());
+        assertEquals(List.of("1392496348","2969185026","3523296417","438098033"), item.getFullList(1).get(0));
+        assertEquals(List.of("//notes:PvP first choice roll for chaining (6s). Strong subtype with vertical recoil, very good stats, and very good perk combinations from the first ever legendary stasis (kinetic slot) fusion rifle. Looking to get both Range to 80 and Stability to 70 with Masterwork, barrel, and mag traits. Sleight of Hand and Harmony are an ideal pairing for chaining kills, after a kill with another weapon. Recommended MW: Range or Stability with Quick Access Sling or Targeting Adjuster mod depending on play style."), item.getFullList(2).get(0));
+        assertFalse(item.isIgnoreItem());
+        // Check Item
+        checkItemWanted(item);
+        assertTrue(wantedItemList.containsKey(item.getItemId()));
+        assertTrue(wantedItemList.get(item.getItemId()).getFullList(1).contains(List.of("1392496348", "2969185026", "3523296417", "438098033")));
     }
 
     @Test
@@ -411,7 +471,7 @@ public class AppTest {
         Long itemId = 69420L;
         String currentNote = "";
         boolean ignoreitem = true;
-        Item item = testLineParser(itemId, line, currentNote, ignoreitem);
+        Item item = lineParser(itemId, line, currentNote, ignoreitem);
         // Test Results
         assertEquals(itemId, item.getItemId());
         assertEquals(2, item.getFullList(1).get(0).size());
@@ -419,23 +479,31 @@ public class AppTest {
         assertEquals(List.of("Outlaw + Kill Clip is a classic reload + damage combination."), item.getFullList(2).get(0));
         assertEquals(List.of("pve", "mkb", "controller", "pvp"), item.getFullList(3).get(0));
         assertFalse(item.isIgnoreItem());
+        // Check Item
+        checkItemWanted(item);
+        assertTrue(wantedItemList.containsKey(item.getItemId()));
+        assertTrue(wantedItemList.get(item.getItemId()).getFullList(1).contains(List.of("1168162263", "1015611457")));
     }
 
     @Test
-    public void testLineParserPerksOnly() throws Exception {
+    public void testLineParserItemPerksOnly() throws Exception {
         // Setup test values
-        String line = "dimwishlist:item=768621510&perks=1392496348,2969185026,2172504645,438098033";
+        String line = "dimwishlist:item=768621510&perks=1392496348,2969185026,3523296417,438098033";
         Long itemId = 768621510L;
         String currentNote = "";
         boolean ignoreitem = false;
-        Item item = testLineParser(itemId, line, currentNote, ignoreitem);
+        Item item = lineParser(itemId, line, currentNote, ignoreitem);
         // Test Results
         assertEquals(itemId, item.getItemId());
         assertEquals(4, item.getFullList(1).get(0).size());
-        assertEquals(List.of("1392496348", "2969185026", "2172504645", "438098033"), item.getFullList(1).get(0));
+        assertEquals(List.of("1392496348", "2969185026", "3523296417", "438098033"), item.getFullList(1).get(0));
         assertEquals(List.of(""), item.getFullList(2).get(0));
         assertEquals(0, item.getFullList(3).get(0).size());
         assertFalse(item.isIgnoreItem());
+        // Check Item
+        checkItemWanted(item);
+        assertTrue(wantedItemList.containsKey(item.getItemId()));
+        assertTrue(wantedItemList.get(item.getItemId()).getFullList(1).contains(List.of("1392496348", "2969185026", "3523296417", "438098033")));
     }
 
     @Test
@@ -445,13 +513,17 @@ public class AppTest {
         Long itemId = 3556999246L;
         String currentNote = "";
         boolean ignoreitem = true;
-        Item item = testLineParser(itemId, line, currentNote, ignoreitem);
+        Item item = lineParser(itemId, line, currentNote, ignoreitem);
         // Test Results
         assertEquals(itemId, item.getItemId());
         assertEquals(0, item.getFullList(1).get(0).size());
         assertEquals(List.of("Pleiades Corrector has no good perk combinations. Inferior to vision of confluence. "), item.getFullList(2).get(0));
         assertEquals(0, item.getFullList(3).get(0).size());
         assertTrue(item.isIgnoreItem());
+        // Check Item
+        checkItemWanted(item);
+        assertTrue(unwantedItemList.containsKey(item.getItemId()));
+        assertTrue(unwantedItemList.get(item.getItemId()).getFullList(1).contains(List.of("-")));
     }
 
     /**
@@ -468,7 +540,7 @@ public class AppTest {
      * @throws Exception acts as a method of catching notes without tags. should
      * never actually throw an exception
      */
-    public Item testLineParser(Long item, String line, String currentNote, boolean ignoreitem) throws Exception {
+    public Item lineParser(Long item, String line, String currentNote, boolean ignoreitem) throws Exception {
         // Begin testing line
         List<String> perks = new ArrayList<>();
         String notes = null;
@@ -516,7 +588,7 @@ public class AppTest {
         }
         try {
             // NOTES CLEANING FOR FORMATTING
-            Matcher matcher = Pattern.compile("Inspired by[^\\.]*\\.", Pattern.CASE_INSENSITIVE).matcher(notes);
+            Matcher matcher = Pattern.compile("Inspired by[^\\.]*\\.\\s*", Pattern.CASE_INSENSITIVE).matcher(notes);
             notes = matcher.replaceAll("");
             if (notes.length() > 0 && notes.charAt(0) == (' ')) {
                 notes = notes.substring(1);
@@ -568,5 +640,49 @@ public class AppTest {
         Item returnItem = new Item(item);
         returnItem.put(perks, Arrays.asList(notes), tags, new ArrayList<>(), ignoreitem);
         return returnItem;
+    }
+
+    /**
+     * Add an item to the appropriate wanted/unwanted list
+     * 
+     * @param returnInfo is the item to check after parsing
+     * @throws Exception
+     */
+    public void checkItemWanted(Item returnInfo) throws Exception {
+        // setup test variables
+        boolean ignoreUnwanteditem = false; 
+
+        // 69420 is the key for all items. check if a perk should be ignored on all items
+        for (List<String> unwantedPerkList : unwantedItemList.get(69420L).getFullList(1)) {
+            if (new HashSet<>(returnInfo.getItemList(1)).containsAll(unwantedPerkList)) {
+                ignoreUnwanteditem = true;
+                break;
+            }
+        }
+        // check if ignoring a specific item or a singular perkset
+        if (unwantedItemList.containsKey(returnInfo.getItemId()) && !ignoreUnwanteditem) {
+            for (List<String> unwantedPerkList : unwantedItemList.get(returnInfo.getItemId()).getFullList(1)) {
+                if (new HashSet<>(returnInfo.getItemList(1)).containsAll(unwantedPerkList)) {
+                    ignoreUnwanteditem = true;
+                    break;
+                }
+            }
+            // are we ignoring an entire item
+            if (ignoreUnwanteditem || unwantedItemList.get(returnInfo.getItemId()).getFullList(1).contains(List.of("-"))) {
+                ignoreUnwanteditem = true;
+            }
+        }
+        // ADD ITEM TO APPROPRIATE LIST
+        if (!ignoreUnwanteditem) {
+            try {
+                if (returnInfo.isIgnoreItem()) {
+                    WishlistGenerator.constructLists(returnInfo, unwantedItemList);
+                } else {
+                    WishlistGenerator.constructLists(returnInfo, wantedItemList);
+                }
+            } catch (Exception listConstructorException) {
+                throw listConstructorException; 
+            }
+        }
     }
 }

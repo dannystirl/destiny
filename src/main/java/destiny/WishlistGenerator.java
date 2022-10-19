@@ -286,6 +286,30 @@ public class WishlistGenerator implements AutoCloseable {
                     }
                     Item returnInfo = lineParser(item, line, currentNote, ignoreitem);
 
+                    // TRANSLATE  https://www.light.gg/db/all/?page=1&f=4(3),10(Trait)  TO  https://www.light.gg/db/all/?page=1&f=4(2),10(Trait)
+                    List<String> itemPerkList = returnInfo.getItemList(1); // reduce calls of getItemList()
+                    List<String> tempPerkList = new ArrayList<>(itemPerkList);
+                    int j = 0;
+                    if (itemPerkList.size() == 4) {
+                        j = 2;
+                    }
+                    for (int i = j; i < itemPerkList.size(); i++) {
+                        if (!checkedItemList.contains(itemPerkList.get(i))) {
+                            try {
+                                checkPerk(itemPerkList.get(i));
+                            } catch (Exception e) {
+                                // Really could be any number of reasons for this to happen, but it's probably a timeout. 
+                                errorPrint("HTTP Error", e);
+                            }
+                        }
+                        // if itemMatchingList contains itemPerkList.get(i), set tempPerkList to the itemMatchingList (convert dead / incorrect perks to the correct / normal version)
+                        if (itemMatchingList.containsKey(itemPerkList.get(i))) {
+                            tempPerkList.set(i, itemMatchingList.get(itemPerkList.get(i)));
+                        }
+                    }
+                    returnInfo.setItemList(1, new ArrayList<>(tempPerkList));
+
+                    // CHECK IF ITEM PROPERTIES ARE UNWANTED
                     // 69420 is the key for all items. check if a perk should be ignored on all items
                     for (List<String> unwantedPerkList : unwantedItemList.get(69420L).getFullList(1)) {
                         if (new HashSet<>(returnInfo.getItemList(1)).containsAll(unwantedPerkList)) {
@@ -539,8 +563,8 @@ public class WishlistGenerator implements AutoCloseable {
             itemTags = itemMap.get(item.getItemId()).getFullList(3);
             itemMWs = itemMap.get(item.getItemId()).getFullList(4);
         }
-
         List<String> itemPerkList = item.getItemList(1); // reduce calls of getItemList()
+
         // translate  https://www.light.gg/db/all/?page=1&f=4(3),10(Trait)  to  https://www.light.gg/db/all/?page=1&f=4(2),10(Trait)
         List<String> tempPerkList = new ArrayList<>(itemPerkList);
         int j = 0;
@@ -563,11 +587,6 @@ public class WishlistGenerator implements AutoCloseable {
         }
         itemPerkList = new ArrayList<>(tempPerkList);
 
-        //? TESTING ONLY
-        if(itemPerkList.containsAll(List.of("1392496348", "2969185026L", "1428297954L", "1890422124L"))) {
-            System.out.println(item.getItemId()); 
-        }
-
         // is the current perk list stored on the item already
         int perkListIndex = -1;
         for (List<String> perkList : itemPerks) {
@@ -588,7 +607,7 @@ public class WishlistGenerator implements AutoCloseable {
                 return itemMap;
             }
             itemPerks.add(itemPerkList);
-            List<List<String>> returnList = createInnerLists(item, notes, tags, mws);
+            List<List<String>> returnList = constructListsInner(item, notes, tags, mws);
             itemNotes.add(returnList.get(0));
             itemTags.add(returnList.get(1));
             itemMWs.add(returnList.get(2));
@@ -597,7 +616,7 @@ public class WishlistGenerator implements AutoCloseable {
             notes = itemNotes.get(perkListIndex);
             tags = itemTags.get(perkListIndex);
             mws = itemMWs.get(perkListIndex);
-            List<List<String>> returnList = createInnerLists(item, notes, tags, mws);
+            List<List<String>> returnList = constructListsInner(item, notes, tags, mws);
             itemNotes.set(perkListIndex, returnList.get(0));
             itemTags.set(perkListIndex, returnList.get(1));
             itemMWs.set(perkListIndex, returnList.get(2));
@@ -617,7 +636,7 @@ public class WishlistGenerator implements AutoCloseable {
      * @param mws the list of mws to add to
      * @return a list of lists of notes, tags, and mws
      */
-    public static @NotNull List<List<String>> createInnerLists(Item item, List<String> notes, List<String> tags, List<String> mws) {
+    public static @NotNull List<List<String>> constructListsInner(Item item, List<String> notes, List<String> tags, List<String> mws) {
         List<List<String>> returnList = new ArrayList<>();
         String note = item.getItemList(2).get(0);
         try {
@@ -740,7 +759,7 @@ public class WishlistGenerator implements AutoCloseable {
         }
         try {
             // NOTES CLEANING FOR FORMATTING
-            Matcher matcher = Pattern.compile("Inspired by[^\\.]*\\.", Pattern.CASE_INSENSITIVE).matcher(notes);
+            Matcher matcher = Pattern.compile("Inspired by[^\\.]*\\.\\s*", Pattern.CASE_INSENSITIVE).matcher(notes);
             notes = matcher.replaceAll("");
             if (notes.contains("[YeezyGT")) {
                 notes = notes.split("(\\[YeezyGT).*\\]")[1];
