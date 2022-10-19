@@ -42,7 +42,8 @@ public class WishlistGenerator implements AutoCloseable {
     public static Map<String, String> itemNamingList = new HashMap<>();
     public static List<String> checkedItemList = new ArrayList<>();
     public static BufferedReader br;
-    public static PrintStream stream;
+    public static PrintStream errorOutputFile;
+    public static PrintStream scriptedWishlistFile; 
 
     /**
      * the main method reads through the original file and collects data on each
@@ -53,9 +54,10 @@ public class WishlistGenerator implements AutoCloseable {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        // Create the error file
+        // Create the error file and output file
         try {
-            stream = new PrintStream("bin//errors.txt");
+            errorOutputFile = new PrintStream("bin//errors.txt");
+            scriptedWishlistFile = new PrintStream("output//WishlistAutomated.txt");
         } catch (FileNotFoundException e) {
             System.out.println("Error creating error file: " + e);
             throw new FileNotFoundException();
@@ -176,8 +178,6 @@ public class WishlistGenerator implements AutoCloseable {
             // also dim already does this on import, so it would really be for a minor file size reduction
         }
 
-        //itemList.get(999767358L).print();
-
         // TODO - would love to add a second sort here to organize by notes again (happens to be how it's sorted without the above sorting method) to reduce output file size. ideally by size of note so the ones with more information (generally the ones that lists had originally) would be at the top of the list, and therefor easier to see in dim. this would also put anything without notes (usually just collections of perks) at the bottom. could also sort inversely by the number of perksets under each note to achieve a similar affect. would need to see this in action BUT i'm not even sure I need to do this since dim already does this.
         printWishlist();
 
@@ -227,6 +227,7 @@ public class WishlistGenerator implements AutoCloseable {
                     td = new ArrayList<>();
                     td.add(sourceNum++);
                     td.add(line.split(":")[1]);
+                    System.out.printf("Reading items from %s, list #%d.%n", line.split(":")[1], sourceNum);
                     break;
                 case "description":
                     td.add(line.split(":")[1]);
@@ -243,9 +244,13 @@ public class WishlistGenerator implements AutoCloseable {
                     }
                     // GATHERING LINE INFORMATION (ITEM, PERKS, NOTES)
                     Long item = Long.parseLong(line.substring(startKey).split("&")[0].split("#")[0]);
-                    /*if(item!=768621510L && item!=999767358L) {
+                    //? TESTING ONLY
+                    if (item!= 69420L
+                    && item != 768621510L && item != 999767358L 
+                    && item != 2943293195L && item != 2886339027L
+                    && item != 1621558458L) {
                         break;
-                    }*/
+                    }
                     // Convert from adept to normal so they all have the same perks and notes. Convert back when printing so adepts and normals are next to each other in the file
                     if(!adeptMatchingList.containsKey(item)) {
                         Long oldItem = item;
@@ -281,24 +286,23 @@ public class WishlistGenerator implements AutoCloseable {
                     }
                     Item returnInfo = lineParser(item, line, currentNote, ignoreitem);
 
-                    // 69420 is the key for all items. check if a perk should be ignored on all
-                    for (List<String> tempList : unwantedItemList.get(69420L).getFullList(1)) {
-                        if (new HashSet<>(returnInfo.getItemList(1)).containsAll(tempList)) {
+                    // 69420 is the key for all items. check if a perk should be ignored on all items
+                    for (List<String> unwantedPerkList : unwantedItemList.get(69420L).getFullList(1)) {
+                        if (new HashSet<>(returnInfo.getItemList(1)).containsAll(unwantedPerkList)) {
                             ignoreUnwanteditem = true;
                             break;
                         }
                     }
                     // check if ignoring a specific item or a singular perkset
                     if (unwantedItemList.containsKey(item) && !ignoreUnwanteditem) {
-                        for (List<String> tempList : unwantedItemList.get(item).getFullList(1)) {
-                            if (new HashSet<>(returnInfo.getItemList(1)).containsAll(tempList)) {
+                        for (List<String> unwantedPerkList : unwantedItemList.get(item).getFullList(1)) {
+                            if (new HashSet<>(returnInfo.getItemList(1)).containsAll(unwantedPerkList)) {
                                 ignoreUnwanteditem = true;
                                 break;
                             }
                         }
                         // are we ignoring an entire item
-                        if (ignoreUnwanteditem
-                                || unwantedItemList.get(item).getFullList(1).contains(List.of("-"))) {
+                        if (ignoreUnwanteditem || unwantedItemList.get(item).getFullList(1).contains(List.of("-"))) {
                             ignoreUnwanteditem = true;
                         }
                     }
@@ -333,28 +337,32 @@ public class WishlistGenerator implements AutoCloseable {
 	 * PRINTING WISHLIST
      */
     public static void printWishlist() {
+        System.setOut(scriptedWishlistFile);
+        System.setErr(errorOutputFile);
+
+        // print overall title and description
         System.out.printf("title:%s%n", sourceList.get(0).get(1));
         System.out.printf("description:%s%n%n", sourceList.get(0).get(2));
         // print wishlist rolls
-        // trashlist rolls don't need to be printed since they're all excluded during creation
-
         for (Map.Entry<Long, Item> item : itemList.entrySet()) {
-            Long key = item.getKey();
-            List<Long> keysList = new ArrayList<>(List.of(key));
+            Long normalItemId = item.getKey();
+            List<Long> keysList = new ArrayList<>(List.of(normalItemId));
 
             // Convert back any items that have adept versions and print both
-            if(adeptMatchingList.containsValue(key)) {
-                for (Map.Entry<Long, Long> entry : adeptMatchingList.entrySet()) {
-                    if (Objects.equals(key, entry.getValue())) {
-                        if(!keysList.contains(entry.getKey()))
-                            keysList.add(entry.getKey());
-                    }
+            for (Map.Entry<Long, Long> entry : adeptMatchingList.entrySet()) {
+                if (Objects.equals(normalItemId, entry.getValue())) {
+                    if(!keysList.contains(entry.getKey()))
+                        keysList.add(entry.getKey());
                 }
             }
             for (Long k: keysList) {
                 printWishlistInner(item, k);
             }
         }
+        // reset output to console
+        scriptedWishlistFile.close();
+        System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
+        System.setErr(errorOutputFile);
     }
 
     /**
@@ -372,6 +380,10 @@ public class WishlistGenerator implements AutoCloseable {
         List<String> currentTagsFull = new ArrayList<>();
         List<String> currentMWsFull = new ArrayList<>();
 
+        System.setOut(scriptedWishlistFile);
+        System.setErr(errorOutputFile);
+
+        // ITEM NAME
         String name = "";
         if (itemNamingList.containsKey(key.toString())) {
             name = itemNamingList.get(key.toString());
@@ -380,40 +392,45 @@ public class WishlistGenerator implements AutoCloseable {
                 name = getName(key.toString());
                 itemNamingList.put(key.toString(), name);
             } catch (Exception e) {
-                errorPrint("Unable to get name for item " + key, e);
+                errorPrint("Unable to get name for item " + key, e, scriptedWishlistFile);
             }
         }
+        // ITEM VALUES
         System.out.printf("%n//item %s: %s%n", key, name);
-        for (int j = 0; j < itemPerkList.size(); j++) {
+        for (int itemNumber = 0; itemNumber < itemPerkList.size(); itemNumber++) {
+            // TAGS
             // gamemode is in beginning, input type is at end
-            java.util.Collections.sort(itemTagsList.get(j), java.util.Collections.reverseOrder());
-
-            // some final formatting change that shouldnt even be necessary but somewhere i'm adding a '/' instead of an empty list
-            for (int i = 0; i < itemTagsList.get(j).size(); i++) {
-                itemTagsList.get(j).set(i, itemTagsList.get(j).get(i).replace(" ", ""));
+            java.util.Collections.sort(itemTagsList.get(itemNumber), java.util.Collections.reverseOrder());
+            // some final formatting change that shouldnt even be necessary but somewhere I'm adding a ' ' or '/' instead of an empty list
+            for (int i = 0; i < itemTagsList.get(itemNumber).size(); i++) {
+                itemTagsList.get(itemNumber).set(i, itemTagsList.get(itemNumber).get(i).replace(" ", ""));
             }
-            for (int k = 0; k < itemNotesList.get(j).size(); k++) {
-                if (itemNotesList.get(j).get(k).length() < 3) {
-                    itemNotesList.get(j).set(k, "");
+            for (int k = 0; k < itemNotesList.get(itemNumber).size(); k++) {
+                if (itemNotesList.get(itemNumber).get(k).length() < 3) {
+                    itemNotesList.get(itemNumber).set(k, "");
                 }
             }
 
-            // NOTES
-            if (!currentNoteFull.equals(itemNotesList.get(j))
-                    || !currentTagsFull.equals(itemTagsList.get(j))
-                    || !currentMWsFull.equals(itemMWsList.get(j))) {
+            // ITEM DOCUMENTATION IS DIFFERENT
+            if (!currentNoteFull.equals(itemNotesList.get(itemNumber))
+             || !currentTagsFull.equals(itemTagsList.get(itemNumber))
+             || !currentMWsFull.equals(itemMWsList.get(itemNumber))) {
+                currentNoteFull = itemNotesList.get(itemNumber);
+                currentTagsFull = itemTagsList.get(itemNumber);
+                currentMWsFull = itemMWsList.get(itemNumber);
+                // NOTES
                 System.out.print("//notes:");
-                currentTagsFull = itemTagsList.get(j);
-                currentNoteFull = itemNotesList.get(j);
-                currentMWsFull = itemMWsList.get(j);
-                for (int i = 0; i < itemNotesList.get(j).size(); i++) {
-                    String note = itemNotesList.get(j).get(i);
+                for (int i = 0; i < currentNoteFull.size(); i++) {
+                    String note = currentNoteFull.get(i);
                     if (!note.equals("")) {
                         if (note.charAt(0) == (' ')) {
                             note = note.substring(1);
                         }
                         note = note.replace("\"", "");
-                        note = note.replace("  ", " ");
+                        note = note.replace("\\s+", " ");
+                        // ascii formatting
+                        note = note.replaceAll("[^\\p{ASCII}]", ""); // replace any characters printed as ?
+                        note = note.replace("�", "\'");
                         // reverse the outlier changes made earlier
                         note = note.replace("lightggg", "light.gg");
                         note = note.replace("elipsez", "...");
@@ -421,25 +438,21 @@ public class WishlistGenerator implements AutoCloseable {
                         System.out.print(note);
                         if (note.charAt(note.length() - 1) == '.') {
                             System.out.print(' ');
-                        }
-                        if (note.charAt(note.length() - 1) != '.') {
+                        } else {
                             System.out.print(". ");
                         }
                     }
                 }
-                if (!itemMWsList.get(j).isEmpty()) {
+                // MWS
+                if (!itemMWsList.get(itemNumber).isEmpty()) {
                     System.out.print("Recommended MW: ");
-                    for (int i = 0; i < itemMWsList.get(j).size() - 1; i++) {
-                        System.out.print(itemMWsList.get(j).get(i) + ", ");
+                    for (int i = 0; i < itemMWsList.get(itemNumber).size() - 1; i++) {
+                        System.out.print(itemMWsList.get(itemNumber).get(i) + ", ");
                     }
-                    System.out.print(itemMWsList.get(j).get(itemMWsList.get(j).size() - 1) + ". ");
+                    System.out.print(itemMWsList.get(itemNumber).get(itemMWsList.get(itemNumber).size() - 1) + ". ");
                 }
                 try {
                     // TAGS
-                    // remove any spaces from currentTagsFull
-                    for (int i = 0; i < currentTagsFull.size(); i++) {
-                        currentTagsFull.set(i, currentTagsFull.get(i).replace(" ", ""));
-                    }
                     if (!currentTagsFull.get(0).equals("")) {
                         // hashsetis a fast way to remove duplicates, however they may have gotten there
                         LinkedHashSet<String> linkedHashSet = new LinkedHashSet<>(currentTagsFull);
@@ -462,16 +475,20 @@ public class WishlistGenerator implements AutoCloseable {
                 key = -69420L;
             }
             System.out.printf("dimwishlist:item=%s", key);
-            if (!itemPerkList.get(j).isEmpty()) {
+            if (!itemPerkList.get(itemNumber).isEmpty()) {
                 // ITEM
                 System.out.print("&perks=");
-                // if there is an item in itemPerkList.get(j)
-                for (int i = 0; i < itemPerkList.get(j).size() - 1; i++) {
-                    System.out.printf("%s,", itemPerkList.get(j).get(i));
+                // check if there is an item in itemPerkList.get(itemNumber)
+                for (int i = 0; i < itemPerkList.get(itemNumber).size() - 1; i++) {
+                    System.out.printf("%s,", itemPerkList.get(itemNumber).get(i));
                 }
-                System.out.printf("%s%n", itemPerkList.get(j).get(itemPerkList.get(j).size() - 1));
+                System.out.printf("%s%n", itemPerkList.get(itemNumber).get(itemPerkList.get(itemNumber).size() - 1));
             }
         }
+    
+        // reset errorOutputFile to console
+        System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
+        System.setErr(new PrintStream(new FileOutputStream(FileDescriptor.out)));
     }
 
     /**
@@ -499,7 +516,7 @@ public class WishlistGenerator implements AutoCloseable {
 
     /**
      * Takes an item and maps it to the appropriate item list. Excludes
-     * duplicate perk sets, notes, and tags On duplicate perk sets, include
+     * duplicate perk sets, notes, and tags on duplicate perk sets, include
      * non-duplicate notes and tags
      *
      * @param item An input item
@@ -539,12 +556,17 @@ public class WishlistGenerator implements AutoCloseable {
                     errorPrint("HTTP Error", e);
                 }
             }
-            // if itemMatchingList contains itemPerkList.get(i), set tempPerkList to the itemMatchingList
+            // if itemMatchingList contains itemPerkList.get(i), set tempPerkList to the itemMatchingList (convert dead / incorrect perks to the correct / normal version)
             if (itemMatchingList.containsKey(itemPerkList.get(i))) {
                 tempPerkList.set(i, itemMatchingList.get(itemPerkList.get(i)));
             }
         }
         itemPerkList = new ArrayList<>(tempPerkList);
+
+        //? TESTING ONLY
+        if(itemPerkList.containsAll(List.of("1392496348", "2969185026L", "1428297954L", "1890422124L"))) {
+            System.out.println(item.getItemId()); 
+        }
 
         // is the current perk list stored on the item already
         int perkListIndex = -1;
@@ -630,9 +652,10 @@ public class WishlistGenerator implements AutoCloseable {
                 note = note.replace("light.gg", "lightggg");
                 note = note.replace("...", "elipsez");
                 note = note.replace("3.0", "v30");
-                for (String string : Arrays.asList(note.split("\\.[\\s]*|\"[\\s]*"))) {
+                for (String string : Arrays.asList(note.split("\\.[\\s]+|\"[\\s]*"))) {
                     Matcher matcher = pattern.matcher(string);
                     if (matcher.matches()) {
+                        // MW
                         if (!mws.contains(matcher.group().split("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))")[1])) {
                             mws.add(matcher.group().split("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))")[1]);
                         }
@@ -716,6 +739,7 @@ public class WishlistGenerator implements AutoCloseable {
             }
         }
         try {
+            // NOTES CLEANING FOR FORMATTING
             Matcher matcher = Pattern.compile("Inspired by[^\\.]*\\.", Pattern.CASE_INSENSITIVE).matcher(notes);
             notes = matcher.replaceAll("");
             if (notes.contains("[YeezyGT")) {
@@ -726,11 +750,10 @@ public class WishlistGenerator implements AutoCloseable {
             if (notes.length() > 0 && notes.charAt(0) == (' ')) {
                 notes = notes.substring(1);
             }
-            notes = notes.replace("’", "\'");
 
+            // BASIC TAGS
             String itemType = "pv[pe]|m.?kb|controller|gambit";
-            Pattern pattern = Pattern.compile("\\((" + itemType + ")(\\s*\\/+\\s*(" + itemType + "))*\\)",
-                    Pattern.CASE_INSENSITIVE);
+            Pattern pattern = Pattern.compile("\\((" + itemType + ")(\\s*\\/+\\s*(" + itemType + "))*\\)", Pattern.CASE_INSENSITIVE); // tags in parenthesis
             matcher = pattern.matcher(notes);
             while (matcher.find()) {
                 List<String> strArray = Arrays.asList(
@@ -744,6 +767,22 @@ public class WishlistGenerator implements AutoCloseable {
                     }
                 }
             }
+            pattern = Pattern.compile("tags:.*", Pattern.CASE_INSENSITIVE); // tags at end of note
+            matcher = pattern.matcher(notes);
+            while (matcher.find()) {
+                List<String> strArray = Arrays.asList(matcher.group().split("tags:\\s*")[1].split("\\,"));
+                for (String str : strArray) {
+                    if (str.equalsIgnoreCase("m+kb")) {
+                        str = "mkb";
+                    }
+                    if (!tags.contains(str.toLowerCase())) {
+                        tags.add(str.toLowerCase());
+                    }
+                }
+            }
+            if (!tags.isEmpty()) {
+                notes = notes.split("\\|*tags")[0];
+            }
             StringBuilder temp = new StringBuilder();
             for (String string : notes.split("(?i)\\((" + itemType + ")(\\s*\\/+\\s*(" + itemType + "))*\\):*")) {
                 temp.append(string);
@@ -753,7 +792,7 @@ public class WishlistGenerator implements AutoCloseable {
             if (notes.length() > 0 && notes.charAt(0) == (' ')) {
                 notes = notes.substring(1);
             }
-            notes = notes.replace("\\s\\s", "\\s");
+            notes = notes.replace("\\s+", "\\s");
         } catch (Exception e) {
             errorPrint("Error with notes " + notes, e);
             throw e;
@@ -999,16 +1038,27 @@ public class WishlistGenerator implements AutoCloseable {
      * @param e the error being thrown
      */
     public static void errorPrint(String err, Exception e) {
-        System.setOut(stream);
-        System.setErr(stream);
+        errorPrint(err, e, new PrintStream(new FileOutputStream(FileDescriptor.out))); 
+    }
+
+    /**
+     * print any errors to bin\errors folder
+     *
+     * @param err the (possible) reason for the error
+     * @param e the error being thrown
+     * @param oldStream the stream to return to
+     */
+    public static void errorPrint(String err, Exception e, PrintStream oldStream) {
+        System.setOut(errorOutputFile);
+        System.setErr(errorOutputFile);
 
         System.out.println(err + ": " + e.getMessage());
         e.printStackTrace();
         System.out.println("\n");
 
-        // reset stream to console
-        stream.close();
-        System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
-        System.setErr(new PrintStream(new FileOutputStream(FileDescriptor.out)));
+        // reset errorOutputFile to console
+        errorOutputFile.close();
+        System.setOut(oldStream);
+        System.setErr(oldStream);
     }
 }

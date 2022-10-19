@@ -26,6 +26,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.junit.Test;
 
+import junit.framework.AssertionFailedError;
 import kong.unirest.GetRequest;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
@@ -385,5 +386,187 @@ public class AppTest {
                 }
             }
         }
+    }
+
+    @Test
+    public void testLineParserAllWithIgnore() throws Exception {
+        // Setup test values
+        String line = "dimwishlist:item=69420&perks=-2172504645#notes:Sleight of Hand works while stowed, but gives stats you would want while using the gun. Not a good trait. "; 
+        Long itemId = 69420L; 
+        String currentNote = ""; 
+        boolean ignoreitem = false;
+        Item item = testLineParser(itemId, line, currentNote, ignoreitem); 
+        // Test Results
+        assertEquals(itemId, item.getItemId());
+        assertEquals(1, item.getFullList(1).get(0).size());
+        assertEquals(List.of("2172504645"), item.getFullList(1).get(0)); 
+        assertEquals(List.of("Sleight of Hand works while stowed, but gives stats you would want while using the gun. Not a good trait. "), item.getFullList(2).get(0));
+        assertTrue(item.isIgnoreItem());
+    }
+
+    @Test
+    public void testLineParserAll() throws Exception {
+        // Setup test values
+        String line = "dimwishlist:item=-69420&perks=1168162263,1015611457#notes:Outlaw + Kill Clip is a classic reload + damage combination.|tags:pve,mkb,controller,pvp";
+        Long itemId = 69420L;
+        String currentNote = "";
+        boolean ignoreitem = true;
+        Item item = testLineParser(itemId, line, currentNote, ignoreitem);
+        // Test Results
+        assertEquals(itemId, item.getItemId());
+        assertEquals(2, item.getFullList(1).get(0).size());
+        assertEquals(List.of("1168162263", "1015611457"), item.getFullList(1).get(0));
+        assertEquals(List.of("Outlaw + Kill Clip is a classic reload + damage combination."), item.getFullList(2).get(0));
+        assertEquals(List.of("pve", "mkb", "controller", "pvp"), item.getFullList(3).get(0));
+        assertFalse(item.isIgnoreItem());
+    }
+
+    @Test
+    public void testLineParserPerksOnly() throws Exception {
+        // Setup test values
+        String line = "dimwishlist:item=768621510&perks=1392496348,2969185026,2172504645,438098033";
+        Long itemId = 768621510L;
+        String currentNote = "";
+        boolean ignoreitem = false;
+        Item item = testLineParser(itemId, line, currentNote, ignoreitem);
+        // Test Results
+        assertEquals(itemId, item.getItemId());
+        assertEquals(4, item.getFullList(1).get(0).size());
+        assertEquals(List.of("1392496348", "2969185026", "2172504645", "438098033"), item.getFullList(1).get(0));
+        assertEquals(List.of(""), item.getFullList(2).get(0));
+        assertEquals(0, item.getFullList(3).get(0).size());
+        assertFalse(item.isIgnoreItem());
+    }
+
+    @Test
+    public void testLineParserIgnoreItem() throws Exception {
+        // Setup test values
+        String line = "dimwishlist:item=-3556999246#notes:Pleiades Corrector has no good perk combinations. Inferior to vision of confluence. ";
+        Long itemId = 3556999246L;
+        String currentNote = "";
+        boolean ignoreitem = true;
+        Item item = testLineParser(itemId, line, currentNote, ignoreitem);
+        // Test Results
+        assertEquals(itemId, item.getItemId());
+        assertEquals(0, item.getFullList(1).get(0).size());
+        assertEquals(List.of("Pleiades Corrector has no good perk combinations. Inferior to vision of confluence. "), item.getFullList(2).get(0));
+        assertEquals(0, item.getFullList(3).get(0).size());
+        assertTrue(item.isIgnoreItem());
+    }
+
+    /**
+     * Takes a line and extracts perk, note, and tag information
+     *
+     * @param item Long of the item number
+     * @param line String of the complete line
+     * @param currentNote if item is imported en mass, the note from a similar
+     * previous item is used instead
+     * @param ignoreitem should an item or it's perk list be excluded from the
+     * list
+     * @return Item with item number, perks, notes, and other various
+     * information
+     * @throws Exception acts as a method of catching notes without tags. should
+     * never actually throw an exception
+     */
+    public Item testLineParser(Long item, String line, String currentNote, boolean ignoreitem) throws Exception {
+        // Begin testing line
+        List<String> perks = new ArrayList<>();
+        String notes = null;
+        List<String> tags = new ArrayList<>();
+        try {
+            perks = Arrays.asList(line.split("&perks=")[1].split("#notes:")[0].split(",")); // desired perks
+            notes = line.split("#notes:")[1]; // notes
+        } catch (Exception missingInformation) {
+            try {
+                perks = Arrays.asList(line.split("&perks=")[1].split(",")); // desired perks with no notes
+            } catch (Exception missingInformation2) {
+                try {
+                    notes = line.split("#notes:")[1]; // desired perks with no notes
+                } catch (Exception missingInformation3) {
+                    throw new AssertionFailedError("Unable to get perks");
+                }
+            }
+        }
+        if (perks.size() == 5) {
+            // get rid of origin traits since they're static and just clog up the perk list
+            perks = perks.subList(0, 4);
+        }
+        if (item == 69420L) { // -69420 is a key to apply a wanted/unwanted set of perks to all items, so this is simply to offset that negative
+            ignoreitem = false;
+        }
+        // IS ANY ASPECT OF AN ITEM UNWANTED
+        if (!perks.isEmpty() && perks.get(0).charAt(0) == '-') {
+            // if holding an item with perks to ignore, remove the negative sign and prep to
+            // add them to the ignore list
+            for (int i = 0; i < perks.size(); i++) {
+                perks.set(i, perks.get(i).substring(1));
+            }
+            ignoreitem = true;
+        }
+        // clean some notes to get rid of unnecessary fluff
+        if (notes == null) {
+            notes = currentNote;
+        }
+        if (notes.contains("auto generated")) {
+            try {
+                notes = "\\|tags:" + notes.split("\\|*tags:")[1];
+            } catch (Exception notesError) {
+                // not an error. just item has no notes
+            }
+        }
+        try {
+            // NOTES CLEANING FOR FORMATTING
+            Matcher matcher = Pattern.compile("Inspired by[^\\.]*\\.", Pattern.CASE_INSENSITIVE).matcher(notes);
+            notes = matcher.replaceAll("");
+            if (notes.length() > 0 && notes.charAt(0) == (' ')) {
+                notes = notes.substring(1);
+            }
+            // BASIC TAGS
+            String itemType = "pv[pe]|m.?kb|controller|gambit";
+            Pattern pattern = Pattern.compile("\\((" + itemType + ")(\\s*\\/+\\s*(" + itemType + "))*\\)", Pattern.CASE_INSENSITIVE); // tags in parenthesis
+            matcher = pattern.matcher(notes);
+            while (matcher.find()) {
+                List<String> strArray = Arrays.asList(matcher.group().subSequence(1, matcher.group().length() - 1).toString().split("\\s*\\/\\s*"));
+                for (String str : strArray) {
+                    if (str.equalsIgnoreCase("m+kb")) {
+                        str = "mkb";
+                    }
+                    if (!tags.contains(str.toLowerCase())) {
+                        tags.add(str.toLowerCase());
+                    }
+                }
+            }
+            pattern = Pattern.compile("tags:.*", Pattern.CASE_INSENSITIVE); // tags at end of note
+            matcher = pattern.matcher(notes);
+            while (matcher.find()) {
+                List<String> strArray = Arrays.asList(matcher.group().split("tags:\\s*")[1].split("\\,"));
+                for (String str : strArray) {
+                    if (str.equalsIgnoreCase("m+kb")) {
+                        str = "mkb";
+                    }
+                    if (!tags.contains(str.toLowerCase())) {
+                        tags.add(str.toLowerCase());
+                    }
+                }
+            }
+            if(!tags.isEmpty()) {
+                notes = notes.split("\\|*tags")[0]; 
+            }
+            StringBuilder temp = new StringBuilder();
+            for (String string : notes.split("(?i)\\((" + itemType + ")(\\s*\\/+\\s*(" + itemType + "))*\\):*")) {
+                temp.append(string);
+            }
+            notes = temp.toString();
+
+            if (notes.length() > 0 && notes.charAt(0) == (' ')) {
+                notes = notes.substring(1);
+            }
+            notes = notes.replace("\\s+", "\\s");
+        } catch (Exception e) {
+            throw e;
+        }
+        Item returnItem = new Item(item);
+        returnItem.put(perks, Arrays.asList(notes), tags, new ArrayList<>(), ignoreitem);
+        return returnItem;
     }
 }

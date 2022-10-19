@@ -35,7 +35,8 @@ public class Item {
 		itemMWList = new ArrayList<>();
 	}
 
-	/** @param num itemID
+	/** 
+	 * @param num itemID
 	 * @param perks
 	 * @param notes
 	 * @param tags
@@ -60,8 +61,7 @@ public class Item {
 	 * @param mw
 	 * @param bool
 	 *            should the item be ignored */
-	public void put(int num, List<String> perks, List<String> notes, List<String> tags, List<String> mw,
-			Boolean bool) {
+	public void put(int num, List<String> perks, List<String> notes, List<String> tags, List<String> mw, Boolean bool) {
 		itemPerkList.set(num, perks);
 		itemNoteList.set(num, notes);
 		itemTagList.set(num, tags);
@@ -94,7 +94,7 @@ public class Item {
 		put(itemNumber - 1, perks, Arrays.asList(""), Arrays.asList(""), Arrays.asList(""), ignoreItem);
 	}
 
-	/** returns a list of an item properties list
+	/** Returns a list of an item properties list
 	 * 
 	 * @param num is not an index, but is used for a switch statement:
 	 *            1 returns the perk list |
@@ -105,20 +105,13 @@ public class Item {
 	 */
 	public void setFullList(int num, List<List<String>> list) {
 		switch (num) {
-			case 1:
-				itemPerkList = list;
-				break;
-			case 2:
-				itemNoteList = list;
-				break;
-			case 3:
-				itemTagList = list;
-				break;
-			case 4:
-				itemMWList = list;
-				break;
-			default:
-				return;
+			case 1 -> itemPerkList = list;
+			case 2 -> itemNoteList = list;
+			case 3 -> itemTagList = list;
+			case 4 -> itemMWList = list;
+			default -> {
+				
+			}
 		}
 	}
 
@@ -131,18 +124,13 @@ public class Item {
 	 *            4 returns the mw list
 	 * @return */
 	public List<List<String>> getFullList(int num) {
-		switch (num) {
-			case 1:
-				return itemPerkList;
-			case 2:
-				return itemNoteList;
-			case 3:
-				return itemTagList;
-			case 4:
-				return itemMWList;
-			default:
-				return new ArrayList<>();
-		}
+		return switch (num) {
+			case 1 -> itemPerkList;
+			case 2 -> itemNoteList;
+			case 3 -> itemTagList;
+			case 4 -> itemMWList;
+			default -> new ArrayList<>();
+		}; 
 	}
 
 	/** returns a list of a singular item's properties
@@ -155,18 +143,13 @@ public class Item {
 	 * @return */
 
 	public List<String> getItemList(int num) {
-		switch (num) {
-			case 1:
-				return itemPerkList.get(0);
-			case 2:
-				return itemNoteList.get(0);
-			case 3:
-				return itemTagList.get(0);
-			case 4:
-				return itemMWList.get(0);
-			default:
-				return new ArrayList<>();
-		}
+		return switch (num) {
+			case 1 -> itemPerkList.get(0);
+			case 2 -> itemNoteList.get(0);
+			case 3 -> itemTagList.get(0);
+			case 4 -> itemMWList.get(0);
+			default -> new ArrayList<>();
+		}; 
 	}
 
 	/** @return the ignoreItem */

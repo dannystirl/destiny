@@ -2,8 +2,8 @@ Error checking for adept version of item. Probably occurs when checking item typ
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.WishlistGenerator.getName(WishlistGenerator.java:492)
-	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:254)
-	at destiny.WishlistGenerator.main(WishlistGenerator.java:118)
+	at destiny.WishlistGenerator.getName(WishlistGenerator.java:512)
+	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:258)
+	at destiny.WishlistGenerator.main(WishlistGenerator.java:120)
 
 
