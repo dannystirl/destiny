@@ -8,7 +8,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintStream;
-import java.io.StringReader;
+import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +26,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import kong.unirest.GetRequest;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import kong.unirest.UnirestException;
@@ -43,7 +42,17 @@ public class WishlistGenerator implements AutoCloseable {
     public static List<String> checkedItemList = new ArrayList<>();
     public static BufferedReader br;
     public static PrintStream errorOutputFile;
-    public static PrintStream scriptedWishlistFile; 
+    public static PrintStream scriptedWishlistFile;
+
+    public static final String wishlistOutputFileName = "output//WishListScripted.txt";
+    public static final String errorOutputFileName = "bin//errors.txt";
+    public static final String enhancedMappingFileName = "src//main//data//destiny//enhancedMapping.csv";
+    public static final String nameMappingFileName = "src//main//data//destiny//nameMapping.csv";
+    public static final String wishlistCSourceFileName = "input//CustomDestinyWishlist.txt";
+    public static final String wishlistDSourceFileName = "input//CompleteDestinyWishList.txt";
+    public static final String wishlistDSourceUrlName = "https://raw.githubusercontent.com/48klocs/dim-wish-list-sources/master/voltron.txt";
+    public static final String bungieItemSearchUrl = "https://www.bungie.net/Platform/Destiny2/Armory/Search/DestinyInventoryItemDefinition/{searchTerm}/";
+    public static final String bungieItemDefinitionUrl = "https://www.bungie.net/Platform/Destiny2/Manifest/DestinyInventoryItemDefinition/{hashIdentifier}/";
 
     /**
      * the main method reads through the original file and collects data on each
@@ -56,15 +65,15 @@ public class WishlistGenerator implements AutoCloseable {
     public static void main(String[] args) throws Exception {
         // Create the error file and output file
         try {
-            errorOutputFile = new PrintStream("bin//errors.txt");
-            scriptedWishlistFile = new PrintStream("output//WishlistAutomated.txt");
+            errorOutputFile = new PrintStream(errorOutputFileName);
+            scriptedWishlistFile = new PrintStream(wishlistOutputFileName);
         } catch (FileNotFoundException e) {
             System.out.println("Error creating error file: " + e);
             throw new FileNotFoundException();
         }
         // Try to read in existing enhanced -> normal perk mappings
-        try ( BufferedReader reader = new BufferedReader(
-                new FileReader(new File("src//main//data//destiny//enhancedMapping.csv")));) {
+        try (BufferedReader reader = new BufferedReader(
+                new FileReader(new File(enhancedMappingFileName)));) {
             reader.readLine(); // skip the header line
             while (reader.ready()) {
                 String item = reader.readLine();
@@ -75,7 +84,7 @@ public class WishlistGenerator implements AutoCloseable {
         } catch (Exception e) {
             errorPrint("Unable to read in existing item matching list", e);
             String eol = System.getProperty("line.separator");
-            try ( Writer writer = new FileWriter("src/main/data/destiny/enhancedMapping.csv", false);) {
+            try (Writer writer = new FileWriter(enhancedMappingFileName, false);) {
                 writer.append("From")
                         .append(',')
                         .append("To")
@@ -86,8 +95,8 @@ public class WishlistGenerator implements AutoCloseable {
             }
         }
         // Try to read in item -> name mappings
-        try ( BufferedReader reader = new BufferedReader(
-                new FileReader(new File("src//main//data//destiny//nameMapping.csv")));) {
+        try (BufferedReader reader = new BufferedReader(
+                new FileReader(new File(nameMappingFileName)));) {
             reader.readLine(); // skip the header line
             while (reader.ready()) {
                 String item = reader.readLine();
@@ -98,7 +107,7 @@ public class WishlistGenerator implements AutoCloseable {
         } catch (Exception e) {
             errorPrint("Unable to read in existing item naming list", e);
             String eol = System.getProperty("line.separator");
-            try ( Writer writer = new FileWriter("src/main/data/destiny/nameMapping.csv", false);) {
+            try (Writer writer = new FileWriter(nameMappingFileName, false);) {
                 writer.append("Item ID")
                         .append(',')
                         .append("Name")
@@ -116,16 +125,21 @@ public class WishlistGenerator implements AutoCloseable {
         itemList.put(69420L, new Item(69420L));
 
         try {
-            br = new BufferedReader(new FileReader(new File("input//CustomDestinyWishlist.txt")));
+            br = new BufferedReader(new FileReader(new File(wishlistCSourceFileName)));
             loopRead(br);
         } catch (FileNotFoundException e) {
             errorPrint("Error reading custom withlist file", e);
         }
 
-        HttpResponse<String> response = Unirest
-                .get("https://raw.githubusercontent.com/48klocs/dim-wish-list-sources/master/voltron.txt").asString();
         try {
-            br = new BufferedReader(new StringReader(response.getBody()));
+            try{
+                HttpResponse<String> response = Unirest.get(wishlistDSourceUrlName).asString();
+                PrintWriter out = new PrintWriter(wishlistDSourceFileName);
+                out.println(response.getBody());
+                out.close();
+            } catch(Exception e) {
+                errorPrint("Unable to get updated contents from " + errorOutputFileName, e);
+            }
             loopRead(br);
         } catch (Exception e) {
             errorPrint("Error reading default wishlist from url", e);
@@ -184,7 +198,7 @@ public class WishlistGenerator implements AutoCloseable {
         // Print the itemMatchingList to a file so I don't need to call HTTP.GET every time I run the script
         // TODO - this is adding items every time even if theyre already in the file, might be best to wipe it and print everything
         String eol = System.getProperty("line.separator");
-        try ( Writer writer = new FileWriter("src/main/data/destiny/enhancedMapping.csv", true);) {
+        try (Writer writer = new FileWriter(enhancedMappingFileName, true);) {
             for (Map.Entry<String, String> entry : itemMatchingList.entrySet()) {
                 writer.append(entry.getKey())
                         .append(',')
@@ -197,7 +211,7 @@ public class WishlistGenerator implements AutoCloseable {
         }
         // Print the itemNamingList to a file so I don't need to call HTTP.GET every time I run the script
         // TODO - "First in Last out is adding an extra column to the name. Github copilot gave a reason (csv reader issue) but im not sure it's actually correct"
-        try ( Writer writer = new FileWriter("src/main/data/destiny/nameMapping.csv", true);) {
+        try (Writer writer = new FileWriter(nameMappingFileName, true);) {
             for (Map.Entry<String, String> entry : itemNamingList.entrySet()) {
                 writer.append(entry.getKey())
                         .append(',')
@@ -208,6 +222,7 @@ public class WishlistGenerator implements AutoCloseable {
         } catch (Exception e) {
             errorPrint("Unable to save itemNamingList to .\\data", e);
         }
+        errorOutputFile.close();
     }
 
     /**
@@ -222,6 +237,9 @@ public class WishlistGenerator implements AutoCloseable {
         String currentNote = ""; // used to store an item's notes, either per roll or per item
         String line;
         while ((line = br.readLine()) != null) {
+            if (line.length() > 0 && line.charAt(0) == '@') {
+                line = line.replace("@", "");
+            }
             switch (line.split(":")[0]) {
                 case "title":
                     td = new ArrayList<>();
@@ -243,25 +261,16 @@ public class WishlistGenerator implements AutoCloseable {
                         startKey = 18;
                     }
                     // GATHERING LINE INFORMATION (ITEM, PERKS, NOTES)
-                    Long item = Long.parseLong(line.substring(startKey).split("&")[0].split("#")[0]);
-                    //? TESTING ONLY
-                    if (item!= 69420L
-                    && item != 768621510L && item != 999767358L 
-                    && item != 2943293195L && item != 2886339027L
-                    && item != 1621558458L) {
-                        break;
-                    }
+                    Long itemId = Long.parseLong(line.substring(startKey).split("&")[0].split("#")[0]);
                     // Convert from adept to normal so they all have the same perks and notes. Convert back when printing so adepts and normals are next to each other in the file
-                    if(!adeptMatchingList.containsKey(item)) {
-                        Long oldItem = item;
+                    if (!adeptMatchingList.containsKey(itemId)) {
+                        Long oldItem = itemId;
                         try {
-                            String name = getName(item.toString());
-                            if(name.contains("(Adept)")) {
+                            String name = getName(itemId.toString());
+                            if (name.contains("(Adept)")) {
                                 // After checking if the item is adept, find the normal version and convert
-                                GetRequest get = Unirest.get(
-                                                "https://www.bungie.net/Platform/Destiny2/Armory/Search/DestinyInventoryItemDefinition/{searchTerm}/")
-                                        .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb");
-                                HttpResponse<String> response = get.routeParam("searchTerm", name.split("\s\\(Adept\\)")[0]).asString();
+                                HttpResponse<String> response = Unirest.get(bungieItemSearchUrl).header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
+                                        .routeParam("searchTerm", name.split("\s\\(Adept\\)")[0]).asString();
 
                                 JSONObject mJsonObject = new JSONObject(response.getBody());
                                 JSONObject userJObject = mJsonObject.getJSONObject("Response");
@@ -270,24 +279,25 @@ public class WishlistGenerator implements AutoCloseable {
                                 for (Object object : resultSet) {
                                     JSONObject jsonObject = (JSONObject) object;
                                     JSONObject itemDefinition = jsonObject.getJSONObject("displayProperties");
-                                    if(!itemDefinition.getString("name").contains("(Adept)")) {
-                                        item = jsonObject.getLong("hash");
+                                    if (!itemDefinition.getString("name").contains("(Adept)")) {
+                                        itemId = jsonObject.getLong("hash");
                                     }
                                 }
                             }
                         } catch (JSONException e) {
-                            errorPrint("Error checking for adept version of item. Probably occurs when checking item type instead of item", e);
+                            errorPrint(String.format("Error checking for adept version of %s. Probably occurs when checking item type instead of item", itemId), e);
                         } finally {
                             // used to get the normal version of an item from the adept version
-                            adeptMatchingList.put(oldItem, item);
+                            adeptMatchingList.put(oldItem, itemId);
                         }
                     } else {
-                        item = adeptMatchingList.get(item);
+                        itemId = adeptMatchingList.get(itemId);
                     }
-                    Item returnInfo = lineParser(item, line, currentNote, ignoreitem);
+                    Item returnItem = lineParser(itemId, line, currentNote, ignoreitem);
 
+                    // TRANSLATE  ADEPT                                                 TO  NORMAL
                     // TRANSLATE  https://www.light.gg/db/all/?page=1&f=4(3),10(Trait)  TO  https://www.light.gg/db/all/?page=1&f=4(2),10(Trait)
-                    List<String> itemPerkList = returnInfo.getItemList(1); // reduce calls of getItemList()
+                    List<String> itemPerkList = returnItem.getItemList(1); // reduce calls of getItemList()
                     List<String> tempPerkList = new ArrayList<>(itemPerkList);
                     int j = 0;
                     if (itemPerkList.size() == 4) {
@@ -307,36 +317,36 @@ public class WishlistGenerator implements AutoCloseable {
                             tempPerkList.set(i, itemMatchingList.get(itemPerkList.get(i)));
                         }
                     }
-                    returnInfo.setItemList(1, new ArrayList<>(tempPerkList));
+                    returnItem.setItemList(1, new ArrayList<>(tempPerkList));
 
                     // CHECK IF ITEM PROPERTIES ARE UNWANTED
                     // 69420 is the key for all items. check if a perk should be ignored on all items
                     for (List<String> unwantedPerkList : unwantedItemList.get(69420L).getFullList(1)) {
-                        if (new HashSet<>(returnInfo.getItemList(1)).containsAll(unwantedPerkList)) {
+                        if (new HashSet<>(returnItem.getItemList(1)).containsAll(unwantedPerkList)) {
                             ignoreUnwanteditem = true;
                             break;
                         }
                     }
                     // check if ignoring a specific item or a singular perkset
-                    if (unwantedItemList.containsKey(item) && !ignoreUnwanteditem) {
-                        for (List<String> unwantedPerkList : unwantedItemList.get(item).getFullList(1)) {
-                            if (new HashSet<>(returnInfo.getItemList(1)).containsAll(unwantedPerkList)) {
+                    if (unwantedItemList.containsKey(itemId) && !ignoreUnwanteditem) {
+                        for (List<String> unwantedPerkList : unwantedItemList.get(itemId).getFullList(1)) {
+                            if (new HashSet<>(returnItem.getItemList(1)).containsAll(unwantedPerkList)) {
                                 ignoreUnwanteditem = true;
                                 break;
                             }
                         }
                         // are we ignoring an entire item
-                        if (ignoreUnwanteditem || unwantedItemList.get(item).getFullList(1).contains(List.of("-"))) {
+                        if (ignoreUnwanteditem || unwantedItemList.get(itemId).getFullList(1).contains(List.of("-"))) {
                             ignoreUnwanteditem = true;
                         }
                     }
                     // ADD ITEM TO APPROPRIATE LIST
                     if (!ignoreUnwanteditem) {
                         try {
-                            if (returnInfo.isIgnoreItem()) {
-                                constructLists(returnInfo, unwantedItemList);
+                            if (returnItem.isIgnoreItem()) {
+                                constructLists(returnItem, unwantedItemList);
                             } else {
-                                constructLists(returnInfo, itemList);
+                                constructLists(returnItem, itemList);
                             }
                         } catch (Exception listConstructorException) {
                             errorPrint("Error on line " + line, listConstructorException);
@@ -358,7 +368,7 @@ public class WishlistGenerator implements AutoCloseable {
     }
 
     /**
-	 * PRINTING WISHLIST
+     * PRINTING WISHLIST
      */
     public static void printWishlist() {
         System.setOut(scriptedWishlistFile);
@@ -375,11 +385,12 @@ public class WishlistGenerator implements AutoCloseable {
             // Convert back any items that have adept versions and print both
             for (Map.Entry<Long, Long> entry : adeptMatchingList.entrySet()) {
                 if (Objects.equals(normalItemId, entry.getValue())) {
-                    if(!keysList.contains(entry.getKey()))
+                    if (!keysList.contains(entry.getKey())) {
                         keysList.add(entry.getKey());
+                    }
                 }
             }
-            for (Long k: keysList) {
+            for (Long k : keysList) {
                 printWishlistInner(item, k);
             }
         }
@@ -390,8 +401,9 @@ public class WishlistGenerator implements AutoCloseable {
     }
 
     /**
-     * A helper method for printing, allowing to loop for adept and normal versions of items
-     * 
+     * A helper method for printing, allowing to loop for adept and normal
+     * versions of items
+     *
      * @param item the original item to compare to
      * @param key the item id to check for similarity from
      */
@@ -437,8 +449,8 @@ public class WishlistGenerator implements AutoCloseable {
 
             // ITEM DOCUMENTATION IS DIFFERENT
             if (!currentNoteFull.equals(itemNotesList.get(itemNumber))
-             || !currentTagsFull.equals(itemTagsList.get(itemNumber))
-             || !currentMWsFull.equals(itemMWsList.get(itemNumber))) {
+                    || !currentTagsFull.equals(itemTagsList.get(itemNumber))
+                    || !currentMWsFull.equals(itemMWsList.get(itemNumber))) {
                 currentNoteFull = itemNotesList.get(itemNumber);
                 currentTagsFull = itemTagsList.get(itemNumber);
                 currentMWsFull = itemMWsList.get(itemNumber);
@@ -509,7 +521,7 @@ public class WishlistGenerator implements AutoCloseable {
                 System.out.printf("%s%n", itemPerkList.get(itemNumber).get(itemPerkList.get(itemNumber).size() - 1));
             }
         }
-    
+
         // reset errorOutputFile to console
         System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
         System.setErr(new PrintStream(new FileOutputStream(FileDescriptor.out)));
@@ -523,18 +535,19 @@ public class WishlistGenerator implements AutoCloseable {
      * @throws UnirestException
      */
     public static String getName(String hashIdentifier) throws UnirestException {
+        if (itemNamingList.containsKey(hashIdentifier)) {
+            return itemNamingList.get(hashIdentifier);
+        }
         Unirest.config().reset();
         Unirest.config().connectTimeout(10000).socketTimeout(10000);
-        HttpResponse<String> response = Unirest
-                .get("https://www.bungie.net/Platform/Destiny2/Manifest/DestinyInventoryItemDefinition/{hashIdentifier}/")
-                .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
-                .routeParam("hashIdentifier", hashIdentifier)
-                .asString();
+        HttpResponse<String> response = Unirest.get(bungieItemDefinitionUrl).header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
+                .routeParam("hashIdentifier", hashIdentifier).asString();
 
         JSONObject itemDefinition = new JSONObject(response.getBody());
         itemDefinition = itemDefinition.getJSONObject("Response");
         itemDefinition = itemDefinition.getJSONObject("displayProperties");
 
+        itemNamingList.put(hashIdentifier, itemDefinition.getString("name"));
         return itemDefinition.getString("name");
     }
 
@@ -613,7 +626,8 @@ public class WishlistGenerator implements AutoCloseable {
      * @param mws the list of mws to add to
      * @return a list of lists of notes, tags, and mws
      */
-    public static @NotNull List<List<String>> constructListsInner(Item item, List<String> notes, List<String> tags, List<String> mws) {
+    public static @NotNull
+    List<List<String>> constructListsInner(Item item, List<String> notes, List<String> tags, List<String> mws) {
         List<List<String>> returnList = new ArrayList<>();
         String note = item.getItemList(2).get(0);
         try {
@@ -640,8 +654,8 @@ public class WishlistGenerator implements AutoCloseable {
             }
         } finally {
             // NOTES & MW
-            Pattern pattern = Pattern.compile("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))[^.]*",
-                    Pattern.CASE_INSENSITIVE);
+            String mwRegex = "Recommended\\sMW((\\:\\s)|(\\s\\-\\s))";
+            Pattern pattern = Pattern.compile(String.format("%s[^.]*", mwRegex), Pattern.CASE_INSENSITIVE);
             note = note.replaceAll("\\s{2,}", " ");
             note = note.replace("\\s+.\\s*", "");
             try {
@@ -652,8 +666,8 @@ public class WishlistGenerator implements AutoCloseable {
                     Matcher matcher = pattern.matcher(string);
                     if (matcher.matches()) {
                         // MW
-                        if (!mws.contains(matcher.group().split("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))")[1])) {
-                            mws.add(matcher.group().split("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))")[1]);
+                        if (!mws.contains(matcher.group().split(mwRegex)[1])) {
+                            mws.add(matcher.group().split(mwRegex)[1]);
                         }
                     } else if (!notes.contains(string) && !string.isEmpty()) {
                         notes.add(string);
@@ -661,8 +675,8 @@ public class WishlistGenerator implements AutoCloseable {
                 }
             } catch (Exception e) {
                 Matcher matcher = pattern.matcher(note);
-                if (!mws.contains(matcher.group().split("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))")[1])) {
-                    mws.add(matcher.group().split("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))")[1]);
+                if (!mws.contains(matcher.group().split(mwRegex)[1])) {
+                    mws.add(matcher.group().split(mwRegex)[1]);
                 } else if (!notes.contains(note) && !note.isEmpty()) {
                     notes.add(note);
                 }
@@ -679,17 +693,18 @@ public class WishlistGenerator implements AutoCloseable {
     /**
      * Takes a line and extracts perk, note, and tag information
      *
-     * @param item Long of the item number
+     * @param itemId Long of the item number
      * @param line String of the complete line
      * @param currentNote if item is imported en mass, the note from a similar
      * previous item is used instead
      * @param ignoreitem should an item or it's perk list be excluded from the
      * list
-     * @return Item with item number, perks, notes, and other various information
+     * @return Item with item number, perks, notes, and other various
+     * information
      * @throws Exception acts as a method of catching notes without tags. should
      * never actually throw an exception
      */
-    public static Item lineParser(Long item, String line, String currentNote, boolean ignoreitem) throws Exception {
+    public static Item lineParser(Long itemId, String line, String currentNote, boolean ignoreitem) throws Exception {
         List<String> perks = new ArrayList<>();
         String notes = null;
         List<String> tags = new ArrayList<>();
@@ -711,7 +726,7 @@ public class WishlistGenerator implements AutoCloseable {
             // get rid of origin traits since they're static and just clog up the perk list
             perks = perks.subList(0, 4);
         }
-        if (item == 69420L) { // -69420 is a key to apply a wanted/unwanted set of perks to all items, so this is simply to offset that negative
+        if (itemId == 69420L) { // -69420 is a key to apply a wanted/unwanted set of perks to all items, so this is simply to offset that negative
             ignoreitem = false;
         }
         // IS ANY ASPECT OF AN ITEM UNWANTED
@@ -766,7 +781,7 @@ public class WishlistGenerator implements AutoCloseable {
             pattern = Pattern.compile("tags:.*", Pattern.CASE_INSENSITIVE); // tags at end of note
             matcher = pattern.matcher(notes);
             while (matcher.find()) {
-                List<String> strArray = Arrays.asList(matcher.group().split("tags:\\s*")[1].split("\\,"));
+                List<String> strArray = Arrays.asList(matcher.group().toLowerCase().split("tags:\\s*")[1].split("\\,"));
                 for (String str : strArray) {
                     if (str.equalsIgnoreCase("m+kb")) {
                         str = "mkb";
@@ -790,10 +805,10 @@ public class WishlistGenerator implements AutoCloseable {
             }
             notes = notes.replace("\\s+", "\\s");
         } catch (Exception e) {
-            errorPrint("Error with notes " + notes, e);
+            errorPrint("Error with notes: " + notes, e);
             throw e;
         }
-        Item returnItem = new Item(item);
+        Item returnItem = new Item(itemId);
         returnItem.put(perks, Arrays.asList(notes), tags, new ArrayList<>(), ignoreitem);
         return returnItem;
     }
@@ -809,23 +824,17 @@ public class WishlistGenerator implements AutoCloseable {
         } catch (Exception e) {
             // For some reason the api doesn't work for the values in here, so I'm just gonna hard code it and ignore the error
             // this really should only occur once for each hashIdentifier
-            //errorPrint("Error getting " + hashIdentifier, e);
+            //errorPrint(hashIdentifier + " is not hard coded", e);
         }
 
-        HttpResponse<String> response = Unirest
-                .get("https://www.bungie.net/Platform/Destiny2/Manifest/DestinyInventoryItemDefinition/{hashIdentifier}/")
-                .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
-                .routeParam("hashIdentifier", hashIdentifier)
-                .asString();
+        HttpResponse<String> response = Unirest.get(bungieItemDefinitionUrl).header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
+                .routeParam("hashIdentifier", hashIdentifier).asString();
         JSONObject itemDefinition = new JSONObject(response.getBody());
         itemDefinition = itemDefinition.getJSONObject("Response");
         itemDefinition = itemDefinition.getJSONObject("displayProperties");
 
-        response = Unirest.get(
-                "https://www.bungie.net/Platform/Destiny2/Armory/Search/DestinyInventoryItemDefinition/{searchTerm}/")
-                .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
-                .routeParam("searchTerm", itemDefinition.getString("name"))
-                .asString();
+        response = Unirest.get(bungieItemSearchUrl).header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
+                .routeParam("searchTerm", itemDefinition.getString("name")).asString();
 
         JSONObject searchDefinition = new JSONObject(response.getBody());
         searchDefinition = searchDefinition.getJSONObject("Response");
@@ -1034,7 +1043,7 @@ public class WishlistGenerator implements AutoCloseable {
      * @param e the error being thrown
      */
     public static void errorPrint(String err, Exception e) {
-        errorPrint(err, e, new PrintStream(new FileOutputStream(FileDescriptor.out))); 
+        errorPrint(err, e, new PrintStream(new FileOutputStream(FileDescriptor.out)));
     }
 
     /**
@@ -1053,7 +1062,6 @@ public class WishlistGenerator implements AutoCloseable {
         System.out.println("\n");
 
         // reset errorOutputFile to console
-        errorOutputFile.close();
         System.setOut(oldStream);
         System.setErr(oldStream);
     }

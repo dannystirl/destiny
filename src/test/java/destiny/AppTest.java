@@ -419,6 +419,8 @@ public class AppTest {
         checkItemWanted(item); 
         assertTrue(unwantedItemList.containsKey(item.getItemId())); 
         assertTrue(unwantedItemList.get(item.getItemId()).getFullList(1).contains(List.of("2172504645"))); 
+        System.out.printf("Test %s passed%n", new Object() {
+        }.getClass().getEnclosingMethod().getName());
     }
 
     @Test
@@ -442,6 +444,8 @@ public class AppTest {
         // Check Item
         checkItemWanted(item);
         assertFalse(wantedItemList.get(item.getItemId()).getFullList(1).contains(List.of("1392496348", "2969185026", "2172504645", "438098033")));
+        System.out.printf("Test %s passed%n", new Object() {
+        }.getClass().getEnclosingMethod().getName());
     }
 
     @Test
@@ -462,6 +466,8 @@ public class AppTest {
         checkItemWanted(item);
         assertTrue(wantedItemList.containsKey(item.getItemId()));
         assertTrue(wantedItemList.get(item.getItemId()).getFullList(1).contains(List.of("1392496348", "2969185026", "3523296417", "438098033")));
+        System.out.printf("Test %s passed%n", new Object() {
+        }.getClass().getEnclosingMethod().getName());
     }
 
     @Test
@@ -483,6 +489,8 @@ public class AppTest {
         checkItemWanted(item);
         assertTrue(wantedItemList.containsKey(item.getItemId()));
         assertTrue(wantedItemList.get(item.getItemId()).getFullList(1).contains(List.of("1168162263", "1015611457")));
+        System.out.printf("Test %s passed%n", new Object() {
+        }.getClass().getEnclosingMethod().getName());
     }
 
     @Test
@@ -524,6 +532,8 @@ public class AppTest {
         checkItemWanted(item);
         assertTrue(unwantedItemList.containsKey(item.getItemId()));
         assertTrue(unwantedItemList.get(item.getItemId()).getFullList(1).contains(List.of("-")));
+        System.out.printf("Test %s passed%n", new Object() {
+        }.getClass().getEnclosingMethod().getName());
     }
 
     /**
