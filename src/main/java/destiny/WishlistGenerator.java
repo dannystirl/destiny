@@ -563,31 +563,8 @@ public class WishlistGenerator implements AutoCloseable {
             itemTags = itemMap.get(item.getItemId()).getFullList(3);
             itemMWs = itemMap.get(item.getItemId()).getFullList(4);
         }
-        List<String> itemPerkList = item.getItemList(1); // reduce calls of getItemList()
-
-        // translate  https://www.light.gg/db/all/?page=1&f=4(3),10(Trait)  to  https://www.light.gg/db/all/?page=1&f=4(2),10(Trait)
-        List<String> tempPerkList = new ArrayList<>(itemPerkList);
-        int j = 0;
-        if (itemPerkList.size() == 4) {
-            j = 2;
-        }
-        for (int i = j; i < itemPerkList.size(); i++) {
-            if (!checkedItemList.contains(itemPerkList.get(i))) {
-                try {
-                    checkPerk(itemPerkList.get(i));
-                } catch (Exception e) {
-                    // Really could be any number of reasons for this to happen, but it's probably a timeout. 
-                    errorPrint("HTTP Error", e);
-                }
-            }
-            // if itemMatchingList contains itemPerkList.get(i), set tempPerkList to the itemMatchingList (convert dead / incorrect perks to the correct / normal version)
-            if (itemMatchingList.containsKey(itemPerkList.get(i))) {
-                tempPerkList.set(i, itemMatchingList.get(itemPerkList.get(i)));
-            }
-        }
-        itemPerkList = new ArrayList<>(tempPerkList);
-
         // is the current perk list stored on the item already
+        List<String> itemPerkList = item.getItemList(1); // reduce calls of getItemList()
         int perkListIndex = -1;
         for (List<String> perkList : itemPerks) {
             if (perkList.containsAll(itemPerkList)) {
