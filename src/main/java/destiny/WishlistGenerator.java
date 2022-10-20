@@ -140,6 +140,7 @@ public class WishlistGenerator implements AutoCloseable {
             } catch(Exception e) {
                 errorPrint("Unable to get updated contents from " + errorOutputFileName, e);
             }
+            br = new BufferedReader(new FileReader(new File(wishlistDSourceFileName)));
             loopRead(br);
         } catch (Exception e) {
             errorPrint("Error reading default wishlist from url", e);

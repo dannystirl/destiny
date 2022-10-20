@@ -29,7 +29,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import junit.framework.AssertionFailedError;
-import kong.unirest.GetRequest;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import kong.unirest.UnirestException;
@@ -39,8 +38,11 @@ import kong.unirest.UnirestException;
  */
 public class AppTest {
 
-    public static Map<Long, Item> unwantedItemList; 
-    public static Map<Long, Item> wantedItemList; 
+    public static Map<Long, Item> unwantedItemList;
+    public static Map<Long, Item> wantedItemList;
+
+    public static final String wishlistTSourceFileName = "input//TestDestinyWishlist.txt";
+    public static final String errorOutputFileName = WishlistGenerator.errorOutputFileName; 
 
     @Before
     public void setup() {
@@ -51,26 +53,24 @@ public class AppTest {
     }
 
     /**
-     * Ensure the connection to the destiny api is working and getting a response, as well as connecting normal and enhanced perks
+     * Ensure the connection to the destiny api is working and getting a
+     * response, as well as connecting normal and enhanced perks
      */
     @Test
     public void testResponse() throws UnirestException {
         Unirest.config().reset();
         Unirest.config().connectTimeout(10000).socketTimeout(10000);
-        HttpResponse<String> response = Unirest
-                .get("https://www.bungie.net/Platform/Destiny2/Manifest/DestinyInventoryItemDefinition/{hashIdentifier}/")
+        HttpResponse<String> response = Unirest.get(WishlistGenerator.bungieItemDefinitionUrl)
                 .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
-                .routeParam("hashIdentifier", "3523296417")
-                .asString();
+                .routeParam("hashIdentifier", "3523296417").asString();
 
         JSONObject itemDefinition = new JSONObject(response.getBody());
         itemDefinition = itemDefinition.getJSONObject("Response");
         itemDefinition = itemDefinition.getJSONObject("displayProperties");
 
-        GetRequest get = Unirest.get(
-                "https://www.bungie.net/Platform/Destiny2/Armory/Search/DestinyInventoryItemDefinition/{searchTerm}/")
-                .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb");
-        response = get.routeParam("searchTerm", itemDefinition.getString("name")).asString();
+        response = Unirest.get(WishlistGenerator.bungieItemSearchUrl)
+                .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
+                .routeParam("searchTerm", itemDefinition.getString("name")).asString();
 
         JSONObject mJsonObject = new JSONObject(response.getBody());
         JSONObject userJObject = mJsonObject.getJSONObject("Response");
@@ -87,7 +87,7 @@ public class AppTest {
                 entry = jsonObject.getLong("hash");
             }
         }
-        // assert that key and entry are not null
+        // assert that key and entry are not null`
         assertNotNull(key);
         assertNotNull(entry);
         System.out.printf("Test %s passed%n", new Object() {
@@ -95,28 +95,27 @@ public class AppTest {
     }
 
     /**
-     * Ensure the api is making a connection between normal and adept weapons when there is one
+     * Ensure the api is making a connection between normal and adept weapons
+     * when there is one
+     *
      * @throws UnirestException
      */
     @Test
     public void testAdeptConnection() throws UnirestException {
         Unirest.config().reset();
         Unirest.config().connectTimeout(10000).socketTimeout(10000);
-        HttpResponse<String> response = Unirest
-                .get("https://www.bungie.net/Platform/Destiny2/Manifest/DestinyInventoryItemDefinition/{hashIdentifier}/")
+        HttpResponse<String> response = Unirest.get(WishlistGenerator.bungieItemDefinitionUrl)
                 .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
-                .routeParam("hashIdentifier", "2886339027")
-                .asString();
+                .routeParam("hashIdentifier", "2886339027").asString();
 
         JSONObject itemDefinition = new JSONObject(response.getBody());
         itemDefinition = itemDefinition.getJSONObject("Response");
         itemDefinition = itemDefinition.getJSONObject("displayProperties");
         assertEquals("Cataclysmic", itemDefinition.getString("name").split("\s\\(Adept\\)")[0]);
 
-        GetRequest get = Unirest.get(
-                        "https://www.bungie.net/Platform/Destiny2/Armory/Search/DestinyInventoryItemDefinition/{searchTerm}/")
-                .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb");
-        response = get.routeParam("searchTerm", itemDefinition.getString("name").split("\s\\(Adept\\)")[0]).asString();
+        response = Unirest.get(WishlistGenerator.bungieItemSearchUrl)
+                .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
+                .routeParam("searchTerm", itemDefinition.getString("name").split("\s\\(Adept\\)")[0]).asString();
 
         JSONObject mJsonObject = new JSONObject(response.getBody());
         JSONObject userJObject = mJsonObject.getJSONObject("Response");
@@ -141,18 +140,18 @@ public class AppTest {
     }
 
     /**
-     * Ensure the api is making a connection between normal and adept weapons when there isn't one
+     * Ensure the api is making a connection between normal and adept weapons
+     * when there isn't one
+     *
      * @throws UnirestException
      */
     @Test
     public void testNonAdeptConnection() throws UnirestException {
         Unirest.config().reset();
         Unirest.config().connectTimeout(10000).socketTimeout(10000);
-        HttpResponse<String> response = Unirest
-                .get("https://www.bungie.net/Platform/Destiny2/Manifest/DestinyInventoryItemDefinition/{hashIdentifier}/")
+        HttpResponse<String> response = Unirest.get(WishlistGenerator.bungieItemDefinitionUrl)
                 .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
-                .routeParam("hashIdentifier", "2886339027")
-                .asString();
+                .routeParam("hashIdentifier", "2886339027").asString();
 
         JSONObject itemDefinition = new JSONObject(response.getBody());
         itemDefinition = itemDefinition.getJSONObject("Response");
@@ -160,10 +159,9 @@ public class AppTest {
         assertTrue(itemDefinition.getString("name").contains("(Adept)"));
         assertEquals("Cataclysmic", itemDefinition.getString("name").split("\s\\(Adept\\)")[0]);
 
-        GetRequest get = Unirest.get(
-                        "https://www.bungie.net/Platform/Destiny2/Armory/Search/DestinyInventoryItemDefinition/{searchTerm}/")
-                .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb");
-        response = get.routeParam("searchTerm", itemDefinition.getString("name").split("\s\\(Adept\\)")[0]).asString();
+        response = Unirest.get(WishlistGenerator.bungieItemSearchUrl)
+                .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
+                .routeParam("searchTerm", itemDefinition.getString("name").split("\s\\(Adept\\)")[0]).asString();
 
         JSONObject mJsonObject = new JSONObject(response.getBody());
         JSONObject userJObject = mJsonObject.getJSONObject("Response");
@@ -174,7 +172,7 @@ public class AppTest {
         for (Object object : resultSet) {
             JSONObject jsonObject = (JSONObject) object;
             itemDefinition = jsonObject.getJSONObject("displayProperties");
-            if(!itemDefinition.getString("name").contains("(Adept)")) {
+            if (!itemDefinition.getString("name").contains("(Adept)")) {
                 assertEquals("Cataclysmic", itemDefinition.getString("name"));
                 assertEquals(999767358, jsonObject.getLong("hash"));
             }
@@ -186,17 +184,16 @@ public class AppTest {
 
     /**
      * Try getting a specific item's name
+     *
      * @throws UnirestException
      */
     @Test
     public void testGetName() throws UnirestException {
         Unirest.config().reset();
         Unirest.config().connectTimeout(10000).socketTimeout(10000);
-        HttpResponse<String> response = Unirest
-                .get("https://www.bungie.net/Platform/Destiny2/Manifest/DestinyInventoryItemDefinition/{hashIdentifier}/")
+        HttpResponse<String> response = Unirest.get(WishlistGenerator.bungieItemDefinitionUrl)
                 .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
-                .routeParam("hashIdentifier", "4083045006")
-                .asString();
+                .routeParam("hashIdentifier", "4083045006").asString();
 
         JSONObject itemDefinition = new JSONObject(response.getBody());
         itemDefinition = itemDefinition.getJSONObject("Response");
@@ -245,7 +242,7 @@ public class AppTest {
         Map<String, String> itemMatchingList = new HashMap<>();
         List<String> checkedItemList = new ArrayList<>();
         File file = new File("src/test/data/destiny/mapTest.csv");
-        try ( Writer writer = new FileWriter(file, false);) {
+        try (Writer writer = new FileWriter(file, false);) {
             writer.append("From").append(',').append("To")
                     .append(System.getProperty("line.separator"));
             writer.flush();
@@ -273,13 +270,14 @@ public class AppTest {
     }
 
     /**
-     * Get an adept item's traits from the connected normal item's traits (if that item exists)
+     * Get an adept item's traits from the connected normal item's traits (if
+     * that item exists)
      */
     @Test
     public void testAdeptConversion() {
         Long item = 2886339027L;
         Map<Long, Long> adeptMatchingList = new HashMap<>();
-        if(!adeptMatchingList.containsKey(item)) {
+        if (!adeptMatchingList.containsKey(item)) {
             Long oldItem = item;
             item = 999767358L;
 
@@ -291,7 +289,7 @@ public class AppTest {
             item = adeptMatchingList.get(item);
         }
         assertEquals((Long) 999767358L, item);
-        if(adeptMatchingList.containsValue(item)) {
+        if (adeptMatchingList.containsValue(item)) {
             for (Map.Entry<Long, Long> entry : adeptMatchingList.entrySet()) {
                 assertEquals(item, entry.getValue());
             }
@@ -299,7 +297,8 @@ public class AppTest {
     }
 
     /**
-     * Testing that each note string is being properly parsed and placed into a list
+     * Testing that each note string is being properly parsed and placed into a
+     * list
      */
     @Test
     public void testMWPattern() {
@@ -350,9 +349,7 @@ public class AppTest {
     public void testWishlistUrl() throws UnirestException, IOException {
         Unirest.config().reset();
         Unirest.config().connectTimeout(10000).socketTimeout(10000);
-        HttpResponse<String> response = Unirest
-                .get("https://raw.githubusercontent.com/48klocs/dim-wish-list-sources/master/voltron.txt")
-                .asString();
+        HttpResponse<String> response = Unirest.get(WishlistGenerator.wishlistDSourceUrlName).asString();
         assertNotEquals("404: Not Found", response.getBody());
 
         try {
@@ -371,13 +368,14 @@ public class AppTest {
     }
 
     /**
-     * Reading an armor item's information from a line, the same way an item's information is obtained. 
-     * That item is then formatted //TODO - finish this
+     * Reading an armor item's information from a line, the same way an item's
+     * information is obtained. That item is then formatted //TODO - finish this
+     *
      * @throws Exception
      */
     @Test
     public void testArmor() throws Exception {
-        BufferedReader br = new BufferedReader(new FileReader(new File("input//TestDestinyWishlist.txt")));
+        BufferedReader br = new BufferedReader(new FileReader(new File(wishlistTSourceFileName)));
         String line;
         while ((line = br.readLine()) != null) {
             if (line.split(":")[0].equals("dimwishlist")) {
@@ -390,7 +388,7 @@ public class AppTest {
                 // GATHERING LINE INFORMATION (ITEM, PERKS, NOTES)
                 Long item = Long.parseLong(line.substring(startKey).split("&")[0].split("#")[0]);
                 Item returnInfo = WishlistGenerator.lineParser(item, line, "", ignoreitem);
-                
+
                 if (line.contains("&perks=")) {
                     assertNotNull(returnInfo.getItemList(1));
                 }
@@ -404,21 +402,21 @@ public class AppTest {
     @Test
     public void testLineParserAllWithIgnore() throws Exception {
         // Setup test values
-        String line = "dimwishlist:item=69420&perks=-2172504645#notes:Sleight of Hand works while stowed, but gives stats you would want while using the gun. Not a good trait. "; 
-        Long itemId = 69420L; 
-        String currentNote = ""; 
+        String line = "dimwishlist:item=69420&perks=-2172504645#notes:Sleight of Hand works while stowed, but gives stats you would want while using the gun. Not a good trait. ";
+        Long itemId = 69420L;
+        String currentNote = "";
         boolean ignoreitem = false;
-        Item item = lineParser(itemId, line, currentNote, ignoreitem); 
+        Item item = lineParser(itemId, line, currentNote, ignoreitem);
         // Test Results
         assertEquals(itemId, item.getItemId());
         assertEquals(1, item.getFullList(1).get(0).size());
-        assertEquals(List.of("2172504645"), item.getFullList(1).get(0)); 
+        assertEquals(List.of("2172504645"), item.getFullList(1).get(0));
         assertEquals(List.of("Sleight of Hand works while stowed, but gives stats you would want while using the gun. Not a good trait. "), item.getFullList(2).get(0));
         assertTrue(item.isIgnoreItem());
         // Check Item
-        checkItemWanted(item); 
-        assertTrue(unwantedItemList.containsKey(item.getItemId())); 
-        assertTrue(unwantedItemList.get(item.getItemId()).getFullList(1).contains(List.of("2172504645"))); 
+        checkItemWanted(item);
+        assertTrue(unwantedItemList.containsKey(item.getItemId()));
+        assertTrue(unwantedItemList.get(item.getItemId()).getFullList(1).contains(List.of("2172504645")));
         System.out.printf("Test %s passed%n", new Object() {
         }.getClass().getEnclosingMethod().getName());
     }
@@ -459,7 +457,7 @@ public class AppTest {
         // Test Results
         assertEquals(itemId, item.getItemId());
         assertEquals(4, item.getFullList(1).get(0).size());
-        assertEquals(List.of("1392496348","2969185026","3523296417","438098033"), item.getFullList(1).get(0));
+        assertEquals(List.of("1392496348", "2969185026", "3523296417", "438098033"), item.getFullList(1).get(0));
         assertEquals(List.of("//notes:PvP first choice roll for chaining (6s). Strong subtype with vertical recoil, very good stats, and very good perk combinations from the first ever legendary stasis (kinetic slot) fusion rifle. Looking to get both Range to 80 and Stability to 70 with Masterwork, barrel, and mag traits. Sleight of Hand and Harmony are an ideal pairing for chaining kills, after a kill with another weapon. Recommended MW: Range or Stability with Quick Access Sling or Targeting Adjuster mod depending on play style."), item.getFullList(2).get(0));
         assertFalse(item.isIgnoreItem());
         // Check Item
@@ -631,8 +629,8 @@ public class AppTest {
                     }
                 }
             }
-            if(!tags.isEmpty()) {
-                notes = notes.split("\\|*tags")[0]; 
+            if (!tags.isEmpty()) {
+                notes = notes.split("\\|*tags")[0];
             }
             StringBuilder temp = new StringBuilder();
             for (String string : notes.split("(?i)\\((" + itemType + ")(\\s*\\/+\\s*(" + itemType + "))*\\):*")) {
@@ -654,13 +652,13 @@ public class AppTest {
 
     /**
      * Add an item to the appropriate wanted/unwanted list
-     * 
+     *
      * @param returnInfo is the item to check after parsing
      * @throws Exception
      */
     public void checkItemWanted(Item returnInfo) throws Exception {
         // setup test variables
-        boolean ignoreUnwanteditem = false; 
+        boolean ignoreUnwanteditem = false;
 
         // 69420 is the key for all items. check if a perk should be ignored on all items
         for (List<String> unwantedPerkList : unwantedItemList.get(69420L).getFullList(1)) {
@@ -691,7 +689,7 @@ public class AppTest {
                     WishlistGenerator.constructLists(returnInfo, wantedItemList);
                 }
             } catch (Exception listConstructorException) {
-                throw listConstructorException; 
+                throw listConstructorException;
             }
         }
     }
