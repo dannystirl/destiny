@@ -36,9 +36,9 @@ public class WishlistGenerator implements AutoCloseable {
     public static List<ArrayList<Object>> sourceList = new ArrayList<>();
     public static Map<Long, Item> itemList = new HashMap<>();
     public static Map<Long, Item> unwantedItemList = new HashMap<>();
-    public static Map<String, String> itemMatchingList = new HashMap<>();
-    public static Map<Long, Long> adeptMatchingList = new HashMap<>();
-    public static Map<String, String> itemNamingList = new HashMap<>();
+    public static Map<String, String> itemMatchingList = new HashMap<>(); // todo: this is printing duplicate values. probably need a second list that tracks which values were added while running, and then only print those values
+    public static Map<Long, Long> adeptMatchingList = new HashMap<>(); // todo: this is printing duplicate values. probably need a second list that tracks which values were added while running, and then only print those values
+    public static Map<String, String> itemNamingList = new HashMap<>(); // todo: this is printing duplicate values. probably need a second list that tracks which values were added while running, and then only print those values
     public static List<String> checkedItemList = new ArrayList<>();
     public static BufferedReader br;
     public static PrintStream errorOutputFile;
@@ -48,7 +48,6 @@ public class WishlistGenerator implements AutoCloseable {
     public static final String errorOutputFileName = "bin//errors.txt";
     public static final String enhancedMappingFileName = "src//main//data//destiny//enhancedMapping.csv";
     public static final String nameMappingFileName = "src//main//data//destiny//nameMapping.csv";
-    public static final String wishlistCSourceFileName = "input//CustomDestinyWishlist.txt";
     public static final String wishlistDSourceFileName = "input//CompleteDestinyWishList.txt";
     public static final String wishlistDSourceUrlName = "https://raw.githubusercontent.com/48klocs/dim-wish-list-sources/master/voltron.txt";
     public static final String bungieItemSearchUrl = "https://www.bungie.net/Platform/Destiny2/Armory/Search/DestinyInventoryItemDefinition/{searchTerm}/";
@@ -125,7 +124,7 @@ public class WishlistGenerator implements AutoCloseable {
         itemList.put(69420L, new Item(69420L));
 
         try {
-            br = new BufferedReader(new FileReader(new File(wishlistCSourceFileName)));
+            br = new BufferedReader(new FileReader(new File("input//CustomDestinyWishlist.txt")));
             loopRead(br);
         } catch (FileNotFoundException e) {
             Formatters.errorPrint("Error reading custom withlist file", e);
@@ -274,7 +273,7 @@ public class WishlistGenerator implements AutoCloseable {
                             String name = getName(itemId.toString());
                             if (name.contains("(Adept)")) {
                                 // After checking if the item is adept, find the normal version and convert
-                                JSONArray resultSet = Formatters.bungieItemHashSetJSONArray(name); 
+                                JSONArray resultSet = Formatters.bungieItemHashSetJSONArray(name);
                                 for (Object object : resultSet) {
                                     JSONObject jsonObject = (JSONObject) object;
                                     JSONObject itemDefinition = jsonObject.getJSONObject("displayProperties");
@@ -454,7 +453,7 @@ public class WishlistGenerator implements AutoCloseable {
                         note = note.replace("elipsez", "...");
                         note = note.replace("v30", "3.0");
                         // format note
-                        note = Formatters.noteFormatter(note); 
+                        note = Formatters.noteFormatter(note);
                         System.out.print(note);
                         System.out.print(". ");
                     }
@@ -518,8 +517,8 @@ public class WishlistGenerator implements AutoCloseable {
         if (itemNamingList.containsKey(hashIdentifier)) {
             return itemNamingList.get(hashIdentifier);
         }
-        
-        JSONObject itemDefinition = Formatters.bungieItemDefinitionJSONObject(hashIdentifier); 
+
+        JSONObject itemDefinition = Formatters.bungieItemDefinitionJSONObject(hashIdentifier);
 
         itemNamingList.put(hashIdentifier, itemDefinition.getString("name"));
         return itemDefinition.getString("name");
@@ -612,7 +611,7 @@ public class WishlistGenerator implements AutoCloseable {
                 }
             }
             for (String tag : Arrays.asList(note.split("\\|*tags:")[1].split("\\s*\\,\\s*"))) {
-                tag = Formatters.tagFormatter(tag); 
+                tag = Formatters.tagFormatter(tag);
                 if (!tags.contains(tag)) {
                     tags.add(tag);
                 }
@@ -634,7 +633,7 @@ public class WishlistGenerator implements AutoCloseable {
                 note = note.replace("light.gg", "lightggg");
                 note = note.replace("...", "elipsez");
                 note = note.replace("3.0", "v30");
-                note = Formatters.noteFormatter(note); 
+                note = Formatters.noteFormatter(note);
                 for (String string : Arrays.asList(note.split("\\.[\\s]*|\"[\\s]*|\\]"))) {
                     Matcher matcher = pattern.matcher(string);
                     if (matcher.matches()) {
@@ -642,7 +641,7 @@ public class WishlistGenerator implements AutoCloseable {
                         if (!mws.contains(matcher.group().split(mwRegex)[1])) {
                             mws.add(matcher.group().split(mwRegex)[1]);
                         }
-                    } else if (!notes.contains(Formatters.noteFormatter(string).toLowerCase()) && string.length() > 3) {
+                    } else if (!notes.contains(Formatters.noteFormatter(string)) && string.length() > 3) {
                         notes.add(Formatters.noteFormatter(string));
                     }
                 }
@@ -650,7 +649,7 @@ public class WishlistGenerator implements AutoCloseable {
                 Matcher matcher = pattern.matcher(note);
                 if (!mws.contains(matcher.group().split(mwRegex)[1])) {
                     mws.add(matcher.group().split(mwRegex)[1]);
-                } else if (!notes.contains(Formatters.noteFormatter(note).toLowerCase()) && !note.isEmpty()) {
+                } else if (!notes.contains(Formatters.noteFormatter(note)) && !note.isEmpty()) {
                     notes.add(Formatters.noteFormatter(note));
                 }
             } finally {
@@ -735,7 +734,7 @@ public class WishlistGenerator implements AutoCloseable {
                 List<String> tagArray = Arrays.asList(
                         matcher.group().replace("(", "").replaceAll("\\):\\s*", "").split("\\s*[\\/\\s\\\\]+\\s*"));
                 for (String tag : tagArray) {
-                    tag = Formatters.tagFormatter(tag).toLowerCase(); 
+                    tag = Formatters.tagFormatter(tag).toLowerCase();
                     if (!tags.contains(tag)) {
                         tags.add(tag);
                     }
@@ -747,14 +746,14 @@ public class WishlistGenerator implements AutoCloseable {
             while (matcher.find()) {
                 List<String> strArray = Arrays.asList(matcher.group().toLowerCase().split("tags:\\s*")[1].split("\\,"));
                 for (String str : strArray) {
-                    str = Formatters.tagFormatter(str); 
-                    if (!tags.contains(str.toLowerCase())) {
-                        tags.add(str.toLowerCase());
+                    str = Formatters.tagFormatter(str).toLowerCase();
+                    if (!tags.contains(str)) {
+                        tags.add(str);
                     }
                 }
             }
             notes = pattern.matcher(notes).replaceAll("");
-            notes = Formatters.noteFormatter(notes); 
+            notes = Formatters.noteFormatter(notes);
         } catch (Exception e) {
             Formatters.errorPrint("Error with notes: " + notes, e);
         }
@@ -776,9 +775,9 @@ public class WishlistGenerator implements AutoCloseable {
             // this really should only occur once for each hashIdentifier
             //errorPrint(hashIdentifier + " is not hard coded", e);
         }
-        
-        JSONObject itemDefinition = Formatters.bungieItemDefinitionJSONObject(hashIdentifier); 
-        JSONArray resultSet = Formatters.bungieItemHashSetJSONArray(itemDefinition.getString("name")); 
+
+        JSONObject itemDefinition = Formatters.bungieItemDefinitionJSONObject(hashIdentifier);
+        JSONArray resultSet = Formatters.bungieItemHashSetJSONArray(itemDefinition.getString("name"));
         Long normal = null, enhanced = null;
         for (Object object : resultSet) {
             JSONObject jsonObject = (JSONObject) object;

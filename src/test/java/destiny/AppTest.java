@@ -46,7 +46,7 @@ public class AppTest {
     public static Map<Long, Item> wantedItemList;
 
     public static final String wishlistTSourceFileName = "input//TestDestinyWishlist.txt";
-    public static final String errorOutputFileName = WishlistGenerator.errorOutputFileName; 
+    public static final String errorOutputFileName = WishlistGenerator.errorOutputFileName;
 
     @Before
     public void setup() {
@@ -64,8 +64,8 @@ public class AppTest {
      */
     @Test
     public void testResponse() throws UnirestException {
-        JSONObject itemDefinition = Formatters.bungieItemDefinitionJSONObject("3523296417"); 
-        JSONArray resultSet = Formatters.bungieItemHashSetJSONArray(itemDefinition.getString("name")); 
+        JSONObject itemDefinition = Formatters.bungieItemDefinitionJSONObject("3523296417");
+        JSONArray resultSet = Formatters.bungieItemHashSetJSONArray(itemDefinition.getString("name"));
         Long key = null, entry = null;
         // ensure that there is only a basic and enhanced trait definiton
         assertEquals(2, resultSet.length());
@@ -94,7 +94,7 @@ public class AppTest {
     public void testAdeptConnection() throws UnirestException {
         JSONObject itemDefinition = Formatters.bungieItemDefinitionJSONObject("2886339027");
         assertEquals("Cataclysmic", itemDefinition.getString("name").split("\s\\(Adept\\)")[0]);
-        
+
         JSONArray resultSet = Formatters.bungieItemHashSetJSONArray(itemDefinition.getString("name").split("\s\\(Adept\\)")[0]);
         Long normal = null, adept = null;
         // ensure that there are only two versions of the gun
@@ -325,7 +325,8 @@ public class AppTest {
      *
      * @throws Exception
      */
-    @Test @Experimental
+    @Test
+    @Experimental
     public void testArmor() throws Exception {
         BufferedReader br = new BufferedReader(new FileReader(new File(wishlistTSourceFileName)));
         String line;
@@ -549,7 +550,7 @@ public class AppTest {
             // NOTES CLEANING FOR FORMATTING
             Matcher matcher = Pattern.compile("Inspired by[^\\.]*\\.\\s*", Pattern.CASE_INSENSITIVE).matcher(notes);
             notes = matcher.replaceAll("");
-            
+
             // BASIC TAGS
             String itemType = "pv[pe]|m.?kb|controller|gambit";
             Pattern pattern = Pattern.compile("\\((" + itemType + ")(\\s*[\\/\\s\\\\]+\\s*(" + itemType + "))*\\)(\\:\\s*)*", Pattern.CASE_INSENSITIVE); // tags in parenthesis
@@ -558,7 +559,7 @@ public class AppTest {
                 List<String> tagArray = Arrays.asList(
                         matcher.group().replace("(", "").replaceAll("\\):\\s*", "").split("\\s*[\\/\\s\\\\]+\\s*"));
                 for (String tag : tagArray) {
-                    tag = Formatters.tagFormatter(tag).toLowerCase(); 
+                    tag = Formatters.tagFormatter(tag).toLowerCase();
                     if (!tags.contains(tag)) {
                         tags.add(tag);
                     }
@@ -570,14 +571,14 @@ public class AppTest {
             while (matcher.find()) {
                 List<String> strArray = Arrays.asList(matcher.group().toLowerCase().split("tags:\\s*")[1].split("\\,"));
                 for (String str : strArray) {
-                    str = Formatters.tagFormatter(str); 
+                    str = Formatters.tagFormatter(str);
                     if (!tags.contains(str.toLowerCase())) {
                         tags.add(str.toLowerCase());
                     }
                 }
             }
             notes = pattern.matcher(notes).replaceAll("");
-            notes = Formatters.noteFormatter(notes); 
+            notes = Formatters.noteFormatter(notes);
         } catch (Exception e) {
             throw new AssertionFailedError("Unable to get notes");
         }

@@ -3,6 +3,7 @@ package destiny;
 import java.io.FileDescriptor;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -12,7 +13,7 @@ import kong.unirest.Unirest;
 
 public class Formatters {
 
-	/**
+    /**
      * print any errors to bin\errors folder
      *
      * @param err the (possible) reason for the error
@@ -64,14 +65,10 @@ public class Formatters {
         if (note.length() < 3) {
             return "";
         }
-        if (note.contains("[YeezyGT")) {
-            note = note.split("(\\[YeezyGT).*\\]")[1];
-        } else if (note.contains("pandapaxxy")) {
-            note = note.split("pandapaxxy")[1];
-        } else if (note.contains("Mercules904")) {
-            note = note.split("Mercules904")[1];
-        } else if (note.contains("Chevy.*[(\\.)(\\-)]")) {
-            note = note.split("Chevy.*[(\\.)(\\-)]")[1];
+        List<String> creators = List.of("(\\[YeezyGT).*\\]", "pandapaxxy", "Mercules904", "Chevy.*[(\\.)(\\-)]");
+        for(String creator : creators) {
+            if (note.contains(creator))
+                note = note.split(creator)[1];
         }
         if (note.length() > 0 && note.charAt(0) == (' ')) {
             note = note.substring(1);
@@ -101,18 +98,22 @@ public class Formatters {
      * @param hashIdentifier - the unique hash value for an api item
      * @return JSONObject - the display properties of an item from the database
      */
-	public static JSONObject bungieItemDefinitionJSONObject(String hashIdentifier) {
-		    Unirest.config().reset();
-            Unirest.config().connectTimeout(10000).socketTimeout(10000);
-            HttpResponse<String> response = Unirest.get(WishlistGenerator.bungieItemDefinitionUrl).header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
-                    .routeParam("hashIdentifier", hashIdentifier).asString();
+    public static JSONObject bungieItemDefinitionJSONObject(String hashIdentifier) {
+        Unirest.config().reset();
+        Unirest.config().connectTimeout(10000).socketTimeout(10000);
+        HttpResponse<String> response = Unirest.get(WishlistGenerator.bungieItemDefinitionUrl).header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
+                .routeParam("hashIdentifier", hashIdentifier).asString();
 
-            JSONObject itemDefinition = new JSONObject(response.getBody());
-            itemDefinition = itemDefinition.getJSONObject("Response");
-            itemDefinition = itemDefinition.getJSONObject("displayProperties");
-            return itemDefinition; 
-	}
+        JSONObject itemDefinition = new JSONObject(response.getBody());
+        itemDefinition = itemDefinition.getJSONObject("Response");
+        itemDefinition = itemDefinition.getJSONObject("displayProperties");
+        return itemDefinition;
+    }
 
+    /**
+     * @param name - the unique name of an api item
+     * @return JSONArray - an array of the display properties of an item from the database
+     */
     public static JSONArray bungieItemHashSetJSONArray(String name) {
         HttpResponse<String> response = Unirest.get(WishlistGenerator.bungieItemSearchUrl).header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
                 .routeParam("searchTerm", name.split("\s\\(Adept\\)")[0]).asString();
