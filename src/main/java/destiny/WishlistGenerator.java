@@ -82,7 +82,7 @@ public class WishlistGenerator implements AutoCloseable {
                 checkedItemList.add(item.split(",")[1]);
             }
         } catch (Exception e) {
-            errorPrint("Unable to read in existing item matching list", e);
+            Formatters.errorPrint("Unable to read in existing item matching list", e);
             String eol = System.getProperty("line.separator");
             try (Writer writer = new FileWriter(enhancedMappingFileName, false);) {
                 writer.append("From")
@@ -91,7 +91,7 @@ public class WishlistGenerator implements AutoCloseable {
                         .append(eol);
                 writer.flush();
             } catch (Exception er) {
-                errorPrint("Unable to save itemMatchingList to .\\data", er);
+                Formatters.errorPrint("Unable to save itemMatchingList to .\\data", er);
             }
         }
         // Try to read in item -> name mappings
@@ -105,7 +105,7 @@ public class WishlistGenerator implements AutoCloseable {
                 checkedItemList.add(item.split(",")[1]);
             }
         } catch (Exception e) {
-            errorPrint("Unable to read in existing item naming list", e);
+            Formatters.errorPrint("Unable to read in existing item naming list", e);
             String eol = System.getProperty("line.separator");
             try (Writer writer = new FileWriter(nameMappingFileName, false);) {
                 writer.append("Item ID")
@@ -114,7 +114,7 @@ public class WishlistGenerator implements AutoCloseable {
                         .append(eol);
                 writer.flush();
             } catch (Exception er) {
-                errorPrint("Unable to save itemNamingList to .\\data", er);
+                Formatters.errorPrint("Unable to save itemNamingList to .\\data", er);
             }
         }
 
@@ -128,22 +128,22 @@ public class WishlistGenerator implements AutoCloseable {
             br = new BufferedReader(new FileReader(new File(wishlistCSourceFileName)));
             loopRead(br);
         } catch (FileNotFoundException e) {
-            errorPrint("Error reading custom withlist file", e);
+            Formatters.errorPrint("Error reading custom withlist file", e);
         }
 
         try {
-            try{
+            try {
                 HttpResponse<String> response = Unirest.get(wishlistDSourceUrlName).asString();
                 PrintWriter out = new PrintWriter(wishlistDSourceFileName);
                 out.println(response.getBody());
                 out.close();
-            } catch(Exception e) {
-                errorPrint("Unable to get updated contents from " + errorOutputFileName, e);
+            } catch (Exception e) {
+                Formatters.errorPrint("Unable to get updated contents from " + errorOutputFileName, e);
             }
             br = new BufferedReader(new FileReader(new File(wishlistDSourceFileName)));
             loopRead(br);
         } catch (Exception e) {
-            errorPrint("Error reading default wishlist from url", e);
+            Formatters.errorPrint("Error reading default wishlist from url", e);
         }
 
         // SORTING ITEMS
@@ -208,7 +208,7 @@ public class WishlistGenerator implements AutoCloseable {
             }
             writer.flush();
         } catch (Exception e) {
-            errorPrint("Unable to save itemMatchingList to .\\data", e);
+            Formatters.errorPrint("Unable to save itemMatchingList to .\\data", e);
         }
         // Print the itemNamingList to a file so I don't need to call HTTP.GET every time I run the script
         // TODO - "First in Last out is adding an extra column to the name. Github copilot gave a reason (csv reader issue) but im not sure it's actually correct"
@@ -221,7 +221,7 @@ public class WishlistGenerator implements AutoCloseable {
             }
             writer.flush();
         } catch (Exception e) {
-            errorPrint("Unable to save itemNamingList to .\\data", e);
+            Formatters.errorPrint("Unable to save itemNamingList to .\\data", e);
         }
         errorOutputFile.close();
     }
@@ -263,6 +263,10 @@ public class WishlistGenerator implements AutoCloseable {
                     }
                     // GATHERING LINE INFORMATION (ITEM, PERKS, NOTES)
                     Long itemId = Long.parseLong(line.substring(startKey).split("&")[0].split("#")[0]);
+                    //? TESTING ONLY
+                    /* if (itemId != 3407395594L) {
+                        break;
+                    } */
                     // Convert from adept to normal so they all have the same perks and notes. Convert back when printing so adepts and normals are next to each other in the file
                     if (!adeptMatchingList.containsKey(itemId)) {
                         Long oldItem = itemId;
@@ -270,13 +274,7 @@ public class WishlistGenerator implements AutoCloseable {
                             String name = getName(itemId.toString());
                             if (name.contains("(Adept)")) {
                                 // After checking if the item is adept, find the normal version and convert
-                                HttpResponse<String> response = Unirest.get(bungieItemSearchUrl).header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
-                                        .routeParam("searchTerm", name.split("\s\\(Adept\\)")[0]).asString();
-
-                                JSONObject mJsonObject = new JSONObject(response.getBody());
-                                JSONObject userJObject = mJsonObject.getJSONObject("Response");
-                                JSONObject statusJObject = userJObject.getJSONObject("results");
-                                JSONArray resultSet = statusJObject.getJSONArray("results");
+                                JSONArray resultSet = Formatters.bungieItemHashSetJSONArray(name); 
                                 for (Object object : resultSet) {
                                     JSONObject jsonObject = (JSONObject) object;
                                     JSONObject itemDefinition = jsonObject.getJSONObject("displayProperties");
@@ -286,7 +284,7 @@ public class WishlistGenerator implements AutoCloseable {
                                 }
                             }
                         } catch (JSONException e) {
-                            errorPrint(String.format("Error checking for adept version of %s. Probably occurs when checking item type instead of item", itemId), e);
+                            Formatters.errorPrint(String.format("Error checking for adept version of %s. Probably occurs when checking item type instead of item", itemId), e);
                         } finally {
                             // used to get the normal version of an item from the adept version
                             adeptMatchingList.put(oldItem, itemId);
@@ -310,7 +308,7 @@ public class WishlistGenerator implements AutoCloseable {
                                 checkPerk(itemPerkList.get(i));
                             } catch (Exception e) {
                                 // Really could be any number of reasons for this to happen, but it's probably a timeout. 
-                                errorPrint("HTTP Error", e);
+                                Formatters.errorPrint("HTTP Error", e);
                             }
                         }
                         // if itemMatchingList contains itemPerkList.get(i), set tempPerkList to the itemMatchingList (convert dead / incorrect perks to the correct / normal version)
@@ -350,7 +348,7 @@ public class WishlistGenerator implements AutoCloseable {
                                 constructLists(returnItem, itemList);
                             }
                         } catch (Exception listConstructorException) {
-                            errorPrint("Error on line " + line, listConstructorException);
+                            Formatters.errorPrint("Error on line " + line, listConstructorException);
                             throw new Exception(listConstructorException);
                         }
                     }
@@ -429,7 +427,7 @@ public class WishlistGenerator implements AutoCloseable {
                 name = getName(key.toString());
                 itemNamingList.put(key.toString(), name);
             } catch (Exception e) {
-                errorPrint("Unable to get name for item " + key, e, scriptedWishlistFile);
+                Formatters.errorPrint("Unable to get name for item " + key, e, scriptedWishlistFile);
             }
         }
         // ITEM VALUES
@@ -438,15 +436,6 @@ public class WishlistGenerator implements AutoCloseable {
             // TAGS
             // gamemode is in beginning, input type is at end
             java.util.Collections.sort(itemTagsList.get(itemNumber), java.util.Collections.reverseOrder());
-            // some final formatting change that shouldnt even be necessary but somewhere I'm adding a ' ' or '/' instead of an empty list
-            for (int i = 0; i < itemTagsList.get(itemNumber).size(); i++) {
-                itemTagsList.get(itemNumber).set(i, itemTagsList.get(itemNumber).get(i).replace(" ", ""));
-            }
-            for (int k = 0; k < itemNotesList.get(itemNumber).size(); k++) {
-                if (itemNotesList.get(itemNumber).get(k).length() < 3) {
-                    itemNotesList.get(itemNumber).set(k, "");
-                }
-            }
 
             // ITEM DOCUMENTATION IS DIFFERENT
             if (!currentNoteFull.equals(itemNotesList.get(itemNumber))
@@ -460,24 +449,14 @@ public class WishlistGenerator implements AutoCloseable {
                 for (int i = 0; i < currentNoteFull.size(); i++) {
                     String note = currentNoteFull.get(i);
                     if (!note.equals("")) {
-                        if (note.charAt(0) == (' ')) {
-                            note = note.substring(1);
-                        }
-                        note = note.replace("\"", "");
-                        note = note.replace("\\s+", " ");
-                        // ascii formatting
-                        note = note.replaceAll("[^\\p{ASCII}]", ""); // replace any characters printed as ?
-                        note = note.replace("�", "\'");
                         // reverse the outlier changes made earlier
                         note = note.replace("lightggg", "light.gg");
                         note = note.replace("elipsez", "...");
                         note = note.replace("v30", "3.0");
+                        // format note
+                        note = Formatters.noteFormatter(note); 
                         System.out.print(note);
-                        if (note.charAt(note.length() - 1) == '.') {
-                            System.out.print(' ');
-                        } else {
-                            System.out.print(". ");
-                        }
+                        System.out.print(". ");
                     }
                 }
                 // MWS
@@ -539,14 +518,8 @@ public class WishlistGenerator implements AutoCloseable {
         if (itemNamingList.containsKey(hashIdentifier)) {
             return itemNamingList.get(hashIdentifier);
         }
-        Unirest.config().reset();
-        Unirest.config().connectTimeout(10000).socketTimeout(10000);
-        HttpResponse<String> response = Unirest.get(bungieItemDefinitionUrl).header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
-                .routeParam("hashIdentifier", hashIdentifier).asString();
-
-        JSONObject itemDefinition = new JSONObject(response.getBody());
-        itemDefinition = itemDefinition.getJSONObject("Response");
-        itemDefinition = itemDefinition.getJSONObject("displayProperties");
+        
+        JSONObject itemDefinition = Formatters.bungieItemDefinitionJSONObject(hashIdentifier); 
 
         itemNamingList.put(hashIdentifier, itemDefinition.getString("name"));
         return itemDefinition.getString("name");
@@ -633,53 +606,52 @@ public class WishlistGenerator implements AutoCloseable {
         String note = item.getItemList(2).get(0);
         try {
             // TAGS
-            for (String string : Arrays.asList(note.split("\\|*tags:")[1].split("\\s*\\,\\s*"))) {
-                if (string.equalsIgnoreCase("m+kb")) {
-                    string = "mkb";
+            for (String tag : item.getItemList(3)) {
+                if (!tags.contains(tag)) {
+                    tags.add(tag);
                 }
-                // these next two if statements arent an ideal fix, but they work for now
-                if (string.charAt(string.length() - 1) == ')') {
-                    string = string.substring(0, string.length() - 1);
-                }
-                if (!tags.contains(string)) {
-                    tags.add(string);
+            }
+            for (String tag : Arrays.asList(note.split("\\|*tags:")[1].split("\\s*\\,\\s*"))) {
+                tag = Formatters.tagFormatter(tag); 
+                if (!tags.contains(tag)) {
+                    tags.add(tag);
                 }
             }
             note = note.split("\\|*tags:")[0];
         } catch (Exception notesError) {
             try {
-                tags.add(note.split("\\|tags:")[1]);
+                tags.add(Formatters.tagFormatter(note.split("\\|tags:")[1]));
                 note = note.split("\\|*tags:")[0];
             } catch (Exception tagsError) {
                 // not an error. just item has no tags
             }
         } finally {
             // NOTES & MW
-            String mwRegex = "Recommended\\sMW((\\:\\s)|(\\s\\-\\s))";
-            Pattern pattern = Pattern.compile(String.format("%s[^.]*", mwRegex), Pattern.CASE_INSENSITIVE);
+            String mwRegex = "(Recommended\\s|\\[)+MW((\\:\\s)|(\\s\\-\\s))";
+            Pattern pattern = Pattern.compile(String.format("%s.*", mwRegex), Pattern.CASE_INSENSITIVE);
             note = note.replaceAll("\\s{2,}", " ");
-            note = note.replace("\\s+.\\s*", "");
             try {
                 note = note.replace("light.gg", "lightggg");
                 note = note.replace("...", "elipsez");
                 note = note.replace("3.0", "v30");
-                for (String string : Arrays.asList(note.split("\\.[\\s]+|\"[\\s]*"))) {
+                note = Formatters.noteFormatter(note); 
+                for (String string : Arrays.asList(note.split("\\.[\\s]*|\"[\\s]*|\\]"))) {
                     Matcher matcher = pattern.matcher(string);
                     if (matcher.matches()) {
                         // MW
                         if (!mws.contains(matcher.group().split(mwRegex)[1])) {
                             mws.add(matcher.group().split(mwRegex)[1]);
                         }
-                    } else if (!notes.contains(string) && !string.isEmpty()) {
-                        notes.add(string);
+                    } else if (!notes.contains(Formatters.noteFormatter(string).toLowerCase()) && string.length() > 3) {
+                        notes.add(Formatters.noteFormatter(string));
                     }
                 }
             } catch (Exception e) {
                 Matcher matcher = pattern.matcher(note);
                 if (!mws.contains(matcher.group().split(mwRegex)[1])) {
                     mws.add(matcher.group().split(mwRegex)[1]);
-                } else if (!notes.contains(note) && !note.isEmpty()) {
-                    notes.add(note);
+                } else if (!notes.contains(Formatters.noteFormatter(note).toLowerCase()) && !note.isEmpty()) {
+                    notes.add(Formatters.noteFormatter(note));
                 }
             } finally {
                 // add notes, tags, and mws to returnList
@@ -719,7 +691,7 @@ public class WishlistGenerator implements AutoCloseable {
                 try {
                     notes = line.split("#notes:")[1]; // desired perks with no notes
                 } catch (Exception missingInformation3) {
-                    errorPrint(line, missingInformation3);
+                    Formatters.errorPrint(line, missingInformation3);
                 }
             }
         }
@@ -754,60 +726,37 @@ public class WishlistGenerator implements AutoCloseable {
             // NOTES CLEANING FOR FORMATTING
             Matcher matcher = Pattern.compile("Inspired by[^\\.]*\\.\\s*", Pattern.CASE_INSENSITIVE).matcher(notes);
             notes = matcher.replaceAll("");
-            if (notes.contains("[YeezyGT")) {
-                notes = notes.split("(\\[YeezyGT).*\\]")[1];
-            } else if (notes.contains("pandapaxxy")) {
-                notes = notes.split("pandapaxxy")[1];
-            }
-            if (notes.length() > 0 && notes.charAt(0) == (' ')) {
-                notes = notes.substring(1);
-            }
 
             // BASIC TAGS
             String itemType = "pv[pe]|m.?kb|controller|gambit";
-            Pattern pattern = Pattern.compile("\\((" + itemType + ")(\\s*\\/+\\s*(" + itemType + "))*\\)", Pattern.CASE_INSENSITIVE); // tags in parenthesis
+            Pattern pattern = Pattern.compile("\\((" + itemType + ")(\\s*[\\/\\s\\\\]+\\s*(" + itemType + "))*\\)(\\:\\s*)*", Pattern.CASE_INSENSITIVE); // tags in parenthesis
             matcher = pattern.matcher(notes);
             while (matcher.find()) {
-                List<String> strArray = Arrays.asList(
-                        matcher.group().subSequence(1, matcher.group().length() - 1).toString().split("\\s*\\/\\s*"));
-                for (String str : strArray) {
-                    if (str.equalsIgnoreCase("m+kb")) {
-                        str = "mkb";
-                    }
-                    if (!tags.contains(str.toLowerCase())) {
-                        tags.add(str.toLowerCase());
+                List<String> tagArray = Arrays.asList(
+                        matcher.group().replace("(", "").replaceAll("\\):\\s*", "").split("\\s*[\\/\\s\\\\]+\\s*"));
+                for (String tag : tagArray) {
+                    tag = Formatters.tagFormatter(tag).toLowerCase(); 
+                    if (!tags.contains(tag)) {
+                        tags.add(tag);
                     }
                 }
             }
-            pattern = Pattern.compile("tags:.*", Pattern.CASE_INSENSITIVE); // tags at end of note
+            notes = pattern.matcher(notes).replaceAll("");
+            pattern = Pattern.compile("\\|*tags:.*", Pattern.CASE_INSENSITIVE); // tags at end of noteList
             matcher = pattern.matcher(notes);
             while (matcher.find()) {
                 List<String> strArray = Arrays.asList(matcher.group().toLowerCase().split("tags:\\s*")[1].split("\\,"));
                 for (String str : strArray) {
-                    if (str.equalsIgnoreCase("m+kb")) {
-                        str = "mkb";
-                    }
+                    str = Formatters.tagFormatter(str); 
                     if (!tags.contains(str.toLowerCase())) {
                         tags.add(str.toLowerCase());
                     }
                 }
             }
-            if (!tags.isEmpty()) {
-                notes = notes.split("\\|*tags")[0];
-            }
-            StringBuilder temp = new StringBuilder();
-            for (String string : notes.split("(?i)\\((" + itemType + ")(\\s*\\/+\\s*(" + itemType + "))*\\):*")) {
-                temp.append(string);
-            }
-            notes = temp.toString();
-
-            if (notes.length() > 0 && notes.charAt(0) == (' ')) {
-                notes = notes.substring(1);
-            }
-            notes = notes.replace("\\s+", "\\s");
+            notes = pattern.matcher(notes).replaceAll("");
+            notes = Formatters.noteFormatter(notes); 
         } catch (Exception e) {
-            errorPrint("Error with notes: " + notes, e);
-            throw e;
+            Formatters.errorPrint("Error with notes: " + notes, e);
         }
         Item returnItem = new Item(itemId);
         returnItem.put(perks, Arrays.asList(notes), tags, new ArrayList<>(), ignoreitem);
@@ -827,20 +776,9 @@ public class WishlistGenerator implements AutoCloseable {
             // this really should only occur once for each hashIdentifier
             //errorPrint(hashIdentifier + " is not hard coded", e);
         }
-
-        HttpResponse<String> response = Unirest.get(bungieItemDefinitionUrl).header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
-                .routeParam("hashIdentifier", hashIdentifier).asString();
-        JSONObject itemDefinition = new JSONObject(response.getBody());
-        itemDefinition = itemDefinition.getJSONObject("Response");
-        itemDefinition = itemDefinition.getJSONObject("displayProperties");
-
-        response = Unirest.get(bungieItemSearchUrl).header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
-                .routeParam("searchTerm", itemDefinition.getString("name")).asString();
-
-        JSONObject searchDefinition = new JSONObject(response.getBody());
-        searchDefinition = searchDefinition.getJSONObject("Response");
-        searchDefinition = searchDefinition.getJSONObject("results");
-        JSONArray resultSet = searchDefinition.getJSONArray("results");
+        
+        JSONObject itemDefinition = Formatters.bungieItemDefinitionJSONObject(hashIdentifier); 
+        JSONArray resultSet = Formatters.bungieItemHashSetJSONArray(itemDefinition.getString("name")); 
         Long normal = null, enhanced = null;
         for (Object object : resultSet) {
             JSONObject jsonObject = (JSONObject) object;
@@ -1035,35 +973,5 @@ public class WishlistGenerator implements AutoCloseable {
     @Override
     public void close() throws Exception {
         br.close();
-    }
-
-    /**
-     * print any errors to bin\errors folder
-     *
-     * @param err the (possible) reason for the error
-     * @param e the error being thrown
-     */
-    public static void errorPrint(String err, Exception e) {
-        errorPrint(err, e, new PrintStream(new FileOutputStream(FileDescriptor.out)));
-    }
-
-    /**
-     * print any errors to bin\errors folder
-     *
-     * @param err the (possible) reason for the error
-     * @param e the error being thrown
-     * @param oldStream the stream to return to
-     */
-    public static void errorPrint(String err, Exception e, PrintStream oldStream) {
-        System.setOut(errorOutputFile);
-        System.setErr(errorOutputFile);
-
-        System.out.println(err + ": " + e.getMessage());
-        e.printStackTrace();
-        System.out.println("\n");
-
-        // reset errorOutputFile to console
-        System.setOut(oldStream);
-        System.setErr(oldStream);
     }
 }

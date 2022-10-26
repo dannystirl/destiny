@@ -2,10 +2,13 @@ package destiny;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.StringReader;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -17,6 +20,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.http.annotation.Experimental;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import static org.junit.Assert.assertEquals;
@@ -46,6 +50,8 @@ public class AppTest {
 
     @Before
     public void setup() {
+        System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
+        System.setErr(new PrintStream(new FileOutputStream(FileDescriptor.out)));
         unwantedItemList = new HashMap<>();
         wantedItemList = new HashMap<>();
         unwantedItemList.put(69420L, new Item(69420L));
@@ -58,24 +64,8 @@ public class AppTest {
      */
     @Test
     public void testResponse() throws UnirestException {
-        Unirest.config().reset();
-        Unirest.config().connectTimeout(10000).socketTimeout(10000);
-        HttpResponse<String> response = Unirest.get(WishlistGenerator.bungieItemDefinitionUrl)
-                .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
-                .routeParam("hashIdentifier", "3523296417").asString();
-
-        JSONObject itemDefinition = new JSONObject(response.getBody());
-        itemDefinition = itemDefinition.getJSONObject("Response");
-        itemDefinition = itemDefinition.getJSONObject("displayProperties");
-
-        response = Unirest.get(WishlistGenerator.bungieItemSearchUrl)
-                .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
-                .routeParam("searchTerm", itemDefinition.getString("name")).asString();
-
-        JSONObject mJsonObject = new JSONObject(response.getBody());
-        JSONObject userJObject = mJsonObject.getJSONObject("Response");
-        JSONObject statusJObject = userJObject.getJSONObject("results");
-        JSONArray resultSet = statusJObject.getJSONArray("results");
+        JSONObject itemDefinition = Formatters.bungieItemDefinitionJSONObject("3523296417"); 
+        JSONArray resultSet = Formatters.bungieItemHashSetJSONArray(itemDefinition.getString("name")); 
         Long key = null, entry = null;
         // ensure that there is only a basic and enhanced trait definiton
         assertEquals(2, resultSet.length());
@@ -102,25 +92,10 @@ public class AppTest {
      */
     @Test
     public void testAdeptConnection() throws UnirestException {
-        Unirest.config().reset();
-        Unirest.config().connectTimeout(10000).socketTimeout(10000);
-        HttpResponse<String> response = Unirest.get(WishlistGenerator.bungieItemDefinitionUrl)
-                .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
-                .routeParam("hashIdentifier", "2886339027").asString();
-
-        JSONObject itemDefinition = new JSONObject(response.getBody());
-        itemDefinition = itemDefinition.getJSONObject("Response");
-        itemDefinition = itemDefinition.getJSONObject("displayProperties");
+        JSONObject itemDefinition = Formatters.bungieItemDefinitionJSONObject("2886339027");
         assertEquals("Cataclysmic", itemDefinition.getString("name").split("\s\\(Adept\\)")[0]);
-
-        response = Unirest.get(WishlistGenerator.bungieItemSearchUrl)
-                .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
-                .routeParam("searchTerm", itemDefinition.getString("name").split("\s\\(Adept\\)")[0]).asString();
-
-        JSONObject mJsonObject = new JSONObject(response.getBody());
-        JSONObject userJObject = mJsonObject.getJSONObject("Response");
-        JSONObject statusJObject = userJObject.getJSONObject("results");
-        JSONArray resultSet = statusJObject.getJSONArray("results");
+        
+        JSONArray resultSet = Formatters.bungieItemHashSetJSONArray(itemDefinition.getString("name").split("\s\\(Adept\\)")[0]);
         Long normal = null, adept = null;
         // ensure that there are only two versions of the gun
         assertEquals(2, resultSet.length());
@@ -147,26 +122,11 @@ public class AppTest {
      */
     @Test
     public void testNonAdeptConnection() throws UnirestException {
-        Unirest.config().reset();
-        Unirest.config().connectTimeout(10000).socketTimeout(10000);
-        HttpResponse<String> response = Unirest.get(WishlistGenerator.bungieItemDefinitionUrl)
-                .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
-                .routeParam("hashIdentifier", "2886339027").asString();
-
-        JSONObject itemDefinition = new JSONObject(response.getBody());
-        itemDefinition = itemDefinition.getJSONObject("Response");
-        itemDefinition = itemDefinition.getJSONObject("displayProperties");
+        JSONObject itemDefinition = Formatters.bungieItemDefinitionJSONObject("2886339027");
         assertTrue(itemDefinition.getString("name").contains("(Adept)"));
         assertEquals("Cataclysmic", itemDefinition.getString("name").split("\s\\(Adept\\)")[0]);
 
-        response = Unirest.get(WishlistGenerator.bungieItemSearchUrl)
-                .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
-                .routeParam("searchTerm", itemDefinition.getString("name").split("\s\\(Adept\\)")[0]).asString();
-
-        JSONObject mJsonObject = new JSONObject(response.getBody());
-        JSONObject userJObject = mJsonObject.getJSONObject("Response");
-        JSONObject statusJObject = userJObject.getJSONObject("results");
-        JSONArray resultSet = statusJObject.getJSONArray("results");
+        JSONArray resultSet = Formatters.bungieItemHashSetJSONArray(itemDefinition.getString("name").split("\s\\(Adept\\)")[0]);
         // ensure that there are only two versions of the gun
         assertEquals(2, resultSet.length());
         for (Object object : resultSet) {
@@ -189,16 +149,7 @@ public class AppTest {
      */
     @Test
     public void testGetName() throws UnirestException {
-        Unirest.config().reset();
-        Unirest.config().connectTimeout(10000).socketTimeout(10000);
-        HttpResponse<String> response = Unirest.get(WishlistGenerator.bungieItemDefinitionUrl)
-                .header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
-                .routeParam("hashIdentifier", "4083045006").asString();
-
-        JSONObject itemDefinition = new JSONObject(response.getBody());
-        itemDefinition = itemDefinition.getJSONObject("Response");
-        itemDefinition = itemDefinition.getJSONObject("displayProperties");
-
+        JSONObject itemDefinition = Formatters.bungieItemDefinitionJSONObject("4083045006");
         assertEquals("Persuader", itemDefinition.getString("name"));
         System.out.printf("Test %s passed%n", new Object() {
         }.getClass().getEnclosingMethod().getName());
@@ -302,8 +253,9 @@ public class AppTest {
      */
     @Test
     public void testMWPattern() {
-        String note = "Testing   initial text. Recommended MW - Range. Testing middle text. Recommended MW: Stability. . Recommended MW: Range with Targeting Adjuster mod. ";
-        Pattern pattern = Pattern.compile("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))[^.]*", Pattern.CASE_INSENSITIVE);
+        String note = "Testing   initial text. Recommended MW - Range. Testing middle text. Recommended MW: Stability. . Recommended MW: Range with Targeting Adjuster mod";
+        String mwRegex = "(Recommended\\s|\\[)+MW((\\:\\s)|(\\s\\-\\s))";
+        Pattern pattern = Pattern.compile(String.format("%s.*", mwRegex), Pattern.CASE_INSENSITIVE);
         List<String> mws = new ArrayList<>();
         List<String> notes = new ArrayList<>();
 
@@ -313,8 +265,8 @@ public class AppTest {
             for (String string : Arrays.asList(note.split("\\.[\\s]*|\"[\\s]*"))) {
                 Matcher matcher = pattern.matcher(string);
                 if (matcher.matches()) {
-                    if (!mws.contains(matcher.group().split("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))")[1])) {
-                        mws.add(matcher.group().split("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))")[1]);
+                    if (!mws.contains(matcher.group().split(mwRegex)[1])) {
+                        mws.add(matcher.group().split(mwRegex)[1]);
                     }
                 } else if (!notes.contains(string) && !string.isEmpty()) {
                     notes.add(string);
@@ -322,8 +274,8 @@ public class AppTest {
             }
         } catch (Exception e) {
             Matcher matcher = pattern.matcher(note);
-            if (!mws.contains(matcher.group().split("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))")[1])) {
-                mws.add(matcher.group().split("Recommended\\sMW((\\:\\s)|(\\s\\-\\s))")[1]);
+            if (!mws.contains(matcher.group().split(mwRegex)[1])) {
+                mws.add(matcher.group().split(mwRegex)[1]);
             } else if (!notes.contains(note) && !note.isEmpty()) {
                 notes.add(note);
             }
@@ -373,7 +325,7 @@ public class AppTest {
      *
      * @throws Exception
      */
-    @Test
+    @Test @Experimental
     public void testArmor() throws Exception {
         BufferedReader br = new BufferedReader(new FileReader(new File(wishlistTSourceFileName)));
         String line;
@@ -411,7 +363,7 @@ public class AppTest {
         assertEquals(itemId, item.getItemId());
         assertEquals(1, item.getFullList(1).get(0).size());
         assertEquals(List.of("2172504645"), item.getFullList(1).get(0));
-        assertEquals(List.of("Sleight of Hand works while stowed, but gives stats you would want while using the gun. Not a good trait. "), item.getFullList(2).get(0));
+        assertEquals(List.of("Sleight of Hand works while stowed, but gives stats you would want while using the gun. Not a good trait"), item.getFullList(2).get(0));
         assertTrue(item.isIgnoreItem());
         // Check Item
         checkItemWanted(item);
@@ -458,7 +410,7 @@ public class AppTest {
         assertEquals(itemId, item.getItemId());
         assertEquals(4, item.getFullList(1).get(0).size());
         assertEquals(List.of("1392496348", "2969185026", "3523296417", "438098033"), item.getFullList(1).get(0));
-        assertEquals(List.of("//notes:PvP first choice roll for chaining (6s). Strong subtype with vertical recoil, very good stats, and very good perk combinations from the first ever legendary stasis (kinetic slot) fusion rifle. Looking to get both Range to 80 and Stability to 70 with Masterwork, barrel, and mag traits. Sleight of Hand and Harmony are an ideal pairing for chaining kills, after a kill with another weapon. Recommended MW: Range or Stability with Quick Access Sling or Targeting Adjuster mod depending on play style."), item.getFullList(2).get(0));
+        assertEquals(List.of("//notes:PvP first choice roll for chaining (6s). Strong subtype with vertical recoil, very good stats, and very good perk combinations from the first ever legendary stasis (kinetic slot) fusion rifle. Looking to get both Range to 80 and Stability to 70 with Masterwork, barrel, and mag traits. Sleight of Hand and Harmony are an ideal pairing for chaining kills, after a kill with another weapon. Recommended MW: Range or Stability with Quick Access Sling or Targeting Adjuster mod depending on play style"), item.getFullList(2).get(0));
         assertFalse(item.isIgnoreItem());
         // Check Item
         checkItemWanted(item);
@@ -480,7 +432,7 @@ public class AppTest {
         assertEquals(itemId, item.getItemId());
         assertEquals(2, item.getFullList(1).get(0).size());
         assertEquals(List.of("1168162263", "1015611457"), item.getFullList(1).get(0));
-        assertEquals(List.of("Outlaw + Kill Clip is a classic reload + damage combination."), item.getFullList(2).get(0));
+        assertEquals(List.of("Outlaw + Kill Clip is a classic reload + damage combination"), item.getFullList(2).get(0));
         assertEquals(List.of("pve", "mkb", "controller", "pvp"), item.getFullList(3).get(0));
         assertFalse(item.isIgnoreItem());
         // Check Item
@@ -523,7 +475,7 @@ public class AppTest {
         // Test Results
         assertEquals(itemId, item.getItemId());
         assertEquals(0, item.getFullList(1).get(0).size());
-        assertEquals(List.of("Pleiades Corrector has no good perk combinations. Inferior to vision of confluence. "), item.getFullList(2).get(0));
+        assertEquals(List.of("Pleiades Corrector has no good perk combinations. Inferior to vision of confluence"), item.getFullList(2).get(0));
         assertEquals(0, item.getFullList(3).get(0).size());
         assertTrue(item.isIgnoreItem());
         // Check Item
@@ -537,7 +489,7 @@ public class AppTest {
     /**
      * Takes a line and extracts perk, note, and tag information
      *
-     * @param item Long of the item number
+     * @param itemId Long of the item number
      * @param line String of the complete line
      * @param currentNote if item is imported en mass, the note from a similar
      * previous item is used instead
@@ -548,8 +500,7 @@ public class AppTest {
      * @throws Exception acts as a method of catching notes without tags. should
      * never actually throw an exception
      */
-    public Item lineParser(Long item, String line, String currentNote, boolean ignoreitem) throws Exception {
-        // Begin testing line
+    public Item lineParser(Long itemId, String line, String currentNote, boolean ignoreitem) throws Exception {
         List<String> perks = new ArrayList<>();
         String notes = null;
         List<String> tags = new ArrayList<>();
@@ -571,7 +522,7 @@ public class AppTest {
             // get rid of origin traits since they're static and just clog up the perk list
             perks = perks.subList(0, 4);
         }
-        if (item == 69420L) { // -69420 is a key to apply a wanted/unwanted set of perks to all items, so this is simply to offset that negative
+        if (itemId == 69420L) { // -69420 is a key to apply a wanted/unwanted set of perks to all items, so this is simply to offset that negative
             ignoreitem = false;
         }
         // IS ANY ASPECT OF AN ITEM UNWANTED
@@ -591,61 +542,46 @@ public class AppTest {
             try {
                 notes = "\\|tags:" + notes.split("\\|*tags:")[1];
             } catch (Exception notesError) {
-                // not an error. just item has no notes
+                // not an error. just item has no tags
             }
         }
         try {
             // NOTES CLEANING FOR FORMATTING
             Matcher matcher = Pattern.compile("Inspired by[^\\.]*\\.\\s*", Pattern.CASE_INSENSITIVE).matcher(notes);
             notes = matcher.replaceAll("");
-            if (notes.length() > 0 && notes.charAt(0) == (' ')) {
-                notes = notes.substring(1);
-            }
+            
             // BASIC TAGS
             String itemType = "pv[pe]|m.?kb|controller|gambit";
-            Pattern pattern = Pattern.compile("\\((" + itemType + ")(\\s*\\/+\\s*(" + itemType + "))*\\)", Pattern.CASE_INSENSITIVE); // tags in parenthesis
+            Pattern pattern = Pattern.compile("\\((" + itemType + ")(\\s*[\\/\\s\\\\]+\\s*(" + itemType + "))*\\)(\\:\\s*)*", Pattern.CASE_INSENSITIVE); // tags in parenthesis
             matcher = pattern.matcher(notes);
             while (matcher.find()) {
-                List<String> strArray = Arrays.asList(matcher.group().subSequence(1, matcher.group().length() - 1).toString().split("\\s*\\/\\s*"));
-                for (String str : strArray) {
-                    if (str.equalsIgnoreCase("m+kb")) {
-                        str = "mkb";
+                List<String> tagArray = Arrays.asList(
+                        matcher.group().replace("(", "").replaceAll("\\):\\s*", "").split("\\s*[\\/\\s\\\\]+\\s*"));
+                for (String tag : tagArray) {
+                    tag = Formatters.tagFormatter(tag).toLowerCase(); 
+                    if (!tags.contains(tag)) {
+                        tags.add(tag);
                     }
+                }
+            }
+            notes = pattern.matcher(notes).replaceAll("");
+            pattern = Pattern.compile("\\|*tags:.*", Pattern.CASE_INSENSITIVE); // tags at end of noteList
+            matcher = pattern.matcher(notes);
+            while (matcher.find()) {
+                List<String> strArray = Arrays.asList(matcher.group().toLowerCase().split("tags:\\s*")[1].split("\\,"));
+                for (String str : strArray) {
+                    str = Formatters.tagFormatter(str); 
                     if (!tags.contains(str.toLowerCase())) {
                         tags.add(str.toLowerCase());
                     }
                 }
             }
-            pattern = Pattern.compile("tags:.*", Pattern.CASE_INSENSITIVE); // tags at end of note
-            matcher = pattern.matcher(notes);
-            while (matcher.find()) {
-                List<String> strArray = Arrays.asList(matcher.group().split("tags:\\s*")[1].split("\\,"));
-                for (String str : strArray) {
-                    if (str.equalsIgnoreCase("m+kb")) {
-                        str = "mkb";
-                    }
-                    if (!tags.contains(str.toLowerCase())) {
-                        tags.add(str.toLowerCase());
-                    }
-                }
-            }
-            if (!tags.isEmpty()) {
-                notes = notes.split("\\|*tags")[0];
-            }
-            StringBuilder temp = new StringBuilder();
-            for (String string : notes.split("(?i)\\((" + itemType + ")(\\s*\\/+\\s*(" + itemType + "))*\\):*")) {
-                temp.append(string);
-            }
-            notes = temp.toString();
-
-            if (notes.length() > 0 && notes.charAt(0) == (' ')) {
-                notes = notes.substring(1);
-            }
-            notes = notes.replace("\\s+", "\\s");
+            notes = pattern.matcher(notes).replaceAll("");
+            notes = Formatters.noteFormatter(notes); 
         } catch (Exception e) {
-            throw e;
+            throw new AssertionFailedError("Unable to get notes");
         }
-        Item returnItem = new Item(item);
+        Item returnItem = new Item(itemId);
         returnItem.put(perks, Arrays.asList(notes), tags, new ArrayList<>(), ignoreitem);
         return returnItem;
     }
