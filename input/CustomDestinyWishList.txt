@@ -77,6 +77,8 @@ dimwishlist:item=69420&perks=-2396422520#notes:Slideways (E) is inferior to slid
 dimwishlist:item=69420&perks=-162561147#notes:The impact of mulligan (E) is so minimal that I can only recommend it on special weapons. No special weapons currently have enhanced mulligan. 
 dimwishlist:item=69420&perks=-671806388#notes:Compulsive reloader only works at above 70% mag, which is basically nothing. 
 dimwishlist:item=69420&perks=-595108252#notes:Compulsive reloader (E) only works at above 70% mag, which is basically nothing. 
+dimwishlist:item=69420&perks=-1866048759#notes:I'm not going to be hip-firing enough to use Hip-Fire Grip meaningfully. 
+dimwishlist:item=69420&perks=-2416023159#notes:Offhand Strike is just Hip-Fire Grip, which is also bad. 
 dimwishlist:item=69420&perks=-3511092054#notes:Elemental Capacitor isn't a terrible perk, but there are certainly better options for PvP. 
 dimwishlist:item=69420&perks=-711234314#notes:Elemental Capacitor (E) isn't a terrible perk, but there are certainly better options for PvP. 
 dimwishlist:item=69420&perks=-205890336#notes:Underdog is too situational to be useful. There aren't many times when I'm already weak and being able to reload faster would help. 
