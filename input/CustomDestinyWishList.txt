@@ -24,6 +24,7 @@ dimwishlist:item=999767358&perks=1467527085,2680121939,1354429876,3078487919
 dimwishlist:item=999767358&perks=1840239774,2680121939,1354429876,3078487919
 dimwishlist:item=999767358&perks=4090651448,2680121939,1354429876,3078487919
 dimwishlist:item=999767358&perks=839105230,2680121939,1354429876,3078487919
+dimwishlist:item=999767358&perks=3250034553,2680121939,1354429876,3078487919
 //notes:The only solar scout that can roll adaptive munitions as of season 17. Great for acute solar burn in endgame content. 
 dimwishlist:item=4019668921&perks=839105230,3230963543,3400784728,1048183818
 dimwishlist:item=4019668921&perks=839105230,3142289711,3400784728,1048183818
@@ -40,7 +41,10 @@ dimwishlist:item=1856262127&perks=1840239774,1087426260,1583705720,124408337
 dimwishlist:item=1856262127&perks=1840239774,3230963543,1583705720,124408337
 //notes:Dual Loader (E) provides a big boost to how often you have a full mag, and while the non-enhanced version feels like it has a heavy downside, the enhanced version does not. 
 dimwishlist:item=4225322581&perks=1047830412,106909392,3143051906,2679249093
-
+dimwishlist:item=2715240478&perks=839105230,2680121939,3300816228,2978966579#notes:Enhanced Battery giving +1 magazine gives this role 4 shots with chill clip instead of 3, meaning you can fully freeze two targets without reloading. 
+dimwishlist:item=963710795&perks=3250034553,1483536627,1523832109,2978966579#notes:Reconstruction + Chill-Clip is insanely strong, allowing for near constant uptime of freezes and slows. Ionized battery adds four to the magazine and removes reload, which has next to no impact due to reconstruction.
+dimwishlist:item=4230965989&perks=839105230,1087426260,1523832109,557221067#notes:With the season 20 machine gun buff, reconstruction + killing tally lets you use this gun like a primary weapon. You almost never need to reload, which means you can keep killing tally's buff up at all times. 
+dimwishlist:item=3489657138&perks=3525010810,3796465595,3300816228,2978966579#notes:With the buff from Gjallarhorn, two people using a chill-clip rocket supposedly has very high dps. 
 
 // Generic desireable perk combinations
 dimwishlist:item=-69420&perks=1583705720,4049631843#notes:On their own, s/ofa are good but require effort they're often not worth. When combined s/ofa is an incredibly powerful combination, giving both stats and damage.|tags:pve,mkb,controller

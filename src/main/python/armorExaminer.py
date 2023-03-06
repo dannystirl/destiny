@@ -142,7 +142,7 @@ def run():
                       " or id:" + element[1][0].split(',')[7].replace("\"", ""))
                 printformatted(element[0], element[1][0])
 
-            print("Vault Spaces Saveable: " + str(len(worstArmor)), end="\n\n")
+            print("Vault Spaces Saveable: " + str(len(list(set(worstArmor)))), end="\n\n")
 
             armorSet = set()
             printstr = "DIM string for items to delete:      \n"
