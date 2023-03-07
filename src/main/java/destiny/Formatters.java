@@ -3,7 +3,10 @@ package destiny;
 import java.io.FileDescriptor;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -57,34 +60,52 @@ public class Formatters {
     }
 
     /**
-     *
+     * Clean the notes 
+     * @param note: the note to be formatted
+     * @param currentNote: the previous note of a simliar item
+     * @return String
+     */
+    public static String initialNoteFormatter(String note, String currentNote) {
+        if (note == null) {
+            note = currentNote;
+        }
+        Matcher matcher = Pattern.compile("Inspired by[^\\.]*\\.\\s*", Pattern.CASE_INSENSITIVE).matcher(note);
+        note = matcher.replaceAll("");
+        List<String> creators = List.of("(\\[YeezyGT)[^\\]]*\\]\\s*", "pandapaxxy\\s*", "Mercules904\\s*", "Chevy.*[(\\.)(\\-)]\\s*");
+        for (String creator : creators) {
+            matcher = Pattern.compile(creator, Pattern.CASE_INSENSITIVE).matcher(note);
+            note = matcher.replaceAll("");
+        }
+        if (note.contains("auto generated")) {
+            try {
+                note = "\\|tags:" + note.split("\\|*tags:")[1];
+            } catch (Exception noteError) {
+                // not an error. just item has no tags
+            }
+        }
+        return note; 
+    }
+
+    /**
+     * Format the notes to remove unwanted information
      * @param note the note to be formatted
-     * @return a formatted note
+     * @return String
      */
     public static String noteFormatter(String note) {
         if (note.length() < 3) {
             return "";
         }
-        List<String> creators = List.of("(\\[YeezyGT).*\\]", "pandapaxxy", "Mercules904", "Chevy.*[(\\.)(\\-)]");
-        for(String creator : creators) {
-            if (note.contains(creator))
-                note = note.split(creator)[1];
-        }
         if (note.length() > 0 && note.charAt(0) == (' ')) {
             note = note.substring(1);
         }
-
-        note = note.replaceAll("[^\\p{ASCII}]", ""); // replace any characters printed as �
-        note = note.replace("�", "'");
-        note = note.replace("“", "\"");
+        note = note.replace("“", "");
         note = note.replace("\"", "");
         note = note.replaceAll("\\s+", " ");
+        note = note.replaceAll("[^\\p{ASCII}]", ""); // replace any characters printed as �
         if (note.length() < 3) {
             return "";
         }
-        if (note.charAt(note.length() - 1) == ' ') {
-            note = note.substring(0, note.length() - 1);
-        }
+        note = note.trim();
         if (note.charAt(note.length() - 1) == '.') {
             note = note.substring(0, note.length() - 1);
         }
@@ -92,6 +113,26 @@ public class Formatters {
             return "";
         }
         return note;
+    }
+
+    public static List<String> mwFormatter(String mwToFormat) {
+        String mwRegex = "(Recommended\\s|\\[){1,25}MW((\\:\\s)|(\\s\\-\\s))";
+        Pattern pattern = Pattern.compile(String.format("%s[^\\.\\|\\n]*", mwRegex), Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(mwToFormat);
+        String formattedMW = "";
+        String formattedNote = "";
+        if (matcher.matches()) {
+            // MW
+            String[] noteMwlist = matcher.group().split(mwRegex)[1].split("[^\\x00-\\x7F]");
+            formattedMW = Formatters.noteFormatter(noteMwlist[0]);
+            // Note
+            if(noteMwlist.length > 1) {
+                formattedNote = Formatters.noteFormatter(noteMwlist[1]);
+            }
+        } else {
+            formattedNote = Formatters.noteFormatter(mwToFormat);
+        }
+        return Arrays.asList(formattedMW, formattedNote);
     }
 
     /**

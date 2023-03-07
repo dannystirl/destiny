@@ -605,7 +605,7 @@ public class WishlistGenerator implements AutoCloseable {
         String note = item.getItemList(2).get(0);
         try {
             // TAGS
-            for (String tag : item.getItemList(3)) {
+            for (String tag : item.getItemList(3)) { 
                 if (!tags.contains(tag)) {
                     tags.add(tag);
                 }
@@ -626,38 +626,22 @@ public class WishlistGenerator implements AutoCloseable {
             }
         } finally {
             // NOTES & MW
-            String mwRegex = "(Recommended\\s|\\[)+MW((\\:\\s)|(\\s\\-\\s))";
-            Pattern pattern = Pattern.compile(String.format("%s.*", mwRegex), Pattern.CASE_INSENSITIVE);
-            note = note.replaceAll("\\s{2,}", " ");
-            try {
-                note = note.replace("light.gg", "lightggg");
-                note = note.replace("...", "elipsez");
-                note = note.replace("3.0", "v30");
-                note = Formatters.noteFormatter(note);
-                for (String string : Arrays.asList(note.split("\\.[\\s]*|\"[\\s]*|\\]"))) {
-                    Matcher matcher = pattern.matcher(string);
-                    if (matcher.matches()) {
-                        // MW
-                        if (!mws.contains(matcher.group().split(mwRegex)[1])) {
-                            mws.add(matcher.group().split(mwRegex)[1]);
-                        }
-                    } else if (!notes.contains(Formatters.noteFormatter(string)) && string.length() > 3) {
-                        notes.add(Formatters.noteFormatter(string));
-                    }
+            note = note.replace("light.gg", "lightggg");
+            note = note.replace("...", "elipsez");
+            note = note.replace("3.0", "v30");
+            for (String string : Arrays.asList(note.split("\\.[\\s]*|\"[\\s]*|\\]"))) {
+                List<String> formattedMWs = Formatters.mwFormatter(string);
+                if (!(formattedMWs.get(0).equals("") || mws.contains(formattedMWs.get(0)))) {
+                    mws.add(formattedMWs.get(0));
                 }
-            } catch (Exception e) {
-                Matcher matcher = pattern.matcher(note);
-                if (!mws.contains(matcher.group().split(mwRegex)[1])) {
-                    mws.add(matcher.group().split(mwRegex)[1]);
-                } else if (!notes.contains(Formatters.noteFormatter(note)) && !note.isEmpty()) {
-                    notes.add(Formatters.noteFormatter(note));
+                if (!(formattedMWs.get(1).equals("") || notes.contains(formattedMWs.get(1)))) {
+                    notes.add(formattedMWs.get(1));
                 }
-            } finally {
-                // add notes, tags, and mws to returnList
-                returnList.add(notes);
-                returnList.add(tags);
-                returnList.add(mws);
             }
+            // add notes, tags, and mws to returnList
+            returnList.add(notes);
+            returnList.add(tags);
+            returnList.add(mws);
         }
         return returnList;
     }
@@ -711,25 +695,12 @@ public class WishlistGenerator implements AutoCloseable {
             ignoreitem = true;
         }
         // clean some notes to get rid of unnecessary fluff
-        if (notes == null) {
-            notes = currentNote;
-        }
-        if (notes.contains("auto generated")) {
-            try {
-                notes = "\\|tags:" + notes.split("\\|*tags:")[1];
-            } catch (Exception notesError) {
-                // not an error. just item has no tags
-            }
-        }
+        notes = Formatters.initialNoteFormatter(notes, currentNote); 
         try {
-            // NOTES CLEANING FOR FORMATTING
-            Matcher matcher = Pattern.compile("Inspired by[^\\.]*\\.\\s*", Pattern.CASE_INSENSITIVE).matcher(notes);
-            notes = matcher.replaceAll("");
-
             // BASIC TAGS
             String itemType = "pv[pe]|m.?kb|controller|gambit";
             Pattern pattern = Pattern.compile("\\((" + itemType + ")(\\s*[\\/\\s\\\\]+\\s*(" + itemType + "))*\\)(\\:\\s*)*", Pattern.CASE_INSENSITIVE); // tags in parenthesis
-            matcher = pattern.matcher(notes);
+            Matcher matcher = pattern.matcher(notes);
             while (matcher.find()) {
                 List<String> tagArray = Arrays.asList(
                         matcher.group().replace("(", "").replaceAll("\\):\\s*", "").split("\\s*[\\/\\s\\\\]+\\s*"));
@@ -753,7 +724,6 @@ public class WishlistGenerator implements AutoCloseable {
                 }
             }
             notes = pattern.matcher(notes).replaceAll("");
-            notes = Formatters.noteFormatter(notes);
         } catch (Exception e) {
             Formatters.errorPrint("Error with notes: " + notes, e);
         }

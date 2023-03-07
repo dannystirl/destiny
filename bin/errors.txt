@@ -2,7 +2,7 @@ Error checking for adept version of 69420. Probably occurs when checking item ty
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
 	at destiny.WishlistGenerator.getName(WishlistGenerator.java:521)
 	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:273)
 	at destiny.WishlistGenerator.main(WishlistGenerator.java:128)
@@ -12,7 +12,7 @@ Error checking for adept version of 5. Probably occurs when checking item type i
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
 	at destiny.WishlistGenerator.getName(WishlistGenerator.java:521)
 	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:273)
 	at destiny.WishlistGenerator.main(WishlistGenerator.java:128)
@@ -22,7 +22,7 @@ Error checking for adept version of 7. Probably occurs when checking item type i
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
 	at destiny.WishlistGenerator.getName(WishlistGenerator.java:521)
 	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:273)
 	at destiny.WishlistGenerator.main(WishlistGenerator.java:128)
@@ -32,7 +32,7 @@ Error checking for adept version of 8. Probably occurs when checking item type i
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
 	at destiny.WishlistGenerator.getName(WishlistGenerator.java:521)
 	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:273)
 	at destiny.WishlistGenerator.main(WishlistGenerator.java:128)
@@ -42,7 +42,7 @@ Error checking for adept version of 3317538576. Probably occurs when checking it
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
 	at destiny.WishlistGenerator.getName(WishlistGenerator.java:521)
 	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:273)
 	at destiny.WishlistGenerator.main(WishlistGenerator.java:128)
@@ -52,7 +52,7 @@ Error checking for adept version of 9. Probably occurs when checking item type i
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
 	at destiny.WishlistGenerator.getName(WishlistGenerator.java:521)
 	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:273)
 	at destiny.WishlistGenerator.main(WishlistGenerator.java:128)
@@ -62,8 +62,8 @@ HTTP Error: JSONObject["Response"] not found.
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
-	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:779)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
+	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:749)
 	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:307)
 	at destiny.WishlistGenerator.main(WishlistGenerator.java:128)
 
@@ -72,8 +72,8 @@ HTTP Error: JSONObject["Response"] not found.
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
-	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:779)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
+	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:749)
 	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:307)
 	at destiny.WishlistGenerator.main(WishlistGenerator.java:143)
 
@@ -82,8 +82,8 @@ HTTP Error: JSONObject["Response"] not found.
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
-	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:779)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
+	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:749)
 	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:307)
 	at destiny.WishlistGenerator.main(WishlistGenerator.java:143)
 
@@ -92,8 +92,8 @@ HTTP Error: JSONObject["Response"] not found.
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
-	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:779)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
+	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:749)
 	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:307)
 	at destiny.WishlistGenerator.main(WishlistGenerator.java:143)
 
@@ -102,8 +102,8 @@ HTTP Error: JSONObject["Response"] not found.
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
-	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:779)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
+	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:749)
 	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:307)
 	at destiny.WishlistGenerator.main(WishlistGenerator.java:143)
 
@@ -112,8 +112,8 @@ HTTP Error: JSONObject["Response"] not found.
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
-	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:779)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
+	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:749)
 	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:307)
 	at destiny.WishlistGenerator.main(WishlistGenerator.java:143)
 
@@ -122,8 +122,8 @@ HTTP Error: JSONObject["Response"] not found.
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
-	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:779)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
+	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:749)
 	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:307)
 	at destiny.WishlistGenerator.main(WishlistGenerator.java:143)
 
@@ -132,8 +132,8 @@ HTTP Error: JSONObject["Response"] not found.
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
-	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:779)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
+	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:749)
 	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:307)
 	at destiny.WishlistGenerator.main(WishlistGenerator.java:143)
 
@@ -142,8 +142,8 @@ HTTP Error: JSONObject["Response"] not found.
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
-	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:779)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
+	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:749)
 	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:307)
 	at destiny.WishlistGenerator.main(WishlistGenerator.java:143)
 
@@ -152,8 +152,8 @@ HTTP Error: JSONObject["Response"] not found.
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
-	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:779)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
+	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:749)
 	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:307)
 	at destiny.WishlistGenerator.main(WishlistGenerator.java:143)
 
@@ -162,8 +162,8 @@ HTTP Error: JSONObject["Response"] not found.
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
-	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:779)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
+	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:749)
 	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:307)
 	at destiny.WishlistGenerator.main(WishlistGenerator.java:143)
 
@@ -172,8 +172,8 @@ HTTP Error: JSONObject["Response"] not found.
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
-	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:779)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
+	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:749)
 	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:307)
 	at destiny.WishlistGenerator.main(WishlistGenerator.java:143)
 
@@ -182,8 +182,8 @@ HTTP Error: JSONObject["Response"] not found.
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
-	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:779)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
+	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:749)
 	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:307)
 	at destiny.WishlistGenerator.main(WishlistGenerator.java:143)
 
@@ -192,7 +192,7 @@ Error checking for adept version of 616582331. Probably occurs when checking ite
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
 	at destiny.WishlistGenerator.getName(WishlistGenerator.java:521)
 	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:273)
 	at destiny.WishlistGenerator.main(WishlistGenerator.java:143)
@@ -202,7 +202,7 @@ Error checking for adept version of 616582332. Probably occurs when checking ite
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
 	at destiny.WishlistGenerator.getName(WishlistGenerator.java:521)
 	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:273)
 	at destiny.WishlistGenerator.main(WishlistGenerator.java:143)
@@ -212,7 +212,7 @@ Unable to get name for item 5: JSONObject["Response"] not found.
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
 	at destiny.WishlistGenerator.getName(WishlistGenerator.java:521)
 	at destiny.WishlistGenerator.printWishlistInner(WishlistGenerator.java:426)
 	at destiny.WishlistGenerator.printWishlist(WishlistGenerator.java:392)
@@ -223,7 +223,7 @@ Unable to get name for item 7: JSONObject["Response"] not found.
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
 	at destiny.WishlistGenerator.getName(WishlistGenerator.java:521)
 	at destiny.WishlistGenerator.printWishlistInner(WishlistGenerator.java:426)
 	at destiny.WishlistGenerator.printWishlist(WishlistGenerator.java:392)
@@ -234,7 +234,7 @@ Unable to get name for item 8: JSONObject["Response"] not found.
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
 	at destiny.WishlistGenerator.getName(WishlistGenerator.java:521)
 	at destiny.WishlistGenerator.printWishlistInner(WishlistGenerator.java:426)
 	at destiny.WishlistGenerator.printWishlist(WishlistGenerator.java:392)
@@ -245,7 +245,7 @@ Unable to get name for item 9: JSONObject["Response"] not found.
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
 	at destiny.WishlistGenerator.getName(WishlistGenerator.java:521)
 	at destiny.WishlistGenerator.printWishlistInner(WishlistGenerator.java:426)
 	at destiny.WishlistGenerator.printWishlist(WishlistGenerator.java:392)
@@ -256,7 +256,7 @@ Unable to get name for item 616582331: JSONObject["Response"] not found.
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
 	at destiny.WishlistGenerator.getName(WishlistGenerator.java:521)
 	at destiny.WishlistGenerator.printWishlistInner(WishlistGenerator.java:426)
 	at destiny.WishlistGenerator.printWishlist(WishlistGenerator.java:392)
@@ -267,7 +267,7 @@ Unable to get name for item 616582332: JSONObject["Response"] not found.
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
 	at destiny.WishlistGenerator.getName(WishlistGenerator.java:521)
 	at destiny.WishlistGenerator.printWishlistInner(WishlistGenerator.java:426)
 	at destiny.WishlistGenerator.printWishlist(WishlistGenerator.java:392)
@@ -278,7 +278,7 @@ Unable to get name for item 3317538576: JSONObject["Response"] not found.
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
 	at destiny.WishlistGenerator.getName(WishlistGenerator.java:521)
 	at destiny.WishlistGenerator.printWishlistInner(WishlistGenerator.java:426)
 	at destiny.WishlistGenerator.printWishlist(WishlistGenerator.java:392)
@@ -289,7 +289,7 @@ Unable to get name for item 69420: JSONObject["Response"] not found.
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)
 	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
-	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:108)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:149)
 	at destiny.WishlistGenerator.getName(WishlistGenerator.java:521)
 	at destiny.WishlistGenerator.printWishlistInner(WishlistGenerator.java:426)
 	at destiny.WishlistGenerator.printWishlist(WishlistGenerator.java:392)

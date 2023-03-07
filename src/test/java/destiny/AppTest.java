@@ -45,7 +45,7 @@ public class AppTest {
     public static Map<Long, Item> unwantedItemList;
     public static Map<Long, Item> wantedItemList;
 
-    public static final String wishlistTSourceFileName = "input//TestDestinyWishlist.txt";
+    public static final String wishlistTSourceFileName = "input//CustomDestinyWishList.txt";
     public static final String errorOutputFileName = WishlistGenerator.errorOutputFileName;
 
     @Before
@@ -536,25 +536,12 @@ public class AppTest {
             ignoreitem = true;
         }
         // clean some notes to get rid of unnecessary fluff
-        if (notes == null) {
-            notes = currentNote;
-        }
-        if (notes.contains("auto generated")) {
-            try {
-                notes = "\\|tags:" + notes.split("\\|*tags:")[1];
-            } catch (Exception notesError) {
-                // not an error. just item has no tags
-            }
-        }
+        notes = Formatters.initialNoteFormatter(notes, currentNote);
         try {
-            // NOTES CLEANING FOR FORMATTING
-            Matcher matcher = Pattern.compile("Inspired by[^\\.]*\\.\\s*", Pattern.CASE_INSENSITIVE).matcher(notes);
-            notes = matcher.replaceAll("");
-
             // BASIC TAGS
             String itemType = "pv[pe]|m.?kb|controller|gambit";
             Pattern pattern = Pattern.compile("\\((" + itemType + ")(\\s*[\\/\\s\\\\]+\\s*(" + itemType + "))*\\)(\\:\\s*)*", Pattern.CASE_INSENSITIVE); // tags in parenthesis
-            matcher = pattern.matcher(notes);
+            Matcher matcher = pattern.matcher(notes);
             while (matcher.find()) {
                 List<String> tagArray = Arrays.asList(
                         matcher.group().replace("(", "").replaceAll("\\):\\s*", "").split("\\s*[\\/\\s\\\\]+\\s*"));
@@ -571,9 +558,9 @@ public class AppTest {
             while (matcher.find()) {
                 List<String> strArray = Arrays.asList(matcher.group().toLowerCase().split("tags:\\s*")[1].split("\\,"));
                 for (String str : strArray) {
-                    str = Formatters.tagFormatter(str);
-                    if (!tags.contains(str.toLowerCase())) {
-                        tags.add(str.toLowerCase());
+                    str = Formatters.tagFormatter(str).toLowerCase();
+                    if (!tags.contains(str)) {
+                        tags.add(str);
                     }
                 }
             }
