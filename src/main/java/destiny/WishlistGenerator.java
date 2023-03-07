@@ -629,13 +629,30 @@ public class WishlistGenerator implements AutoCloseable {
             note = note.replace("light.gg", "lightggg");
             note = note.replace("...", "elipsez");
             note = note.replace("3.0", "v30");
-            for (String string : Arrays.asList(note.split("\\.[\\s]*|\"[\\s]*|\\]"))) {
-                List<String> formattedMWs = Formatters.mwFormatter(string);
-                if (!(formattedMWs.get(0).equals("") || mws.contains(formattedMWs.get(0)))) {
-                    mws.add(formattedMWs.get(0));
+            String mwRegex = "(Recommended\\s|\\[){1,25}MW((\\:\\s)|(\\s\\-\\s))";
+            Pattern pattern = Pattern.compile(String.format("%s[^\\.\\|\\n]*", mwRegex), Pattern.CASE_INSENSITIVE);
+            for (String mwToFormat : Arrays.asList(note.split("\\.[\\s]*|\"[\\s]*|\\]"))) {
+                // Format note
+                Matcher matcher = pattern.matcher(mwToFormat);
+                String formattedMW = "";
+                String formattedNote = "";
+                if (matcher.matches()) {
+                    // MW
+                    String[] noteMwlist = matcher.group().split(mwRegex)[1].split("[^\\x00-\\x7F]");
+                    formattedMW = Formatters.noteFormatter(noteMwlist[0]);
+                    // Note
+                    if (noteMwlist.length > 1) {
+                        formattedNote = Formatters.noteFormatter(noteMwlist[1]);
+                    }
+                } else {
+                    formattedNote = Formatters.noteFormatter(mwToFormat);
                 }
-                if (!(formattedMWs.get(1).equals("") || notes.contains(formattedMWs.get(1)))) {
-                    notes.add(formattedMWs.get(1));
+                // Add required items to appropriate lists
+                if (!(formattedMW.equals("") || mws.contains(formattedMW))) {
+                    mws.add(formattedMW);
+                }
+                if (!(formattedNote.equals("") || notes.contains(formattedNote))) {
+                    notes.add(formattedNote);
                 }
             }
             // add notes, tags, and mws to returnList
