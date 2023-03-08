@@ -1,5 +1,7 @@
 # Most of this code was written by u/ParasiticUniverse and u/MrFlood360, but has been formatted and sipmlified. Ignores class items and sunset armor, as well as items already tagged for removal in DIM.
 
+# Can be converted to executable using pyinstaller --onefile --console pythonScriptName.py
+
 from asyncio.windows_events import NULL
 from cmath import log
 from msilib.schema import File
