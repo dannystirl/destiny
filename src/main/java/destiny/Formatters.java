@@ -3,7 +3,6 @@ package destiny;
 import java.io.FileDescriptor;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -113,26 +112,6 @@ public class Formatters {
             return "";
         }
         return note;
-    }
-
-    public static List<String> mwFormatter(String mwToFormat) {
-        String mwRegex = "(Recommended\\s|\\[){1,25}MW((\\:\\s)|(\\s\\-\\s))";
-        Pattern pattern = Pattern.compile(String.format("%s[^\\.\\|\\n]*", mwRegex), Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(mwToFormat);
-        String formattedMW = "";
-        String formattedNote = "";
-        if (matcher.matches()) {
-            // MW
-            String[] noteMwlist = matcher.group().split(mwRegex)[1].split("[^\\x00-\\x7F]");
-            formattedMW = Formatters.noteFormatter(noteMwlist[0]);
-            // Note
-            if(noteMwlist.length > 1) {
-                formattedNote = Formatters.noteFormatter(noteMwlist[1]);
-            }
-        } else {
-            formattedNote = Formatters.noteFormatter(mwToFormat);
-        }
-        return Arrays.asList(formattedMW, formattedNote);
     }
 
     /**

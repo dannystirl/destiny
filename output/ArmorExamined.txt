@@ -2,11 +2,11 @@ id:"6917529557559532687" or id:"6917529817385575921"
 "6917529557559532687" : Corrupting Echo Robes (Warlock Chest Armor at 1788 power) > 
 "6917529817385575921" : Chasm of Yul (Warlock Chest Armor at 1600 power)
 
-id:"6917529804421399855" or id:"6917529804395099765"
-"6917529804421399855" : Deep Explorer Plate (Titan Chest Armor at 1600 power) > 
-"6917529804395099765" : Eidolon Pursuant Plate (Titan Chest Armor at 1600 power)
+id:"6917529864925835860" or id:"6917529824491202580"
+"6917529864925835860" : Ketchkiller's Boots (Warlock Leg Armor at 1600 power) > 
+"6917529824491202580" : Path of Xol (Warlock Leg Armor at 1600 power)
 
 Vault Spaces Saveable: 2
 
 DIM string for items to delete:      
-id:"6917529817385575921" or id:"6917529804395099765"
+id:"6917529817385575921" or id:"6917529824491202580"

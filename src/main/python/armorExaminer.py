@@ -120,7 +120,7 @@ def run():
             testClasses.remove("Titan")
 
     # Open CSV from DIM
-    with open('src/main/data/destiny/destinyArmor.csv', newline='', errors="ignore") as f:
+    with open('input/destinyArmor.csv', newline='', errors="ignore") as f:
         reader = csv.reader(f)
         rawArmorList = list(reader)
         armorList = []
