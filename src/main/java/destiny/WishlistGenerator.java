@@ -17,9 +17,11 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -93,6 +95,8 @@ public class WishlistGenerator implements AutoCloseable {
                 Formatters.errorPrint("Unable to save itemMatchingList to .\\data", er);
             }
         }
+        Map<String, String> originalItemMatchingList = itemMatchingList.entrySet().stream().collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+
         // Try to read in item -> name mappings
         try (BufferedReader reader = new BufferedReader(
                 new FileReader(new File(nameMappingFileName)));) {
@@ -116,6 +120,7 @@ public class WishlistGenerator implements AutoCloseable {
                 Formatters.errorPrint("Unable to save itemNamingList to .\\data", er);
             }
         }
+        Map<String, String> originalItemNamingList = itemNamingList.entrySet().stream().collect(Collectors.toMap(Entry::getKey, Entry::getValue));
 
         Unirest.config().reset();
         Unirest.config().connectTimeout(5000).socketTimeout(5000).concurrency(10, 5);
@@ -196,27 +201,30 @@ public class WishlistGenerator implements AutoCloseable {
         printWishlist();
 
         // Print the itemMatchingList to a file so I don't need to call HTTP.GET every time I run the script
-        // TODO - this is adding items every time even if theyre already in the file, might be best to wipe it and print everything
         String eol = System.getProperty("line.separator");
         try (Writer writer = new FileWriter(enhancedMappingFileName, true);) {
             for (Map.Entry<String, String> entry : itemMatchingList.entrySet()) {
-                writer.append(entry.getKey())
-                        .append(',')
-                        .append(entry.getValue())
-                        .append(eol);
+                if (!(originalItemMatchingList.containsKey(entry.getKey()) && originalItemMatchingList.get(entry.getKey()).equals(entry.getValue()))) {
+                    writer.append(entry.getKey())
+                            .append(',')
+                            .append(entry.getValue())
+                            .append(eol);
+                }
             }
             writer.flush();
         } catch (Exception e) {
             Formatters.errorPrint("Unable to save itemMatchingList to .\\data", e);
         }
         // Print the itemNamingList to a file so I don't need to call HTTP.GET every time I run the script
-        // TODO - "First in Last out is adding an extra column to the name. Github copilot gave a reason (csv reader issue) but im not sure it's actually correct"
+        // TODO - First in Last out is adding an extra column to the name. Github copilot gave a reason (csv reader issue) but im not sure it's actually correct
         try (Writer writer = new FileWriter(nameMappingFileName, true);) {
             for (Map.Entry<String, String> entry : itemNamingList.entrySet()) {
-                writer.append(entry.getKey())
-                        .append(',')
-                        .append(entry.getValue())
-                        .append(eol);
+                if (!(originalItemNamingList.containsKey(entry.getKey()) && originalItemNamingList.get(entry.getKey()).equals(entry.getValue()))) {
+                    writer.append(entry.getKey())
+                            .append(',')
+                            .append(entry.getValue())
+                            .append(eol);
+                }
             }
             writer.flush();
         } catch (Exception e) {
@@ -346,6 +354,7 @@ public class WishlistGenerator implements AutoCloseable {
                             } else {
                                 constructLists(returnItem, itemList);
                             }
+                            System.out.print("");
                         } catch (Exception listConstructorException) {
                             Formatters.errorPrint("Error on line " + line, listConstructorException);
                             throw new Exception(listConstructorException);
@@ -898,8 +907,8 @@ public class WishlistGenerator implements AutoCloseable {
             }
             case "3865257976": {
                 // Dragonfly
-                itemMatchingList.put("2848615171", "3865257976");
-                itemMatchingList.put("169755979", "3865257976");
+                itemMatchingList.put("3865257976", "2848615171");
+                itemMatchingList.put("169755979", "2848615171");
                 checkedItemList.add("2848615171");
                 checkedItemList.add("169755979");
                 checkedItemList.add("3865257976");
