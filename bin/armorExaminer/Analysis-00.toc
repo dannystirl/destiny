@@ -507,14 +507,6 @@
    'C:\\Program '
    'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.9_3.9.3568.0_x64__qbz5n2kfra8p0\\lib\\_threading_local.py',
    'PYMODULE'),
-  ('stringprep',
-   'C:\\Program '
-   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.9_3.9.3568.0_x64__qbz5n2kfra8p0\\lib\\stringprep.py',
-   'PYMODULE'),
-  ('_py_abc',
-   'C:\\Program '
-   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.9_3.9.3568.0_x64__qbz5n2kfra8p0\\lib\\_py_abc.py',
-   'PYMODULE'),
   ('getpass',
    'C:\\Program '
    'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.9_3.9.3568.0_x64__qbz5n2kfra8p0\\lib\\getpass.py',
@@ -542,6 +534,14 @@
   ('http.cookiejar',
    'C:\\Program '
    'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.9_3.9.3568.0_x64__qbz5n2kfra8p0\\lib\\http\\cookiejar.py',
+   'PYMODULE'),
+  ('stringprep',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.9_3.9.3568.0_x64__qbz5n2kfra8p0\\lib\\stringprep.py',
+   'PYMODULE'),
+  ('_py_abc',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.9_3.9.3568.0_x64__qbz5n2kfra8p0\\lib\\_py_abc.py',
    'PYMODULE'),
   ('tracemalloc',
    'C:\\Program '
@@ -699,120 +699,140 @@
    'C:\\Program '
    'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.9_3.9.3568.0_x64__qbz5n2kfra8p0\\lib\\asyncio\\runners.py',
    'PYMODULE')],
- [('api-ms-win-core-util-l1-1-0.dll',
-   'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-util-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-debug-l1-1-0.dll',
-   'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-debug-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-convert-l1-1-0.dll',
-   'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-crt-convert-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-synch-l1-1-0.dll',
-   'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-synch-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-rtlsupport-l1-1-0.dll',
+ [('api-ms-win-core-rtlsupport-l1-1-0.dll',
    'c:\\Program '
    'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-rtlsupport-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-string-l1-1-0.dll',
-   'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-crt-string-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-processthreads-l1-1-1.dll',
-   'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-processthreads-l1-1-1.dll',
-   'BINARY'),
-  ('api-ms-win-core-errorhandling-l1-1-0.dll',
-   'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-errorhandling-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-localization-l1-2-0.dll',
-   'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-localization-l1-2-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-heap-l1-1-0.dll',
-   'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-heap-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-stdio-l1-1-0.dll',
-   'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-crt-stdio-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-profile-l1-1-0.dll',
-   'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-profile-l1-1-0.dll',
    'BINARY'),
   ('api-ms-win-core-interlocked-l1-1-0.dll',
    'c:\\Program '
    'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-interlocked-l1-1-0.dll',
    'BINARY'),
-  ('api-ms-win-crt-heap-l1-1-0.dll',
+  ('api-ms-win-crt-stdio-l1-1-0.dll',
    'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-crt-heap-l1-1-0.dll',
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-crt-stdio-l1-1-0.dll',
    'BINARY'),
-  ('python39.dll',
-   'C:\\Program '
-   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.9_3.9.3568.0_x64__qbz5n2kfra8p0\\python39.dll',
-   'BINARY'),
-  ('api-ms-win-crt-locale-l1-1-0.dll',
+  ('api-ms-win-core-heap-l1-1-0.dll',
    'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-crt-locale-l1-1-0.dll',
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-heap-l1-1-0.dll',
    'BINARY'),
-  ('api-ms-win-core-sysinfo-l1-1-0.dll',
+  ('api-ms-win-core-debug-l1-1-0.dll',
    'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-sysinfo-l1-1-0.dll',
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-debug-l1-1-0.dll',
    'BINARY'),
-  ('api-ms-win-crt-environment-l1-1-0.dll',
+  ('api-ms-win-core-profile-l1-1-0.dll',
    'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-crt-environment-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-processthreads-l1-1-0.dll',
-   'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-processthreads-l1-1-0.dll',
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-profile-l1-1-0.dll',
    'BINARY'),
   ('api-ms-win-crt-math-l1-1-0.dll',
    'c:\\Program '
    'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-crt-math-l1-1-0.dll',
    'BINARY'),
+  ('api-ms-win-core-localization-l1-2-0.dll',
+   'c:\\Program '
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-localization-l1-2-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-heap-l1-1-0.dll',
+   'c:\\Program '
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-crt-heap-l1-1-0.dll',
+   'BINARY'),
   ('api-ms-win-crt-runtime-l1-1-0.dll',
    'c:\\Program '
    'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-crt-runtime-l1-1-0.dll',
    'BINARY'),
+  ('api-ms-win-core-sysinfo-l1-1-0.dll',
+   'c:\\Program '
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-sysinfo-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-errorhandling-l1-1-0.dll',
+   'c:\\Program '
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-errorhandling-l1-1-0.dll',
+   'BINARY'),
+  ('python39.dll',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.9_3.9.3568.0_x64__qbz5n2kfra8p0\\python39.dll',
+   'BINARY'),
+  ('api-ms-win-core-util-l1-1-0.dll',
+   'c:\\Program '
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-util-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-locale-l1-1-0.dll',
+   'c:\\Program '
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-crt-locale-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-convert-l1-1-0.dll',
+   'c:\\Program '
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-crt-convert-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-processthreads-l1-1-1.dll',
+   'c:\\Program '
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-processthreads-l1-1-1.dll',
+   'BINARY'),
+  ('api-ms-win-crt-string-l1-1-0.dll',
+   'c:\\Program '
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-crt-string-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-synch-l1-1-0.dll',
+   'c:\\Program '
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-synch-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-processthreads-l1-1-0.dll',
+   'c:\\Program '
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-processthreads-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-environment-l1-1-0.dll',
+   'c:\\Program '
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-crt-environment-l1-1-0.dll',
+   'BINARY'),
   ('ucrtbase.dll',
    'c:\\Program Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\ucrtbase.dll',
-   'BINARY'),
-  ('api-ms-win-crt-time-l1-1-0.dll',
-   'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-crt-time-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-conio-l1-1-0.dll',
-   'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-crt-conio-l1-1-0.dll',
-   'BINARY'),
-  ('VCRUNTIME140.dll',
-   'C:\\Program '
-   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.9_3.9.3568.0_x64__qbz5n2kfra8p0\\VCRUNTIME140.dll',
-   'BINARY'),
-  ('api-ms-win-crt-process-l1-1-0.dll',
-   'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-crt-process-l1-1-0.dll',
    'BINARY'),
   ('api-ms-win-crt-filesystem-l1-1-0.dll',
    'c:\\Program '
    'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-crt-filesystem-l1-1-0.dll',
    'BINARY'),
-  ('api-ms-win-core-memory-l1-1-0.dll',
+  ('api-ms-win-crt-process-l1-1-0.dll',
    'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-memory-l1-1-0.dll',
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-crt-process-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-conio-l1-1-0.dll',
+   'c:\\Program '
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-crt-conio-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-time-l1-1-0.dll',
+   'c:\\Program '
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-crt-time-l1-1-0.dll',
+   'BINARY'),
+  ('VCRUNTIME140.dll',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.9_3.9.3568.0_x64__qbz5n2kfra8p0\\VCRUNTIME140.dll',
+   'BINARY'),
+  ('api-ms-win-core-file-l1-1-0.dll',
+   'c:\\Program '
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-file-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-file-l2-1-0.dll',
+   'c:\\Program '
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-file-l2-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-synch-l1-2-0.dll',
+   'c:\\Program '
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-synch-l1-2-0.dll',
    'BINARY'),
   ('api-ms-win-core-file-l1-2-0.dll',
    'c:\\Program '
    'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-file-l1-2-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-datetime-l1-1-0.dll',
+   'c:\\Program '
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-datetime-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-string-l1-1-0.dll',
+   'c:\\Program '
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-string-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-console-l1-1-0.dll',
+   'c:\\Program '
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-console-l1-1-0.dll',
    'BINARY'),
   ('api-ms-win-core-libraryloader-l1-1-0.dll',
    'c:\\Program '
@@ -822,37 +842,17 @@
    'c:\\Program '
    'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-timezone-l1-1-0.dll',
    'BINARY'),
-  ('api-ms-win-core-synch-l1-2-0.dll',
-   'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-synch-l1-2-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-console-l1-1-0.dll',
-   'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-console-l1-1-0.dll',
-   'BINARY'),
   ('api-ms-win-core-processenvironment-l1-1-0.dll',
    'c:\\Program '
    'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-processenvironment-l1-1-0.dll',
    'BINARY'),
-  ('api-ms-win-core-datetime-l1-1-0.dll',
+  ('api-ms-win-core-memory-l1-1-0.dll',
    'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-datetime-l1-1-0.dll',
+   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-memory-l1-1-0.dll',
    'BINARY'),
   ('api-ms-win-core-handle-l1-1-0.dll',
    'c:\\Program '
    'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-handle-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-file-l1-1-0.dll',
-   'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-file-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-string-l1-1-0.dll',
-   'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-string-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-file-l2-1-0.dll',
-   'c:\\Program '
-   'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-core-file-l2-1-0.dll',
    'BINARY'),
   ('api-ms-win-core-namedpipe-l1-1-0.dll',
    'c:\\Program '
@@ -922,13 +922,13 @@
    'c:\\Program '
    'Files\\Java\\graalvm-ce-java17-22.0.2.0\\bin\\api-ms-win-crt-utility-l1-1-0.dll',
    'BINARY'),
-  ('libssl-1_1.dll',
-   'C:\\Program '
-   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.9_3.9.3568.0_x64__qbz5n2kfra8p0\\DLLs\\libssl-1_1.dll',
-   'BINARY'),
   ('libcrypto-1_1.dll',
    'C:\\Program '
    'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.9_3.9.3568.0_x64__qbz5n2kfra8p0\\DLLs\\libcrypto-1_1.dll',
+   'BINARY'),
+  ('libssl-1_1.dll',
+   'C:\\Program '
+   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.9_3.9.3568.0_x64__qbz5n2kfra8p0\\DLLs\\libssl-1_1.dll',
    'BINARY'),
   ('libffi-7.dll',
    'C:\\Program '
