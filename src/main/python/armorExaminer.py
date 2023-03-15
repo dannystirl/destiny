@@ -73,7 +73,7 @@ class armorPiece:
         if self.type == "Warlock Bond" or self.type == "Hunter Cloak" or self.type == "Titan Mark":
             return self.modslot != '' and test.modslot == ''
         # Keep raid items?
-        if keepRaid and not self.artifice and self.modslot != '' and self.modslot != test.modslot:
+        if keepRaid and test.modslot != '' and not test.artifice and self.modslot != test.modslot:
             return False
         #! Skip if stats are completely identical
         if self.identicalStats(test):
