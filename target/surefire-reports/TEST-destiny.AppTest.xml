@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="destiny.AppTest" time="1.986" tests="16" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="destiny.AppTest" time="4.131" tests="16" errors="4" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="c:\Program Files\Java\graalvm-ce-java17-22.0.2.0\bin"/>
-    <property name="sun.java.command" value="C:\Users\dan30\AppData\Local\Temp\surefire16864650585283882570\surefirebooter2264837980298896251.jar C:\Users\dan30\AppData\Local\Temp\surefire16864650585283882570 2023-03-07T13-36-39_535-jvmRun1 surefire2157194704169567744tmp surefire_017126318139743052320tmp"/>
+    <property name="sun.java.command" value="C:\Users\dan30\AppData\Local\Temp\surefire7549485899609579525\surefirebooter7496007585954677789.jar C:\Users\dan30\AppData\Local\Temp\surefire7549485899609579525 2023-03-09T14-07-14_049-jvmRun1 surefire4942234253092329664tmp surefire_03121416102816474659tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="E:\Code\destiny\target\test-classes;E:\Code\destiny\target\classes;C:\Users\dan30\.m2\repository\org\json\json\20211205\json-20211205.jar;C:\Users\dan30\.m2\repository\com\konghq\unirest-java\3.13.10\unirest-java-3.13.10.jar;C:\Users\dan30\.m2\repository\org\apache\httpcomponents\httpclient\4.5.13\httpclient-4.5.13.jar;C:\Users\dan30\.m2\repository\org\apache\httpcomponents\httpcore\4.4.13\httpcore-4.4.13.jar;C:\Users\dan30\.m2\repository\commons-logging\commons-logging\1.2\commons-logging-1.2.jar;C:\Users\dan30\.m2\repository\org\apache\httpcomponents\httpmime\4.5.13\httpmime-4.5.13.jar;C:\Users\dan30\.m2\repository\org\apache\httpcomponents\httpcore-nio\4.4.13\httpcore-nio-4.4.13.jar;C:\Users\dan30\.m2\repository\org\apache\httpcomponents\httpasyncclient\4.1.5\httpasyncclient-4.1.5.jar;C:\Users\dan30\.m2\repository\commons-codec\commons-codec\1.15\commons-codec-1.15.jar;C:\Users\dan30\.m2\repository\com\google\code\gson\gson\2.9.0\gson-2.9.0.jar;C:\Users\dan30\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\dan30\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\dan30\.m2\repository\org\jetbrains\annotations\24.0.1\annotations-24.0.1.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -31,7 +31,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\dan30\AppData\Local\Temp\surefire16864650585283882570\surefirebooter2264837980298896251.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\dan30\AppData\Local\Temp\surefire7549485899609579525\surefirebooter7496007585954677789.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.2+8-jvmci-22.0-b05"/>
@@ -51,27 +51,43 @@
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="sun.os.patch.level" value=""/>
     <property name="native.encoding" value="Cp1252"/>
-    <property name="java.library.path" value="c:\Program Files\Java\graalvm-ce-java17-22.0.2.0\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;c:\Program Files\Java\graalvm-ce-java17-22.0.2.0\bin;C:\Program Files\Java\jdk-17.0.4.8-hotspot\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files\Java\jdk-17.0.2.8-hotspot\bin;C:\Program Files\Java\jdk-16.0.1\bin;C:\Program Files\Java\jdk-8.0.322.6-hotspot\bin;C:\Program Files\Eclipse Adoptium\jdk-8.0.332.9-hotspot\bin;C:\Users\dan30\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\dan30\AppData\Local\Programs\Python\Python39\;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64\compiler;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Users\dan30\.cargo\bin;C:\Users\dan30\AppData\Roaming\TinyTeX\bin\win32;C:\Users\dan30\AppData\Local\Microsoft\WindowsApps;C:\Users\dan30\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Java\jdk-17.0.2.8-hotspot\bin;C:\Program Files\Java\jdk-16.0.1\bin;C:\Program Files\Java\jdk-8.0.322.6-hotspot\bin;C:\Users\dan30\AppData\Local\Programs\MiKTeX\miktex\bin\x64\;C:\Users\dan30\AppData\Roaming\npm;C:\Program Files\Maven\apache-maven-3.8.2\bin;C:\Program Files\SDL;C:\Users\dan30\.rustup\toolchains\nightly-x86_64-pc-windows-msvc\lib\rustlib\x86_64-pc-windows-msvc\lib;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2022.2.3\bin;;C:\Users\dan30\AppData\Local\GitHubDesktop\bin;C:\Program Files\JetBrains\DataGrip 2021.3.3\bin;;C:\Users\dan30\.dotnet\tools;;."/>
+    <property name="java.library.path" value="c:\Program Files\Java\graalvm-ce-java17-22.0.2.0\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;c:\Program Files\Java\graalvm-ce-java17-22.0.2.0\bin;C:\Program Files\Java\jdk-17.0.4.8-hotspot\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files\Java\jdk-17.0.2.8-hotspot\bin;C:\Program Files\Java\jdk-16.0.1\bin;C:\Program Files\Java\jdk-8.0.322.6-hotspot\bin;C:\Program Files\Eclipse Adoptium\jdk-8.0.332.9-hotspot\bin;C:\Users\dan30\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\dan30\AppData\Local\Programs\Python\Python39\;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64\compiler;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Users\dan30\.cargo\bin;C:\Users\dan30\AppData\Roaming\TinyTeX\bin\win32;C:\Users\dan30\AppData\Local\Microsoft\WindowsApps;C:\Users\dan30\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Java\jdk-17.0.2.8-hotspot\bin;C:\Program Files\Java\jdk-16.0.1\bin;C:\Program Files\Java\jdk-8.0.322.6-hotspot\bin;C:\Users\dan30\AppData\Local\Programs\MiKTeX\miktex\bin\x64\;C:\Users\dan30\AppData\Roaming\npm;C:\Program Files\Maven\apache-maven-3.8.2\bin;C:\Program Files\SDL;C:\Users\dan30\.rustup\toolchains\nightly-x86_64-pc-windows-msvc\lib\rustlib\x86_64-pc-windows-msvc\lib;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2022.2.3\bin;;C:\Users\dan30\AppData\Local\GitHubDesktop\bin;C:\Program Files\JetBrains\DataGrip 2021.3.3\bin;;C:\Users\dan30\.dotnet\tools;C:\Users\dan30\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.9_qbz5n2kfra8p0\LocalCache\local-packages\Python39\Scripts;;."/>
     <property name="java.vm.info" value="mixed mode, sharing"/>
     <property name="java.vendor" value="GraalVM Community"/>
     <property name="java.vm.version" value="17.0.2+8-jvmci-22.0-b05"/>
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testLineParserAll" classname="destiny.AppTest" time="0.008"/>
-  <testcase name="testArmor" classname="destiny.AppTest" time="0.018"/>
-  <testcase name="testInput" classname="destiny.AppTest" time="0.004"/>
-  <testcase name="testMWPattern" classname="destiny.AppTest" time="0.002"/>
-  <testcase name="testLineParserAllWithIgnore" classname="destiny.AppTest" time="0"/>
-  <testcase name="writeHashMapToCsv" classname="destiny.AppTest" time="0.002"/>
-  <testcase name="testGetName" classname="destiny.AppTest" time="0.603"/>
-  <testcase name="testResponse" classname="destiny.AppTest" time="0.329"/>
-  <testcase name="testWishlistUrl" classname="destiny.AppTest" time="0.283"/>
-  <testcase name="testAdeptConversion" classname="destiny.AppTest" time="0"/>
+  <testcase name="testLineParserAll" classname="destiny.AppTest" time="0.007"/>
+  <testcase name="testArmor" classname="destiny.AppTest" time="2.412"/>
+  <testcase name="testInput" classname="destiny.AppTest" time="0.002"/>
+  <testcase name="testMWPattern" classname="destiny.AppTest" time="0.001"/>
+  <testcase name="testLineParserAllWithIgnore" classname="destiny.AppTest" time="0.002"/>
+  <testcase name="writeHashMapToCsv" classname="destiny.AppTest" time="0.001"/>
+  <testcase name="testGetName" classname="destiny.AppTest" time="0.656">
+    <error message="JSONObject[&quot;Response&quot;] not found." type="org.json.JSONException"><![CDATA[org.json.JSONException: JSONObject["Response"] not found.
+	at destiny.AppTest.testGetName(AppTest.java:152)
+]]></error>
+  </testcase>
+  <testcase name="testResponse" classname="destiny.AppTest" time="0.158">
+    <error message="JSONObject[&quot;Response&quot;] not found." type="org.json.JSONException"><![CDATA[org.json.JSONException: JSONObject["Response"] not found.
+	at destiny.AppTest.testResponse(AppTest.java:67)
+]]></error>
+  </testcase>
+  <testcase name="testWishlistUrl" classname="destiny.AppTest" time="0.501"/>
+  <testcase name="testAdeptConversion" classname="destiny.AppTest" time="0.001"/>
   <testcase name="testLineParserItem" classname="destiny.AppTest" time="0.002"/>
-  <testcase name="testLineParserItemPerksOnly" classname="destiny.AppTest" time="0.001"/>
-  <testcase name="testNonAdeptConnection" classname="destiny.AppTest" time="0.424"/>
-  <testcase name="testLineParserIgnoreItem" classname="destiny.AppTest" time="0.001"/>
+  <testcase name="testLineParserItemPerksOnly" classname="destiny.AppTest" time="0"/>
+  <testcase name="testNonAdeptConnection" classname="destiny.AppTest" time="0.196">
+    <error message="JSONObject[&quot;Response&quot;] not found." type="org.json.JSONException"><![CDATA[org.json.JSONException: JSONObject["Response"] not found.
+	at destiny.AppTest.testNonAdeptConnection(AppTest.java:125)
+]]></error>
+  </testcase>
+  <testcase name="testLineParserIgnoreItem" classname="destiny.AppTest" time="0"/>
   <testcase name="testLineParserItemWithIgnore" classname="destiny.AppTest" time="0.002"/>
-  <testcase name="testAdeptConnection" classname="destiny.AppTest" time="0.271"/>
+  <testcase name="testAdeptConnection" classname="destiny.AppTest" time="0.146">
+    <error message="JSONObject[&quot;Response&quot;] not found." type="org.json.JSONException"><![CDATA[org.json.JSONException: JSONObject["Response"] not found.
+	at destiny.AppTest.testAdeptConnection(AppTest.java:95)
+]]></error>
+  </testcase>
 </testsuite>

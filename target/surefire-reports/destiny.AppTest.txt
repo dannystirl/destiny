@@ -1,4 +1,20 @@
 -------------------------------------------------------------------------------
 Test set: destiny.AppTest
 -------------------------------------------------------------------------------
-Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.986 s - in destiny.AppTest
+Tests run: 16, Failures: 0, Errors: 4, Skipped: 0, Time elapsed: 4.131 s <<< FAILURE! - in destiny.AppTest
+destiny.AppTest.testGetName  Time elapsed: 0.656 s  <<< ERROR!
+org.json.JSONException: JSONObject["Response"] not found.
+	at destiny.AppTest.testGetName(AppTest.java:152)
+
+destiny.AppTest.testResponse  Time elapsed: 0.158 s  <<< ERROR!
+org.json.JSONException: JSONObject["Response"] not found.
+	at destiny.AppTest.testResponse(AppTest.java:67)
+
+destiny.AppTest.testNonAdeptConnection  Time elapsed: 0.196 s  <<< ERROR!
+org.json.JSONException: JSONObject["Response"] not found.
+	at destiny.AppTest.testNonAdeptConnection(AppTest.java:125)
+
+destiny.AppTest.testAdeptConnection  Time elapsed: 0.146 s  <<< ERROR!
+org.json.JSONException: JSONObject["Response"] not found.
+	at destiny.AppTest.testAdeptConnection(AppTest.java:95)
+

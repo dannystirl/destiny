@@ -4,10 +4,13 @@
 
 from asyncio.windows_events import NULL
 from cmath import log
+import copy
 from msilib.schema import File
 import csv
+import os
 import sys
 # Config options
+keepRaid = False
 skipMob = False
 skipRes = False
 skipRec = False
@@ -28,12 +31,12 @@ class armorPiece:
             self.id = info[csvColumns.index('Id')]
             self.tag = info[csvColumns.index('Tag')]
             self.artifice = (info[csvColumns.index('Seasonal Mod')] == 'artifice')
+            self.modslot = info[csvColumns.index('Seasonal Mod')]
             self.tier = info[csvColumns.index('Tier')]
             self.type = info[csvColumns.index('Type')]
             self.equippable = info[csvColumns.index('Equippable')]
             self.power = int(info[csvColumns.index('Power')])
             self.powerLimit = (info[csvColumns.index('Power Limit')] != "")
-
             #! Armor 1.0 exotics have no masterwork so this is required.
             try:
                 self.masterworkTier = int(info[csvColumns.index('Energy Capacity')])
@@ -47,7 +50,6 @@ class armorPiece:
             self.int = int(info[csvColumns.index('Intellect (Base)')])
             self.str = int(info[csvColumns.index('Strength (Base)')])
             self.total = int(info[csvColumns.index('Total (Base)')])
-
         except Exception as e:
             print(e)
             print("Something went wrong with " + self.name)
@@ -58,9 +60,6 @@ class armorPiece:
 
     # Determine if stats of a piece are better than stats of another piece
     def isBetter(self, test):
-        # Slip class items
-        if self.type == "Warlock Bond" or self.type == "Hunter Cloak" or self.type == "Titan Mark":
-            return False
         # Skip different armor tiers
         if self == test or self.tier != test.tier:
             return False
@@ -68,31 +67,38 @@ class armorPiece:
         if self.tier == "Exotic" and test.tier == "Exotic" and self.name != test.name:
             return False
         # Check classes and slot are the same
-        if self.equippable == test.equippable and self.type == test.type and self.equippable in testClasses:
-            #! Skip if stats are completely identical
-            if self.identicalStats(test):
-                return False
-            # Check if all stats are equal to or better than test piece, respecting config options
-            statNames = ['mob', 'res', 'rec', 'dis', 'int', 'str']
-            # Remove unwanted stats
+        if self.equippable != test.equippable or self.type != test.type or self.equippable not in testClasses:
+            return False
+        # Skip class items
+        if self.type == "Warlock Bond" or self.type == "Hunter Cloak" or self.type == "Titan Mark":
+            return self.modslot != '' and test.modslot == ''
+        # Keep raid items?
+        if keepRaid and not self.artifice and self.modslot != '' and self.modslot != test.modslot:
+            return False
+        #! Skip if stats are completely identical
+        if self.identicalStats(test):
+            return False
+        # Check if all stats are equal to or better than test piece, respecting config options
+        statNames = ['mob', 'res', 'rec', 'dis', 'int', 'str']
+        # Remove unwanted stats
+        for statName in statNames:
+            if globals()["skip{}".format(statName.capitalize())]:
+                statNames.remove(statName)
+        # Test if current armor is better
+        checkList = []
+        for otherStatName in statNames:
+            checkList.append(self.__getattribute__(otherStatName) >= test.__getattribute__(otherStatName))
+        if all(ele == True for ele in checkList):
+            return True
+        # Test artifice armor stat boosts
+        if self.artifice:
             for statName in statNames:
-                if globals()["skip{}".format(statName.capitalize())]:
-                    statNames.remove(statName)
-            # Test if current armor is better
-            checkList = []
-            for otherStatName in statNames:
-                checkList.append(self.__getattribute__(otherStatName) >= test.__getattribute__(otherStatName))
-            if all(ele == True for ele in checkList):
-                return True
-            # Test artifice armor stat boosts
-            if self.artifice:
-                for statName in statNames:
-                    checkList = []
-                    checkList.append(self.__getattribute__(statName) + 3 >= test.__getattribute__(statName))
-                    for otherStatName in [x for x in statNames if x != statName]:
-                        checkList.append(self.__getattribute__(otherStatName) >= test.__getattribute__(otherStatName))
-                    if all(ele == True for ele in checkList):
-                        return True
+                checkList = []
+                checkList.append(self.__getattribute__(statName) + 3 >= test.__getattribute__(statName))
+                for otherStatName in [x for x in statNames if x != statName]:
+                    checkList.append(self.__getattribute__(otherStatName) >= test.__getattribute__(otherStatName))
+                if all(ele == True for ele in checkList):
+                    return True
         return False
 
     # Simpler way to print armor piece
@@ -101,11 +107,12 @@ class armorPiece:
 
 
 def run():
-    global skipMob, skipRec, skipRes, skipDis, skipInt, skipStr, testClasses, csvColumns
+    global keepRaid, skipMob, skipRec, skipRes, skipDis, skipInt, skipStr, testClasses, csvColumns
     yes = ['Y','YES']
     #Prompting and config
     print("Setup: Decide what parameters to use. Press Y for yes, any other key for no.")
     classes = input("Classes to check? W,H,T (Default: All)\n")
+    keepRaid = input("Keep one of each raid mod slot? Y/N (Default: No)\n").upper() in yes
     skipMob = input("Ignore Mobility? Y/N (Default: No)\n").upper() in yes
     skipRes = input("Ignore Resilience? Y/N (Default: No)\n").upper() in yes
     skipRec = input("Ignore Recovery? Y/N (Default: No)\n").upper() in yes
@@ -122,7 +129,7 @@ def run():
             testClasses.remove("Titan")
 
     # Open CSV from DIM
-    with open('input/destinyArmor.csv', newline='', errors="ignore") as f:
+    with open(os.path.abspath('input/destinyArmor.csv'), newline='', errors="ignore") as f:
         reader = csv.reader(f)
         rawArmorList = list(reader)
         armorList = []
@@ -144,7 +151,8 @@ def run():
         bestArmor = list(set([armor[0] for armor in superiorityList]))
         worstArmor = list(set([armor[1] for armor in superiorityList]))
 
-        simpleSuperiorityList = []
+        matchedSuperiorityList = {}
+        idToItemList = {}
 
         # Formatting the list so that each piece to keep is listed next to which pieces it supersedes
         for currentArmor in bestArmor:
@@ -152,25 +160,38 @@ def run():
                 armor[1] for armor in superiorityList
                 if armor[0] == currentArmor
             ]
-            simpleSuperiorityList.append([currentArmor, badArmorList])
+            idToItemList[currentArmor.id] = currentArmor
+            for item in badArmorList:
+                idToItemList[item.id] = item
+            matchedSuperiorityList[currentArmor.id] = [item.id for item in badArmorList]
+            
+        simpleSuperiorityList = copy.deepcopy(matchedSuperiorityList)
+        for armorKey in matchedSuperiorityList:
+            for badArmor in matchedSuperiorityList[armorKey]:
+                if badArmor in matchedSuperiorityList:
+                    simpleSuperiorityList.update({armorKey: [x for x in set(
+                        simpleSuperiorityList[armorKey] + simpleSuperiorityList[badArmor]) if x != badArmor]})
 
         # Display
         original_stdout = sys.stdout
         with open('output/ArmorExamined.txt', 'w') as f:
             sys.stdout = f
-            for betterArmorPiece in simpleSuperiorityList:
-                for worseArmorPiece in betterArmorPiece[1]:
-                    print(f'id:{betterArmorPiece[0].id} or id:{worseArmorPiece.id}')
-                    printformatted(betterArmorPiece[0], worseArmorPiece)
+            for betterArmorPieceId in simpleSuperiorityList:
+                if idToItemList[betterArmorPieceId].type != "Warlock Bond" and idToItemList[betterArmorPieceId].type != "Hunter Cloak" and idToItemList[betterArmorPieceId].type != "Titan Mark":
+                    for worseArmorPiece in simpleSuperiorityList[betterArmorPieceId]:
+                        print(
+                            f'id:{idToItemList[betterArmorPieceId].id} or id:{idToItemList[worseArmorPiece].id}')
+                        printformatted(
+                            idToItemList[betterArmorPieceId], idToItemList[worseArmorPiece])
+            
             print("Vault Spaces Saveable: " + str(len(list(set(worstArmor)))), end="\n\n")
-
             armorSet = set()
             printstr = "DIM string for items to delete:      \n"
-            for betterArmorPiece in simpleSuperiorityList:
-                for worseArmorPiece in betterArmorPiece[1]:
-                    if worseArmorPiece not in armorSet:
-                        armorSet.add(worseArmorPiece)
-                        printstr += f'id:{worseArmorPiece.id} or '
+            for betterArmorPieceId in simpleSuperiorityList:
+                for worseArmorPieceId in simpleSuperiorityList[betterArmorPieceId]:
+                    if worseArmorPieceId not in armorSet:
+                        armorSet.add(worseArmorPieceId)
+                        printstr += f'id:{worseArmorPieceId} or '
             print(printstr[0:len(printstr)-4])
 
         sys.stdout = original_stdout  #? Reset the standard output to its original value

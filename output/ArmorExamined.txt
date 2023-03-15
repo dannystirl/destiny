@@ -1,12 +1,148 @@
-id:"6917529557559532687" or id:"6917529817385575921"
+id:"6917529839987828041" or id:"6917529842935157454"
+"6917529839987828041" : Deep Explorer Plate (Titan Chest Armor at 1600 power) > 
+"6917529842935157454" : Eidolon Pursuant Plate (Titan Chest Armor at 1600 power)
+
+id:"6917529500852509773" or id:"6917529824491202580"
+"6917529500852509773" : Tesseract Trace IV (Warlock Leg Armor at 1728 power) > 
+"6917529824491202580" : Path of Xol (Warlock Leg Armor at 1600 power)
+
+id:"6917529864925835860" or id:"6917529669845832046"
+"6917529864925835860" : Ketchkiller's Boots (Warlock Leg Armor at 1600 power) > 
+"6917529669845832046" : Resonant Fury Boots (Warlock Leg Armor at 1600 power)
+
+id:"6917529864925835860" or id:"6917529824491202580"
+"6917529864925835860" : Ketchkiller's Boots (Warlock Leg Armor at 1600 power) > 
+"6917529824491202580" : Path of Xol (Warlock Leg Armor at 1600 power)
+
+id:"6917529857149013186" or id:"6917529780968019623"
+"6917529857149013186" : Veritas Hood (Warlock Helmet at 1790 power) > 
+"6917529780968019623" : Eidolon Pursuant Veil (Warlock Helmet at 1784 power)
+
+id:"6917529857149013186" or id:"6917529812184400612"
+"6917529857149013186" : Veritas Hood (Warlock Helmet at 1790 power) > 
+"6917529812184400612" : Mouth of Ur (Warlock Helmet at 1600 power)
+
+id:"6917529597272206186" or id:"6917529824491202580"
+"6917529597272206186" : Crystocrene Boots (Warlock Leg Armor at 1600 power) > 
+"6917529824491202580" : Path of Xol (Warlock Leg Armor at 1600 power)
+
+id:"6917529597272206186" or id:"6917529466963143190"
+"6917529597272206186" : Crystocrene Boots (Warlock Leg Armor at 1600 power) > 
+"6917529466963143190" : Philomath Boots (Warlock Leg Armor at 1600 power)
+
+id:"6917529597272206186" or id:"6917529669845832046"
+"6917529597272206186" : Crystocrene Boots (Warlock Leg Armor at 1600 power) > 
+"6917529669845832046" : Resonant Fury Boots (Warlock Leg Armor at 1600 power)
+
+id:"6917529876372364201" or id:"6917529194842726429"
+"6917529876372364201" : Deep Explorer Boots (Warlock Leg Armor at 1800 power) > 
+"6917529194842726429" : Channeling Treads (CODA) (Warlock Leg Armor at 1600 power)
+
+id:"6917529876372364201" or id:"6917529804409271596"
+"6917529876372364201" : Deep Explorer Boots (Warlock Leg Armor at 1800 power) > 
+"6917529804409271596" : Deep Explorer Boots (Warlock Leg Armor at 1600 power)
+
+id:"6917529829303273782" or id:"6917529760062212524"
+"6917529829303273782" : Deep Explorer Helmet (Titan Helmet at 1751 power) > 
+"6917529760062212524" : Tusked Allegiance Helmet (Titan Helmet at 1600 power)
+
+id:"6917529760210090883" or id:"6917529812184400612"
+"6917529760210090883" : Tusked Allegiance Hood (Warlock Helmet at 1600 power) > 
+"6917529812184400612" : Mouth of Ur (Warlock Helmet at 1600 power)
+
+id:"6917529800391443629" or id:"6917529804387537165"
+"6917529800391443629" : Wild Hunt Helm (Titan Helmet at 1600 power) > 
+"6917529804387537165" : Eidolon Pursuant Helm (Titan Helmet at 1600 power)
+
+id:"6917529571759468449" or id:"6917529405523100261"
+"6917529571759468449" : Corrupting Echo Cover (Warlock Helmet at 1680 power) > 
+"6917529405523100261" : Lightkin Cover (Warlock Helmet at 1600 power)
+
+id:"6917529712599557911" or id:"6917529211611674985"
+"6917529712599557911" : Iron Forerunner Gauntlets (Titan Gauntlets at 1600 power) > 
+"6917529211611674985" : Wild Hunt Gauntlets (Titan Gauntlets at 1600 power)
+
+id:"6917529804395101100" or id:"6917529804444665193"
+"6917529804395101100" : Eidolon Pursuant Greaves (Titan Leg Armor at 1600 power) > 
+"6917529804444665193" : Deep Explorer Greaves (Titan Leg Armor at 1600 power)
+
+id:"6917529854494588147" or id:"6917529504712367258"
+"6917529854494588147" : TM-Moss Custom Duster (Warlock Chest Armor at 1600 power) > 
+"6917529504712367258" : Annealed Shaper Robes (Warlock Chest Armor at 1600 power)
+
+id:"6917529864925834511" or id:"6917529558026805191"
+"6917529864925834511" : Ketchkiller's Hood (Warlock Helmet at 1784 power) > 
+"6917529558026805191" : Corrupting Echo Cover (Warlock Helmet at 1600 power)
+
+id:"6917529864925834511" or id:"6917529735159370398"
+"6917529864925834511" : Ketchkiller's Hood (Warlock Helmet at 1784 power) > 
+"6917529735159370398" : Resonant Fury Cowl (Warlock Helmet at 1600 power)
+
+id:"6917529864925834511" or id:"6917529692869947537"
+"6917529864925834511" : Ketchkiller's Hood (Warlock Helmet at 1784 power) > 
+"6917529692869947537" : BrayTech Researcher's Hood (Warlock Helmet at 1600 power)
+
+id:"6917529823509699333" or id:"6917529620194152466"
+"6917529823509699333" : Deep Explorer Gloves (Warlock Gauntlets at 1600 power) > 
+"6917529620194152466" : BrayTech Researcher's Gloves (Warlock Gauntlets at 1600 power)
+
+id:"6917529804421399855" or id:"6917529804395099765"
+"6917529804421399855" : Deep Explorer Plate (Titan Chest Armor at 1600 power) > 
+"6917529804395099765" : Eidolon Pursuant Plate (Titan Chest Armor at 1600 power)
+
+id:"6917529791126586221" or id:"6917529466963143190"
+"6917529791126586221" : Eidolon Pursuant Pants (Warlock Leg Armor at 1600 power) > 
+"6917529466963143190" : Philomath Boots (Warlock Leg Armor at 1600 power)
+
+id:"6917529791126586221" or id:"6917529428586363524"
+"6917529791126586221" : Eidolon Pursuant Pants (Warlock Leg Armor at 1600 power) > 
+"6917529428586363524" : Tread of the Hezen Lords (Warlock Leg Armor at 1600 power)
+
+id:"6917529589967405432" or id:"6917529823509699333"
+"6917529589967405432" : Anti-Extinction Gloves (Warlock Gauntlets at 1776 power) > 
+"6917529823509699333" : Deep Explorer Gloves (Warlock Gauntlets at 1600 power)
+
+id:"6917529589967405432" or id:"6917529620194152466"
+"6917529589967405432" : Anti-Extinction Gloves (Warlock Gauntlets at 1776 power) > 
+"6917529620194152466" : BrayTech Researcher's Gloves (Warlock Gauntlets at 1600 power)
+
+id:"6917529546367662451" or id:"6917529504712367258"
+"6917529546367662451" : Simulator Robes (Warlock Chest Armor at 1600 power) > 
+"6917529504712367258" : Annealed Shaper Robes (Warlock Chest Armor at 1600 power)
+
+id:"6917529857138292703" or id:"6917529864933650096"
+"6917529857138292703" : Warmind's Avatar Robes (Warlock Chest Armor at 1770 power) > 
+"6917529864933650096" : Ketchkiller's Robes (Warlock Chest Armor at 1600 power)
+
+id:"6917529799382160907" or id:"6917529211611674985"
+"6917529799382160907" : Candescent Gauntlets (Titan Gauntlets at 1600 power) > 
+"6917529211611674985" : Wild Hunt Gauntlets (Titan Gauntlets at 1600 power)
+
+id:"6917529557559532687" or id:"6917529504712367258"
 "6917529557559532687" : Corrupting Echo Robes (Warlock Chest Armor at 1788 power) > 
-"6917529817385575921" : Chasm of Yul (Warlock Chest Armor at 1600 power)
+"6917529504712367258" : Annealed Shaper Robes (Warlock Chest Armor at 1600 power)
 
-id:"6917529872105281804" or id:"6917529797932832543"
-"6917529872105281804" : Synthoceps (Titan Gauntlets at 1776 power) > 
-"6917529797932832543" : Synthoceps (Titan Gauntlets at 1600 power)
+id:"6917529557559532687" or id:"6917529698316018340"
+"6917529557559532687" : Corrupting Echo Robes (Warlock Chest Armor at 1788 power) > 
+"6917529698316018340" : Resonant Fury Robes (Warlock Chest Armor at 1600 power)
 
-Vault Spaces Saveable: 9
+id:"6917529876421935270" or id:"6917529876762571001"
+"6917529876421935270" : Deep Explorer Boots (Warlock Leg Armor at 1800 power) > 
+"6917529876762571001" : Deep Explorer Boots (Warlock Leg Armor at 1800 power)
+
+id:"6917529864933644957" or id:"6917529804444665193"
+"6917529864933644957" : Ketchkiller's Greaves (Titan Leg Armor at 1600 power) > 
+"6917529804444665193" : Deep Explorer Greaves (Titan Leg Armor at 1600 power)
+
+id:"6917529196695592888" or id:"6917529620194152466"
+"6917529196695592888" : Holdfast Gloves (Warlock Gauntlets at 1600 power) > 
+"6917529620194152466" : BrayTech Researcher's Gloves (Warlock Gauntlets at 1600 power)
+
+id:"6917529851751065515" or id:"6917529620194152466"
+"6917529851751065515" : Iron Companion Gloves (Warlock Gauntlets at 1600 power) > 
+"6917529620194152466" : BrayTech Researcher's Gloves (Warlock Gauntlets at 1600 power)
+
+Vault Spaces Saveable: 37
 
 DIM string for items to delete:      
-id:"6917529804387537165" or id:"6917529842935157454" or id:"6917529216423336666" or id:"6917529804395099765" or id:"6917529804444665193" or id:"6917529864933644957" or id:"6917529211611674985" or id:"6917529760062212524" or id:"6917529797932832543"
+id:"6917529842935157454" or id:"6917529799377048422" or id:"6917529670872610746" or id:"6917529200977102149" or id:"6917529348444508922" or id:"6917529407445158631" or id:"6917529455020599699" or id:"6917529335502587025" or id:"6917529179857656252" or id:"6917529197317824109" or id:"6917529824491202580" or id:"6917529669845832046" or id:"6917529780968019623" or id:"6917529812184400612" or id:"6917529466963143190" or id:"6917529194842726429" or id:"6917529804409271596" or id:"6917529760062212524" or id:"6917529804387537165" or id:"6917529405523100261" or id:"6917529211611674985" or id:"6917529804444665193" or id:"6917529504712367258" or id:"6917529558026805191" or id:"6917529735159370398" or id:"6917529692869947537" or id:"6917529620194152466" or id:"6917529804395099765" or id:"6917529428586363524" or id:"6917529823509699333" or id:"6917529864933650096" or id:"6917529698316018340" or id:"6917529876762571001"

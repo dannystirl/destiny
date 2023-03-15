@@ -1,4 +1,4 @@
 function isValidReg(input = "") {
-	let testRegex = /[^\x00-\x7F]/gm;
+	let testRegex = /--[^\s]*/gm;
 	return testRegex.test(input); 
 }
