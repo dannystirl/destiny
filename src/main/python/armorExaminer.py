@@ -88,8 +88,7 @@ class armorPiece:
         checkList = []
         for otherStatName in statNames:
             checkList.append(self.__getattribute__(otherStatName) >= test.__getattribute__(otherStatName))
-        if all(ele == True for ele in checkList):
-            return True
+        
         # Test artifice armor stat boosts
         if self.artifice:
             for statName in statNames:
@@ -99,7 +98,17 @@ class armorPiece:
                     checkList.append(self.__getattribute__(otherStatName) >= test.__getattribute__(otherStatName))
                 if all(ele == True for ele in checkList):
                     return True
-        return False
+        elif test.artifice:
+            for statName in statNames:
+                checkList = []
+                checkList.append(self.__getattribute__(
+                    statName) >= test.__getattribute__(statName) + 3)
+                for otherStatName in [x for x in statNames if x != statName]:
+                    checkList.append(self.__getattribute__(
+                        otherStatName) >= test.__getattribute__(otherStatName))
+                if any(ele == False for ele in checkList):
+                    return False
+        return all(ele == True for ele in checkList)
 
     # Simpler way to print armor piece
     def shortStr(self):
