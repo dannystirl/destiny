@@ -77,7 +77,7 @@ class armorPiece:
             return False
         #! Skip if stats are completely identical
         if self.identicalStats(test):
-            return False
+            return True
         # Check if all stats are equal to or better than test piece, respecting config options
         statNames = ['mob', 'res', 'rec', 'dis', 'int', 'str']
         # Remove unwanted stats

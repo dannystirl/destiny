@@ -1,80 +1,212 @@
-id:"6917529876421935270" or id:"6917529876762571001"
-"6917529876421935270" : Deep Explorer Boots (Warlock Leg Armor at 1800 power) > 
-"6917529876762571001" : Deep Explorer Boots (Warlock Leg Armor at 1800 power)
+id:"6917529876120169749" or id:"6917529876336521296"
+"6917529876120169749" : Classified (Titan Unknown at 1802 power) > 
+"6917529876336521296" : Classified (Titan Unknown at 1798 power)
 
-id:"6917529857149013186" or id:"6917529780968019623"
-"6917529857149013186" : Veritas Hood (Warlock Helmet at 1790 power) > 
-"6917529780968019623" : Eidolon Pursuant Veil (Warlock Helmet at 1784 power)
+id:"6917529876120169749" or id:"6917529876367359424"
+"6917529876120169749" : Classified (Titan Unknown at 1802 power) > 
+"6917529876367359424" : Classified (Titan Unknown at 1803 power)
 
-id:"6917529791126586221" or id:"6917529466963143190"
-"6917529791126586221" : Eidolon Pursuant Pants (Warlock Leg Armor at 1600 power) > 
-"6917529466963143190" : Philomath Boots (Warlock Leg Armor at 1600 power)
+id:"6917529876120169749" or id:"6917529874666198805"
+"6917529876120169749" : Classified (Titan Unknown at 1802 power) > 
+"6917529874666198805" : Classified (Titan Unknown at 1803 power)
 
-id:"6917529829303273782" or id:"6917529760062212524"
-"6917529829303273782" : Deep Explorer Helmet (Titan Helmet at 1751 power) > 
-"6917529760062212524" : Tusked Allegiance Helmet (Titan Helmet at 1600 power)
+id:"6917529876120169749" or id:"6917529874620351713"
+"6917529876120169749" : Classified (Titan Unknown at 1802 power) > 
+"6917529874620351713" : Classified (Titan Unknown at 1799 power)
 
-id:"6917529800391443629" or id:"6917529804387537165"
-"6917529800391443629" : Wild Hunt Helm (Titan Helmet at 1600 power) > 
-"6917529804387537165" : Eidolon Pursuant Helm (Titan Helmet at 1600 power)
+id:"6917529876120169749" or id:"6917529876120169749"
+"6917529876120169749" : Classified (Titan Unknown at 1802 power) > 
+"6917529876120169749" : Classified (Titan Unknown at 1802 power)
 
-id:"6917529546367662451" or id:"6917529504712367258"
-"6917529546367662451" : Simulator Robes (Warlock Chest Armor at 1600 power) > 
-"6917529504712367258" : Annealed Shaper Robes (Warlock Chest Armor at 1600 power)
+id:"6917529876120169749" or id:"6917529876336515631"
+"6917529876120169749" : Classified (Titan Unknown at 1802 power) > 
+"6917529876336515631" : Classified (Titan Unknown at 1803 power)
 
-id:"6917529876372364201" or id:"6917529194842726429"
-"6917529876372364201" : Deep Explorer Boots (Warlock Leg Armor at 1800 power) > 
-"6917529194842726429" : Channeling Treads (CODA) (Warlock Leg Armor at 1600 power)
+id:"6917529876120169749" or id:"6917529876352612062"
+"6917529876120169749" : Classified (Titan Unknown at 1802 power) > 
+"6917529876352612062" : Classified (Titan Unknown at 1803 power)
+
+id:"6917529874620349660" or id:"6917529876336521296"
+"6917529874620349660" : Classified (Titan Unknown at 1802 power) > 
+"6917529876336521296" : Classified (Titan Unknown at 1798 power)
+
+id:"6917529874620349660" or id:"6917529876367359424"
+"6917529874620349660" : Classified (Titan Unknown at 1802 power) > 
+"6917529876367359424" : Classified (Titan Unknown at 1803 power)
+
+id:"6917529874620349660" or id:"6917529874620349660"
+"6917529874620349660" : Classified (Titan Unknown at 1802 power) > 
+"6917529874620349660" : Classified (Titan Unknown at 1802 power)
+
+id:"6917529874620349660" or id:"6917529874666198805"
+"6917529874620349660" : Classified (Titan Unknown at 1802 power) > 
+"6917529874666198805" : Classified (Titan Unknown at 1803 power)
+
+id:"6917529874620349660" or id:"6917529876120169749"
+"6917529874620349660" : Classified (Titan Unknown at 1802 power) > 
+"6917529876120169749" : Classified (Titan Unknown at 1802 power)
+
+id:"6917529874620349660" or id:"6917529876336515631"
+"6917529874620349660" : Classified (Titan Unknown at 1802 power) > 
+"6917529876336515631" : Classified (Titan Unknown at 1803 power)
+
+id:"6917529874620349660" or id:"6917529876352612062"
+"6917529874620349660" : Classified (Titan Unknown at 1802 power) > 
+"6917529876352612062" : Classified (Titan Unknown at 1803 power)
+
+id:"6917529876336515631" or id:"6917529876336521296"
+"6917529876336515631" : Classified (Titan Unknown at 1803 power) > 
+"6917529876336521296" : Classified (Titan Unknown at 1798 power)
+
+id:"6917529876336515631" or id:"6917529876367359424"
+"6917529876336515631" : Classified (Titan Unknown at 1803 power) > 
+"6917529876367359424" : Classified (Titan Unknown at 1803 power)
+
+id:"6917529876336515631" or id:"6917529874666198805"
+"6917529876336515631" : Classified (Titan Unknown at 1803 power) > 
+"6917529874666198805" : Classified (Titan Unknown at 1803 power)
+
+id:"6917529876336515631" or id:"6917529876120169749"
+"6917529876336515631" : Classified (Titan Unknown at 1803 power) > 
+"6917529876120169749" : Classified (Titan Unknown at 1802 power)
+
+id:"6917529876336515631" or id:"6917529876336515631"
+"6917529876336515631" : Classified (Titan Unknown at 1803 power) > 
+"6917529876336515631" : Classified (Titan Unknown at 1803 power)
+
+id:"6917529876336515631" or id:"6917529876352612062"
+"6917529876336515631" : Classified (Titan Unknown at 1803 power) > 
+"6917529876352612062" : Classified (Titan Unknown at 1803 power)
+
+id:"6917529876336521296" or id:"6917529876336521296"
+"6917529876336521296" : Classified (Titan Unknown at 1798 power) > 
+"6917529876336521296" : Classified (Titan Unknown at 1798 power)
+
+id:"6917529876336521296" or id:"6917529876367359424"
+"6917529876336521296" : Classified (Titan Unknown at 1798 power) > 
+"6917529876367359424" : Classified (Titan Unknown at 1803 power)
+
+id:"6917529876336521296" or id:"6917529874666198805"
+"6917529876336521296" : Classified (Titan Unknown at 1798 power) > 
+"6917529874666198805" : Classified (Titan Unknown at 1803 power)
+
+id:"6917529876336521296" or id:"6917529876120169749"
+"6917529876336521296" : Classified (Titan Unknown at 1798 power) > 
+"6917529876120169749" : Classified (Titan Unknown at 1802 power)
+
+id:"6917529876336521296" or id:"6917529876336515631"
+"6917529876336521296" : Classified (Titan Unknown at 1798 power) > 
+"6917529876336515631" : Classified (Titan Unknown at 1803 power)
+
+id:"6917529876336521296" or id:"6917529876352612062"
+"6917529876336521296" : Classified (Titan Unknown at 1798 power) > 
+"6917529876352612062" : Classified (Titan Unknown at 1803 power)
+
+id:"6917529876352612062" or id:"6917529876336521296"
+"6917529876352612062" : Classified (Titan Unknown at 1803 power) > 
+"6917529876336521296" : Classified (Titan Unknown at 1798 power)
+
+id:"6917529876352612062" or id:"6917529876367359424"
+"6917529876352612062" : Classified (Titan Unknown at 1803 power) > 
+"6917529876367359424" : Classified (Titan Unknown at 1803 power)
+
+id:"6917529876352612062" or id:"6917529874666198805"
+"6917529876352612062" : Classified (Titan Unknown at 1803 power) > 
+"6917529874666198805" : Classified (Titan Unknown at 1803 power)
+
+id:"6917529876352612062" or id:"6917529876120169749"
+"6917529876352612062" : Classified (Titan Unknown at 1803 power) > 
+"6917529876120169749" : Classified (Titan Unknown at 1802 power)
+
+id:"6917529876352612062" or id:"6917529876352612062"
+"6917529876352612062" : Classified (Titan Unknown at 1803 power) > 
+"6917529876352612062" : Classified (Titan Unknown at 1803 power)
+
+id:"6917529876352612062" or id:"6917529876336515631"
+"6917529876352612062" : Classified (Titan Unknown at 1803 power) > 
+"6917529876336515631" : Classified (Titan Unknown at 1803 power)
+
+id:"6917529876367359424" or id:"6917529876336521296"
+"6917529876367359424" : Classified (Titan Unknown at 1803 power) > 
+"6917529876336521296" : Classified (Titan Unknown at 1798 power)
+
+id:"6917529876367359424" or id:"6917529876367359424"
+"6917529876367359424" : Classified (Titan Unknown at 1803 power) > 
+"6917529876367359424" : Classified (Titan Unknown at 1803 power)
+
+id:"6917529876367359424" or id:"6917529874666198805"
+"6917529876367359424" : Classified (Titan Unknown at 1803 power) > 
+"6917529874666198805" : Classified (Titan Unknown at 1803 power)
+
+id:"6917529876367359424" or id:"6917529876120169749"
+"6917529876367359424" : Classified (Titan Unknown at 1803 power) > 
+"6917529876120169749" : Classified (Titan Unknown at 1802 power)
+
+id:"6917529876367359424" or id:"6917529876336515631"
+"6917529876367359424" : Classified (Titan Unknown at 1803 power) > 
+"6917529876336515631" : Classified (Titan Unknown at 1803 power)
+
+id:"6917529876367359424" or id:"6917529876352612062"
+"6917529876367359424" : Classified (Titan Unknown at 1803 power) > 
+"6917529876352612062" : Classified (Titan Unknown at 1803 power)
+
+id:"6917529874666198805" or id:"6917529876336521296"
+"6917529874666198805" : Classified (Titan Unknown at 1803 power) > 
+"6917529876336521296" : Classified (Titan Unknown at 1798 power)
+
+id:"6917529874666198805" or id:"6917529876367359424"
+"6917529874666198805" : Classified (Titan Unknown at 1803 power) > 
+"6917529876367359424" : Classified (Titan Unknown at 1803 power)
+
+id:"6917529874666198805" or id:"6917529874666198805"
+"6917529874666198805" : Classified (Titan Unknown at 1803 power) > 
+"6917529874666198805" : Classified (Titan Unknown at 1803 power)
+
+id:"6917529874666198805" or id:"6917529876120169749"
+"6917529874666198805" : Classified (Titan Unknown at 1803 power) > 
+"6917529876120169749" : Classified (Titan Unknown at 1802 power)
+
+id:"6917529874666198805" or id:"6917529876336515631"
+"6917529874666198805" : Classified (Titan Unknown at 1803 power) > 
+"6917529876336515631" : Classified (Titan Unknown at 1803 power)
+
+id:"6917529874666198805" or id:"6917529876352612062"
+"6917529874666198805" : Classified (Titan Unknown at 1803 power) > 
+"6917529876352612062" : Classified (Titan Unknown at 1803 power)
 
 id:"6917529804421399855" or id:"6917529804395099765"
 "6917529804421399855" : Deep Explorer Plate (Titan Chest Armor at 1600 power) > 
 "6917529804395099765" : Eidolon Pursuant Plate (Titan Chest Armor at 1600 power)
 
-id:"6917529854494588147" or id:"6917529504712367258"
-"6917529854494588147" : TM-Moss Custom Duster (Warlock Chest Armor at 1600 power) > 
-"6917529504712367258" : Annealed Shaper Robes (Warlock Chest Armor at 1600 power)
+id:"6917529874620351713" or id:"6917529876336521296"
+"6917529874620351713" : Classified (Titan Unknown at 1799 power) > 
+"6917529876336521296" : Classified (Titan Unknown at 1798 power)
 
-id:"6917529589967405432" or id:"6917529851751065515"
-"6917529589967405432" : Anti-Extinction Gloves (Warlock Gauntlets at 1776 power) > 
-"6917529851751065515" : Iron Companion Gloves (Warlock Gauntlets at 1600 power)
+id:"6917529874620351713" or id:"6917529876367359424"
+"6917529874620351713" : Classified (Titan Unknown at 1799 power) > 
+"6917529876367359424" : Classified (Titan Unknown at 1803 power)
 
-id:"6917529857138292703" or id:"6917529864933650096"
-"6917529857138292703" : Warmind's Avatar Robes (Warlock Chest Armor at 1770 power) > 
-"6917529864933650096" : Ketchkiller's Robes (Warlock Chest Armor at 1600 power)
+id:"6917529874620351713" or id:"6917529874666198805"
+"6917529874620351713" : Classified (Titan Unknown at 1799 power) > 
+"6917529874666198805" : Classified (Titan Unknown at 1803 power)
 
-id:"6917529557559532687" or id:"6917529504712367258"
-"6917529557559532687" : Corrupting Echo Robes (Warlock Chest Armor at 1788 power) > 
-"6917529504712367258" : Annealed Shaper Robes (Warlock Chest Armor at 1600 power)
+id:"6917529874620351713" or id:"6917529874620351713"
+"6917529874620351713" : Classified (Titan Unknown at 1799 power) > 
+"6917529874620351713" : Classified (Titan Unknown at 1799 power)
 
-id:"6917529799382160907" or id:"6917529211611674985"
-"6917529799382160907" : Candescent Gauntlets (Titan Gauntlets at 1600 power) > 
-"6917529211611674985" : Wild Hunt Gauntlets (Titan Gauntlets at 1600 power)
+id:"6917529874620351713" or id:"6917529876120169749"
+"6917529874620351713" : Classified (Titan Unknown at 1799 power) > 
+"6917529876120169749" : Classified (Titan Unknown at 1802 power)
 
-id:"6917529804395101100" or id:"6917529864933644957"
-"6917529804395101100" : Eidolon Pursuant Greaves (Titan Leg Armor at 1600 power) > 
-"6917529864933644957" : Ketchkiller's Greaves (Titan Leg Armor at 1600 power)
+id:"6917529874620351713" or id:"6917529876336515631"
+"6917529874620351713" : Classified (Titan Unknown at 1799 power) > 
+"6917529876336515631" : Classified (Titan Unknown at 1803 power)
 
-id:"6917529839987828041" or id:"6917529842935157454"
-"6917529839987828041" : Deep Explorer Plate (Titan Chest Armor at 1600 power) > 
-"6917529842935157454" : Eidolon Pursuant Plate (Titan Chest Armor at 1600 power)
+id:"6917529874620351713" or id:"6917529876352612062"
+"6917529874620351713" : Classified (Titan Unknown at 1799 power) > 
+"6917529876352612062" : Classified (Titan Unknown at 1803 power)
 
-id:"6917529712599557911" or id:"6917529211611674985"
-"6917529712599557911" : Iron Forerunner Gauntlets (Titan Gauntlets at 1600 power) > 
-"6917529211611674985" : Wild Hunt Gauntlets (Titan Gauntlets at 1600 power)
-
-id:"6917529826933100940" or id:"6917529504712367258"
-"6917529826933100940" : Chasm of Yul (Warlock Chest Armor at 1600 power) > 
-"6917529504712367258" : Annealed Shaper Robes (Warlock Chest Armor at 1600 power)
-
-id:"6917529597272206186" or id:"6917529466963143190"
-"6917529597272206186" : Crystocrene Boots (Warlock Leg Armor at 1600 power) > 
-"6917529466963143190" : Philomath Boots (Warlock Leg Armor at 1600 power)
-
-id:"6917529597272206186" or id:"6917529864925835860"
-"6917529597272206186" : Crystocrene Boots (Warlock Leg Armor at 1600 power) > 
-"6917529864925835860" : Ketchkiller's Boots (Warlock Leg Armor at 1600 power)
-
-Vault Spaces Saveable: 23
+Vault Spaces Saveable: 20
 
 DIM string for items to delete:      
-id:"6917529455020599699" or id:"6917529335502587025" or id:"6917529179857656252" or id:"6917529197317824109" or id:"6917529876762571001" or id:"6917529780968019623" or id:"6917529466963143190" or id:"6917529799377048422" or id:"6917529670872610746" or id:"6917529200977102149" or id:"6917529348444508922" or id:"6917529407445158631" or id:"6917529760062212524" or id:"6917529804387537165" or id:"6917529504712367258" or id:"6917529194842726429" or id:"6917529804395099765" or id:"6917529851751065515" or id:"6917529864933650096" or id:"6917529211611674985" or id:"6917529864933644957" or id:"6917529842935157454" or id:"6917529864925835860"
+id:"6917529876336521296" or id:"6917529876367359424" or id:"6917529874666198805" or id:"6917529874620351713" or id:"6917529876120169749" or id:"6917529876336515631" or id:"6917529876352612062" or id:"6917529203109656115" or id:"6917529350236083694" or id:"6917529874620349660" or id:"6917529799377048422" or id:"6917529670872610746" or id:"6917529200977102149" or id:"6917529348444508922" or id:"6917529407445158631" or id:"6917529455020599699" or id:"6917529335502587025" or id:"6917529179857656252" or id:"6917529197317824109" or id:"6917529804395099765"

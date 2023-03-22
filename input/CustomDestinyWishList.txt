@@ -20,7 +20,7 @@ dimwishlist:item=3000847393&perks=1482024992,3230963543,3523296417,776531651
 dimwishlist:item=3000847393&perks=1482024992,1885400500,3523296417,776531651
 dimwishlist:item=3000847393&perks=1482024992,3230963543,2779035018,776531651
 dimwishlist:item=3000847393&perks=1482024992,1885400500,2779035018,776531651
-dimwishlist:item=640114618&perks=1467527085,1087426260,3643424744,4104185692#notes:Normally, 450 autos struggle in endgame content, but the combination of demolitionist and frenzy allow for a high uptime of increased damage. 
+dimwishlist:item=640114618&perks=1467527085,1087426260,3643424744,4104185692#notes:Normally, 450 autos struggle in endgame content, but the combination of Demolitionist and Frenzy allow for a high uptime of increased damage. 
 //notes:While adaptive munitions on a stasis weapon doesn't get much use with acute burns, it does allow for a stasis build that can tear through shields. |tags:pve
 dimwishlist:item=1780464822&perks=839105230,3230963543,2779035018,1048183818
 dimwishlist:item=1780464822&perks=839105230,1561002382,2779035018,1048183818
@@ -29,10 +29,25 @@ dimwishlist:item=1780464822&perks=839105230,679225683,2779035018,1048183818
 dimwishlist:item=1856262127&perks=1840239774,1087426260,1583705720,124408337
 dimwishlist:item=1856262127&perks=1840239774,3230963543,1583705720,124408337
 //notes:The Immortal seems to have a better perk pool than Synchronic Roulette, but might be harded to aquire. The new hatchling perk is the best perk for strand weapons and has some interesting synergy with strand. Threat detector is almost always active with smgs, but perpetual motion is probably active often enough that it would be worth using too. Demolitionist seems incredibly useful for strand since you want your grapple or suspend grenade back as quickly as possible. 
-dimwishlist:item=4039572196&perks=3661387068,1885400500,4071163871,831391274,2120661319
-dimwishlist:item=4039572196&perks=3661387068,1885400500,1428297954,831391274,2120661319
-dimwishlist:item=4039572196&perks=3661387068,1885400500,4071163871,3523296417,2120661319
-dimwishlist:item=4039572196&perks=3661387068,1885400500,1428297954,3523296417,2120661319
+dimwishlist:item=4039572196&perks=3661387068,1885400500,4071163871,831391274
+dimwishlist:item=4039572196&perks=3661387068,1885400500,1428297954,831391274
+dimwishlist:item=4039572196&perks=3661387068,1885400500,4071163871,3523296417
+dimwishlist:item=4039572196&perks=3661387068,1885400500,1428297954,3523296417
+dimwishlist:item=1141927949&perks=839105230,1087426260,1820235745,776531651#notes:Yesteryear with Subsistence and Repulsor Brace seems like it would be a good compliment to a #void build. It also pairs well with Gyrfalcon's, requiring less reloads and an almost constant overshield. 
+dimwishlist:item=3000847393&perks=3523296417,776531651#notes:Unforgiven with Demolitionist and Repulsor Brace seems like it would be a good compliment to Gyrfalcon's, Severance Enclosure, or any other #void build. Demolitionist lowers reload requirements and allows for an increased grenade regen rate, leading to an increased, and almost constant, overshield uptime. 
+//notes:Rufus's Fury has a lot of great perks for a gun that can get an unbelievable amount of ammo in one magazine. Reconstruction and Rewind Rounds allow for some unending shooting, and Demolitionist really helps with grenade uptime, which is great for suspend builds. In the right column, target lock is going to pair the best with Reconstruction or Rewind Rounds, but Frenzy, and Paracasual Affinity both make for some consistent buffs as well. Hatchling is also a great pick for strand weapons. 
+dimwishlist:item=484515708&perks=839105230,1087426260,1523832109,365154968
+dimwishlist:item=484515708&perks=839105230,1087426260,3418782618,365154968
+dimwishlist:item=484515708&perks=839105230,1087426260,3523296417,365154968
+dimwishlist:item=484515708&perks=839105230,1087426260,1523832109,4104185692
+dimwishlist:item=484515708&perks=839105230,1087426260,3418782618,4104185692
+dimwishlist:item=484515708&perks=839105230,1087426260,3523296417,4104185692
+dimwishlist:item=484515708&perks=839105230,1087426260,1523832109,3215448563
+dimwishlist:item=484515708&perks=839105230,1087426260,3418782618,3215448563
+dimwishlist:item=484515708&perks=839105230,1087426260,3523296417,3215448563
+dimwishlist:item=484515708&perks=839105230,1087426260,1523832109,831391274
+dimwishlist:item=484515708&perks=839105230,1087426260,3418782618,831391274
+dimwishlist:item=484515708&perks=839105230,1087426260,3523296417,831391274
 // Special Weapons
 dimwishlist:item=2595497736&perks=580685494,1087426260,1820235745,4104185692#notes:Subsistence, espeically the enhanced version, is incredible, often giving back more ammo than you use per kill. Frenzy is one of the easier damage perks to use and unrelenting is an easy way to get health back. 
 dimwishlist:item=2595497736&perks=580685494,1087426260,1820235745,3108830275#notes:Subsistence, espeically the enhanced version, is incredible, often giving back more ammo than you use per kill. Frenzy is one of the easier damage perks to use and unrelenting is an easy way to get health back. 
