@@ -75,13 +75,12 @@ dimwishlist:item=3489657138&perks=3525010810,3796465595,3300816228,2978966579#no
 
 // Generic desireable perk combinations
 dimwishlist:item=-69420&perks=1583705720,4049631843#notes:On their own, s/ofa are good but require effort they're often not worth. When combined s/ofa is an incredibly powerful combination, giving both stats and damage.|tags:pve,mkb,controller
-dimwishlist:item=-69420&perks=3523296417,11612903#notes:Most damage buffs that require a kill aren't amazing in endgame content, but demo + adrenaline junkie allows for a damage buff without requiring a kill and refils the method of getting that buff.|tags:pve,mkb,controller
 dimwishlist:item=-69420&perks=3161816588,1427256713#notes:Slideshot is an incredibly powerful complement to Reservoir Burst, allowing constant activations without a kill or reloading.|tags:pve,mkb,controller
 dimwishlist:item=-69420&perks=1820235745,1427256713#notes:Subsistence is an incredibly powerful complement to Reservoir Burst, allowing nearly constant activations with almost no downtime.|tags:pve,mkb,controller
-dimwishlist:item=-69420&perks=247725512,1015611457#notes:Rapid Hit + Kill Clip is a classic reload + damage combination.|tags:pve,mkb,controller,pvp
-dimwishlist:item=-69420&perks=1168162263,1015611457#notes:Outlaw + Kill Clip is a classic reload + damage combination.|tags:pve,mkb,controller,pvp
-dimwishlist:item=-69420&perks=1168162263,3425386926#notes:Outlaw + Rampage is a classic reload + damage combination.|tags:pve,mkb,controller,pvp
-dimwishlist:item=-69420&perks=776531651#notes:Repulsor brace is an incredible perk when combined with void 3.0.|tags:pve,mkb,controller
+dimwishlist:item=-69420&perks=968510818,1427256713#notes:Envious Assassin is an incredibly powerful complement to Reservoir Burst, allowing 7-8 successive shots.|tags:pve,mkb,controller
+dimwishlist:item=-69420&perks=776531651,2048641572#notes:Repulsor brace is an incredible perk when combined with destabilizing rounds, allowing near constant overshields.|tags:pve,mkb,controller
+dimwishlist:item=-69420&perks=2048641572,776531651#notes:Repulsor brace is an incredible perk when combined with destabilizing rounds, allowing near constant overshields.|tags:pve,mkb,controller
+dimwishlist:item=-69420&perks=461595545,2896748467#notes:Reconstruction and killing tally is such a strong combo, allowing for an infinte damage buff.|tags:pve,mkb,controller
 dimwishlist:item=-69420&perks=4293542123#notes:Incandescent is an incredible perk when combined with solar 3.0.|tags:pve,mkb,controller
 
 // Generic weapon type perk combinations
@@ -125,3 +124,4 @@ dimwishlist:item=69420&perks=-2898218424#notes:Air Assault (E) only has a use in
 dimwishlist:item=69420&perks=-2458213969#notes:Multi-killclip just is not a perk I care about. I'm sure it's good but I'd rather have a ramage buff after each kill since the count resets after a reload, it sometimes it takes more than a clip to kill something. 
 dimwishlist:item=69420&perks=-1870851715#notes:Under-Over is just adaptive munitions but worse. 
 dimwishlist:item=69420&perks=-838780105#notes:Shattering Blade
+dimwishlist:item=69420&perks=-2848615171#notes:Dragonfly is increasinly becoming a perk where there's almost always a better option
