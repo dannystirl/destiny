@@ -58,12 +58,14 @@ dimwishlist:item=2595497736&perks=580685494,1087426260,1820235745,3108830275#not
 dimwishlist:item=4225322581&perks=1047830412,106909392,3143051906,2679249093
 dimwishlist:item=2715240478&perks=839105230,2680121939,3300816228,2978966579#notes:This is what I believe to be one of the best guns in the game right now. It can stun overload and unstoppable champions with the slow and freeze, and with such a low charge time, it does both very quickly. Enhanced Battery giving +1 magazine gives this role 4 shots with chill clip instead of 3, meaning you can fully freeze two targets without reloading. 
 dimwishlist:item=963710795&perks=3250034553,1483536627,1523832109,2978966579#notes:Reconstruction + Chill-Clip is insanely strong, allowing for near constant uptime of freezes and slows. Ionized battery adds four to the magazine and removes reload, which has next to no impact due to reconstruction.
+dimwishlist:item=1125217994&perks=3525010810,2822142346,3108830275,3324494224#notes:Collective action on a stasis weapon should have almost a 100% uptime. On top of that, unrelenting gives health in combat, which could otherwise only be gotten from shards, so this should improve healing on stasis lock. 
+dimwishlist:item=1125217994&perks=3525010810,2822142346,3523296417,3324494224#notes:Collective action on a stasis weapon should have almost a 100% uptime. Demolitionist can improve an already high grenade uptime, but would maybe allow for some fragments to be used for things other than grenade generation (like super or class ability uptime). 
 
 // Heavy Weapons
 dimwishlist:item=3652506829&perks=247725512,1771339417#notes:Stormchaser seems to have better dps than other linears. This is a roll to lookout for group activities.|tags:pve,mkb,controller
 dimwishlist:item=3652506829&perks=2284787283,1771339417#notes:Stormchaser seems to have better dps than other linears. This is a roll to lookout for group activities.|tags:pve,mkb,controller
 dimwishlist:item=3652506829&perks=3300816228,1546637391#notes:Stormchaser seems to have better dps than other linears. This is a roll to lookout for solo activites.|tags:pve,mkb,controller
-//notes:Not sure why this Cataclysmic roll isn't in the community wishlist; Bait and switch is a 35% damage bugg and fttc means you can use that buff for longer wihout reloading. |tags:pve
+//notes:Not sure why this Cataclysmic roll isn't in the community wishlist; Bait and switch is a 35% damage buff and fttc means you can use that buff for longer wihout reloading. |tags:pve
 dimwishlist:item=999767358&perks=1467527085,2680121939,1354429876,3078487919
 dimwishlist:item=999767358&perks=1840239774,2680121939,1354429876,3078487919
 dimwishlist:item=999767358&perks=4090651448,2680121939,1354429876,3078487919
@@ -72,6 +74,15 @@ dimwishlist:item=999767358&perks=3250034553,2680121939,1354429876,3078487919
 dimwishlist:item=4230965989&perks=839105230,1087426260,1523832109,557221067#notes:With the season 20 machine gun buff, reconstruction + killing tally lets you use this gun like a primary weapon. You almost never need to reload, which means you can keep killing tally's buff up at all times. 
 dimwishlist:item=1959650777&perks=1478423395,3796465595,3300816228,2978966579#notes:Bump in the Night can get some real damage out with Autoloading + Chill Clip if an ally has Gjallarhorn equipped. 
 dimwishlist:item=3489657138&perks=3525010810,3796465595,3300816228,2978966579#notes:With the buff from Gjallarhorn, two people using a chill-clip rocket supposedly has very high dps. 
+dimwishlist:item=1851777734&perks=3525010810,3796465595,1523832109,3078487919#notes:Wow apex predator has some good rolls now. Reconstruction + Bait & Switch is an incredibly strong combination, allowing you to open with a rocket shot, active b&s, and by the time you switch back, you should have two rockets in the mag. 
+dimwishlist:item=1851777734&perks=3525010810,3796465595,2039302152,3078487919#notes:Wow apex predator has some good rolls now. Slideways could be a good alternative to reconstruction, expecially for more mobile damage phases. You can shoot 3 rockets and only reload once. It's faster than reconstruction, but requires a little more input an movement. 
+//notes:Cold comfort has some solid dps rolls. Envious Assassin, combined with the origin trait, allows for a very large magazine. Ensemble is somehow the next best perk in that column, giving a large reload boost over a dps phase. Collective action on stasis can put in work with almost a 100% uptime, and explosive light is always a solid pick, but Bait & Switch is such a high damage buff that it feels like choosing anything else for dps would be foolish. 
+dimwishlist:item=839786290&perks=3525010810,3796465595,968510818,3078487919
+dimwishlist:item=839786290&perks=3525010810,3796465595,968510818,3324494224
+dimwishlist:item=839786290&perks=3525010810,3796465595,968510818,3194351027
+dimwishlist:item=839786290&perks=3525010810,3796465595,2621346526,3078487919
+dimwishlist:item=839786290&perks=3525010810,3796465595,2621346526,3324494224
+dimwishlist:item=839786290&perks=3525010810,3796465595,2621346526,3194351027
 
 // Generic desireable perk combinations
 dimwishlist:item=-69420&perks=1583705720,4049631843#notes:On their own, s/ofa are good but require effort they're often not worth. When combined s/ofa is an incredibly powerful combination, giving both stats and damage.|tags:pve,mkb,controller

@@ -1,0 +1,4 @@
+# Created at 2023-05-31T08:00:11.349
+Boot Manifest-JAR contains absolute paths in classpath 'E:\Code\destiny\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+
