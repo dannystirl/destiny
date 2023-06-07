@@ -56,7 +56,7 @@ class armorPiece:
 
     # Determine if stats of two pieces are identical
     def identicalStats(self, test):
-        return self.mob == test.mob and self.res == test.res and self.rec == test.rec and self.dis == test.dis and self.int == test.int and self.str == test.str
+        return all(getattr(self, stat) == getattr(test, stat) for stat in ['mob', 'res', 'rec', 'dis', 'int', 'str'])
 
     # Determine if stats of a piece are better than stats of another piece
     def isBetter(self, test):
@@ -70,7 +70,7 @@ class armorPiece:
         if self.equippable != test.equippable or self.type != test.type or self.equippable not in testClasses:
             return False
         # Skip class items
-        if self.type == "Warlock Bond" or self.type == "Hunter Cloak" or self.type == "Titan Mark":
+        if self.type in ["Warlock Bond", "Hunter Cloak", "Titan Mark"]:
             return self.modslot != '' and test.modslot == ''
         # Keep raid items?
         if keepRaid and test.modslot != '' and not test.artifice and self.modslot != test.modslot:
@@ -87,25 +87,23 @@ class armorPiece:
         # Test if current armor is better
         checkList = []
         for otherStatName in statNames:
-            checkList.append(self.__getattribute__(otherStatName) >= test.__getattribute__(otherStatName))
-        
+            checkList.append(getattr(self, statName) >= getattr(test, statName))
+
         # Test artifice armor stat boosts
         if self.artifice:
             for statName in statNames:
                 checkList = []
-                checkList.append(self.__getattribute__(statName) + 3 >= test.__getattribute__(statName))
+                checkList.append(getattr(self, statName) + 3 >= getattr(test, statName))
                 for otherStatName in [x for x in statNames if x != statName]:
-                    checkList.append(self.__getattribute__(otherStatName) >= test.__getattribute__(otherStatName))
+                    checkList.append(getattr(self, otherStatName) >= getattr(test, otherStatName))
                 if all(ele == True for ele in checkList):
                     return True
         elif test.artifice:
             for statName in statNames:
                 checkList = []
-                checkList.append(self.__getattribute__(
-                    statName) >= test.__getattribute__(statName) + 3)
+                checkList.append(getattr(self, statName) >= getattr(test, statName) + 3)
                 for otherStatName in [x for x in statNames if x != statName]:
-                    checkList.append(self.__getattribute__(
-                        otherStatName) >= test.__getattribute__(otherStatName))
+                    checkList.append(getattr(self, otherStatName) >= getattr(test, otherStatName))
                 if any(ele == False for ele in checkList):
                     return False
         return all(ele == True for ele in checkList)
