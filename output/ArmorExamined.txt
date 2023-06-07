@@ -1,28 +1,24 @@
-id:"6917529807120326185" or id:"6917529877597593926"
-"6917529807120326185" : Deep Explorer Strides (Hunter Leg Armor at 1810 power) > 
-"6917529877597593926" : Boots of Trepidation (Hunter Leg Armor at 1810 power)
+id:"6917529901252045662" or id:"6917529904961105199"
+"6917529901252045662" : Corrupting Echo Gloves (Warlock Gauntlets at 1800 power) > 
+"6917529904961105199" : Gloves of the Taken King (Warlock Gauntlets at 1800 power)
 
-id:"6917529865734281537" or id:"6917529897078572041"
-"6917529865734281537" : Tusked Allegiance Vest (Hunter Chest Armor at 1807 power) > 
-"6917529897078572041" : Legacy's Oath Vest (Hunter Chest Armor at 1800 power)
+id:"6917529907823499611" or id:"6917529904961105199"
+"6917529907823499611" : Gloves of the Taken King (Warlock Gauntlets at 1800 power) > 
+"6917529904961105199" : Gloves of the Taken King (Warlock Gauntlets at 1800 power)
 
-id:"6917529781856704343" or id:"6917529450862848596"
-"6917529781856704343" : Eidolon Pursuant Mask (Hunter Helmet at 1600 power) > 
-"6917529450862848596" : Prime Zealot Mask (Hunter Helmet at 1600 power)
+id:"6917529902667810234" or id:"6917529558026805191"
+"6917529902667810234" : Corrupting Echo Cover (Warlock Helmet at 1800 power) > 
+"6917529558026805191" : Corrupting Echo Cover (Warlock Helmet at 1805 power)
 
-id:"6917529902959295223" or id:"6917529542199141847"
-"6917529902959295223" : Techeun's Regalia Mask (Hunter Helmet at 1800 power) > 
-"6917529542199141847" : Swordflight 4.1 (Hunter Helmet at 1600 power)
+id:"6917529876372364201" or id:"6917529194842726429"
+"6917529876372364201" : Deep Explorer Boots (Warlock Leg Armor at 1800 power) > 
+"6917529194842726429" : Channeling Treads (CODA) (Warlock Leg Armor at 1802 power)
 
-id:"6917529856054294449" or id:"6917529426666334094"
-"6917529856054294449" : Wormhusk Crown (Hunter Helmet at 1795 power) > 
-"6917529426666334094" : Wormhusk Crown (Hunter Helmet at 1800 power)
+id:"6917529856257317115" or id:"6917529904961105199"
+"6917529856257317115" : Grasp of Eir (Warlock Gauntlets at 1810 power) > 
+"6917529904961105199" : Gloves of the Taken King (Warlock Gauntlets at 1800 power)
 
-id:"6917529866298025275" or id:"6917529883086986492"
-"6917529866298025275" : Tusked Allegiance Grips (Hunter Gauntlets at 1600 power) > 
-"6917529883086986492" : Grips of Trepidation (Hunter Gauntlets at 1810 power)
-
-Vault Spaces Saveable: 8
+Vault Spaces Saveable: 5
 
 DIM string for items to delete:      
-id:"6917529203109656115" or id:"6917529350236083694" or id:"6917529877597593926" or id:"6917529897078572041" or id:"6917529450862848596" or id:"6917529542199141847" or id:"6917529426666334094" or id:"6917529883086986492"
+id:"6917529904961105199" or id:"6917529455020599699" or id:"6917529179857656252" or id:"6917529558026805191" or id:"6917529194842726429"

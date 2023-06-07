@@ -1,4 +1,4 @@
-# Most of this code was written by u/ParasiticUniverse and u/MrFlood360, but has been formatted and sipmlified. Ignores class items and sunset armor, as well as items already tagged for removal in DIM.
+# Ignores class items and sunset armor, as well as items already tagged for removal in DIM.
 
 # Can be converted to executable using pyinstaller --onefile --console pythonScriptName.py
 
@@ -150,36 +150,39 @@ def run():
                 armorList.append(armorPiece(currentArmor))
 
         # Create list of comparisons
-        superiorityList = []
-        for currentArmor in armorList:
-            for testArmor in armorList:
-                if currentArmor.isBetter(testArmor) and testArmor.powerLimit == False:
-                    superiorityList.append((currentArmor, testArmor))
-
-        # Lists of armor to keep and shard
-        bestArmor = list(set([armor[0] for armor in superiorityList]))
-        worstArmor = list(set([armor[1] for armor in superiorityList]))
-
-        matchedSuperiorityList = {}
+        simpleSuperiorityList = {}
         idToItemList = {}
 
-        # Formatting the list so that each piece to keep is listed next to which pieces it supersedes
-        for currentArmor in bestArmor:
-            badArmorList = [
-                armor[1] for armor in superiorityList
-                if armor[0] == currentArmor
-            ]
+        # For each armor piece
+        for currentArmor in armorList:
+            # Create a list to store the testArmor IDs with the same currentArmor
+            testArmorList = []
+
+            # Compare it to every other armor piece
+            for testArmor in armorList:
+                # If the piece is better and its powerLimit is False, add its ID to the testArmorList
+                if currentArmor.isBetter(testArmor) and not testArmor.powerLimit:
+                    testArmorList.append(testArmor.id)
+
+            # Add an entry to idToItemMap with the currentArmor ID as the key and the item as the value
             idToItemList[currentArmor.id] = currentArmor
-            for item in badArmorList:
-                idToItemList[item.id] = item
-            matchedSuperiorityList[currentArmor.id] = [item.id for item in badArmorList]
+
+            # Store the testArmorList as the value for the currentArmor ID key in the simpleSuperiorityList
+            if testArmorList: # If it is not empty
+                simpleSuperiorityList[currentArmor.id] = testArmorList
+                
+        # Iterate over the keys and values in the simpleSuperiorityList
+        for key1, value1 in simpleSuperiorityList.items():
+            for key2 in value1:
+                # Check if key2 is in the simpleSuperiorityList and if key1 is in the corresponding list
+                if key2 in simpleSuperiorityList and key1 in simpleSuperiorityList[key2]:
+                    # Remove key2 from key1's list
+                    value1.remove(key2)
+                    # Remove key1 from key2's list
+                    simpleSuperiorityList[key2].remove(key1)
             
-        simpleSuperiorityList = copy.deepcopy(matchedSuperiorityList)
-        for armorKey in matchedSuperiorityList:
-            for badArmor in matchedSuperiorityList[armorKey]:
-                if badArmor in matchedSuperiorityList:
-                    simpleSuperiorityList.update({armorKey: [x for x in set(
-                        simpleSuperiorityList[armorKey] + simpleSuperiorityList[badArmor]) if x != badArmor]})
+        uniqueValues = list(set(item for sublist in simpleSuperiorityList.values() for item in sublist))
+
 
         # Display
         original_stdout = sys.stdout
@@ -193,7 +196,7 @@ def run():
                         printformatted(
                             idToItemList[betterArmorPieceId], idToItemList[worseArmorPiece])
             
-            print("Vault Spaces Saveable: " + str(len(list(set(worstArmor)))), end="\n\n")
+            print("Vault Spaces Saveable: " + str(len(uniqueValues)), end="\n\n")
             armorSet = set()
             printstr = "DIM string for items to delete:      \n"
             for betterArmorPieceId in simpleSuperiorityList:
