@@ -87,7 +87,7 @@ class armorPiece:
         # Test if current armor is better
         checkList = []
         for otherStatName in statNames:
-            checkList.append(getattr(self, statName) >= getattr(test, statName))
+            checkList.append(getattr(self, otherStatName) >= getattr(test, otherStatName))
 
         # Test artifice armor stat boosts
         if self.artifice:
@@ -180,7 +180,6 @@ def run():
                     simpleSuperiorityList[key2].remove(key1)
             
         uniqueValues = list(set(item for sublist in simpleSuperiorityList.values() for item in sublist))
-
 
         # Display
         original_stdout = sys.stdout
