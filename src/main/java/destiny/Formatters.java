@@ -15,6 +15,10 @@ import kong.unirest.Unirest;
 
 public class Formatters {
 
+    private Formatters() {
+
+    }
+
     /**
      * print any errors to bin\errors folder
      *
@@ -121,7 +125,7 @@ public class Formatters {
     public static JSONObject bungieItemDefinitionJSONObject(String hashIdentifier) {
         Unirest.config().reset();
         Unirest.config().connectTimeout(10000).socketTimeout(10000);
-        HttpResponse<String> response = Unirest.get(WishlistGenerator.bungieItemDefinitionUrl).header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
+        HttpResponse<String> response = Unirest.get(WishlistGenerator.bungieItemDefinitionUrl).header("X-API-KEY", DATA.APIKEY)
                 .routeParam("hashIdentifier", hashIdentifier).asString();
 
         JSONObject itemDefinition = new JSONObject(response.getBody());
@@ -135,7 +139,7 @@ public class Formatters {
      * @return JSONArray - an array of the display properties of an item from the database
      */
     public static JSONArray bungieItemHashSetJSONArray(String name) {
-        HttpResponse<String> response = Unirest.get(WishlistGenerator.bungieItemSearchUrl).header("X-API-KEY", "735ad4372078466a8b68a09ff9c02edb")
+        HttpResponse<String> response = Unirest.get(WishlistGenerator.bungieItemSearchUrl).header("X-API-KEY", DATA.APIKEY)
                 .routeParam("searchTerm", name.split("\s\\(Adept\\)")[0]).asString();
 
         JSONObject mJsonObject = new JSONObject(response.getBody());

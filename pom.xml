@@ -5,7 +5,7 @@
 
     <groupId>destiny</groupId>
     <artifactId>wishlistgenerator</artifactId>
-    <version>1.4.3</version>
+    <version>1.4.5</version>
 
     <packaging>jar</packaging>
 

@@ -1,1 +1,1 @@
-call java -jar target/wishlistgenerator-1.4.3.jar
+call java -jar target/wishlistgenerator-1.4.5.jar

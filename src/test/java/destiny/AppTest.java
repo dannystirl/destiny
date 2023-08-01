@@ -58,6 +58,11 @@ public class AppTest {
         wantedItemList.put(69420L, new Item(69420L));
     }
 
+    @Test
+    public void testConnection() throws UnirestException {
+        
+    }
+
     /**
      * Ensure the connection to the destiny api is working and getting a
      * response, as well as connecting normal and enhanced perks
