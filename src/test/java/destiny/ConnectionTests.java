@@ -34,7 +34,7 @@ public class ConnectionTests {
         Unirest.config().reset();
         Unirest.config().connectTimeout(10000).socketTimeout(10000);
         HttpResponse<String> response = Unirest.get(WishlistGenerator.bungieItemDefinitionUrl).header("X-API-KEY", DATA.APIKEY).routeParam("hashIdentifier", "3523296417").asString();
-        assertEquals("1", new JSONObject(response.getBody()).get("ErrorCode"));
+        assertEquals(1, new JSONObject(response.getBody()).get("ErrorCode"));
     }
 
     /**

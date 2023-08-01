@@ -1,1 +1,5 @@
+destiny\App.class
+destiny\DATA.class
+destiny\WishlistGenerator.class
 destiny\Item.class
+destiny\Formatters.class
