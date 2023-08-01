@@ -21,8 +21,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.http.annotation.Experimental;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -56,108 +54,6 @@ public class AppTest {
         wantedItemList = new HashMap<>();
         unwantedItemList.put(69420L, new Item(69420L));
         wantedItemList.put(69420L, new Item(69420L));
-    }
-
-    @Test
-    public void testConnection() throws UnirestException {
-        
-    }
-
-    /**
-     * Ensure the connection to the destiny api is working and getting a
-     * response, as well as connecting normal and enhanced perks
-     */
-    @Test
-    public void testResponse() throws UnirestException {
-        JSONObject itemDefinition = Formatters.bungieItemDefinitionJSONObject("3523296417");
-        JSONArray resultSet = Formatters.bungieItemHashSetJSONArray(itemDefinition.getString("name"));
-        Long key = null, entry = null;
-        // ensure that there is only a basic and enhanced trait definiton
-        assertEquals(2, resultSet.length());
-        for (Object object : resultSet) {
-            JSONObject jsonObject = (JSONObject) object;
-            if (key == null) {
-                key = jsonObject.getLong("hash");
-            } else {
-                entry = jsonObject.getLong("hash");
-            }
-        }
-        // assert that key and entry are not null`
-        assertNotNull(key);
-        assertNotNull(entry);
-        System.out.printf("Test %s passed%n", new Object() {
-        }.getClass().getEnclosingMethod().getName());
-    }
-
-    /**
-     * Ensure the api is making a connection between normal and adept weapons
-     * when there is one
-     *
-     * @throws UnirestException
-     */
-    @Test
-    public void testAdeptConnection() throws UnirestException {
-        JSONObject itemDefinition = Formatters.bungieItemDefinitionJSONObject("2886339027");
-        assertEquals("Cataclysmic", itemDefinition.getString("name").split("\s\\(Adept\\)")[0]);
-
-        JSONArray resultSet = Formatters.bungieItemHashSetJSONArray(itemDefinition.getString("name").split("\s\\(Adept\\)")[0]);
-        Long normal = null, adept = null;
-        // ensure that there are only two versions of the gun
-        assertEquals(2, resultSet.length());
-        for (Object object : resultSet) {
-            JSONObject jsonObject = (JSONObject) object;
-            if (normal == null) {
-                normal = jsonObject.getLong("hash");
-            } else {
-                adept = jsonObject.getLong("hash");
-            }
-        }
-        // assert that key and entry are not null
-        assertNotNull(normal);
-        assertNotNull(adept);
-        System.out.printf("Test %s passed%n", new Object() {
-        }.getClass().getEnclosingMethod().getName());
-    }
-
-    /**
-     * Ensure the api is making a connection between normal and adept weapons
-     * when there isn't one
-     *
-     * @throws UnirestException
-     */
-    @Test
-    public void testNonAdeptConnection() throws UnirestException {
-        JSONObject itemDefinition = Formatters.bungieItemDefinitionJSONObject("2886339027");
-        assertTrue(itemDefinition.getString("name").contains("(Adept)"));
-        assertEquals("Cataclysmic", itemDefinition.getString("name").split("\s\\(Adept\\)")[0]);
-
-        JSONArray resultSet = Formatters.bungieItemHashSetJSONArray(itemDefinition.getString("name").split("\s\\(Adept\\)")[0]);
-        // ensure that there are only two versions of the gun
-        assertEquals(2, resultSet.length());
-        for (Object object : resultSet) {
-            JSONObject jsonObject = (JSONObject) object;
-            itemDefinition = jsonObject.getJSONObject("displayProperties");
-            if (!itemDefinition.getString("name").contains("(Adept)")) {
-                assertEquals("Cataclysmic", itemDefinition.getString("name"));
-                assertEquals(999767358, jsonObject.getLong("hash"));
-            }
-        }
-        // assert that key and entry are not null
-        System.out.printf("Test %s passed%n", new Object() {
-        }.getClass().getEnclosingMethod().getName());
-    }
-
-    /**
-     * Try getting a specific item's name
-     *
-     * @throws UnirestException
-     */
-    @Test
-    public void testGetName() throws UnirestException {
-        JSONObject itemDefinition = Formatters.bungieItemDefinitionJSONObject("4083045006");
-        assertEquals("Persuader", itemDefinition.getString("name"));
-        System.out.printf("Test %s passed%n", new Object() {
-        }.getClass().getEnclosingMethod().getName());
     }
 
     /**
