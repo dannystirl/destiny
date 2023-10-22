@@ -1,24 +1,28 @@
-id:"6917529865734281537" or id:"6917529807398145790"
-"6917529865734281537" : Tusked Allegiance Vest (Hunter Chest Armor at 1807 power) > 
-"6917529807398145790" : Lost Pacific Vest (Hunter Chest Armor at 1600 power)
+id:"6917529804444663084" or id:"6917529901263369642"
+"6917529804444663084" : Deep Explorer Vestments (Warlock Chest Armor at 1810 power) > 
+"6917529901263369642" : Corrupting Echo Robes (Warlock Chest Armor at 1800 power)
 
-id:"6917529856054294449" or id:"6917529426666334094"
-"6917529856054294449" : Wormhusk Crown (Hunter Helmet at 1795 power) > 
-"6917529426666334094" : Wormhusk Crown (Hunter Helmet at 1800 power)
+id:"6917529902667810234" or id:"6917529558026805191"
+"6917529902667810234" : Corrupting Echo Cover (Warlock Helmet at 1800 power) > 
+"6917529558026805191" : Corrupting Echo Cover (Warlock Helmet at 1805 power)
 
-id:"6917529933042563754" or id:"6917529855306235564"
-"6917529933042563754" : Warmind's Avatar Mask (Hunter Helmet at 1810 power) > 
-"6917529855306235564" : Tusked Allegiance Mask (Hunter Helmet at 1600 power)
+id:"6917529924528295365" or id:"6917529879647283962"
+"6917529924528295365" : Abeyant Leap (Titan Leg Armor at 1800 power) > 
+"6917529879647283962" : Abeyant Leap (Titan Leg Armor at 1800 power)
 
-id:"6917529933055633977" or id:"6917529865734281537"
-"6917529933055633977" : Warmind's Avatar Vest (Hunter Chest Armor at 1810 power) > 
-"6917529865734281537" : Tusked Allegiance Vest (Hunter Chest Armor at 1807 power)
+id:"6917529942488584226" or id:"6917529842935160233"
+"6917529942488584226" : Veiled Tithes Greaves (Titan Leg Armor at 1800 power) > 
+"6917529842935160233" : Eidolon Pursuant Greaves (Titan Leg Armor at 1600 power)
 
-id:"6917529933055633977" or id:"6917529807398145790"
-"6917529933055633977" : Warmind's Avatar Vest (Hunter Chest Armor at 1810 power) > 
-"6917529807398145790" : Lost Pacific Vest (Hunter Chest Armor at 1600 power)
+id:"6917529942488588793" or id:"6917529804444665193"
+"6917529942488588793" : Veiled Tithes Greaves (Titan Leg Armor at 1800 power) > 
+"6917529804444665193" : Deep Explorer Greaves (Titan Leg Armor at 1600 power)
 
-Vault Spaces Saveable: 6
+id:"6917529948017113119" or id:"6917529935248800454"
+"6917529948017113119" : Point-Contact Cannon Brace (Titan Gauntlets at 1800 power) > 
+"6917529935248800454" : Point-Contact Cannon Brace (Titan Gauntlets at 1800 power)
+
+Vault Spaces Saveable: 7
 
 DIM string for items to delete:      
-id:"6917529807398145790" or id:"6917529203109656115" or id:"6917529350236083694" or id:"6917529426666334094" or id:"6917529855306235564" or id:"6917529865734281537"
+id:"6917529179857656252" or id:"6917529901263369642" or id:"6917529558026805191" or id:"6917529879647283962" or id:"6917529842935160233" or id:"6917529804444665193" or id:"6917529935248800454"
