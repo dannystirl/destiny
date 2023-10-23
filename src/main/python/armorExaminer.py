@@ -23,6 +23,19 @@ classItemsCovered = {"Warlock Bond": [], "Hunter Cloak": [], "Titan Mark": []}
 
 csvColumns = {}
 
+# Determine the directory where the script or executable is located
+if getattr(sys, 'frozen', False):
+    # Running as a standalone executable (frozen)
+    DIRECTORY_NAME = os.path.dirname(sys.executable)
+else:
+    # Running as a Python script
+    DIRECTORY_NAME = os.path.abspath(os.path.dirname(__file__))
+
+INPUT_FOLDER = 'input'
+INPUT_FILE = 'destinyArmor.csv'
+OUTPUT_FOLDER = 'output'
+OUTPUT_FILE = 'ArmorExamined.txt'
+
 class armorPiece:
     def __init__(self, info):
         # Set variables
@@ -102,8 +115,7 @@ class armorPiece:
         # Check if all stats are equal to or better than test piece, respecting config options
         statNames = ['mob', 'res', 'rec', 'dis', 'int', 'str']
         # Remove unwanted stats
-        statNames = [stat for stat in statNames if not globals().get(
-            f"skip{stat.capitalize()}")]
+        statNames = [stat for stat in statNames if not globals().get(f"skip{stat.capitalize()}")]
         # Test if current armor is better
         checkList = []
         for statName in statNames:
@@ -184,7 +196,7 @@ def run():
             testClasses.remove("Titan")
 
     # Open CSV from DIM
-    with open(os.path.abspath('input/destinyArmor.csv'), newline='', errors="ignore") as f:
+    with open(os.path.abspath(os.path.join(INPUT_FOLDER, INPUT_FILE)), newline='', errors="ignore") as f:
         reader = csv.reader(f)
         rawArmorList = list(reader)
         armorList = []
@@ -230,17 +242,24 @@ def run():
         uniqueValues = list(
             set(item for sublist in simpleSuperiorityList.values() for item in sublist))
 
+        # Go up the directory hierarchy to find an ancestor directory
+        CODEBASE_DIRECTORY = DIRECTORY_NAME
+        while not os.path.exists(os.path.join(CODEBASE_DIRECTORY, OUTPUT_FOLDER)):
+            CODEBASE_DIRECTORY = os.path.dirname(CODEBASE_DIRECTORY)
+        # Check if the 'output' folder exists
+        OUTPUT_PATH = os.path.join(CODEBASE_DIRECTORY, OUTPUT_FOLDER)
+        if not os.path.exists(OUTPUT_PATH):
+            # If it doesn't exist, create the 'output' folder
+            os.makedirs(OUTPUT_PATH)
         # Display
-        original_stdout = sys.stdout
-        with open('output/ArmorExamined.txt', 'w') as f:
-            sys.stdout = f
+        with open(os.path.join(OUTPUT_PATH, OUTPUT_FILE), 'w') as file:
             for betterArmorPieceId in simpleSuperiorityList:
                 if idToItemList[betterArmorPieceId].type != "Warlock Bond" and idToItemList[betterArmorPieceId].type != "Hunter Cloak" and idToItemList[betterArmorPieceId].type != "Titan Mark":
                     for worseArmorPiece in simpleSuperiorityList[betterArmorPieceId]:
-                        print(f'id:{idToItemList[betterArmorPieceId].id} or id:{idToItemList[worseArmorPiece].id}')
-                        printformatted(idToItemList[betterArmorPieceId], idToItemList[worseArmorPiece])
+                        file.write(f'id:{idToItemList[betterArmorPieceId].id} or id:{idToItemList[worseArmorPiece].id}\n')
+                        file.write(printformatted(idToItemList[betterArmorPieceId], idToItemList[worseArmorPiece]))
 
-            print("Vault Spaces Saveable: " + str(len(uniqueValues)), end="\n\n")
+            file.write(f"Vault Spaces Saveable: {str(len(uniqueValues))}\n")
             armorSet = set()
             printstr = "DIM string for items to delete:      \n"
             for betterArmorPieceId in simpleSuperiorityList:
@@ -248,14 +267,11 @@ def run():
                     if worseArmorPieceId not in armorSet:
                         armorSet.add(worseArmorPieceId)
                         printstr += f'id:{worseArmorPieceId} or '
-            print(printstr[0:len(printstr)-4])
-
-        sys.stdout = original_stdout  # ? Reset the standard output to its original value
+            file.write(printstr[0:len(printstr)-4])
 
 
-def printformatted(better, worse):
-    print("%s : %s (%s %s at %s power) > \n%s : %s (%s %s at %s power)\n" %
-          (better.id, better.name, better.equippable, better.type, better.power, worse.id, worse.name, worse.equippable, worse.type, worse.power))
+def printformatted(better, worse) -> str:
+    return f"id:{better.id} : {better.name} ({better.equippable} {better.type} at {better.power} power) > \nid:{worse.id} : {worse.name} ({worse.equippable} {worse.type} at {worse.power} power)\n\n"
 
 
 if __name__ == "__main__":
