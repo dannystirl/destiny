@@ -44,6 +44,7 @@ class armorPiece:
             self.hash = info[csvColumns.index('Hash')]
             self.id = info[csvColumns.index('Id')]
             self.tag = info[csvColumns.index('Tag')]
+            self.sunset = info[csvColumns.index('Power Limit')] != ''
             #! See note 1, however this list can be updated seasonally to include new raid mods
             if (info[csvColumns.index('Source')] in ['votd', 'vaultofglass', 'nightmare', 'lastwish', 'kf', 'ironbanner', 'deepstonecrypt', 'crota', 'garden']):
                 self.raid = info[csvColumns.index('Source')]
@@ -204,7 +205,7 @@ def run():
         csvColumns = rawArmorList[0]
         # List of all pieces
         for currentArmor in rawArmorList[1:]:
-            if armorPiece(currentArmor).tag not in {"archive", "junk", "infuse"}:
+            if armorPiece(currentArmor).tag not in {"archive", "junk", "infuse"} and not armorPiece(currentArmor).sunset:
                 armorList.append(armorPiece(currentArmor))
 
         # Create list of comparisons

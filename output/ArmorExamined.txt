@@ -1,171 +1,27 @@
-id:"6917529084454476487" or id:"6917529351203750817"
-id:"6917529084454476487" : Annealed Shaper Robes (Warlock Chest Armor at 1600 power) > 
-id:"6917529351203750817" : Channeling Robes (CODA) (Warlock Chest Armor at 1600 power)
+id:"6917529804395092491" or id:"6917529894957542696"
+id:"6917529804395092491" : Eidolon Pursuant Gauntlets (Titan Gauntlets at 1600 power) > 
+id:"6917529894957542696" : Legacy's Oath Gauntlets (Titan Gauntlets at 1800 power)
 
-id:"6917529087118981764" or id:"6917529351203750817"
-id:"6917529087118981764" : Vigil of Heroes (Warlock Chest Armor at 1600 power) > 
-id:"6917529351203750817" : Channeling Robes (CODA) (Warlock Chest Armor at 1600 power)
+id:"6917529834104104790" or id:"6917529947930374554"
+id:"6917529834104104790" : Deep Explorer Helmet (Titan Helmet at 1800 power) > 
+id:"6917529947930374554" : Kabr's Battlecage (Titan Helmet at 1800 power)
 
-id:"6917529098641183063" or id:"6917529351203750817"
-id:"6917529098641183063" : Solstice Robes (Majestic) (Warlock Chest Armor at 1600 power) > 
-id:"6917529351203750817" : Channeling Robes (CODA) (Warlock Chest Armor at 1600 power)
+id:"6917529855030479264" or id:"6917529894957542696"
+id:"6917529855030479264" : Tusked Allegiance Gauntlets (Titan Gauntlets at 1789 power) > 
+id:"6917529894957542696" : Legacy's Oath Gauntlets (Titan Gauntlets at 1800 power)
 
-id:"6917529100264314353" or id:"6917529351203750817"
-id:"6917529100264314353" : Notorious Sentry Robes (Warlock Chest Armor at 1600 power) > 
-id:"6917529351203750817" : Channeling Robes (CODA) (Warlock Chest Armor at 1600 power)
+id:"6917529910540280233" or id:"6917529724905245048"
+id:"6917529910540280233" : Kairos Function Plate (Titan Chest Armor at 1600 power) > 
+id:"6917529724905245048" : Resonant Fury Plate (Titan Chest Armor at 1600 power)
 
-id:"6917529100266026361" or id:"6917529351203750817"
-id:"6917529100266026361" : Notorious Reaper Robes (Warlock Chest Armor at 1600 power) > 
-id:"6917529351203750817" : Channeling Robes (CODA) (Warlock Chest Armor at 1600 power)
+id:"6917529924528295365" or id:"6917529879647283962"
+id:"6917529924528295365" : Abeyant Leap (Titan Leg Armor at 1800 power) > 
+id:"6917529879647283962" : Abeyant Leap (Titan Leg Armor at 1800 power)
 
-id:"6917529228576359275" or id:"6917529203596768910"
-id:"6917529228576359275" : Wildwood Gloves (Warlock Gauntlets at 1600 power) > 
-id:"6917529203596768910" : Wraps of the Fulminator (Warlock Gauntlets at 1600 power)
+id:"6917529948017113119" or id:"6917529935248800454"
+id:"6917529948017113119" : Point-Contact Cannon Brace (Titan Gauntlets at 1800 power) > 
+id:"6917529935248800454" : Point-Contact Cannon Brace (Titan Gauntlets at 1800 power)
 
-id:"6917529239016191619" or id:"6917529411734901002"
-id:"6917529239016191619" : Legacy's Oath Robes (Warlock Chest Armor at 1600 power) > 
-id:"6917529411734901002" : Wild Hunt Vestment (Warlock Chest Armor at 1798 power)
-
-id:"6917529496696111017" or id:"6917529201671986166"
-id:"6917529496696111017" : Lightkin Robes (Warlock Chest Armor at 1810 power) > 
-id:"6917529201671986166" : Solstice Robes (Magnificent) (Warlock Chest Armor at 1600 power)
-
-id:"6917529770091675739" or id:"6917529199392635453"
-id:"6917529770091675739" : Iron Forerunner Hood (Warlock Helmet at 1600 power) > 
-id:"6917529199392635453" : Gunsmith's Devotion Crown (Warlock Helmet at 1600 power)
-
-id:"6917529793967271929" or id:"6917529199392635453"
-id:"6917529793967271929" : Eidolon Pursuant Veil (Warlock Helmet at 1600 power) > 
-id:"6917529199392635453" : Gunsmith's Devotion Crown (Warlock Helmet at 1600 power)
-
-id:"6917529795659102895" or id:"6917529198764043624"
-id:"6917529795659102895" : Tusked Allegiance Gloves (Warlock Gauntlets at 1600 power) > 
-id:"6917529198764043624" : Gunsmith's Devotion Gloves (Warlock Gauntlets at 1600 power)
-
-id:"6917529795659102895" or id:"6917529799176313252"
-id:"6917529795659102895" : Tusked Allegiance Gloves (Warlock Gauntlets at 1600 power) > 
-id:"6917529799176313252" : Candescent Gloves (Warlock Gauntlets at 1810 power)
-
-id:"6917529795809780624" or id:"6917529090807874772"
-id:"6917529795809780624" : Getaway Artist (Warlock Gauntlets at 1600 power) > 
-id:"6917529090807874772" : Getaway Artist (Warlock Gauntlets at 1600 power)
-
-id:"6917529796259493935" or id:"6917529199392635453"
-id:"6917529796259493935" : Tusked Allegiance Hood (Warlock Helmet at 1810 power) > 
-id:"6917529199392635453" : Gunsmith's Devotion Crown (Warlock Helmet at 1600 power)
-
-id:"6917529799176313252" or id:"6917529198764043624"
-id:"6917529799176313252" : Candescent Gloves (Warlock Gauntlets at 1810 power) > 
-id:"6917529198764043624" : Gunsmith's Devotion Gloves (Warlock Gauntlets at 1600 power)
-
-id:"6917529799176313253" or id:"6917529351203750817"
-id:"6917529799176313253" : Candescent Robes (Warlock Chest Armor at 1810 power) > 
-id:"6917529351203750817" : Channeling Robes (CODA) (Warlock Chest Armor at 1600 power)
-
-id:"6917529799176313256" or id:"6917529199392635453"
-id:"6917529799176313256" : Candescent Hood (Warlock Helmet at 1600 power) > 
-id:"6917529199392635453" : Gunsmith's Devotion Crown (Warlock Helmet at 1600 power)
-
-id:"6917529799692446424" or id:"6917529805678027650"
-id:"6917529799692446424" : Candescent Gloves (Warlock Gauntlets at 1600 power) > 
-id:"6917529805678027650" : Candescent Gloves (Warlock Gauntlets at 1600 power)
-
-id:"6917529800083797476" or id:"6917529351203750817"
-id:"6917529800083797476" : Candescent Robes (Warlock Chest Armor at 1600 power) > 
-id:"6917529351203750817" : Channeling Robes (CODA) (Warlock Chest Armor at 1600 power)
-
-id:"6917529801063470423" or id:"6917529199392635453"
-id:"6917529801063470423" : Candescent Hood (Warlock Helmet at 1785 power) > 
-id:"6917529199392635453" : Gunsmith's Devotion Crown (Warlock Helmet at 1600 power)
-
-id:"6917529804325405617" or id:"6917529351203750817"
-id:"6917529804325405617" : Candescent Robes (Warlock Chest Armor at 1600 power) > 
-id:"6917529351203750817" : Channeling Robes (CODA) (Warlock Chest Armor at 1600 power)
-
-id:"6917529804325405617" or id:"6917529800083797476"
-id:"6917529804325405617" : Candescent Robes (Warlock Chest Armor at 1600 power) > 
-id:"6917529800083797476" : Candescent Robes (Warlock Chest Armor at 1600 power)
-
-id:"6917529804426237640" or id:"6917529804426238053"
-id:"6917529804426237640" : Deep Explorer Gloves (Warlock Gauntlets at 1600 power) > 
-id:"6917529804426238053" : Deep Explorer Gloves (Warlock Gauntlets at 1600 power)
-
-id:"6917529804896022987" or id:"6917529799692446424"
-id:"6917529804896022987" : Candescent Gloves (Warlock Gauntlets at 1600 power) > 
-id:"6917529799692446424" : Candescent Gloves (Warlock Gauntlets at 1600 power)
-
-id:"6917529804896022987" or id:"6917529805678027650"
-id:"6917529804896022987" : Candescent Gloves (Warlock Gauntlets at 1600 power) > 
-id:"6917529805678027650" : Candescent Gloves (Warlock Gauntlets at 1600 power)
-
-id:"6917529804901427334" or id:"6917529199392635453"
-id:"6917529804901427334" : Candescent Hood (Warlock Helmet at 1810 power) > 
-id:"6917529199392635453" : Gunsmith's Devotion Crown (Warlock Helmet at 1600 power)
-
-id:"6917529804901427334" or id:"6917529801063470423"
-id:"6917529804901427334" : Candescent Hood (Warlock Helmet at 1810 power) > 
-id:"6917529801063470423" : Candescent Hood (Warlock Helmet at 1785 power)
-
-id:"6917529804901427334" or id:"6917529921022759610"
-id:"6917529804901427334" : Candescent Hood (Warlock Helmet at 1810 power) > 
-id:"6917529921022759610" : Sunlit Mask (Warlock Helmet at 1800 power)
-
-id:"6917529805565049684" or id:"6917529203596768910"
-id:"6917529805565049684" : Deep Explorer Gloves (Warlock Gauntlets at 1600 power) > 
-id:"6917529203596768910" : Wraps of the Fulminator (Warlock Gauntlets at 1600 power)
-
-id:"6917529805565049684" or id:"6917529254290407650"
-id:"6917529805565049684" : Deep Explorer Gloves (Warlock Gauntlets at 1600 power) > 
-id:"6917529254290407650" : Holdfast Gloves (Warlock Gauntlets at 1600 power)
-
-id:"6917529843190215898" or id:"6917529797208714160"
-id:"6917529843190215898" : Atavistic Idol Boots (Warlock Leg Armor at 1600 power) > 
-id:"6917529797208714160" : Eidolon Pursuant Pants (Warlock Leg Armor at 1600 power)
-
-id:"6917529844361508771" or id:"6917529351203750817"
-id:"6917529844361508771" : Chasm of Yul (Warlock Chest Armor at 1600 power) > 
-id:"6917529351203750817" : Channeling Robes (CODA) (Warlock Chest Armor at 1600 power)
-
-id:"6917529867448784707" or id:"6917529094299013166"
-id:"6917529867448784707" : Crown of Tempests (Warlock Helmet at 1600 power) > 
-id:"6917529094299013166" : Crown of Tempests (Warlock Helmet at 1600 power)
-
-id:"6917529905630145769" or id:"6917529804555580399"
-id:"6917529905630145769" : Vestment of the Taken King (Warlock Chest Armor at 1800 power) > 
-id:"6917529804555580399" : Deep Explorer Vestments (Warlock Chest Armor at 1600 power)
-
-id:"6917529909841501011" or id:"6917529201671986166"
-id:"6917529909841501011" : Legacy's Oath Robes (Warlock Chest Armor at 1800 power) > 
-id:"6917529201671986166" : Solstice Robes (Magnificent) (Warlock Chest Armor at 1600 power)
-
-id:"6917529909841501011" or id:"6917529351203750817"
-id:"6917529909841501011" : Legacy's Oath Robes (Warlock Chest Armor at 1800 power) > 
-id:"6917529351203750817" : Channeling Robes (CODA) (Warlock Chest Armor at 1600 power)
-
-id:"6917529909841501011" or id:"6917529799176313253"
-id:"6917529909841501011" : Legacy's Oath Robes (Warlock Chest Armor at 1800 power) > 
-id:"6917529799176313253" : Candescent Robes (Warlock Chest Armor at 1810 power)
-
-id:"6917529921022759610" or id:"6917529199392635453"
-id:"6917529921022759610" : Sunlit Mask (Warlock Helmet at 1800 power) > 
-id:"6917529199392635453" : Gunsmith's Devotion Crown (Warlock Helmet at 1600 power)
-
-id:"6917529921022759610" or id:"6917529801063470423"
-id:"6917529921022759610" : Sunlit Mask (Warlock Helmet at 1800 power) > 
-id:"6917529801063470423" : Candescent Hood (Warlock Helmet at 1785 power)
-
-id:"6917529941022479463" or id:"6917529201671986166"
-id:"6917529941022479463" : NPA "Weir-Walker" Robes (Warlock Chest Armor at 1800 power) > 
-id:"6917529201671986166" : Solstice Robes (Magnificent) (Warlock Chest Armor at 1600 power)
-
-id:"6917529941022479463" or id:"6917529271595711122"
-id:"6917529941022479463" : NPA "Weir-Walker" Robes (Warlock Chest Armor at 1800 power) > 
-id:"6917529271595711122" : Pyrrhic Ascent Vestment (Warlock Chest Armor at 1600 power)
-
-id:"6917529941022479463" or id:"6917529351203750817"
-id:"6917529941022479463" : NPA "Weir-Walker" Robes (Warlock Chest Armor at 1800 power) > 
-id:"6917529351203750817" : Channeling Robes (CODA) (Warlock Chest Armor at 1600 power)
-
-Vault Spaces Saveable: 20
+Vault Spaces Saveable: 5
 DIM string for items to delete:      
-id:"6917529351203750817" or id:"6917529203596768910" or id:"6917529411734901002" or id:"6917529201671986166" or id:"6917529199392635453" or id:"6917529198764043624" or id:"6917529799176313252" or id:"6917529090807874772" or id:"6917529805678027650" or id:"6917529800083797476" or id:"6917529804426238053" or id:"6917529799692446424" or id:"6917529801063470423" or id:"6917529921022759610" or id:"6917529254290407650" or id:"6917529797208714160" or id:"6917529094299013166" or id:"6917529804555580399" or id:"6917529799176313253" or id:"6917529271595711122"
+id:"6917529894957542696" or id:"6917529947930374554" or id:"6917529724905245048" or id:"6917529879647283962" or id:"6917529935248800454"
