@@ -1,27 +1,47 @@
-id:"6917529804395092491" or id:"6917529894957542696"
-id:"6917529804395092491" : Eidolon Pursuant Gauntlets (Titan Gauntlets at 1600 power) > 
-id:"6917529894957542696" : Legacy's Oath Gauntlets (Titan Gauntlets at 1800 power)
+id:"6917529799190926158" or id:"6917529962398756219"
+id:"6917529799190926158" : Candescent Boots (Warlock Leg Armor at 1810 power) > 
+id:"6917529962398756219" : Wyrmguard Boots (Warlock Leg Armor at 1800 power)
 
-id:"6917529834104104790" or id:"6917529947930374554"
-id:"6917529834104104790" : Deep Explorer Helmet (Titan Helmet at 1800 power) > 
-id:"6917529947930374554" : Kabr's Battlecage (Titan Helmet at 1800 power)
+id:"6917529834110735146" or id:"6917529962398756219"
+id:"6917529834110735146" : Deep Explorer Boots (Warlock Leg Armor at 1800 power) > 
+id:"6917529962398756219" : Wyrmguard Boots (Warlock Leg Armor at 1800 power)
 
-id:"6917529855030479264" or id:"6917529894957542696"
-id:"6917529855030479264" : Tusked Allegiance Gauntlets (Titan Gauntlets at 1789 power) > 
-id:"6917529894957542696" : Legacy's Oath Gauntlets (Titan Gauntlets at 1800 power)
+id:"6917529901229781997" or id:"6917529962405995481"
+id:"6917529901229781997" : Corrupting Echo Boots (Warlock Leg Armor at 1800 power) > 
+id:"6917529962405995481" : Wyrmguard Boots (Warlock Leg Armor at 1800 power)
 
-id:"6917529910540280233" or id:"6917529724905245048"
-id:"6917529910540280233" : Kairos Function Plate (Titan Chest Armor at 1600 power) > 
-id:"6917529724905245048" : Resonant Fury Plate (Titan Chest Armor at 1600 power)
+id:"6917529901267238309" or id:"6917529962406000077"
+id:"6917529901267238309" : Corrupting Echo Boots (Warlock Leg Armor at 1800 power) > 
+id:"6917529962406000077" : Techeun's Regalia Boots (Warlock Leg Armor at 1800 power)
 
-id:"6917529924528295365" or id:"6917529879647283962"
-id:"6917529924528295365" : Abeyant Leap (Titan Leg Armor at 1800 power) > 
-id:"6917529879647283962" : Abeyant Leap (Titan Leg Armor at 1800 power)
+id:"6917529902667805919" or id:"6917529962408052123"
+id:"6917529902667805919" : Corrupting Echo Boots (Warlock Leg Armor at 1800 power) > 
+id:"6917529962408052123" : Techeun's Regalia Boots (Warlock Leg Armor at 1800 power)
 
-id:"6917529948017113119" or id:"6917529935248800454"
-id:"6917529948017113119" : Point-Contact Cannon Brace (Titan Gauntlets at 1800 power) > 
-id:"6917529935248800454" : Point-Contact Cannon Brace (Titan Gauntlets at 1800 power)
+id:"6917529902667808318" or id:"6917529960296673414"
+id:"6917529902667808318" : Corrupting Echo Cover (Warlock Helmet at 1800 power) > 
+id:"6917529960296673414" : Dark Age Visor (Warlock Helmet at 1800 power)
 
-Vault Spaces Saveable: 5
+id:"6917529902667808318" or id:"6917529961891583082"
+id:"6917529902667808318" : Corrupting Echo Cover (Warlock Helmet at 1800 power) > 
+id:"6917529961891583082" : Wyrmguard Hood (Warlock Helmet at 1800 power)
+
+id:"6917529902667810234" or id:"6917529558026805191"
+id:"6917529902667810234" : Corrupting Echo Cover (Warlock Helmet at 1800 power) > 
+id:"6917529558026805191" : Corrupting Echo Cover (Warlock Helmet at 1805 power)
+
+id:"6917529962400956115" or id:"6917529962405998379"
+id:"6917529962400956115" : Techeun's Regalia Boots (Warlock Leg Armor at 1800 power) > 
+id:"6917529962405998379" : Techeun's Regalia Boots (Warlock Leg Armor at 1800 power)
+
+id:"6917529962403471061" or id:"6917529962405995481"
+id:"6917529962403471061" : Wyrmguard Boots (Warlock Leg Armor at 1800 power) > 
+id:"6917529962405995481" : Wyrmguard Boots (Warlock Leg Armor at 1800 power)
+
+id:"6917529962405997783" or id:"6917529194842726429"
+id:"6917529962405997783" : Techeun's Regalia Boots (Warlock Leg Armor at 1800 power) > 
+id:"6917529194842726429" : Channeling Treads (CODA) (Warlock Leg Armor at 1802 power)
+
+Vault Spaces Saveable: 10
 DIM string for items to delete:      
-id:"6917529894957542696" or id:"6917529947930374554" or id:"6917529724905245048" or id:"6917529879647283962" or id:"6917529935248800454"
+id:"6917529179857656252" or id:"6917529962398756219" or id:"6917529962405995481" or id:"6917529962406000077" or id:"6917529962408052123" or id:"6917529960296673414" or id:"6917529961891583082" or id:"6917529558026805191" or id:"6917529962405998379" or id:"6917529194842726429"
