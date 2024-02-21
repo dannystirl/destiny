@@ -8,6 +8,26 @@ org.json.JSONException: JSONObject["Response"] not found.
 	at destiny.WishlistGenerator.main(WishlistGenerator.java:133)
 
 
+HTTP Error: JSONObject["Response"] not found.
+org.json.JSONException: JSONObject["Response"] not found.
+	at org.json.JSONObject.get(JSONObject.java:580)
+	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:132)
+	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:775)
+	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:315)
+	at destiny.WishlistGenerator.main(WishlistGenerator.java:133)
+
+
+HTTP Error: JSONObject["Response"] not found.
+org.json.JSONException: JSONObject["Response"] not found.
+	at org.json.JSONObject.get(JSONObject.java:580)
+	at org.json.JSONObject.getJSONObject(JSONObject.java:790)
+	at destiny.Formatters.bungieItemDefinitionJSONObject(Formatters.java:132)
+	at destiny.WishlistGenerator.checkPerk(WishlistGenerator.java:775)
+	at destiny.WishlistGenerator.loopRead(WishlistGenerator.java:315)
+	at destiny.WishlistGenerator.main(WishlistGenerator.java:133)
+
+
 Error checking for adept version of 5. Probably occurs when checking item type instead of item: JSONObject["Response"] not found.
 org.json.JSONException: JSONObject["Response"] not found.
 	at org.json.JSONObject.get(JSONObject.java:580)

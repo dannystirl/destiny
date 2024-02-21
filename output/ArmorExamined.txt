@@ -1,47 +1,19 @@
-id:"6917529799190926158" or id:"6917529962398756219"
-id:"6917529799190926158" : Candescent Boots (Warlock Leg Armor at 1810 power) > 
-id:"6917529962398756219" : Wyrmguard Boots (Warlock Leg Armor at 1800 power)
+id:"6917529839987828041" or id:"6917529957720365672"
+id:"6917529839987828041" : Deep Explorer Plate (Titan Chest Armor at 1803 power) > 
+id:"6917529957720365672" : Veiled Tithes Plate (Titan Chest Armor at 1800 power)
 
-id:"6917529834110735146" or id:"6917529962398756219"
-id:"6917529834110735146" : Deep Explorer Boots (Warlock Leg Armor at 1800 power) > 
-id:"6917529962398756219" : Wyrmguard Boots (Warlock Leg Armor at 1800 power)
+id:"6917529924528295365" or id:"6917529879647283962"
+id:"6917529924528295365" : Abeyant Leap (Titan Leg Armor at 1800 power) > 
+id:"6917529879647283962" : Abeyant Leap (Titan Leg Armor at 1800 power)
 
-id:"6917529901229781997" or id:"6917529962405995481"
-id:"6917529901229781997" : Corrupting Echo Boots (Warlock Leg Armor at 1800 power) > 
-id:"6917529962405995481" : Wyrmguard Boots (Warlock Leg Armor at 1800 power)
+id:"6917529948017113119" or id:"6917529935248800454"
+id:"6917529948017113119" : Point-Contact Cannon Brace (Titan Gauntlets at 1800 power) > 
+id:"6917529935248800454" : Point-Contact Cannon Brace (Titan Gauntlets at 1800 power)
 
-id:"6917529901267238309" or id:"6917529962406000077"
-id:"6917529901267238309" : Corrupting Echo Boots (Warlock Leg Armor at 1800 power) > 
-id:"6917529962406000077" : Techeun's Regalia Boots (Warlock Leg Armor at 1800 power)
+id:"6917529957720365902" or id:"6917529801054413485"
+id:"6917529957720365902" : NPA "Weir-Walker" Legguards (Titan Leg Armor at 1800 power) > 
+id:"6917529801054413485" : Candescent Greaves (Titan Leg Armor at 1807 power)
 
-id:"6917529902667805919" or id:"6917529962408052123"
-id:"6917529902667805919" : Corrupting Echo Boots (Warlock Leg Armor at 1800 power) > 
-id:"6917529962408052123" : Techeun's Regalia Boots (Warlock Leg Armor at 1800 power)
-
-id:"6917529902667808318" or id:"6917529960296673414"
-id:"6917529902667808318" : Corrupting Echo Cover (Warlock Helmet at 1800 power) > 
-id:"6917529960296673414" : Dark Age Visor (Warlock Helmet at 1800 power)
-
-id:"6917529902667808318" or id:"6917529961891583082"
-id:"6917529902667808318" : Corrupting Echo Cover (Warlock Helmet at 1800 power) > 
-id:"6917529961891583082" : Wyrmguard Hood (Warlock Helmet at 1800 power)
-
-id:"6917529902667810234" or id:"6917529558026805191"
-id:"6917529902667810234" : Corrupting Echo Cover (Warlock Helmet at 1800 power) > 
-id:"6917529558026805191" : Corrupting Echo Cover (Warlock Helmet at 1805 power)
-
-id:"6917529962400956115" or id:"6917529962405998379"
-id:"6917529962400956115" : Techeun's Regalia Boots (Warlock Leg Armor at 1800 power) > 
-id:"6917529962405998379" : Techeun's Regalia Boots (Warlock Leg Armor at 1800 power)
-
-id:"6917529962403471061" or id:"6917529962405995481"
-id:"6917529962403471061" : Wyrmguard Boots (Warlock Leg Armor at 1800 power) > 
-id:"6917529962405995481" : Wyrmguard Boots (Warlock Leg Armor at 1800 power)
-
-id:"6917529962405997783" or id:"6917529194842726429"
-id:"6917529962405997783" : Techeun's Regalia Boots (Warlock Leg Armor at 1800 power) > 
-id:"6917529194842726429" : Channeling Treads (CODA) (Warlock Leg Armor at 1802 power)
-
-Vault Spaces Saveable: 10
+Vault Spaces Saveable: 4
 DIM string for items to delete:      
-id:"6917529179857656252" or id:"6917529962398756219" or id:"6917529962405995481" or id:"6917529962406000077" or id:"6917529962408052123" or id:"6917529960296673414" or id:"6917529961891583082" or id:"6917529558026805191" or id:"6917529962405998379" or id:"6917529194842726429"
+id:"6917529957720365672" or id:"6917529879647283962" or id:"6917529935248800454" or id:"6917529801054413485"
