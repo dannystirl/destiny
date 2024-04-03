@@ -205,7 +205,7 @@ def run():
         csvColumns = rawArmorList[0]
         # List of all pieces
         for currentArmor in rawArmorList[1:]:
-            if armorPiece(currentArmor).tag not in {"archive", "junk", "infuse"} and not armorPiece(currentArmor).sunset:
+            if armorPiece(currentArmor).tag not in {"junk", "infuse"} and not armorPiece(currentArmor).sunset:
                 armorList.append(armorPiece(currentArmor))
 
         # Create list of comparisons
