@@ -1,8 +1,3 @@
-// The file contents for the current environment will overwrite these during build.
-// The build system defaults to the dev environment which uses `environment.ts`, but if you do
-// `ng build --env=prod` then `environment.prod.ts` will be used instead.
-// The list of which env maps to which file can be found in `angular-cli.json`.
-
-export const environment = {
-  production: false
-};
+version https://git-lfs.github.com/spec/v1
+oid sha256:727a0f918e5e4ac7e5475c5bd82a282220911165bc994e721867b46a54358ec9
+size 386

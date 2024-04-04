@@ -1,6 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<setup:Workspace
-    xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI"
-    xmlns:setup="http://www.eclipse.org/oomph/setup/1.0"
-    name="workspace"/>
+version https://git-lfs.github.com/spec/v1
+oid sha256:4e70cdbe08850ddc8847ab4dd13967141789502a65881091fefe684601721ed4
+size 197

@@ -1,28 +1,3 @@
-/* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-
-import { RoguelikeComponent } from './roguelike.component';
-
-describe('RoguelikeComponent', () => {
-  let component: RoguelikeComponent;
-  let fixture: ComponentFixture<RoguelikeComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ RoguelikeComponent ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(RoguelikeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+version https://git-lfs.github.com/spec/v1
+oid sha256:a65f79b6f67d62caead0968c836c5db91a5e37a75096af279f47dbe859017558
+size 783

@@ -1,13 +1,3 @@
-# Editor configuration, see http://editorconfig.org
-root = true
-
-[*]
-charset = utf-8
-indent_style = space
-indent_size = 2
-insert_final_newline = true
-trim_trailing_whitespace = true
-
-[*.md]
-max_line_length = off
-trim_trailing_whitespace = false
+version https://git-lfs.github.com/spec/v1
+oid sha256:3970ce473928bdf945236b8aa6c7cbf6b0022f5ce379b7b0ba8e7343d8fec451
+size 245

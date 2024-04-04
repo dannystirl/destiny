@@ -1,17 +1,3 @@
----
-name: Question
-about: 'A template to ask questions about this repository. '
-title: 'Question about ... '
-labels: documentation, question
-assignees: ''
-
----
-
-**Please describe your question**
-A clear and concise description of what the question is. 
-
-**How in depth of an answer would you like?**
-Ex. Concise, detailed, general. 
-
-**Additional context**
-Add any other context or screenshots about the feature request here.
+version https://git-lfs.github.com/spec/v1
+oid sha256:921eed9020818fb000b08f4f5cc66de047980da50d102dd059b079de689a0051
+size 426

@@ -1,33 +1,3 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import { RouterModule, Routes } from '@angular/router';
-
-import { AppComponent } from './app.component';
-import { ProjectPageComponent } from './projects/projects.component';
-import { DestinyComponent } from './projects/destiny/destiny.component';
-import { RoguelikeComponent } from './projects/roguelike/roguelike.component';
-
-const ROUTES: Routes = [
-  { path: '', component: AppComponent },
-  { path: 'projects', component: ProjectPageComponent },
-  { path: 'projects/destiny', component: DestinyComponent },
-  { path: 'projects/roguelike', component: RoguelikeComponent },
-]
-@NgModule({
-  declarations: [
-    AppComponent,
-    ProjectPageComponent,
-    DestinyComponent,
-    RoguelikeComponent
-  ],
-  imports: [
-    // Angular Modules - Do not fix
-    RouterModule.forRoot(ROUTES),
-    BrowserModule,
-    FormsModule,
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
+version https://git-lfs.github.com/spec/v1
+oid sha256:897761b34a3943866d7dfa0f78eb9758836e21eff9e43eddd47ff5e4500d50a9
+size 1049

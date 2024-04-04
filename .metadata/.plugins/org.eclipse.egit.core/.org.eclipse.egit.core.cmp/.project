@@ -1,11 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<projectDescription>
-	<name>.org.eclipse.egit.core.cmp</name>
-	<comment></comment>
-	<projects>
-	</projects>
-	<buildSpec>
-	</buildSpec>
-	<natures>
-	</natures>
-</projectDescription>
+version https://git-lfs.github.com/spec/v1
+oid sha256:321c6db612b81fb06144a50af7068e839cc84131c83ba48b69451d5e34f4d411
+size 219

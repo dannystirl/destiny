@@ -1,1 +1,3 @@
-2022-06-25 14:10:58,964 [Worker-8: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+version https://git-lfs.github.com/spec/v1
+oid sha256:cb62c1cd73ac1587fab98e0f6488723354f2689a195f862d41a500a9bb61ea0c
+size 180

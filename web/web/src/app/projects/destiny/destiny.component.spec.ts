@@ -1,28 +1,3 @@
-/* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-
-import { DestinyComponent } from './destiny.component';
-
-describe('DestinyComponent', () => {
-  let component: DestinyComponent;
-  let fixture: ComponentFixture<DestinyComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ DestinyComponent ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(DestinyComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+version https://git-lfs.github.com/spec/v1
+oid sha256:3f9849f3ba17cf1ff36ee7c88a01ae87f35ec4222fae31a5778efe548ba25e53
+size 769

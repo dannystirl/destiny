@@ -1,28 +1,3 @@
-{
-	// Use IntelliSense to learn about possible attributes.
-	// Hover to view descriptions of existing attributes.
-	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-	"version": "0.2.0",
-	"configurations": [
-		{
-			"type": "java",
-			"name": "Launch Current File",
-			"request": "launch",
-			"mainClass": "${file}"
-		},
-		{
-			"type": "java",
-			"name": "Launch App",
-			"request": "launch",
-			"mainClass": "destiny.App",
-			"projectName": "wishlistgenerator"
-		},
-		{
-			"type": "java",
-			"name": "Launch WishlistGenerator",
-			"request": "launch",
-			"mainClass": "destiny.WishlistGenerator",
-			"projectName": "wishlistgenerator"
-		}
-	]
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:869057cb8ff103a3a358e616193e8dfad5fd7a602c4c0831e2098800a56d5ac8
+size 671

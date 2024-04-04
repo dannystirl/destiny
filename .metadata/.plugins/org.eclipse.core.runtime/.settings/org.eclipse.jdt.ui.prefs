@@ -1,8 +1,3 @@
-eclipse.preferences.version=1
-org.eclipse.jdt.internal.ui.navigator.layout=2
-org.eclipse.jdt.internal.ui.navigator.librariesnode=true
-org.eclipse.jdt.ui.formatterprofiles.version=22
-spelling_locale_initialized=true
-typefilter_migrated_2=true
-useAnnotationsPrefPage=true
-useQuickDiffPrefPage=true
+version https://git-lfs.github.com/spec/v1
+oid sha256:73cffa98d265b5754ccf09d6073244f8e63080e2621b4d3704b0be744a8d94fb
+size 296

@@ -1,6 +1,3 @@
-{
-	"java.configuration.updateBuildConfiguration": "automatic",
-	"maven.view": "flat",
-	"python.formatting.provider": "autopep8",
-	"editor.acceptSuggestionOnEnter": "off"
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:437f89c436171961098a5a44246a3b1919d72747fa1834acf6808cb9dfab5c84
+size 171

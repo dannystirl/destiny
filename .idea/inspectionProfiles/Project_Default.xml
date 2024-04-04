@@ -1,6 +1,3 @@
-<component name="InspectionProjectProfileManager">
-  <profile version="1.0">
-    <option name="myName" value="Project Default" />
-    <inspection_tool class="TodoComment" enabled="true" level="WARNING" enabled_by_default="true" editorAttributes="TODO" />
-  </profile>
-</component>
+version https://git-lfs.github.com/spec/v1
+oid sha256:012af518268e4e2618d092fe3ad57727817e437ee3a7bf808cb190158abcb4bc
+size 280

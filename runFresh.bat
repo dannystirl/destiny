@@ -1,10 +1,3 @@
-:: script to compile + run files
-:: requires classpath, src, and output to be set in project settings
-rd /q /s "bin" 2>nul
-mkdir bin
-
-call mvn clean compile
-:: dont' actually need this since package calls test
-:: call mvn test -f "e:\Code\wishlistgenerator\pom.xml" -q > output/TestResults.txt
-call mvn package
-call java -jar target/wishlistgenerator-1.4.5.jar
+version https://git-lfs.github.com/spec/v1
+oid sha256:99bed33dc4fc88cac84b1e20699110c7854de51bf35bc06fb01e59ba103e1cd0
+size 360
