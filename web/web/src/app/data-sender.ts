@@ -1,3 +1,17 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:26bfd7aa156d6ccc32e8764b25243e8afce531d915ba27af4453fe2a66247174
-size 390
+import { Observable, Subject } from '@angular/common/src/facade/async';
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class DataSender {
+	myMethod$: Observable<any>;
+	private myMethodSubject = new Subject<any>();
+
+	constructor() {
+		this.myMethod$ = this.myMethodSubject.asObservable();
+	}
+
+	myMethod(data) {
+		console.log(data);
+		this.myMethodSubject.next(data);
+	}
+}

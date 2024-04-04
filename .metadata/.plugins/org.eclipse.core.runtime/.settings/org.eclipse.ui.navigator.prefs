@@ -1,3 +1,2 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:914f74a589954f975c031858ac2ef4a8efe17c6dd6e5879e3b203ab37db0a449
-size 862
+eclipse.preferences.version=1
+org.eclipse.ui.navigator.ProjectExplorer.filterActivation=\:org.eclipse.jdt.java.ui.filters.HidePackageDeclaration\:org.eclipse.jdt.java.ui.filters.HideOutputFolder\:org.eclipse.buildship.ui.navigator.filter.gradle.subProject\:org.eclipse.ui.navigator.resources.nested.HideTopLevelProjectIfNested\:org.eclipse.buildship.ui.navigator.filter.gradle.buildfolder\:org.eclipse.jdt.java.ui.filters.HideEmptyInnerPackages\:org.eclipse.jst.j2ee.navigator.ui.filters.jetemitters\:org.eclipse.jdt.java.ui.filters.HideInnerClassFiles\:org.eclipse.ui.navigator.resources.filters.startsWithDot\:org.eclipse.jdt.java.ui.filters.HideEmptyLibraryContainers\:org.eclipse.jdt.java.ui.filters.HideImportDeclaration\:org.eclipse.jdt.java.ui.filters.HideSyntheticMembers\:org.eclipse.ui.navigator.resources.nested.HideFolderWhenProjectIsShownAsNested\:

@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:37f93a477aa7df4d2656d02638796579531b006131de44b4e25df010968bca49
-size 209
+# Created at 2024-04-03T22:48:45.027
+Boot Manifest-JAR contains absolute paths in classpath 'E:\Code\destiny\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+

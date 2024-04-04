@@ -1,3 +1,2 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3195a5873f782186972f093724ac23778ad87585eb796fc5a646b17b32af5547
-size 87
+eclipse.preferences.version=1
+org.eclipse.jsch.core.hasChangedDefaultWin32SshHome=true

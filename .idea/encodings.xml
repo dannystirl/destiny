@@ -1,3 +1,8 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:abcd6c0237b4aa18b65ec21127c012b8b66804057e4437270002aaa18134c98e
-size 352
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/output/WishListScripted.txt" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

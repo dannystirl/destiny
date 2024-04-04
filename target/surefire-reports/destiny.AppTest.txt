@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:37dc6204180a85ef14a84ae838acefbad97e640f8c8f5008c7cace3532caf50b
-size 281
+-------------------------------------------------------------------------------
+Test set: destiny.AppTest
+-------------------------------------------------------------------------------
+Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 25.426 s - in destiny.AppTest

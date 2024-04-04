@@ -1,3 +1,733 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:75c2ea9b052718ca6764622782934abf24e05782c623a48351ed41a32c00cba4
-size 19162
+Item ID,Name
+1946491241,Truthteller
+1046651176,Bottom Dollar
+2534546147,Lubrae's Ruin
+2545083870,Apex Predator
+3055790362,Austringer
+2663204025,Subjunctive
+1286686760,Gahlran's Right Hand
+46524085,Osteo Striga
+3000847393,Unforgiven
+4225322581,Ragnhild-D
+772231794,Hung Jury SR4
+631439337,Found Verdict (Timelost)
+2478792241,The Scholar
+2888266564,Crisis Inverted
+4067556514,Thoughtless
+2009277538,The Last Dance
+1466006054,Lubrae's Ruin (Adept)
+1982711279,Talons of the Eagle
+3100452337,Dreaded Venture
+3472875143,Wolftone Draw
+3740842661,Sleepless
+20025671,Tango-45 XK5094
+4292849692,Crimil's Dagger
+1366394399,Tears of Contrition
+829330711,Peacebond
+4094657108,Techeun Force
+3385326721,Reckless Oracle
+2753269585,Tempered Dynamo
+3107853529,Beloved
+2535142413,Edge of Action
+852228780,Uzume RR4 (Adept)
+852551895,Occluded Finality
+640114618,Tigerspite
+2481881293,Cartesian Coordinate
+2855157553,A Sudden Death
+3993415705,The Mountaintop
+1271343896,Widow's Bite
+174192097,CALUS Mini-Tool
+3281285075,Posterity
+2723909519,Arc Logic
+3183283212,Wendigo GL3
+3369545945,Temporal Clause
+1509167284,Blood Feud
+2712244741,Bygones
+528834068,BrayTech Werewolf
+3514144928,The Summoner (Adept)
+2475355656,Reed's Regret (Adept)
+3169616514,Bite of the Fox
+1289000550,PLUG ONE.1
+2351180975,Igneous Hammer
+2306182339,Wilderflight
+2164448701,Apostate
+495940989,Avalanche
+217140611,The Deicide
+2139640995,Hero of Ages
+2742490609,Death Adder
+2121785039,Brass Attacks
+1796949035,Razor's Edge
+2957367743,Toil and Trouble
+3658188704,The Messenger
+2708806099,BxR-55 Battler
+3813153080,Finite Impactor
+2778013407,Firefright
+3075224551,Threaded Needle
+981718087,Deafening Whisper
+4037745684,Bonechiller
+1399243961,Reed's Regret
+2257180473,Interference VI
+3512349612,Coriolis Force
+2108920981,Orewing's Maul
+3143732432,False Promises
+65611680,The Fool's Remedy
+4096943616,Explosive Personality
+3850168899,Martyr's Retribution
+1561006927,Seventh Seraph Carbine
+2217366863,Parcel of Stardust
+2221264583,Smite of Merain
+3105930175,Chain of Command
+2119346509,Ammit AR2
+3355385170,Silicon Neuroma
+2588048270,Spoiler Alert
+2513965917,Lunulata-4b
+4248569242,Heritage
+607191995,Hollow Words
+2349907931,Prolonged Engagement
+3326850591,The Long Walk
+4083045006,Persuader
+1248372789,Sweet Sorrow
+2988121501,Out of Bounds
+1723380073,Enigma's Draw
+3743729616,Shepherd's Watch
+2575506895,Kindled Orchid
+999767358,Cataclysmic
+1387987271,Silicon Neuroma (Adept)
+616582330,Cry Mutiny
+2817798849,Hoosegow XE5837
+1019000888,Perses-D
+1987769101,Praedyth's Revenge (Timelost)
+4077196130,Trust
+2362471600,Drang
+3454326177,Omniscient Eye
+2272041093,Fire and Forget
+1076810832,Forge's Pledge
+1738026524,Hailing Confusion
+3258665412,Trinary System
+3460122497,Imperial Needle
+2721157927,Tarnation
+2138599001,Optative
+2034817450,Distant Relation
+3245493570,Aisha's Embrace (Adept)
+3745990145,Long Shadow
+2276328320,Veles-X
+3653573172,Praedyth's Revenge
+1786797708,Escape Velocity
+4070357005,Seventh Seraph Carbine
+108221785,Riiswalker
+2272470786,Stochastic Variable
+821154603,Gnawing Hunger
+254636484,Nezarec's Whisper
+3242168339,Vouchsafe
+3103325054,Retrofit Escapade
+1449922174,Tatara Gaze
+1854753405,The Militia's Birthright
+1916287826,Boudica-C
+1854753404,Wendigo GL3
+276080079,Exile's Curse (Adept)
+2714022207,Corsair's Wrath
+136525518,Shining Sphere
+912150785,Mindbender's Ambition (Adept)
+4230993599,Steel Sybil Z-14
+1641430382,The Guiding Sight
+1621657423,Biting Winds
+906840740,Unwavering Duty
+1903182562,Blowout
+3637570176,Eye of Sol (Adept)
+1016668089,One Small Step
+2261046232,Jurassic Green
+2323544076,Hollow Denial
+1386601612,Swift Ride XE8375
+3356526253,Wishbringer
+2066434718,Canis Major
+676270382,Albruna-D
+3248429089,Qullim's Terminus (Harrowed)
+4009352833,Roar of the Bear
+1280933460,Claws of the Wolf
+1645386487,Tranquility
+1999697514,The Wizened Rebuke
+3164743584,Eye of Sol
+875848769,Borrowed Time
+2453357042,Blast Battue
+2220884262,The Steady Hand
+1644160541,Abide the Return
+946443267,Line in the Sand
+334171687,Waking Vigil
+1253087083,IKELOS_SR_v1.0.2
+2527666306,Igneous Hammer (Adept)
+407621213,Berenger's Memory
+2812100428,Stay Frosty
+1402766122,Retrofuturist
+3652506829,Stormchaser
+3407395594,Smite of Merain (Harrowed)
+1399109800,Fel Taradiddle
+603242241,Hammerhead
+2607304614,Empirical Evidence
+2263839058,The Epicurean
+188882152,Last Perdition
+2782847179,Blasphemer
+1687353095,Redback-5si
+2891672170,Xenoclast IV
+1697682876,Astral Horizon
+3799980700,Transfiguration
+4156253727,The Third Axiom
+2026087437,Lingering Dread
+3654674561,Dead Man's Tale
+3829285960,Horror Story
+2233545123,Fugue-55
+2060863616,Salvager's Salvo
+3428521585,Insidious
+2429822977,Austringer
+1179141605,Felwinter's Lie
+3565520715,Crowd Pleaser
+2171478765,Fatebringer
+1621558458,Gridskipper
+3573686365,Glacioclasm
+1952163498,Pluperfect
+1959650777,Bump in the Night
+820890091,Planck's Stride
+2870169846,Hailing Confusion
+372697604,Cantata-57
+4164201232,1000 Yard Stare
+1184309824,Sailspy Pitchglass
+1690783811,The Forward Path
+3216652511,Reckless Endangerment
+6857689,Annual Skate
+4095896073,Accrued Redemption
+421573768,The Spiteful Fang
+1107446438,Servant Leader
+3335343363,Tarantula
+1856262127,Something New
+3886416794,Submission
+4255171531,The Hothead
+2209003210,Zealot's Reward
+502356570,Drang (Baroque)
+3489657138,Palmyra-B
+4050645223,Hezen Vengeance
+3937866388,Seventh Seraph SI-2
+2782325301,Eternity's Edge
+1751893422,Disparity
+2782325300,Quickfang
+766323545,Seventh Seraph VY-7
+1096206669,IKELOS_SG_v1.0.2
+2782325302,Crown-Splitter
+3138208275,Liminal Vigil
+2807687156,Distant Tumulus
+3629968765,Negative Space
+601592879,Age-Old Bond
+2492081469,The Number
+79075821,Drang (Baroque)
+1357080535,Breath of the Dragon
+1789347249,Hazard of the Cast
+958384347,Tomorrow's Answer
+2490988246,CALUS Mini-Tool
+991314988,Bad Omens
+409551876,The Keening
+2591111628,Compass Rose
+3297863558,Twilight Oath
+1937552980,Doom of Chelchis
+14194600,Edge of Intent
+294129361,The Title
+216983039,Horror's Least
+432476743,The Palindrome
+1775804198,Galliard-42 XN7568
+2222560548,IKELOS_SMG_v1.0.2
+3110698812,Tarrabah
+1664372054,Threat Level
+2742838700,True Prophecy
+3325778512,A Fine Memorial
+2742838701,Dire Promise
+253196586,Main Ingredient
+208088207,Premonition
+654370424,Nation of Beasts
+3027844941,Erentil FR4
+1642384931,Fixed Odds
+4039572196,The Immortal
+2434225986,Shattered Cipher
+2050789284,Stars in Shadow
+548809020,Exalted Truth
+2931957300,Dream Breaker
+1321506184,Qullim's Terminus
+577528837,Contingency Plan
+2443900757,The Comedian (Adept)
+2481758391,Darkest Before
+3856705927,Hawkmoon
+3067821200,Heretic
+1924276978,Horror's Least (Adept)
+4023807721,Shayura's Wrath (Adept)
+927567426,Come to Pass
+3616586446,First In
+2563012876,Matador 64
+1706206669,Gallant Charge
+575830664,D.F.A.
+614426548,Falling Guillotine
+1298815317,Brigand's Law
+2821430069,Fortissimo-11
+2065081837,Uzume RR4
+1679868061,Wastelander M5
+532746994,Astral Horizon (Adept)
+2496242052,Code Duello
+2278995296,Does Not Compute
+1337707096,Chrysura Melo
+2827764482,Path of Least Resistance
+1972985595,Swarm of the Raven
+3393519051,Perfect Paradox
+711889599,Whistler's Whim (Adept)
+2869466318,BrayTech Werewolf
+3184681056,Fractethyst
+93253474,The Ringing Nail
+4190932264,Beloved
+4184808992,Adored
+2759251821,Unwavering Duty (Adept)
+3969066556,Midha's Reckoning
+1911060537,Taipan-4fr
+1921159786,Hezen Vengeance (Timelost)
+555148853,Wendigo GL3 (Adept)
+1251729046,Steelfeather Repeater
+235827225,Eyasluna
+1030895163,Glacioclasm
+580961571,Loaded Question
+1184692845,Doom of Chelchis (Harrowed)
+48643186,Ancient Gospel
+1967303408,Archon's Thunder
+3228096719,Defiance of Yasmin
+2408405461,Sacred Provenance
+1601177201,Enyo-D
+2386979999,The Scholar (Adept)
+1626503676,A Swift Verdict
+4019668921,Staccato-46
+3503019618,Defiance of Yasmin (Harrowed)
+1532276803,Allied Demand
+2671639706,Pure Poetry
+4146702548,Outrageous Fortune
+3849810018,Pardon Our Dust
+3669616453,Hoosegow
+1028582252,The Comedian
+3461377698,Baligant XU7743
+690668916,Vision of Confluence (Timelost)
+2653316158,Pillager
+1197486957,High Albedo
+2919334548,Imperial Decree
+3849444474,Tripwire Canary
+4114929480,Snorri FR5
+963710795,Aurvandil FR6
+1555959830,Seventh Seraph Officer Revolver
+2097055732,Piece of Mind
+1835747805,Nature of the Beast
+1280894514,Mechabre
+3055192515,Timelines' Vertex
+435216110,Duty Bound
+1141547457,Frontier's Cry
+1094005544,Mindbender's Ambition
+3920882229,Exalted Truth (Adept)
+396910433,Zephyr
+3568377122,Typhon GL5
+679281855,Exile's Curse
+3197270240,Found Verdict
+2856514843,Syncopation-53
+1731355324,IKELOS_HC_v1.0.3
+2488587246,The Hero's Burden
+2328531378,Lodbrok-C
+2715240478,Riptide
+2759590322,THE SWARM
+2638190703,Aisha's Embrace
+1366917989,Tomorrow's Answer (Adept)
+324382200,Breakneck
+1289324202,Pyroclastic Flow
+1907698332,The Summoner
+1780464822,New Purpose
+568515759,Chattering Bone
+1526296434,Forensic Nightmare
+3044460004,Iota Draconis
+346136302,Retold Tale
+4038592169,Forbearance (Adept)
+42351395,Subzero Salvo
+1481892490,The Palindrome (Adept)
+2422664927,Atalanta-D XG1992
+1119734784,Chroma Rush
+893527433,Far Future
+4124357815,The Epicurean
+1216319404,Fatebringer (Timelost)
+3738678140,Dead Weight
+1622998472,Vulpecula
+2448907086,Royal Entry
+297296830,Pointed Inquiry
+3904516037,Midha's Reckoning (Harrowed)
+3843477312,Blast Furnace
+1513993763,Friction Fire
+35794111,Temptation's Hook
+3102421004,Exalted Truth
+882778888,Rose
+47772649,THE SWARM
+2814093983,Cold Front
+3514096004,Eternal Blazon
+2338088853,Calusea Noblesse
+3593598010,The Time-Worn Spire
+2218569744,Tarnished Mettle
+3624844116,Unwavering Duty
+2531963421,No Reprieve
+3257091167,The Other Half
+3257091166,Half-Truths
+4281371574,Hung Jury SR4
+602618796,Scathelocke
+3341893443,Funnelweb
+1586231351,Mindbender's Ambition
+3233390913,Infinite Paths 8
+3175851496,Red Herring
+471518543,Corrective Measure
+3832743906,Hung Jury SR4
+4255586669,Empty Vessel
+3089417788,MIDA Mini-Tool
+2314999489,Imperative
+2943293195,Deliverance (Adept)
+2990047042,Succession
+1097616550,Extraordinary Rendition
+4100775158,Pizzicato-22
+686951703,The Supremacy
+617501162,Gallu RR3
+613334176,Forbearance
+3836861464,THE SWARM (Adept)
+3400256755,Zephyr
+1476654960,Judgment
+211938782,Whispering Slab
+3165143747,Whistler's Whim
+1392919471,Trustee
+8293111,Long Arm
+3504336176,Night Watch
+2302346155,IKELOS_SR_v1.0.3
+2006308129,D.F.A. (Adept)
+1994645182,Likely Suspect
+3366545721,Bequest
+2978226043,Judgment of Kelgorath
+2591241074,Strident Whistle
+1572896086,Recurrent Impact
+4020742303,Prophet of Doom
+786352912,Insidious (Adept)
+232928045,Under Your Skin
+3186018373,Vision of Confluence
+2496875173,Sorrow's Verse
+4074251943,Hung Jury SR4 (Adept)
+725408022,Ascendancy
+2857348871,Honor's Edge
+1168625549,IKELOS_SG_v1.0.3
+3870811754,Night Terror
+66875353,Avalanche
+4277547616,Every Waking Moment
+2185327324,The Inquisitor
+1173780905,The Messenger (Adept)
+1141927949,Yesteryear
+378498222,Punching Out
+2414141462,The Vision
+2345794502,Forgiveness
+3473290087,Frozen Orbit
+2566006935,Fioritura-59
+541188001,Farewell
+431721920,Zaouli's Bane
+540880995,Dark Decider
+1757129747,Acantha-D XK8434
+4148143418,Show of Force XF4865
+1574601402,Whistler's Whim
+4149758318,Traveler's Judgment 5
+507038823,The Last Breath
+1866778462,The Hothead (Adept)
+3865728990,Father's Sins
+1788603939,Herod-C
+3847137620,Sola's Scar (Adept)
+2653171213,Astral Horizon
+2653171212,The Inquisitor
+1167153950,Adhortative
+3409645497,Legal Action II
+534775659,PLUG ONE.1 (Adept)
+3434944005,Point of the Stag
+3796510434,Corrective Measure (Timelost)
+542203595,Edge of Concurrence
+1644680957,Null Composure
+1162247618,Jian 7 Rifle
+681067419,Hung Jury SR4 (Adept)
+291092617,Zaouli's Bane (Harrowed)
+3861448240,Emperor's Courtesy
+3717177717,Multimach CCX
+3690523502,Love and Death
+2307365,The Inquisitor (Adept)
+1478986057,Without Remorse
+2186258845,Bellowing Giant
+3165547384,Memory Interdict
+3751622019,Dead Man Walking XX7463
+2852052802,Krait
+2582755344,Seventh Seraph SAW
+20935540,Arctic Haze
+2603335652,Jurassic Green
+1941816543,Submission (Adept)
+1216130969,Cold Denial
+1931556011,No Feelings
+1851521408,Jararaca-3sr
+2326716489,Gunnora's Axe
+2194955522,Fixed Odds
+2378101424,The Militia's Birthright (Adept)
+548958835,Retraced Path
+792755504,Nightshade
+1766088024,Thermal Erosion
+3556999246,Pleiades Corrector
+487361141,Gunnora's Axe
+2633186522,Shadow Price
+1496419775,Bane of Sorrow
+2405619467,Forgiveness (Adept)
+310708513,Survivor's Epitaph
+1289997971,Breachlight
+933455006,Burden of Guilt
+1313528549,Sola's Scar
+1865351684,The Hero's Burden
+2342054803,Ogma PR6
+599895591,Sojourner's Tale
+2886339027,Cataclysmic (Adept)
+1506719573,Cold Front
+2199171672,Lonesome
+2723241847,Patron of Lost Causes
+2776503072,Royal Chase
+2149683300,IKELOS_SMG_v1.0.3
+2824241403,Bad News XF4354
+410996590,Jack Queen King 3
+3682803680,Shayura's Wrath
+1200824700,IKELOS_HC_v1.0.2
+40394833,The Militia's Birthright
+2002522739,Burden of Guilt (Adept)
+2595497736,The Enigma
+1135050595,Duty Bound (Adept)
+487205709,Terminus Horizon
+768621510,Deliverance
+3622137132,Last Hope
+4230965989,Commemoration
+1821724780,Seventh Seraph CQC-12
+720351795,Arsenic Bite-4b
+3037520408,Seventh Seraph Officer Revolver
+304659313,Ignition Code
+4166221755,Trophy Hunter
+2147010335,Shadow Price (Adept)
+525750263,Black Scorpion-4sr
+2721249463,Tyranny of Heaven
+3924212056,Loud Lullaby
+3635821806,Phyllotactic Spiral
+2573900604,Basso Ostinato
+1311684613,Dimensional Hypotrochoid
+484515708,Rufus's Fury
+2187717691,Circular Logic
+2034215657,Round Robin
+3920310144,Volta Bracket
+1289796511,Iterative Loop
+811403305,Synchronic Roulette
+1471212226,Acasia's Dejection
+522366885,Nessa's Oblation (Adept)
+1720503118,Royal Executioner
+2099894368,Battle Scar
+5159537,Senuna SI6
+2972949637,Koraxis's Distress
+2508948099,Caretaker
+2883684343,Hung Jury SR4 (Adept)
+135029084,Nessa's Oblation
+392008588,Perpetualis
+664109750,Hand in Hand
+268260373,Prodigal Return
+268260372,Regnant
+2890082420,Briar's Contempt (Adept)
+45643573,Raconteur
+1456017061,Nasreddin
+3493494807,Acasia's Dejection (Adept)
+1491665733,Briar's Contempt
+342514437,Rufus's Fury (Adept)
+495442100,Koraxis's Distress (Adept)
+867154247,Marsilion-C
+1986287028,Mykel's Reverence (Adept)
+1606497639,Harsh Language
+231031173,Mykel's Reverence
+2673925403,Irukandji
+355382946,Coronach-22
+1144014195,Dark Decider
+2074041946,Mindbender's Ambition (Adept)
+161675590,Whistler's Whim (Adept)
+2231910050,Roar of the Bear
+996109059,Nameless Midnight
+318443586,Imperial Decree
+3915197957,Wendigo GL3 (Adept)
+3166250992,Allied Demand
+411397829,Gunnora's Axe
+566740455,THE SWARM (Adept)
+2290416,The Wizened Rebuke
+825554997,The Inquisitor (Adept)
+3444632029,Unwavering Duty (Adept)
+3110377595,Autumn Wind
+213264394,Buzzard
+927835311,Buzzard (Adept)
+62937067,Jorum's Claw
+1705843397,Exalted Truth (Adept)
+3193598749,The Immortal (Adept)
+433905699,Swarm of the Raven
+854379020,Astral Horizon (Adept)
+3371413059,Throne-Cleaver
+3371413056,Death's Razor
+3371413057,Goldtusk
+2850664015,Trust
+4162642204,The Militia's Birthright (Adept)
+1403800851,Bite of the Fox
+1028124540,The Hero's Burden
+1389546626,Taraxippos
+3001205424,Ecliptic Distaff
+3796795102,The Messenger
+3559361670,The Title
+1125217994,New Pacific Epitaph
+839786290,Cold Comfort
+1851777734,Apex Predator
+3885259140,Transfiguration
+1757202961,Greasy Luck
+424291879,Age-Old Bond
+1141586039,Unexpected Resurgence (Adept)
+3591141932,Techeun Force
+4005780578,Unexpected Resurgence
+1123421440,Epochal Integration
+501329015,Chattering Bone
+3240434620,Something New
+2883484461,Until Its Return
+3125454907,Loaded Question
+4066778670,Thin Precipice
+1139727256,Just in Case
+4287947559,Last Man Standing
+3262192268,No Survivors
+3678653083,Old Sterling
+1081724548,Rapacious Appetite
+1106635211,Last Foray
+3667553455,BrayTech Osprey
+233896077,Compass Rose
+3292795429,Randy's Throwing Knife
+3236112986,Spare Rations
+1331824604,Combined Action
+1150492185,Sole Survivor
+3256453690,Crowning Duologue
+3221722018,Laser Painter
+222606050,Glissando-47
+1064132738,BrayTech Osprey (Adept)
+491078457,Positive Outlook
+3388655311,Tyranny of Heaven
+2832639510,Bug-Out Bag
+3890055324,Targeted Redaction
+542573208,Last Rite
+2914913838,Loaded Question (Adept)
+364665267,The Messenger (Adept)
+1678205741,Outlast
+2884596447,The Supremacy
+3016891299,Different Times
+1769847435,A Distant Pull
+1084190509,Pressurized Precision
+2073794990,Mercurial Overreach
+70083888,Nation of Beasts
+358788212,Psi Hermetic V
+1975125963,Qua Xaphan V
+874623537,Cataphract GL3 (Adept)
+3637669759,Geodetic HSm
+2779821308,Brya's Love
+267089201,Warden's Law (Adept)
+2767393525,Nox Perennial V
+781498181,Persuader
+1161561386,The Guiding Sight
+4132072834,Locus Locutus
+120706239,Word of Crota
+1098171824,Oversoul Edict
+2738601016,Cataphract GL3
+2922749929,Semiotician
+192784503,Pre Astyanax IV
+2828278545,Song of Ir Yût
+1948035256,Luna Regolith III
+3347946548,The Eremite
+1432682459,Fang of Ir Yût
+1296429091,Deadpan Delivery
+833898322,Abyss Defiant
+3337727085,Malediction
+105306149,Eleatic Principle
+496556698,Pre Astyanax IV (Adept)
+1999754402,The Showrunner
+3998080529,Heliocentric QSc
+888872889,Point of the Stag
+3163900678,Swordbreaker
+2510526114,Unending Tempest
+2314610827,Igneous Hammer (Adept)
+1974641289,Nightshade
+1875512595,Kept Confidence
+1973107014,Igneous Hammer
+1821529912,Warden's Law
+2188764214,Dead Man's Tale
+46125926,Dead Messenger
+128782990,Fang of Ir Yût (Adept)
+3871226707,Mechabre
+3926103986,Word of Crota (Adept)
+413901114,Acosmic
+578105049,Oversoul Edict (Adept)
+3103255595,Jurassic Green
+177568179,Horror Story
+3782662983,Abyss Defiant (Adept)
+1239700299,Swordbreaker (Adept)
+407511664,Song of Ir Yût (Adept)
+1447836603,Subjunctive
+2806569825,Naeem's Lance
+1612781792,Retrofuturist
+2817683783,Optative
+2558925366,Scatter Signal
+1911078836,Zephyr
+3926811686,Parabellum
+2140635451,Sleepless
+3668817296,Dragoncult Sickle
+2680976411,Albedo Wing
+2563668388,Scalar Potential
+2728851518,Glacioclasm
+3723679465,Waking Vigil
+92459755,Supercluster
+2045811635,Imperative
+2465372924,Tigerspite
+2313726158,Belisarius-D
+1501688142,Doomed Petitioner
+1151688091,Undercurrent
+355922321,Vouchsafe
+2421180981,Incisor (Adept)
+672957262,Undercurrent (Adept)
+3381450498,Indebted Kindness
+4220529694,Avalanche
+1719687748,Crux Termination IV
+4153087276,Appetence
+839344841,Vengeful Whisper
+250721843,Abide the Return
+3206190066,Cold Front
+2450917538,Uzume RR4
+1891321753,Stay Frosty
+1764868900,Riiswalker
+2026755633,Breakneck
+2189073092,Lethal Abundance
+2059255495,Eye of Sol (Adept)
+4233375372,Marcato-45
+3583275737,Ros Arago IV
+871900124,Retold Tale
+1874424704,Twilight Oath
+2993554824,Adhortative
+4248997900,Incisor
+105164264,Double-Edged Answer
+3710082365,Lethophobia
+3438139008,Chivalric Fire
+1891996599,Uzume RR4 (Adept)
+1401300690,Eye of Sol
+1820994983,The Summoner
+655712834,The Title
+657927352,Hullabaloo
+3007479950,Taraxippos
+3483591058,Prosecutor
+1013434963,Adjudicator
+1292594730,The Summoner (Adept)
+959037361,Wild Style (Adept)
+2969415423,Judgment
+2889501828,The Slammer
+3019024381,The Prophet (Adept)
+3211624072,Multimach CCX
+435821040,Darkest Before
+435821041,Relentless
+1332123064,Wild Style
+1218113510,Tusk of the Boar
+1354727549,The Slammer (Adept)
+1968410628,The Prophet
+4097972038,A Sudden Death
+241462141,Doom Fang Pauldron
+1886391430,Songbreaker Gloves

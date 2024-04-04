@@ -1,3 +1,50 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e5c9789f9101c8cae2e1fd55a14311e6e4d472eaf186ede28fef051e8a89b3b3
-size 1350
+{
+  "name": "np-app",
+  "version": "0.0.0",
+  "license": "MIT",
+  "angular-cli": {},
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "test": "ng test",
+    "pree2e": "webdriver-manager update --standalone false --gecko false",
+    "e2e": "protractor"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/common": "^14.0.4",
+    "@angular/compiler": "^14.0.4",
+    "@angular/core": "^14.0.4",
+    "@angular/forms": "^14.0.4",
+    "@angular/platform-browser": "^14.0.4",
+    "@angular/platform-browser-dynamic": "^14.0.4",
+    "@angular/router": "^14.0.4",
+    "angular": "^1.8.3",
+    "chokidar": "^3.5.3",
+    "core-js": "^3.23.3",
+    "rxjs": "^7.5.5",
+    "ts-helpers": "^1.1.2",
+    "urlsearchparams": "^0.1.1",
+    "webpack": "^4.46.0",
+    "webpack-dev-middleware": "^3.7.3",
+    "zone.js": "^0.11.6"
+  },
+  "devDependencies": {
+    "@angular/compiler-cli": "^14.0.4",
+    "@types/jasmine": "4.0.3",
+    "@types/node": "^18.0.0",
+    "angular-cli": "1.0.0-beta.22",
+    "codelyzer": "~6.0.2",
+    "jasmine-core": "4.2.0",
+    "jasmine-spec-reporter": "7.0.0",
+    "karma": "6.4.0",
+    "karma-chrome-launcher": "^3.1.1",
+    "karma-cli": "^2.0.0",
+    "karma-jasmine": "^5.1.0",
+    "karma-remap-istanbul": "^0.6.0",
+    "protractor": "~7.0.0",
+    "ts-node": "10.8.1",
+    "tslint": "^5.20.1",
+    "typescript": "^2.9.2"
+  }
+}

@@ -1,3 +1,3 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:51f750a67f54293d66a091a22ea8fc7667003fc85364e34a6c958f0fa4a7f353
-size 240
+[main] INFO edu.stanford.nlp.pipeline.StanfordCoreNLP - Adding annotator tokenize
+[main] INFO edu.stanford.nlp.pipeline.StanfordCoreNLP - Adding annotator parse
+[main] INFO edu.stanford.nlp.pipeline.StanfordCoreNLP - Adding annotator lemma

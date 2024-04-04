@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e43bcb330b0364475ac35a605508cb575013dd9d55907bb70fdc3462a4953283
-size 577
+import { Component, OnInit } from '@angular/core';
+import { AppComponent } from 'app/app.component';
+
+@Component({
+  selector: 'app-projects',
+  templateUrl: 'projects.component.html',
+  styleUrls: ['projects.component.css']
+})
+export class ProjectPageComponent implements OnInit {
+  file: File;
+  projectTitle: string;
+  title: string;
+
+  constructor() {
+    this.projectTitle = AppComponent.call("getProjectTitle");
+    this.title = 'Projects';
+    this.file = new File([], '../../../../../output/WishListScripted.txt');
+  }
+
+  ngOnInit() {
+    console.log(this.file);
+  }
+}

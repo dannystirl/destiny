@@ -1,3 +1,43 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:555a1d5973ad3b570ae92825d8d45030e36fbe8a6d7baf91f6db00e0090840c6
-size 1127
+// Karma configuration file, see link for more information
+// https://karma-runner.github.io/0.13/config/configuration-file.html
+
+module.exports = function (config) {
+  config.set({
+    basePath: '',
+    frameworks: ['jasmine', 'angular-cli'],
+    plugins: [
+      require('karma-jasmine'),
+      require('karma-chrome-launcher'),
+      require('karma-remap-istanbul'),
+      require('angular-cli/plugins/karma')
+    ],
+    files: [
+      { pattern: './src/test.ts', watched: false }
+    ],
+    preprocessors: {
+      './src/test.ts': ['angular-cli']
+    },
+    mime: {
+      'text/x-typescript': ['ts','tsx']
+    },
+    remapIstanbulReporter: {
+      reports: {
+        html: 'coverage',
+        lcovonly: './coverage/coverage.lcov'
+      }
+    },
+    angularCli: {
+      config: './angular-cli.json',
+      environment: 'dev'
+    },
+    reporters: config.angularCli && config.angularCli.codeCoverage
+              ? ['progress', 'karma-remap-istanbul']
+              : ['progress'],
+    port: 9876,
+    colors: true,
+    logLevel: config.LOG_INFO,
+    autoWatch: true,
+    browsers: ['Chrome'],
+    singleRun: false
+  });
+};

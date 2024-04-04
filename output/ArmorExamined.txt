@@ -1,3 +1,39 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:52dc0b4b5f9d494a1819642289e151d054a2ac23e185ff1bc73d9dca9d70c2b4
-size 2213
+id:"6917529780952683580" or id:"6917529974437556316"
+id:"6917529780952683580" : Eidolon Pursuant Pants (Warlock Leg Armor at 1810 power) > 
+id:"6917529974437556316" : Wyrmguard Boots (Warlock Leg Armor at 1800 power)
+
+id:"6917529780989550965" or id:"6917529974437556316"
+id:"6917529780989550965" : Eidolon Pursuant Pants (Warlock Leg Armor at 1810 power) > 
+id:"6917529974437556316" : Wyrmguard Boots (Warlock Leg Armor at 1800 power)
+
+id:"6917529804444663084" or id:"6917529901263369642"
+id:"6917529804444663084" : Deep Explorer Vestments (Warlock Chest Armor at 1810 power) > 
+id:"6917529901263369642" : Corrupting Echo Robes (Warlock Chest Armor at 1800 power)
+
+id:"6917529867796317124" or id:"6917529974437556316"
+id:"6917529867796317124" : Vigil of Heroes (Warlock Leg Armor at 1810 power) > 
+id:"6917529974437556316" : Wyrmguard Boots (Warlock Leg Armor at 1800 power)
+
+id:"6917529902655578716" or id:"6917529990213782677"
+id:"6917529902655578716" : Corrupting Echo Gloves (Warlock Gauntlets at 1800 power) > 
+id:"6917529990213782677" : Wyrmguard Gloves (Warlock Gauntlets at 1800 power)
+
+id:"6917529902672456301" or id:"6917529990213782677"
+id:"6917529902672456301" : Corrupting Echo Gloves (Warlock Gauntlets at 1810 power) > 
+id:"6917529990213782677" : Wyrmguard Gloves (Warlock Gauntlets at 1800 power)
+
+id:"6917529962403471061" or id:"6917529974437556316"
+id:"6917529962403471061" : Wyrmguard Boots (Warlock Leg Armor at 1800 power) > 
+id:"6917529974437556316" : Wyrmguard Boots (Warlock Leg Armor at 1800 power)
+
+id:"6917529974437555601" or id:"6917529990213788036"
+id:"6917529974437555601" : Wyrmguard Robe (Warlock Chest Armor at 1800 power) > 
+id:"6917529990213788036" : Techeun's Regalia Robes (Warlock Chest Armor at 1800 power)
+
+id:"6917529974440132942" or id:"6917529974437556316"
+id:"6917529974440132942" : Wyrmguard Boots (Warlock Leg Armor at 1800 power) > 
+id:"6917529974437556316" : Wyrmguard Boots (Warlock Leg Armor at 1800 power)
+
+Vault Spaces Saveable: 7
+DIM string for items to delete:      
+id:"6917529179857656252" or id:"6917529197317824109" or id:"6917529987704269653" or id:"6917529974437556316" or id:"6917529901263369642" or id:"6917529990213782677" or id:"6917529990213788036"

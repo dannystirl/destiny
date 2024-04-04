@@ -1,3 +1,8 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:03e6d65653414968996773dfa5fccf8cb165c855ded742bb789fc26dd0c74267
-size 137
+{
+  "ExpandedNodes": [
+    "",
+    "\\src"
+  ],
+  "SelectedNode": "\\src\\wishlistGenerator.java",
+  "PreviewInSolutionExplorer": false
+}

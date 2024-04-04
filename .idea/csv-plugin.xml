@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:18498d17424036989f615d06d7ff54e67123dfdf0fe482bd8ae303a492c56ae2
-size 638
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CsvFileAttributes">
+    <option name="attributeMap">
+      <map>
+        <entry key="\src\main\data\destiny\destinyArmorPastuleo.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\src\main\data\destiny\nameMapping.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
