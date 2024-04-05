@@ -162,47 +162,6 @@ public class WishlistGenerator implements AutoCloseable {
             }
         }
 
-        /*for (Map.Entry<Long, Item> item : itemList.entrySet()) {
-            // each value has a list of the original list position and the new list position
-            List<List<String>> listD = new ArrayList<>(item.getValue().getFullList(1));
-            Map<List<String>, Integer> mapPositions = new HashMap<>(); // original ordering. used to reorder the lists
-            List<List<String>> tempPerkList = new ArrayList<>();
-            List<List<String>> tempNoteList = new ArrayList<>();
-            List<List<String>> tempTagsList = new ArrayList<>();
-            List<List<String>> tempMWsList = new ArrayList<>();
-            for (int i = 0; i < listD.size(); i++) {k
-                mapPositions.put(listD.get(i), i);
-                tempPerkList.add(new ArrayList<>());
-                tempNoteList.add(new ArrayList<>());
-                tempTagsList.add(new ArrayList<>());
-                tempMWsList.add(new ArrayList<>());
-            }
-
-            listD.sort((List<String> o1, List<String> o2) -> {
-                // we only need to sort by getFullList(1) (the perkSet list), but since the order of perkSets will change, so will the order of notes etc., so the whole item needs to be sorted and then looped through
-                // compare getItemList(1) on each index, starting at the last index
-                for (int i = 0; i < Math.min(o1.size(), o2.size()); i++) {
-                    if (!o1.get(o1.size() - i - 1).equals(o2.get(o2.size() - i - 1))) {
-                        return o1.get(o1.size() - i - 1).compareTo(o2.get(o2.size() - i - 1));
-                    }
-                }
-                return o1.get(0).compareTo(o2.get(0));
-            });
-
-            for (int i = 0; i < listD.size(); i++) {
-                // map positions is the original map positions of items. should use this map to get values from fullLists 2..4
-                // listD is the sorted position of each item. value at index i (a perk list) should be the key for the original space in map positions
-                tempPerkList.set(i, item.getValue().getFullList(1).get(mapPositions.get(listD.get(i))));
-                tempNoteList.set(i, item.getValue().getFullList(2).get(mapPositions.get(listD.get(i))));
-                tempTagsList.set(i, item.getValue().getFullList(3).get(mapPositions.get(listD.get(i))));
-                tempMWsList.set(i, item.getValue().getFullList(4).get(mapPositions.get(listD.get(i))));
-            }
-            item.getValue().setFullList(1, tempPerkList);
-            item.getValue().setFullList(2, tempNoteList);
-            item.getValue().setFullList(3, tempTagsList);
-            item.getValue().setFullList(4, tempMWsList);
-        }*/
-
         /*
          * TODO - Would love to add a second sort here to organize by notes again (happens to be how it's sorted without the above sorting method) to reduce output file size.
          * Ideally by size of note so the ones with more information (generally the ones that lists had originally) would be at the top of the list, and therefor easier to see in dim.
@@ -468,19 +427,17 @@ public class WishlistGenerator implements AutoCloseable {
                 currentMWsFull = itemRoll.getMWList();
                 // NOTES
                 System.out.print("//notes:");
-                for (String note : currentNoteFull) {
-                    if (!note.equals("")) {
-                        // reverse the outlier changes made earlier
-                        note = note.replace("lightggg", "light.gg");
-                        note = note.replace("elipsez", "...");
-                        note = note.replace("v30", "3.0");
-                        // format note
-                        note = Formatters.noteFormatter(note);
-                        // TODO: Probably a good point to add a summarizer (If I ever get around to it)
-                        System.out.print(summarizer.sentenceAnalyzerUsingFrequency(note));
-                        //System.out.print(note);
-                        System.out.print(". ");
+                for (int i = 0; i < currentNoteFull.size(); i++) {
+                    if (!currentNoteFull.get(i).equals("")) {
+                        currentNoteFull.set(i, Formatters.noteFormatter(currentNoteFull.get(i)));
                     }
+                }
+                if (!currentNoteFull.isEmpty() && !currentNoteFull.equals(List.of(""))) {
+                    String summarizedNote = summarizer.sentenceAnalyzerUsingFrequency(String.join(". ", currentNoteFull) + ". ");
+                    summarizedNote = summarizedNote.replace("lightggg", "light.gg");
+                    summarizedNote = summarizedNote.replace("elipsez", "...");
+                    summarizedNote = summarizedNote.replace("v30", "3.0");
+                    System.out.print((summarizedNote + " ").replaceAll("  ", " "));
                 }
                 // MWS
                 if (!itemRoll.getMWList().isEmpty()) {
@@ -635,11 +592,11 @@ public class WishlistGenerator implements AutoCloseable {
                 String formattedNote = "";
                 if (matcher.matches()) {
                     // MW
-                    String[] noteMwlist = matcher.group().split(mwRegex)[1].split("[^\\x00-\\x7F]");
-                    formattedMW = Formatters.noteFormatter(noteMwlist[0]);
+                    String[] noteMwList = matcher.group().split(mwRegex)[1].split("[^\\x00-\\x7F]");
+                    formattedMW = Formatters.noteFormatter(noteMwList[0]);
                     // Note
-                    if (noteMwlist.length > 1) {
-                        formattedNote = Formatters.noteFormatter(noteMwlist[1]);
+                    if (noteMwList.length > 1) {
+                        formattedNote = Formatters.noteFormatter(noteMwList[1]);
                     }
                 } else {
                     formattedNote = Formatters.noteFormatter(mwToFormat);

@@ -79,6 +79,9 @@ public class Summarizer {
      * @return String
      */
     public String sentenceAnalyzerUsingFrequency(String text) {
+        if (text.length() < 30) {
+            return text;
+        }
         if (summarizedTexts.containsKey(text)) {
             return summarizedTexts.get(text);
         }

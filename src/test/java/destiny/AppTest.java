@@ -211,6 +211,13 @@ public class AppTest {
         assert text.length() > analyzedText.length();
     }
 
+    @Test
+    public void testFrequencySummarizerLarge() throws FileNotFoundException {
+        String text = "First-choice PvE pick for burst damage against Major spec enemies, or fallback damage against Boss spec in end-game content. Scatter Signal is perhaps one of the best weapons for burst damage as at v7. 3.0. 5 - great all-round stats as well as offering excellent trait combinations. Controlling recoil, with nine bolts, is important, as is snappiness - Arrowhead Brake helps tidy up recoil direction, but you might consider Fluted Barrel for the combination of handling and stability instead. Enhanced Battery gives the same number of charges (8) as Ionized so, with one eye on Overflow, maximises the battery size. Enhanced Overflow will take your battery to 18 charges - you'll have one left in reserve. Adding two Reserve mods takes this to three reserve shots, and with Overflow topping up the battery, for just picking up an ammo brick, you might never need to reload. Controlled Burst reduces charge time to 414 and boosts damage by 20% for hitting all your bolts. The Dragon's Vengeance origin trait can be useful, although it only procs once your health bar turns red or an ally dies. You'll get a reload and 11s of a boost to range and either charge rate or handling. Oh hey, a new strand fusion rifle. Will Scatter Signal be better than Pressurized Precision? Well neither are great as Strand fusion rifles. But for a Kinetic fusion rifle I think Scatter Signal rivals and possibly beats out Riptide for best in slot fusion. Overflow and Controlled Burst for added damage throughout the magazine. Youll only need one magazine booster to hit the fusion cap of 8 shots or you can opt for an even faster firing fusion with Accelerated Coils. Overflow will double your magazine capacity giving you 16 shots, 15 of which will have an extra 20% damage increase. If you opt for Extended Battery for the 16 total shots you can slot in Major or Boss spec for an additional 7. 77% damage to every shot. ";
+        String analyzedText = new Summarizer(new PrintStream(new FileOutputStream(FileDescriptor.out))).sentenceAnalyzerUsingFrequency(text);
+        assert text.length() > analyzedText.length();
+    }
+
     /**
      * Method to test getting content from a url
      *
