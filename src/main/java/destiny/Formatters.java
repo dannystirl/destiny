@@ -20,7 +20,7 @@ public class Formatters {
     LineDataParsers lineDataParsers;
     BungieDataParsers bungieDataParsers;
 
-    Formatters(App.RunType runType) throws FileNotFoundException {
+    Formatters(App.RunType runType) {
         this.runType = runType;
         this.outputStream = defaultPrintStream;
         this.errorStream = defaultPrintStream;
@@ -102,7 +102,7 @@ public class Formatters {
         }
         Matcher matcher = Pattern.compile("Inspired by.*?(\\.[^A-Za-z0-9])", Pattern.CASE_INSENSITIVE).matcher(note);
         note = matcher.replaceAll("");
-        List<String> creators = List.of("(\\[YeezyGT)[^\\]]*\\]\\s*", "pandapaxxy\\s*", "Mercules904\\s*", "Chevy.*[(\\.)(\\-)]\\s*", "Shapeable.", "Clegmir\\s*", "SirStallion_\\s*");
+        List<String> creators = List.of("(\\[YeezyGT)[^\\]]*\\]\\s*", "pandapaxxy\\s*", "Mercules904\\s*", "Chevy.*[(\\.)(\\-)]\\s*", "Shapeable.", "Clegmir\\s*", "SirStallion_\\s*", "\\(\\?+  \\?+\\)\\: ");
         for (String creator : creators) {
             matcher = Pattern.compile(creator, Pattern.CASE_INSENSITIVE).matcher(note);
             note = matcher.replaceAll("");
@@ -153,6 +153,11 @@ public class Formatters {
 
     /**
      * PRINTING WISHLIST
+     * <p>
+     * Some rules for exporting to DIM:
+     * 1. DIM auto-sorts items by notes, generally grouping by tags
+     * 2. Rolls with normal perks will be auto-added as enhanced perks too, but not vice versa
+     * 3. If there is more than one roll for an item, DIM will show all versions of that roll, breaking the auto-sort by notes
      */
     public void printWishlist() throws FileNotFoundException {
         System.setOut(outputStream);
@@ -178,7 +183,7 @@ public class Formatters {
                 }
             }
             for (Long k : keysList) {
-                printWishlistInner(item, k);
+                printWishlistItem(item, k);
             }
         }
         // reset output to console
@@ -194,7 +199,7 @@ public class Formatters {
      * @param item the original item to compare to
      * @param key  the item id to check for similarity from
      */
-    public void printWishlistInner(Map.Entry<Long, Item> item, Long key) throws FileNotFoundException {
+    public void printWishlistItem(Map.Entry<Long, Item> item, Long key) throws FileNotFoundException {
         List<Roll> itemRollList = item.getValue().getRollList();
         List<String> currentNoteFull = new ArrayList<>();
         List<String> currentTagsFull = new ArrayList<>();
@@ -232,7 +237,7 @@ public class Formatters {
                     summarizedNote = summarizedNote.replace("lightggg", "light.gg");
                     summarizedNote = summarizedNote.replace("elipsez", "...");
                     summarizedNote = summarizedNote.replace(" v30 ", " 3.0 ");
-                    System.out.print((summarizedNote + " ").replaceAll("  ", " "));
+                    System.out.print((summarizedNote + " ").replaceAll(" {2}", " "));
                 }
                 // MWS
                 if (!itemRoll.getMWList().isEmpty()) {

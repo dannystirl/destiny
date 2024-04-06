@@ -39,11 +39,10 @@ public class AppTest {
     static LineDataParsers lineDataParsers;
     static BungieDataParsers bungieDataParsers;
 
-    public static final String wishlistTSourceFileName = "input//CustomDestinyWishList.txt";
-    public static final String errorOutputFileName = WishlistGenerator.errorOutputFileName;
+    public static final String wishlistOutputFileName = "output//WishListScriptedTest.txt";
 
     @Before
-    public void setup() throws FileNotFoundException {
+    public void setup() {
         System.setOut(Formatters.defaultPrintStream);
         System.setErr(Formatters.defaultPrintStream);
         lineDataParsers = new LineDataParsers(App.RunType.TEST);
@@ -97,12 +96,12 @@ public class AppTest {
         reader.readLine(); // skip the header line
         while (reader.ready()) {
             String item = reader.readLine();
-            BungieDataParsers.itemMatchingList.put(item.split(",")[0], item.split(",")[1]);
+            BungieDataParsers.enhancedPerkList.put(item.split(",")[0], item.split(",")[1]);
             BungieDataParsers.checkedItemList.add(item.split(",")[0]);
             BungieDataParsers.checkedItemList.add(item.split(",")[1]);
         }
-        assertFalse(BungieDataParsers.itemMatchingList.containsKey("From"));
-        assertFalse(BungieDataParsers.itemMatchingList.containsValue("TO"));
+        assertFalse(BungieDataParsers.enhancedPerkList.containsKey("From"));
+        assertFalse(BungieDataParsers.enhancedPerkList.containsValue("TO"));
         reader.close();
         // delete the file src/test/data/destiny/mapTest.csv
         if (file.exists()) {
@@ -110,7 +109,6 @@ public class AppTest {
         }
         System.out.printf("Test %s passed%n", new Object() {
         }.getClass().getEnclosingMethod().getName());
-
     }
 
     /**
@@ -245,7 +243,7 @@ public class AppTest {
     @Test
     @Experimental
     public void testArmor() throws Exception {
-        BufferedReader br = new BufferedReader(new FileReader(wishlistTSourceFileName));
+        BufferedReader br = new BufferedReader(new FileReader(WishlistGenerator.wishListCSourceFileName));
         String line;
         while ((line = br.readLine()) != null) {
             if (line.split(":")[0].equals("dimwishlist")) {

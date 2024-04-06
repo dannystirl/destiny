@@ -137,10 +137,10 @@ public class LineDataParsers {
         try {
             // BASIC TAGS
             String itemType = "pv[pe]|m.?kb|controller|gambit";
-            Pattern pattern = Pattern.compile("\\((" + itemType + ")(\\s*[\\/\\s\\\\]+\\s*(" + itemType + "))*\\)(\\:\\s*)*", Pattern.CASE_INSENSITIVE); // tags in parentheses
+            Pattern pattern = Pattern.compile("\\((" + itemType + ")(\\s*[/\\s\\\\]+\\s*(" + itemType + "))*\\)(:\\s*)*", Pattern.CASE_INSENSITIVE); // tags in parentheses
             Matcher matcher = pattern.matcher(notes);
             while (matcher.find()) {
-                String[] tagArray = matcher.group().replace("(", "").replaceAll("\\):\\s*", "").split("\\s*[\\/\\s\\\\]+\\s*");
+                String[] tagArray = matcher.group().replace("(", "").replaceAll("\\):\\s*", "").split("\\s*[/\\s\\\\]+\\s*");
                 for (String tag : tagArray) {
                     tag = Formatters.tagFormatter(tag).toLowerCase();
                     if (!tags.contains(tag)) {
@@ -152,7 +152,7 @@ public class LineDataParsers {
             pattern = Pattern.compile("\\|*tags:.*", Pattern.CASE_INSENSITIVE); // tags at end of noteList
             matcher = pattern.matcher(notes);
             while (matcher.find()) {
-                String[] strArray = matcher.group().toLowerCase().split("tags:\\s*")[1].split("\\,");
+                String[] strArray = matcher.group().toLowerCase().split("tags:\\s*")[1].split(",");
                 for (String str : strArray) {
                     str = Formatters.tagFormatter(str).toLowerCase();
                     if (!tags.contains(str)) {
@@ -227,7 +227,7 @@ public class LineDataParsers {
                     roll.addTag(tag);
                 }
             }
-            for (String tag : note.split("\\|*tags:")[1].split("\\s*\\,\\s*")) {
+            for (String tag : note.split("\\|*tags:")[1].split("\\s*,\\s*")) {
                 tag = Formatters.tagFormatter(tag);
                 if (!roll.getTagList().contains(tag)) {
                     roll.addTag(tag);
@@ -246,9 +246,9 @@ public class LineDataParsers {
             note = note.replace("light.gg", "lightggg");
             note = note.replace("...", "elipsez");
             note = note.replace(" 3.0 ", " v30 ");
-            String mwRegex = "(Recommended\\s|\\[){1,25}MW((\\:\\s)|(\\s\\-\\s))";
+            String mwRegex = "(Recommended\\s|\\[){1,25}MW((:\\s)|(\\s-\\s))";
             Pattern pattern = Pattern.compile(String.format("%s[^\\.\\|\\n]*", mwRegex), Pattern.CASE_INSENSITIVE);
-            for (String sentence : note.split("\\.\\s+|\"\\s*|\\]")) {
+            for (String sentence : note.split("\\.\\s+|\"\\s*|]")) {
                 // Format note
                 Matcher matcher = pattern.matcher(sentence);
                 String formattedMW = "";

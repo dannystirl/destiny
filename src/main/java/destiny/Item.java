@@ -121,7 +121,8 @@ class Roll {
     }
 
     Roll(List<String> perks, List<String> notes, List<String> tags, List<String> mw) {
-        perkList = perks;
+        // TRANSLATE ENHANCED TO NORMAL PERKS
+        perkList = BungieDataParsers.convertEnhancedPerksToNormal(perks);
         noteList = notes;
         tagList = tags;
         mwList = mw;

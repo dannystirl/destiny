@@ -27,9 +27,11 @@ public class WishlistGenerator implements AutoCloseable {
     static BungieDataParsers bungieDataParsers;
 
     public static final String wishlistOutputFileName = "output//WishListScripted.txt";
+    public static final String wishlistOutputTestFileName = "output//WishListScriptedTest.txt";
     public static final String errorOutputFileName = "bin//errors.txt";
     public static final String enhancedMappingFileName = "src//main//data//destiny//enhancedMapping.csv";
     public static final String nameMappingFileName = "src//main//data//destiny//nameMapping.csv";
+    public static final String wishListCSourceFileName = "input//CustomDestinyWishlist.txt";
     public static final String wishlistDSourceFileName = "input//CompleteDestinyWishList.txt";
     public static final String wishlistDSourceUrlName = "https://raw.githubusercontent.com/48klocs/dim-wish-list-sources/master/voltron.txt";
 
@@ -44,7 +46,11 @@ public class WishlistGenerator implements AutoCloseable {
         // Create the error file and output file
         try {
             errorOutputFile = new PrintStream(errorOutputFileName);
-            scriptedWishlistFile = new PrintStream(wishlistOutputFileName);
+            if (runType == App.RunType.TEST) {
+                scriptedWishlistFile = new PrintStream(wishlistOutputTestFileName);
+            } else {
+                scriptedWishlistFile = new PrintStream(wishlistOutputFileName);
+            }
         } catch (FileNotFoundException e) {
             System.out.println("Error creating error file: " + e);
             throw new FileNotFoundException();
@@ -55,7 +61,7 @@ public class WishlistGenerator implements AutoCloseable {
             reader.readLine(); // skip the header line
             while (reader.ready()) {
                 String item = reader.readLine();
-                BungieDataParsers.itemMatchingList.put(item.split(",")[0], item.split(",")[1]);
+                BungieDataParsers.enhancedPerkList.put(item.split(",")[0], item.split(",")[1]);
                 BungieDataParsers.checkedItemList.add(item.split(",")[0]);
                 BungieDataParsers.checkedItemList.add(item.split(",")[1]);
             }
@@ -72,7 +78,7 @@ public class WishlistGenerator implements AutoCloseable {
                 Formatters.errorPrint("Unable to save listGenerators.itemMatchingList to .\\data", er);
             }
         }
-        Map<String, String> originalItemMatchingList = BungieDataParsers.itemMatchingList.entrySet().stream().collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+        Map<String, String> originalEnhancedMappingList = BungieDataParsers.enhancedPerkList.entrySet().stream().collect(Collectors.toMap(Entry::getKey, Entry::getValue));
 
         // Try to read in item -> name mappings
         try (BufferedReader reader = new BufferedReader(
@@ -97,7 +103,7 @@ public class WishlistGenerator implements AutoCloseable {
                 Formatters.errorPrint("Unable to save itemNamingList to .\\data", er);
             }
         }
-        Map<String, String> originalItemNamingList = BungieDataParsers.itemMatchingList.entrySet().stream().collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+        Map<String, String> originalItemNamingList = BungieDataParsers.itemNamingList.entrySet().stream().collect(Collectors.toMap(Entry::getKey, Entry::getValue));
 
         Unirest.config().reset();
         Unirest.config().connectTimeout(5000).socketTimeout(5000).concurrency(10, 5);
@@ -106,7 +112,7 @@ public class WishlistGenerator implements AutoCloseable {
         bungieDataParsers = new BungieDataParsers(runType);
 
         try {
-            br = new BufferedReader(new FileReader("input//CustomDestinyWishlist.txt"));
+            br = new BufferedReader(new FileReader(wishListCSourceFileName));
             loopRead(br);
         } catch (FileNotFoundException e) {
             Formatters.errorPrint("Error reading custom wishlist file", e);
@@ -129,25 +135,13 @@ public class WishlistGenerator implements AutoCloseable {
 
         // SORTING ITEMS
         lineDataParsers.wantedItemList = new ItemSorter(runType).sortItems(lineDataParsers.wantedItemList);
-
-        /*
-         * TODO - Would love to add a second sort here to organize by notes again (happens to be how it's sorted without the above sorting method) to reduce output file size.
-         * Ideally by size of note so the ones with more information (generally the ones that lists had originally) would be at the top of the list, and therefor easier to see in dim.
-         * This would also put anything without notes (usually just collections of perks) at the bottom.
-         *
-         * However, you can't sort by note list here because notes aren't unique entries so there's no way to map them back to the original list
-         *
-         * Alternatively, I could also sort inversely by the number of perk-sets under each note to achieve a similar affect.
-         * Would need to see this in action BUT I'm not even sure I need to do this since dim already does this.
-         * It would really just be for a minor file size reduction.
-         */
         new Formatters(runType).withStreams(scriptedWishlistFile, errorOutputFile).withData(lineDataParsers).printWishlist();
 
-        // Print the itemMatchingList to a file, so I don't need to call HTTP.GET every time I run the script
+        // Print the enhancedPerkList to a file, so I don't need to call HTTP.GET every time I run the script
         String eol = System.getProperty("line.separator");
         try (Writer writer = new FileWriter(enhancedMappingFileName, true)) {
-            for (Map.Entry<String, String> entry : BungieDataParsers.itemMatchingList.entrySet()) {
-                if (!(originalItemMatchingList.containsKey(entry.getKey()) && originalItemMatchingList.get(entry.getKey()).equals(entry.getValue()))) {
+            for (Map.Entry<String, String> entry : BungieDataParsers.enhancedPerkList.entrySet()) {
+                if (!(originalEnhancedMappingList.containsKey(entry.getKey()) && originalEnhancedMappingList.get(entry.getKey()).equals(entry.getValue()))) {
                     writer.append(entry.getKey())
                             .append(',')
                             .append(entry.getValue())
@@ -161,7 +155,7 @@ public class WishlistGenerator implements AutoCloseable {
         // Print the itemNamingList to a file so I don't need to call HTTP.GET every time I run the script
         // TODO - First in Last out is adding an extra column to the name. Github copilot gave a reason (csv reader issue) but im not sure it's actually correct
         try (Writer writer = new FileWriter(nameMappingFileName, true)) {
-            for (Map.Entry<String, String> entry : BungieDataParsers.itemMatchingList.entrySet()) {
+            for (Map.Entry<String, String> entry : BungieDataParsers.itemNamingList.entrySet()) {
                 if (!(originalItemNamingList.containsKey(entry.getKey()) && originalItemNamingList.get(entry.getKey()).equals(entry.getValue()))) {
                     writer.append(entry.getKey())
                             .append(',')
@@ -214,13 +208,11 @@ public class WishlistGenerator implements AutoCloseable {
                     long itemId = Long.parseLong(line.substring(startKey).split("&")[0].split("#")[0]);
                     if (runType == App.RunType.TEST) {
                         // Update to check specific item if runType == test
-                        if (itemId != 3407395594L) {
+                        if (itemId != 431721920L) {
                             break;
                         }
                     }
                     Item returnItem = lineDataParsers.lineParser(bungieDataParsers.convertItemToNonAdept(itemId), line, currentNote, ignoreItem);
-                    // TRANSLATE  ADEPT TO NORMAL
-                    returnItem.addRoll(new Roll(BungieDataParsers.convertEnhancedPerksToNormal(returnItem.getRollList().get(0).getPerkList())));
                     // ADD ITEM TO APPROPRIATE WANTED LIST
                     lineDataParsers.addItemToWantedList(returnItem);
                     break;

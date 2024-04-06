@@ -8,8 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileDescriptor;
-import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,9 +18,13 @@ public class BungieDataParsers {
 
     App.RunType runType;
 
-    public static Map<String, String> itemMatchingList = new HashMap<>(); // todo: this is printing duplicate values. probably need a second list that tracks which values were added while running, and then only print those values
+    // Map the IDs of Enhanced || 1.0 Perks -> Normal Perks
+    public static Map<String, String> enhancedPerkList = new HashMap<>(); // todo: this is printing duplicate values. probably need a second list that tracks which values were added while running, and then only print those values
+    // Map the IDs of Adept Items -> Normal Items
     public static Map<Long, Long> adeptMatchingList = new HashMap<>(); // todo: this is printing duplicate values. probably need a second list that tracks which values were added while running, and then only print those values
+    // Map the IDs of Items -> Name
     public static Map<String, String> itemNamingList = new HashMap<>(); // todo: this is printing duplicate values. probably need a second list that tracks which values were added while running, and then only print those values
+    // List of Items that have been checked for their normal version
     public static List<String> checkedItemList = new ArrayList<>();
 
     public static final String bungieItemSearchUrl = "https://www.bungie.net/Platform/Destiny2/Armory/Search/DestinyInventoryItemDefinition/{searchTerm}/";
@@ -76,8 +78,8 @@ public class BungieDataParsers {
      */
     public String getName(Long itemId, PrintStream currentPrintStream) throws UnirestException, AssertionFailedError {
         String hashIdentifier = itemId.toString();
-        if (itemMatchingList.containsKey(hashIdentifier)) {
-            return itemMatchingList.get(hashIdentifier);
+        if (itemNamingList.containsKey(hashIdentifier)) {
+            return itemNamingList.get(hashIdentifier);
         } else {
             try {
                 JSONObject itemDefinition = bungieItemDefinitionJSONObject(hashIdentifier);
@@ -134,7 +136,7 @@ public class BungieDataParsers {
     }
 
     /**
-     * TRANSLATE  https://www.light.gg/db/all/?page=1&f=4(3),10(Trait)  TO  https://www.light.gg/db/all/?page=1&f=4(2),10(Trait)
+     * TRANSLATE  <a href="https://www.light.gg/db/all/?page=1&f=4(3),10(Trait)">...</a>  TO  <a href="https://www.light.gg/db/all/?page=1&f=4(2),10(Trait)">...</a>
      *
      * @param enhancedPerkList - List of enhanced perks to convert to normal perks
      * @return List<String> of normal perks
@@ -154,15 +156,17 @@ public class BungieDataParsers {
                     Formatters.errorPrint("HTTP Error", e);
                 }
             }
-            // if itemMatchingList contains itemPerkList.get(i), set tempPerkList to the itemMatchingList (convert dead / incorrect perks to the correct / normal version)
-            if (itemMatchingList.containsKey(enhancedPerkList.get(i))) {
-                tempPerkList.set(i, itemMatchingList.get(enhancedPerkList.get(i)));
+            // if enhancedPerkList contains itemPerkList.get(i), set tempPerkList to the itemMatchingList (convert dead / incorrect perks to the correct / normal version)
+            if (BungieDataParsers.enhancedPerkList.containsKey(enhancedPerkList.get(i))) {
+                tempPerkList.set(i, BungieDataParsers.enhancedPerkList.get(enhancedPerkList.get(i)));
             }
         }
         return tempPerkList;
     }
 
     /**
+     * Check a perk to see if it has an enhanced version
+     *
      * @param hashIdentifier - the hash of the perk to be checked
      */
     public static void checkPerk(String hashIdentifier) {
@@ -172,7 +176,6 @@ public class BungieDataParsers {
         } catch (Exception e) {
             // For some reason the api doesn't work for the values in here, so I'm just gonna hard code it and ignore the error
             // this really should only occur once for each hashIdentifier
-            Formatters.errorPrint(hashIdentifier + " is not hard coded", e);
         }
 
         JSONObject itemDefinition = bungieItemDefinitionJSONObject(hashIdentifier);
@@ -190,9 +193,9 @@ public class BungieDataParsers {
                 }
             }
         }
-        // add entry to itemMatchingList at key
+        // add entry to enhancedPerkList at key
         if (enhanced != null) {
-            itemMatchingList.put(enhanced.toString(), normal.toString());
+            enhancedPerkList.put(enhanced.toString(), normal.toString());
             checkedItemList.add(enhanced.toString());
         }
         if (normal != null) {
@@ -200,7 +203,7 @@ public class BungieDataParsers {
             // TODO - this probably removes a lot of the edge cases, so maybe go through and remove them?
             checkedItemList.add(hashIdentifier);
             if (enhanced == null) {
-                itemMatchingList.put(hashIdentifier, normal.toString());
+                enhancedPerkList.put(hashIdentifier, normal.toString());
             }
         }
     }
@@ -210,12 +213,14 @@ public class BungieDataParsers {
      */
 
     /**
-     * Helper method because some stuff in the api isn't matching up this seems
-     * to be mostly accurate except for frames that were turned into perks (ex.
-     * Disruption Break) have more than two entries high impact reserves and
-     * Ambitious Assassin also seems to have an issue (only returning one
-     * value), but I think that's more an issue with the api, not my code. Some
-     * of these values could be removed now? (Stuff with only two entries) since
+     * Helper method because some stuff in the api isn't matching up
+     * <p>
+     * This seems to be mostly accurate except for frames that were turned into perks because they have more than two entries.
+     * (ex. Disruption Break)
+     * There's a separate issue with a few perks (ex. High Impact Reserves and Ambitious Assassin)
+     * that are only returning one value, but I think that's more an issue with the api, not my code.
+     * <p>
+     * Some of these values could be removed now? (Stuff with only two entries) since
      * I changed some stuff in the checkPerk() method
      *
      * @param perk - the perk to be checked
@@ -225,56 +230,56 @@ public class BungieDataParsers {
         switch (perk) {
             case "3528046508": {
                 // Auto-Loading Holster
-                itemMatchingList.put("3528046508", "3300816228");
+                enhancedPerkList.put("3528046508", "3300816228");
                 checkedItemList.add("3528046508");
                 checkedItemList.add("3300816228");
                 break;
             }
             case "2717805783": {
                 // Moving Target
-                itemMatchingList.put("2717805783", "588594999");
+                enhancedPerkList.put("2717805783", "588594999");
                 checkedItemList.add("2717805783");
                 checkedItemList.add("588594999");
                 break;
             }
             case "2014892510": {
                 // Perpetual Motion (Has E in the name)
-                itemMatchingList.put("2014892510", "1428297954");
+                enhancedPerkList.put("2014892510", "1428297954");
                 checkedItemList.add("2014892510");
                 checkedItemList.add("1428297954");
                 break;
             }
             case "288411554": {
                 // Rampage (Duplicate in API)
-                itemMatchingList.put("288411554", "3425386926");
+                enhancedPerkList.put("288411554", "3425386926");
                 checkedItemList.add("288411554");
                 checkedItemList.add("3425386926");
                 break;
             }
             case "1523649716": {
                 // Tap the Trigger
-                itemMatchingList.put("1523649716", "1890422124");
+                enhancedPerkList.put("1523649716", "1890422124");
                 checkedItemList.add("1523649716");
                 checkedItemList.add("1890422124");
                 break;
             }
             case "3797647183": {
                 // Ambitious Assassin
-                itemMatchingList.put("3797647183", "2010801679");
+                enhancedPerkList.put("3797647183", "2010801679");
                 checkedItemList.add("3797647183");
                 checkedItemList.add("2010801679");
                 break;
             }
             case "2002547233": {
                 // High-Impact Reserves
-                itemMatchingList.put("2002547233", "2213355989");
+                enhancedPerkList.put("2002547233", "2213355989");
                 checkedItemList.add("2002547233");
                 checkedItemList.add("2213355989");
                 break;
             }
             case "494941759": {
                 // Threat Detector
-                itemMatchingList.put("494941759", "4071163871");
+                enhancedPerkList.put("494941759", "4071163871");
                 checkedItemList.add("494941759");
                 checkedItemList.add("4071163871");
                 break;
@@ -284,8 +289,8 @@ public class BungieDataParsers {
             }
             case "25606670": {
                 // Dual Loader (I really only want the enhanced version and this seems much simpler than making a lot of changes to the code)
-                itemMatchingList.put("25606670", "3143051906");
-                itemMatchingList.put("3143051906", "3143051906");
+                enhancedPerkList.put("25606670", "3143051906");
+                enhancedPerkList.put("3143051906", "3143051906");
                 checkedItemList.add("25606670");
                 checkedItemList.add("3143051906");
                 break;
@@ -298,8 +303,8 @@ public class BungieDataParsers {
             }
             case "2396489472": {
                 // Chain Reaction (Comes up as sandbox perk)
-                itemMatchingList.put("598607952", "2396489472");
-                itemMatchingList.put("3076459908", "2396489472");
+                enhancedPerkList.put("598607952", "2396489472");
+                enhancedPerkList.put("3076459908", "2396489472");
                 checkedItemList.add("598607952");
                 checkedItemList.add("3076459908");
                 checkedItemList.add("2396489472");
@@ -313,8 +318,8 @@ public class BungieDataParsers {
             }
             case "3865257976": {
                 // Dragonfly
-                itemMatchingList.put("3865257976", "2848615171");
-                itemMatchingList.put("169755979", "2848615171");
+                enhancedPerkList.put("3865257976", "2848615171");
+                enhancedPerkList.put("169755979", "2848615171");
                 checkedItemList.add("2848615171");
                 checkedItemList.add("169755979");
                 checkedItemList.add("3865257976");
@@ -328,8 +333,8 @@ public class BungieDataParsers {
             }
             case "3337692349": {
                 // Dragonfly
-                itemMatchingList.put("3513791699", "3337692349");
-                itemMatchingList.put("162561147", "3337692349");
+                enhancedPerkList.put("3513791699", "3337692349");
+                enhancedPerkList.put("162561147", "3337692349");
                 checkedItemList.add("3513791699");
                 checkedItemList.add("162561147");
                 checkedItemList.add("3337692349");
@@ -343,8 +348,8 @@ public class BungieDataParsers {
             }
             case "3871884143": {
                 // Disruption Break (Barrel)
-                itemMatchingList.put("2216471363", "1683379515");
-                itemMatchingList.put("3871884143", "1683379515");
+                enhancedPerkList.put("2216471363", "1683379515");
+                enhancedPerkList.put("3871884143", "1683379515");
                 checkedItemList.add("2216471363");
                 checkedItemList.add("3871884143");
                 checkedItemList.add("1683379515");
@@ -358,15 +363,15 @@ public class BungieDataParsers {
             }
             case "806159697": {
                 // Trench Barrel (Barrel)
-                itemMatchingList.put("2459015849", "2360754333");
-                itemMatchingList.put("806159697", "2360754333");
+                enhancedPerkList.put("2459015849", "2360754333");
+                enhancedPerkList.put("806159697", "2360754333");
                 checkedItemList.add("2459015849");
                 checkedItemList.add("806159697");
                 checkedItemList.add("2360754333");
                 break;
             }
             default: {
-                throw new Exception();
+                throw new Exception("Hash Identifier not found in Hard Coded Cases");
             }
         }
     }

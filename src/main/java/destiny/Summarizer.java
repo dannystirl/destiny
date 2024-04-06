@@ -27,7 +27,7 @@ public class Summarizer {
     Summarizer(PrintStream file) throws FileNotFoundException {
         // Create a StanfordCoreNLP object with properties for text summarization
         Properties props = new Properties();
-        props.setProperty("annotators", "tokenize, ssplit, parse, lemma");
+        props.setProperty("annotators", "tokenize, ssplit, parse");
         props.setProperty("tokenize.options", "untokenizable=allDelete");
         PrintStream errorOutputFile;
         try {
@@ -45,6 +45,7 @@ public class Summarizer {
 
     /**
      * Get the sentences from the given text
+     *
      * @param text
      * @return List<CoreMap>
      */
@@ -57,9 +58,9 @@ public class Summarizer {
     /**
      * Analyze the words from the given text
      *
-     * @param text
+     * @param text - Text to convert to sentences and analyze
      * @return List<List < HashMap < String, Object>>> with keys word, lemma, pos, ne
-     * @url https://cs.nyu.edu/grishman/jet/guide/PennPOS.html for POS tags
+     * @url <a href="https://cs.nyu.edu/grishman/jet/guide/PennPOS.html">POS tags</a>
      */
     public List<List<HashMap<String, Object>>> sentenceAnalyzer(String text) {
         // Get a list of sentences, with a list of words and values for each word
@@ -83,7 +84,7 @@ public class Summarizer {
      * Analyze the words from the given text using the frequency of the words
      *
      * @param text
-     * @param wordsInSentenceToKeep
+     * @param wordsInSentenceToKeep - If a sentence contains any of these words, it will be kept no matter what frequency score it has
      * @return String
      */
     public String sentenceAnalyzerUsingFrequency(String text, List<String> wordsInSentenceToKeep) {
