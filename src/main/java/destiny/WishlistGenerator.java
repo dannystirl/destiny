@@ -141,7 +141,7 @@ public class WishlistGenerator implements AutoCloseable {
          * Would need to see this in action BUT I'm not even sure I need to do this since dim already does this.
          * It would really just be for a minor file size reduction.
          */
-        new Formatters(runType).withStreams(scriptedWishlistFile, errorOutputFile).printWishlist();
+        new Formatters(runType).withStreams(scriptedWishlistFile, errorOutputFile).withData(lineDataParsers).printWishlist();
 
         // Print the itemMatchingList to a file, so I don't need to call HTTP.GET every time I run the script
         String eol = System.getProperty("line.separator");

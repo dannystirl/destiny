@@ -279,7 +279,7 @@ public class AppTest {
         assertEquals(itemId, item.getItemId());
         assertEquals(1, item.getRollList().get(0).getPerkList().size());
         assertEquals(List.of("2172504645"), item.getRollList().get(0).getPerkList());
-        assertEquals(List.of("Sleight of Hand works while stowed, but gives stats you would want while using the gun. Not a good trait"), item.getRollList().get(0).getNoteList());
+        assertEquals(List.of("Sleight of Hand works while stowed, but gives stats you would want while using the gun. Not a good trait. "), item.getRollList().get(0).getNoteList());
         assertTrue(item.isIgnoreItem());
         // Check Item
         lineDataParsers.addItemToWantedList(item);
@@ -323,7 +323,7 @@ public class AppTest {
         assertEquals(itemId, item.getItemId());
         assertEquals(4, item.getRollList().get(0).getPerkList().size());
         assertEquals(List.of("1392496348", "2969185026", "3523296417", "438098033"), item.getRollList().get(0).getPerkList());
-        assertEquals(List.of("//notes:PvP first choice roll for chaining (6s). Strong subtype with vertical recoil, very good stats, and very good perk combinations from the first ever legendary stasis (kinetic slot) fusion rifle. Looking to get both Range to 80 and Stability to 70 with Masterwork, barrel, and mag traits. Sleight of Hand and Harmony are an ideal pairing for chaining kills, after a kill with another weapon. Recommended MW: Range or Stability with Quick Access Sling or Targeting Adjuster mod depending on play style"), item.getRollList().get(0).getNoteList());
+        assertEquals(List.of("//notes:PvP first choice roll for chaining (6s). Strong subtype with vertical recoil, very good stats, and very good perk combinations from the first ever legendary stasis (kinetic slot) fusion rifle. Looking to get both Range to 80 and Stability to 70 with Masterwork, barrel, and mag traits. Sleight of Hand and Harmony are an ideal pairing for chaining kills, after a kill with another weapon. Recommended MW: Range or Stability with Quick Access Sling or Targeting Adjuster mod depending on play style."), item.getRollList().get(0).getNoteList());
         assertFalse(item.isIgnoreItem());
         // Check Item
         lineDataParsers.addItemToWantedList(item);
@@ -343,7 +343,7 @@ public class AppTest {
         assertEquals(itemId, item.getItemId());
         assertEquals(2, item.getRollList().get(0).getPerkList().size());
         assertEquals(List.of("1168162263", "1015611457"), item.getRollList().get(0).getPerkList());
-        assertEquals(List.of("Outlaw + Kill Clip is a classic reload + damage combination"), item.getRollList().get(0).getNoteList());
+        assertEquals(List.of("Outlaw + Kill Clip is a classic reload + damage combination."), item.getRollList().get(0).getNoteList());
         assertEquals(List.of("pve", "mkb", "controller", "pvp"), item.getRollList().get(0).getTagList());
         assertFalse(item.isIgnoreItem());
         // Check Item
@@ -383,7 +383,7 @@ public class AppTest {
         // Test Results
         assertEquals(itemId, item.getItemId());
         assertEquals(0, item.getRollList().get(0).getPerkList().size());
-        assertEquals(List.of("Pleiades Corrector has no good perk combinations. Inferior to vision of confluence"), item.getRollList().get(0).getNoteList());
+        assertEquals(List.of("Pleiades Corrector has no good perk combinations. Inferior to vision of confluence. "), item.getRollList().get(0).getNoteList());
         assertEquals(0, item.getRollList().get(0).getTagList().size());
         assertTrue(item.isIgnoreItem());
         // Check Item

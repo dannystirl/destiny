@@ -1,10 +1,10 @@
 title:Custom Wish List
-description:A list of custom rolls I'm interested in. Neither comprehensive nor extensive. Thanks to u/Mercules904, u/pandapaxxy, @AyyItsChevy, @chrisfried, u/-seudonym-, u/zman2100, u/goddamtofu, Gleauxx, GodInGaming, Beenlab, CoolCheese, Critbuff, Apathettic, Ekuegan, Jarv, Ascendant Nomad, Shadow, Pijinnn, AbbyHour, GodinGaming, illPhysics, BRAVExHERO, Pattycakes, blueberries.gg, YeezyGT, @johnldixon, and WarlockMaggie for their contributions. Ping u/48klocs / @48klocs with any issues.
+description:A list of custom rolls I'm interested in. Neither comprehensive nor extensive. Notes are a summarized sum of thoughts. Thanks to u/Mercules904, u/pandapaxxy, @AyyItsChevy, @chrisfried, u/-seudonym-, u/zman2100, u/goddamtofu, Gleauxx, GodInGaming, Beenlab, CoolCheese, Critbuff, Apathettic, Ekuegan, Jarv, Ascendant Nomad, Shadow, Pijinnn, AbbyHour, GodinGaming, illPhysics, BRAVExHERO, Pattycakes, blueberries.gg, YeezyGT, @johnldixon, and WarlockMaggie for their contributions. Ping u/48klocs / @48klocs with any issues.
 
 // Desired Roll: 
 // Primary Weapons
 dimwishlist:item=3428521585&perks=247725512,1048183818#notes:Rapid hit + adaptive munitions is useful for breaking barrier champions. Could be an alternative to s/ofa.|tags:pve,mkb,controller 
-dimwishlist:item=3055790362&perks=1482024992,1885400500,699525795,2846385770#notes:Best pvp austringer roll.|tags:pvp,mkb,controller
+dimwishlist:item=3055790362&perks=1482024992,1885400500,699525795,2846385770#notes:Best pvp Austringer roll.|tags:pvp,mkb,controller
 dimwishlist:item=821154603&perks=4134353779,2869569095,3523296417#notes:Normally, field prep on a primary doesn't do a whole lot, but this thing reloads nearly instantly, especially with drop mag. Any of the damage perks are viable, but demo has increased utility. 
 dimwishlist:item=2490988246&perks=3250034553,3230963543,3108830275,4293542123#notes:Best PvE roll. Recommended MW - Range/Reload. |tags:god-pve, pve, mkb
 dimwishlist:item=2490988246&perks=1392496348,3230963543,3108830275,4293542123#notes:Best PvE roll. Recommended MW - Stability/Reload. |tags:god-pve, pve, controller
@@ -15,7 +15,7 @@ dimwishlist:item=2490988246&perks=202670084,3230963543,3108830275,4293542123#not
 dimwishlist:item=4019668921&perks=839105230,3230963543,3400784728,1048183818
 dimwishlist:item=4019668921&perks=839105230,3142289711,3400784728,1048183818
 dimwishlist:item=4019668921&perks=839105230,106909392,3400784728,1048183818
-//notes:Repulsor Brace is a powerful perk, and demo allows it to have a higher uptime since we can activate volitile rounds on grenade kills. |tags:pve, mkb, controller
+//notes:Repulsor Brace is a powerful perk, and demo allows it to have a higher uptime since we can activate volatile rounds on grenade kills. |tags:pve, mkb, controller
 dimwishlist:item=3000847393&perks=1482024992,3230963543,3523296417,776531651
 dimwishlist:item=3000847393&perks=1482024992,1885400500,3523296417,776531651
 dimwishlist:item=3000847393&perks=1482024992,3230963543,2779035018,776531651
@@ -28,13 +28,13 @@ dimwishlist:item=1780464822&perks=839105230,679225683,2779035018,1048183818
 //notes:I believe sfa works with the explosions from headstone, giving reload speed similar to feeding frenzy, requiring a precision kill instead of multiple kills
 dimwishlist:item=1856262127&perks=1840239774,1087426260,1583705720,124408337
 dimwishlist:item=1856262127&perks=1840239774,3230963543,1583705720,124408337
-//notes:The Immortal seems to have a better perk pool than Synchronic Roulette, but might be harded to aquire. The new hatchling perk is the best perk for strand weapons and has some interesting synergy with strand. Threat detector is almost always active with smgs, but perpetual motion is probably active often enough that it would be worth using too. Demolitionist seems incredibly useful for strand since you want your grapple or suspend grenade back as quickly as possible. 
+//notes:The Immortal seems to have a better perk pool than Synchronic Roulette, but might be harder to acquire. The new hatchling perk is the best perk for strand weapons and has some interesting synergy with strand. Threat detector is almost always active with smgs, but perpetual motion is probably active often enough that it would be worth using too. Demolitionist seems incredibly useful for strand since you want your grapple or suspend grenade back as quickly as possible.
 dimwishlist:item=4039572196&perks=3661387068,1885400500,4071163871,831391274
 dimwishlist:item=4039572196&perks=3661387068,1885400500,1428297954,831391274
 dimwishlist:item=4039572196&perks=3661387068,1885400500,4071163871,3523296417
 dimwishlist:item=4039572196&perks=3661387068,1885400500,1428297954,3523296417
-dimwishlist:item=1141927949&perks=839105230,1087426260,1820235745,776531651#notes:Yesteryear with Subsistence and Repulsor Brace seems like it would be a good compliment to a #void build. It also pairs well with Gyrfalcon's, requiring less reloads and an almost constant overshield. 
-dimwishlist:item=3000847393&perks=3523296417,776531651#notes:Unforgiven with Demolitionist and Repulsor Brace seems like it would be a good compliment to Gyrfalcon's, Severance Enclosure, or any other #void build. Demolitionist lowers reload requirements and allows for an increased grenade regen rate, leading to an increased, and almost constant, overshield uptime. 
+dimwishlist:item=1141927949&perks=839105230,1087426260,1820235745,776531651#notes:Yesteryear with Subsistence and Repulsor Brace seems like it would be a good compliment to a #void build. It also pairs well with Gyrfalcon's, requiring less reloads and an almost constant over-shield. 
+dimwishlist:item=3000847393&perks=3523296417,776531651#notes:Unforgiven with Demolitionist and Repulsor Brace seems like it would be a good compliment to Gyrfalcon's, Severance Enclosure, or any other #void build. Demolitionist lowers reload requirements and allows for an increased grenade regen rate, leading to an increased, and almost constant, over-shield uptime. 
 //notes:Rufus's Fury has a lot of great perks for a gun that can get an unbelievable amount of ammo in one magazine. Reconstruction and Rewind Rounds allow for some unending shooting, and Demolitionist really helps with grenade uptime, which is great for suspend builds. In the right column, target lock is going to pair the best with Reconstruction or Rewind Rounds, but Frenzy, and Paracasual Affinity both make for some consistent buffs as well. Hatchling is also a great pick for strand weapons. 
 dimwishlist:item=484515708&perks=839105230,1087426260,1523832109,365154968
 dimwishlist:item=484515708&perks=839105230,1087426260,3418782618,365154968
@@ -64,18 +64,18 @@ dimwishlist:item=1125217994&perks=3525010810,2822142346,3523296417,3324494224#no
 // Heavy Weapons
 dimwishlist:item=3652506829&perks=247725512,1771339417#notes:Stormchaser seems to have better dps than other linears. This is a roll to lookout for group activities.|tags:pve,mkb,controller
 dimwishlist:item=3652506829&perks=2284787283,1771339417#notes:Stormchaser seems to have better dps than other linears. This is a roll to lookout for group activities.|tags:pve,mkb,controller
-dimwishlist:item=3652506829&perks=3300816228,1546637391#notes:Stormchaser seems to have better dps than other linears. This is a roll to lookout for solo activites.|tags:pve,mkb,controller
-//notes:Not sure why this Cataclysmic roll isn't in the community wishlist; Bait and switch is a 35% damage buff and fttc means you can use that buff for longer wihout reloading. |tags:pve
+dimwishlist:item=3652506829&perks=3300816228,1546637391#notes:Stormchaser seems to have better dps than other linears. This is a roll to lookout for solo activities.|tags:pve,mkb,controller
+//notes:Not sure why this Cataclysmic roll isn't in the community wishlist; Bait and switch is a 35% damage buff and fttc means you can use that buff for longer without reloading. |tags:pve
 dimwishlist:item=999767358&perks=1467527085,2680121939,1354429876,3078487919
 dimwishlist:item=999767358&perks=1840239774,2680121939,1354429876,3078487919
 dimwishlist:item=999767358&perks=4090651448,2680121939,1354429876,3078487919
 dimwishlist:item=999767358&perks=839105230,2680121939,1354429876,3078487919
 dimwishlist:item=999767358&perks=3250034553,2680121939,1354429876,3078487919
 dimwishlist:item=4230965989&perks=839105230,1087426260,1523832109,557221067#notes:With the season 20 machine gun buff, reconstruction + killing tally lets you use this gun like a primary weapon. You almost never need to reload, which means you can keep killing tally's buff up at all times. 
-dimwishlist:item=1959650777&perks=1478423395,3796465595,3300816228,2978966579#notes:Bump in the Night can get some real damage out with Autoloading + Chill Clip if an ally has Gjallarhorn equipped. 
+dimwishlist:item=1959650777&perks=1478423395,3796465595,3300816228,2978966579#notes:Bump in the Night can get some real damage out with Auto-loading + Chill Clip if an alli has Gjallarhorn equipped.
 dimwishlist:item=3489657138&perks=3525010810,3796465595,3300816228,2978966579#notes:With the buff from Gjallarhorn, two people using a chill-clip rocket supposedly has very high dps. 
 dimwishlist:item=1851777734&perks=3525010810,3796465595,1523832109,3078487919#notes:Wow apex predator has some good rolls now. Reconstruction + Bait & Switch is an incredibly strong combination, allowing you to open with a rocket shot, active b&s, and by the time you switch back, you should have two rockets in the mag. 
-dimwishlist:item=1851777734&perks=3525010810,3796465595,2039302152,3078487919#notes:Wow apex predator has some good rolls now. Slideways could be a good alternative to reconstruction, expecially for more mobile damage phases. You can shoot 3 rockets and only reload once. It's faster than reconstruction, but requires a little more input an movement. 
+dimwishlist:item=1851777734&perks=3525010810,3796465595,2039302152,3078487919#notes:Wow apex predator has some good rolls now. Slideways could be a good alternative to reconstruction, especially for more mobile damage phases. You can shoot 3 rockets and only reload once. It's faster than reconstruction, but requires a little more input an movement.
 //notes:Cold comfort has some solid dps rolls. Envious Assassin, combined with the origin trait, allows for a very large magazine. Ensemble is somehow the next best perk in that column, giving a large reload boost over a dps phase. Collective action on stasis can put in work with almost a 100% uptime, and explosive light is always a solid pick, but Bait & Switch is such a high damage buff that it feels like choosing anything else for dps would be foolish. 
 dimwishlist:item=839786290&perks=3525010810,3796465595,968510818,3078487919
 dimwishlist:item=839786290&perks=3525010810,3796465595,968510818,3324494224
@@ -84,14 +84,14 @@ dimwishlist:item=839786290&perks=3525010810,3796465595,2621346526,3078487919
 dimwishlist:item=839786290&perks=3525010810,3796465595,2621346526,3324494224
 dimwishlist:item=839786290&perks=3525010810,3796465595,2621346526,3194351027
 
-// Generic desireable perk combinations
+// Generic desirable perk combinations
 dimwishlist:item=-69420&perks=1583705720,4049631843#notes:On their own, s/ofa are good but require effort they're often not worth. When combined s/ofa is an incredibly powerful combination, giving both stats and damage.|tags:pve,mkb,controller
 dimwishlist:item=-69420&perks=3161816588,1427256713#notes:Slideshot is an incredibly powerful complement to Reservoir Burst, allowing constant activations without a kill or reloading.|tags:pve,mkb,controller
 dimwishlist:item=-69420&perks=1820235745,1427256713#notes:Subsistence is an incredibly powerful complement to Reservoir Burst, allowing nearly constant activations with almost no downtime.|tags:pve,mkb,controller
 dimwishlist:item=-69420&perks=968510818,1427256713#notes:Envious Assassin is an incredibly powerful complement to Reservoir Burst, allowing 7-8 successive shots.|tags:pve,mkb,controller
-dimwishlist:item=-69420&perks=776531651,2048641572#notes:Repulsor brace is an incredible perk when combined with destabilizing rounds, allowing near constant overshields.|tags:pve,mkb,controller
-dimwishlist:item=-69420&perks=2048641572,776531651#notes:Repulsor brace is an incredible perk when combined with destabilizing rounds, allowing near constant overshields.|tags:pve,mkb,controller
-dimwishlist:item=-69420&perks=461595545,2896748467#notes:Reconstruction and killing tally is such a strong combo, allowing for an infinte damage buff.|tags:pve,mkb,controller
+dimwishlist:item=-69420&perks=776531651,2048641572#notes:Repulsor brace is an incredible perk when combined with destabilizing rounds, allowing near constant over-shields.|tags:pve,mkb,controller
+dimwishlist:item=-69420&perks=2048641572,776531651#notes:Repulsor brace is an incredible perk when combined with destabilizing rounds, allowing near constant over-shields.|tags:pve,mkb,controller
+dimwishlist:item=-69420&perks=461595545,2896748467#notes:Reconstruction and killing tally is such a strong combo, allowing for an infinite damage buff.|tags:pve,mkb,controller
 dimwishlist:item=-69420&perks=4293542123#notes:Incandescent is an incredible perk when combined with solar 3.0.|tags:pve,mkb,controller
 dimwishlist:item=-69420&perks=3418782618,243981275#notes Rewind rounds on a log magazine weapon allows attrition orbs to make 2 orbs every 3 magazines, which adds up quickly when you go through a magazine per second. 
 
@@ -103,7 +103,7 @@ dimwishlist:item=3317538576&perks=1683379515#notes:Disruption break is amazing f
 dimwishlist:item=9&perks=1048183818#notes:Adaptive munitions on a fusion rifle allows the damage increase to increase on the first burst, allowing fusions to completely ignore match game in most difficulties.|tags:pve,mkb,controller
 dimwishlist:item=3317538576&perks=1048183818#notes:Adaptive munitions on a bow means shields are broken within a few shots, allowing bows to completely ignore match game in most difficulties.|tags:pve,mkb,controller
 
-// Generic undesireable gun/perk combinations
+// Generic undesirable gun/perk combinations
 // To filer a gun without a specific perk, I think I would just add the desired roll to one of the above sections and then filter the rest with the below section
 dimwishlist:item=-3556999246#notes:Pleiades Corrector has no good perk combinations. Inferior to vision of confluence. 
 dimwishlist:item=-1028582252#notes:Comedian has no good perks in the first column. 
@@ -133,7 +133,7 @@ dimwishlist:item=69420&perks=-3700496672#notes:Shoot to Loot has some use in end
 dimwishlist:item=69420&perks=-2840833776#notes:Shoot to Loot (E) has some use in endgame content, but certainly not above some other perk that would be in columns 3 or 4. 
 dimwishlist:item=69420&perks=-3722653512#notes:Air Assault only has a use in PvP and has a requirement to activate, and even then doesn't do much. Always a better perk in column
 dimwishlist:item=69420&perks=-2898218424#notes:Air Assault (E) only has a use in PvP and has a requirement to activate, and even then doesn't do much. Always a better perk in column
-dimwishlist:item=69420&perks=-2458213969#notes:Multi-killclip just is not a perk I care about. I'm sure it's good but I'd rather have a ramage buff after each kill since the count resets after a reload, it sometimes it takes more than a clip to kill something. 
+dimwishlist:item=69420&perks=-2458213969#notes:Multi-kill-clip just is not a perk I care about. I'm sure it's good, but I'd rather have a rampage-style buff after each kill since the count resets after reloading, and it sometimes it takes more than a clip to kill something.
 dimwishlist:item=69420&perks=-1870851715#notes:Under-Over is just adaptive munitions but worse. 
 dimwishlist:item=69420&perks=-838780105#notes:Shattering Blade
-dimwishlist:item=69420&perks=-2848615171#notes:Dragonfly is increasinly becoming a perk where there's almost always a better option
+dimwishlist:item=69420&perks=-2848615171#notes:Dragonfly is increasingly becoming a perk where there's almost always a better option

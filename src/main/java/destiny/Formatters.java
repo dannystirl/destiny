@@ -34,6 +34,11 @@ public class Formatters {
         return this;
     }
 
+    Formatters withData(LineDataParsers lineDataParsers) {
+        this.lineDataParsers = lineDataParsers;
+        return this;
+    }
+
     /*
      * ERRORS
      */
@@ -154,6 +159,9 @@ public class Formatters {
         System.setErr(errorStream);
 
         // print overall title and description
+        if (lineDataParsers.sourceList.isEmpty()) {
+            throw new IndexOutOfBoundsException("No source list found");
+        }
         System.out.printf("title:%s%n", lineDataParsers.sourceList.get(0).get(1));
         System.out.printf("description:%s%n%n", lineDataParsers.sourceList.get(0).get(2));
         // print wishlist rolls

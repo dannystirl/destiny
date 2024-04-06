@@ -1,6 +1,6 @@
-destiny\App.class
 destiny\DATA.class
 destiny\WishlistGenerator.class
 destiny\Item.class
 destiny\Summarizer.class
 destiny\Formatters.class
+destiny\App.class
