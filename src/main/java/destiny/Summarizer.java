@@ -44,6 +44,17 @@ public class Summarizer {
     }
 
     /**
+     * Get the sentences from the given text
+     * @param text
+     * @return List<CoreMap>
+     */
+    public List<CoreMap> getSentences(String text) {
+        Annotation document = new Annotation(text);
+        pipeline.annotate(document);
+        return document.get(CoreAnnotations.SentencesAnnotation.class);
+    }
+
+    /**
      * Analyze the words from the given text
      *
      * @param text
@@ -51,13 +62,9 @@ public class Summarizer {
      * @url https://cs.nyu.edu/grishman/jet/guide/PennPOS.html for POS tags
      */
     public List<List<HashMap<String, Object>>> sentenceAnalyzer(String text) {
-        Annotation document = new Annotation(text);
-        // Run all the selected Annotators on this text
-        pipeline.annotate(document);
-
         // Get a list of sentences, with a list of words and values for each word
         List<List<HashMap<String, Object>>> words = new ArrayList<>();
-        for (CoreMap sentence : document.get(CoreAnnotations.SentencesAnnotation.class)) {
+        for (CoreMap sentence : getSentences(text)) {
             List<HashMap<String, Object>> sentenceWords = new ArrayList<>();
             for (CoreLabel word : sentence.get(CoreAnnotations.TokensAnnotation.class)) {
                 HashMap<String, Object> wordMap = new HashMap<>();
@@ -86,11 +93,9 @@ public class Summarizer {
         if (summarizedTexts.containsKey(text)) {
             return summarizedTexts.get(text);
         }
-        Annotation document = new Annotation(text);
-        pipeline.annotate(document);
         Map<String, Integer> wordFrequency = new HashMap<>();
         // Get the frequency of each word
-        List<CoreMap> sentences = document.get(CoreAnnotations.SentencesAnnotation.class);
+        List<CoreMap> sentences = getSentences(text);
         for (CoreMap sentence : sentences) {
             for (CoreLabel token : sentence.get(CoreAnnotations.TokensAnnotation.class)) {
                 String word = token.get(CoreAnnotations.TextAnnotation.class);

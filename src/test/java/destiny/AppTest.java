@@ -43,7 +43,7 @@ public class AppTest {
     public static final String errorOutputFileName = WishlistGenerator.errorOutputFileName;
 
     @Before
-    public void setup() {
+    public void setup() throws FileNotFoundException {
         System.setOut(Formatters.defaultPrintStream);
         System.setErr(Formatters.defaultPrintStream);
         lineDataParsers = new LineDataParsers(App.RunType.TEST);

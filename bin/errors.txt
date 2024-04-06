@@ -1,3 +1,0 @@
-[main] INFO edu.stanford.nlp.pipeline.StanfordCoreNLP - Adding annotator tokenize
-[main] INFO edu.stanford.nlp.pipeline.StanfordCoreNLP - Adding annotator parse
-[main] INFO edu.stanford.nlp.pipeline.StanfordCoreNLP - Adding annotator lemma

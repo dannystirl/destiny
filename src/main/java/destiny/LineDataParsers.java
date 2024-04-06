@@ -2,6 +2,7 @@ package destiny;
 
 import junit.framework.AssertionFailedError;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,8 +13,17 @@ public class LineDataParsers {
 
     public Map<Long, Item> unwantedItemList;
     public Map<Long, Item> wantedItemList;
-
     public List<ArrayList<Object>> sourceList = new ArrayList<>();
+
+    public static Summarizer sentenceAnalyzer;
+
+    static {
+        try {
+            sentenceAnalyzer = new Summarizer(Formatters.defaultPrintStream);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     LineDataParsers(App.RunType runType) {
         this.unwantedItemList = new HashMap<>();
@@ -235,12 +245,12 @@ public class LineDataParsers {
             // NOTES & MW
             note = note.replace("light.gg", "lightggg");
             note = note.replace("...", "elipsez");
-            note = note.replace("3.0", "v30");
+            note = note.replace(" 3.0 ", " v30 ");
             String mwRegex = "(Recommended\\s|\\[){1,25}MW((\\:\\s)|(\\s\\-\\s))";
             Pattern pattern = Pattern.compile(String.format("%s[^\\.\\|\\n]*", mwRegex), Pattern.CASE_INSENSITIVE);
-            for (String mwToFormat : note.split("\\.\\s*|\"\\s*|\\]")) {
+            for (String sentence : note.split("\\.\\s+|\"\\s*|\\]")) {
                 // Format note
-                Matcher matcher = pattern.matcher(mwToFormat);
+                Matcher matcher = pattern.matcher(sentence);
                 String formattedMW = "";
                 String formattedNote = "";
                 if (matcher.matches()) {
@@ -252,7 +262,7 @@ public class LineDataParsers {
                         formattedNote = Formatters.noteFormatter(noteMwList[1]);
                     }
                 } else {
-                    formattedNote = Formatters.noteFormatter(mwToFormat);
+                    formattedNote = Formatters.noteFormatter(sentence);
                 }
                 // Add required items to appropriate lists
                 if (!(formattedMW.equals("") || roll.getMWList().contains(formattedMW))) {

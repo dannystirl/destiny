@@ -20,7 +20,7 @@ public class Formatters {
     LineDataParsers lineDataParsers;
     BungieDataParsers bungieDataParsers;
 
-    Formatters(App.RunType runType) {
+    Formatters(App.RunType runType) throws FileNotFoundException {
         this.runType = runType;
         this.outputStream = defaultPrintStream;
         this.errorStream = defaultPrintStream;
@@ -231,7 +231,7 @@ public class Formatters {
                     String summarizedNote = summarizer.sentenceAnalyzerUsingFrequency(String.join(". ", currentNoteFull) + ". ", List.of("first-choice", "backup", "best in slot"));
                     summarizedNote = summarizedNote.replace("lightggg", "light.gg");
                     summarizedNote = summarizedNote.replace("elipsez", "...");
-                    summarizedNote = summarizedNote.replace("v30", "3.0");
+                    summarizedNote = summarizedNote.replace(" v30 ", " 3.0 ");
                     System.out.print((summarizedNote + " ").replaceAll("  ", " "));
                 }
                 // MWS
