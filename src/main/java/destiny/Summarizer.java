@@ -76,9 +76,10 @@ public class Summarizer {
      * Analyze the words from the given text using the frequency of the words
      *
      * @param text
+     * @param wordsInSentenceToKeep
      * @return String
      */
-    public String sentenceAnalyzerUsingFrequency(String text) {
+    public String sentenceAnalyzerUsingFrequency(String text, List<String> wordsInSentenceToKeep) {
         if (text.length() < 30) {
             return text;
         }
@@ -127,16 +128,22 @@ public class Summarizer {
             sentenceScore.put(sentence, score);
         }
         // Get the number of sentences to keep (roughly 3 - 1/3 of the total number of sentences)
-        Integer numSentencesToKeep = (int) Double.max(sentences.size() * (1.0 / 3), 3.0);
-        List<Map.Entry<CoreMap, Double>> entryList = new ArrayList<>(sentenceScore.entrySet());
-        Collections.sort(entryList, (entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
+        int numSentencesToKeep = (int) Double.max(sentences.size() * (1.0 / 3), 3.0);
+        List<Map.Entry<CoreMap, Double>> sortedSentenceScores = new ArrayList<>(sentenceScore.entrySet());
+        sortedSentenceScores.sort((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
         // Keep the top numSentencesToKeep sentences
-        entryList = entryList.subList(0, Math.min(numSentencesToKeep, entryList.size()));
-        entryList.sort(Comparator.comparingInt(entry -> sentences.indexOf(entry.getKey())));
-        String summarizedText = entryList.stream()
-                .map(entry -> entry.getKey().toString())
-                .collect(Collectors.joining(" "));
+        sortedSentenceScores = sortedSentenceScores.subList(0, Math.min(numSentencesToKeep, sortedSentenceScores.size()));
+        List<CoreMap> sentencesToKeep = new ArrayList<>(sentences);
+        List<Map.Entry<CoreMap, Double>> finalEntryList = sortedSentenceScores;
+        // Remove sentences that are not in the top numSentencesToKeep sentences and do not contain any of the words to keep
+        sentencesToKeep.removeIf(sentence -> !finalEntryList.stream().map(Map.Entry::getKey).toList().contains(sentence)
+                && wordsInSentenceToKeep.stream().noneMatch(wordToKeep -> sentence.toString().toLowerCase().contains(wordToKeep)));
+        String summarizedText = sentencesToKeep.stream().map(Object::toString).collect(Collectors.joining(" "));
         summarizedTexts.put(text, summarizedText);
         return summarizedText;
+    }
+
+    public String sentenceAnalyzerUsingFrequency(String text) {
+        return sentenceAnalyzerUsingFrequency(text, new ArrayList<>());
     }
 }

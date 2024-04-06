@@ -1,9 +1,5 @@
 package destiny;
 
-import java.io.FileDescriptor;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import static org.junit.Assert.assertEquals;
@@ -20,8 +16,8 @@ public class ConnectionTests {
 	
 	@Before
     public void setup() {
-        System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
-        System.setErr(new PrintStream(new FileOutputStream(FileDescriptor.out)));
+        System.setOut(Formatters.defaultPrintStream);
+        System.setErr(Formatters.defaultPrintStream);
     }
 
     /**
@@ -33,7 +29,7 @@ public class ConnectionTests {
     public void testConnection() throws UnirestException {
         Unirest.config().reset();
         Unirest.config().connectTimeout(10000).socketTimeout(10000);
-        HttpResponse<String> response = Unirest.get(WishlistGenerator.bungieItemDefinitionUrl).header("X-API-KEY", DATA.APIKEY).routeParam("hashIdentifier", "3523296417").asString();
+        HttpResponse<String> response = Unirest.get(BungieDataParsers.bungieItemDefinitionUrl).header("X-API-KEY", DATA.APIKEY).routeParam("hashIdentifier", "3523296417").asString();
         assertEquals(1, new JSONObject(response.getBody()).get("ErrorCode"));
     }
 
@@ -44,10 +40,10 @@ public class ConnectionTests {
      */
     @Test
     public void testResponse() throws UnirestException {
-        JSONObject itemDefinition = Formatters.bungieItemDefinitionJSONObject("3523296417");
-        JSONArray resultSet = Formatters.bungieItemHashSetJSONArray(itemDefinition.getString("name"));
+        JSONObject itemDefinition = BungieDataParsers.bungieItemDefinitionJSONObject("3523296417");
+        JSONArray resultSet = BungieDataParsers.bungieItemHashSetJSONArray(itemDefinition.getString("name"));
         Long key = null, entry = null;
-        // ensure that there is only a basic and enhanced trait definiton
+        // ensure that there is only a basic and enhanced trait definition
         assertEquals(2, resultSet.length());
         for (Object object : resultSet) {
             JSONObject jsonObject = (JSONObject) object;
@@ -72,10 +68,10 @@ public class ConnectionTests {
      */
     @Test
     public void testAdeptConnection() throws UnirestException {
-        JSONObject itemDefinition = Formatters.bungieItemDefinitionJSONObject("2886339027");
+        JSONObject itemDefinition = BungieDataParsers.bungieItemDefinitionJSONObject("2886339027");
         assertEquals("Cataclysmic", itemDefinition.getString("name").split("\s\\(Adept\\)")[0]);
 
-        JSONArray resultSet = Formatters.bungieItemHashSetJSONArray(itemDefinition.getString("name").split("\s\\(Adept\\)")[0]);
+        JSONArray resultSet = BungieDataParsers.bungieItemHashSetJSONArray(itemDefinition.getString("name").split("\s\\(Adept\\)")[0]);
         Long normal = null, adept = null;
         // ensure that there are only two versions of the gun
         assertEquals(2, resultSet.length());
@@ -102,11 +98,11 @@ public class ConnectionTests {
      */
     @Test
     public void testNonAdeptConnection() throws UnirestException {
-        JSONObject itemDefinition = Formatters.bungieItemDefinitionJSONObject("2886339027");
+        JSONObject itemDefinition = BungieDataParsers.bungieItemDefinitionJSONObject("2886339027");
         assertTrue(itemDefinition.getString("name").contains("(Adept)"));
         assertEquals("Cataclysmic", itemDefinition.getString("name").split("\s\\(Adept\\)")[0]);
 
-        JSONArray resultSet = Formatters.bungieItemHashSetJSONArray(itemDefinition.getString("name").split("\s\\(Adept\\)")[0]);
+        JSONArray resultSet = BungieDataParsers.bungieItemHashSetJSONArray(itemDefinition.getString("name").split("\s\\(Adept\\)")[0]);
         // ensure that there are only two versions of the gun
         assertEquals(2, resultSet.length());
         for (Object object : resultSet) {
@@ -129,7 +125,7 @@ public class ConnectionTests {
      */
     @Test
     public void testGetName() throws UnirestException {
-        JSONObject itemDefinition = Formatters.bungieItemDefinitionJSONObject("4083045006");
+        JSONObject itemDefinition = BungieDataParsers.bungieItemDefinitionJSONObject("4083045006");
         assertEquals("Persuader", itemDefinition.getString("name"));
         System.out.printf("Test %s passed%n", new Object() {
         }.getClass().getEnclosingMethod().getName());

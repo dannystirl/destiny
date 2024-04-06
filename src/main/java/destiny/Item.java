@@ -1,7 +1,6 @@
 package destiny;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -47,7 +46,7 @@ public class Item {
     }
 
     /**
-     * Find a roll with matching perks if it exists
+     * Find a roll with matching perks if it exists.
      * If it doesn't exist, return a new roll with the perks
      *
      * @param perks - The perks to search for
@@ -100,7 +99,7 @@ public class Item {
      * Print an item and all of its attributes
      */
     public void print() {
-        System.out.printf("Item %s [%d occurances]%n", itemId, countOfItem);
+        System.out.printf("Item %s [%d occurrences]%n", itemId, countOfItem);
         System.out.println(getRollList().stream().map(Roll::getPerkList));
         System.out.println(getRollList().stream().map(Roll::getNoteList));
         System.out.println(getRollList().stream().map(Roll::getTagList));

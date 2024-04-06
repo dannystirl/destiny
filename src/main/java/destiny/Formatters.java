@@ -1,39 +1,58 @@
 package destiny;
 
 import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import kong.unirest.HttpResponse;
-import kong.unirest.Unirest;
-
 public class Formatters {
 
-    private Formatters() {
+    public static final PrintStream defaultPrintStream = new PrintStream(new FileOutputStream(FileDescriptor.out));
 
+    PrintStream outputStream;
+    PrintStream errorStream;
+
+    App.RunType runType;
+
+    LineDataParsers lineDataParsers;
+    BungieDataParsers bungieDataParsers;
+
+    Formatters(App.RunType runType) {
+        this.runType = runType;
+        this.outputStream = defaultPrintStream;
+        this.errorStream = defaultPrintStream;
+        lineDataParsers = new LineDataParsers(runType);
+        bungieDataParsers = new BungieDataParsers(runType);
     }
+
+    Formatters withStreams(PrintStream outputStream, PrintStream errorStream) {
+        this.outputStream = outputStream;
+        this.errorStream = errorStream;
+        return this;
+    }
+
+    /*
+     * ERRORS
+     */
 
     /**
      * print any errors to bin\errors folder
      *
      * @param err the (possible) reason for the error
-     * @param e the error being thrown
+     * @param e   the error being thrown
      */
     public static void errorPrint(String err, Exception e) {
-        errorPrint(err, e, new PrintStream(new FileOutputStream(FileDescriptor.out)));
+        errorPrint(err, e, defaultPrintStream);
     }
 
     /**
      * print any errors to bin\errors folder
      *
-     * @param err the (possible) reason for the error
-     * @param e the error being thrown
+     * @param err       the (possible) reason for the error
+     * @param e         the error being thrown
      * @param oldStream the stream to return to
      */
     public static void errorPrint(String err, Exception e, PrintStream oldStream) {
@@ -49,8 +68,11 @@ public class Formatters {
         System.setErr(oldStream);
     }
 
+    /*
+     * ITEM FORMATTING
+     */
+
     /**
-     *
      * @param tag the tag to be formatted
      * @return a formatted tag
      */
@@ -63,8 +85,9 @@ public class Formatters {
     }
 
     /**
-     * Clean the notes 
-     * @param note: the note to be formatted
+     * Clean the notes
+     *
+     * @param note:        the note to be formatted
      * @param currentNote: the previous note of a similar item
      * @return String
      */
@@ -86,11 +109,12 @@ public class Formatters {
                 // not an error. just item has no tags
             }
         }
-        return note; 
+        return note;
     }
 
     /**
      * Format the notes to remove unwanted information
+     *
      * @param note the note to be formatted
      * @return String
      */
@@ -118,33 +142,135 @@ public class Formatters {
         return note;
     }
 
-    /**
-     * @param hashIdentifier - the unique hash value for an api item
-     * @return JSONObject - the display properties of an item from the database
+    /*
+     * PRINTING
      */
-    public static JSONObject bungieItemDefinitionJSONObject(String hashIdentifier) {
-        Unirest.config().reset();
-        Unirest.config().connectTimeout(10000).socketTimeout(10000);
-        HttpResponse<String> response = Unirest.get(WishlistGenerator.bungieItemDefinitionUrl).header("X-API-KEY", DATA.APIKEY)
-                .routeParam("hashIdentifier", hashIdentifier).asString();
 
-        JSONObject itemDefinition = new JSONObject(response.getBody());
-        itemDefinition = itemDefinition.getJSONObject("Response");
-        itemDefinition = itemDefinition.getJSONObject("displayProperties");
-        return itemDefinition;
+    /**
+     * PRINTING WISHLIST
+     */
+    public void printWishlist() throws FileNotFoundException {
+        System.setOut(outputStream);
+        System.setErr(errorStream);
+
+        // print overall title and description
+        System.out.printf("title:%s%n", lineDataParsers.sourceList.get(0).get(1));
+        System.out.printf("description:%s%n%n", lineDataParsers.sourceList.get(0).get(2));
+        // print wishlist rolls
+        for (Map.Entry<Long, Item> item : lineDataParsers.wantedItemList.entrySet()) {
+            Long normalItemId = item.getKey();
+            List<Long> keysList = new ArrayList<>(List.of(normalItemId));
+
+            // Convert back any items that have adept versions and print both
+            for (Map.Entry<Long, Long> entry : BungieDataParsers.adeptMatchingList.entrySet()) {
+                if (Objects.equals(normalItemId, entry.getValue())) {
+                    if (!keysList.contains(entry.getKey())) {
+                        keysList.add(entry.getKey());
+                    }
+                }
+            }
+            for (Long k : keysList) {
+                printWishlistInner(item, k);
+            }
+        }
+        // reset output to console
+        outputStream.close();
+        System.setOut(Formatters.defaultPrintStream);
+        System.setErr(errorStream);
     }
 
     /**
-     * @param name - the unique name of an api item
-     * @return JSONArray - an array of the display properties of an item from the database
+     * A helper method for printing, allowing to loop for adept and normal
+     * versions of items
+     *
+     * @param item the original item to compare to
+     * @param key  the item id to check for similarity from
      */
-    public static JSONArray bungieItemHashSetJSONArray(String name) {
-        HttpResponse<String> response = Unirest.get(WishlistGenerator.bungieItemSearchUrl).header("X-API-KEY", DATA.APIKEY)
-                .routeParam("searchTerm", name.split("\s\\(Adept\\)")[0]).asString();
+    public void printWishlistInner(Map.Entry<Long, Item> item, Long key) throws FileNotFoundException {
+        List<Roll> itemRollList = item.getValue().getRollList();
+        List<String> currentNoteFull = new ArrayList<>();
+        List<String> currentTagsFull = new ArrayList<>();
+        List<String> currentMWsFull = new ArrayList<>();
 
-        JSONObject mJsonObject = new JSONObject(response.getBody());
-        JSONObject userJObject = mJsonObject.getJSONObject("Response");
-        JSONObject statusJObject = userJObject.getJSONObject("results");
-        return statusJObject.getJSONArray("results");
+        System.setOut(outputStream);
+        System.setErr(errorStream);
+
+        // ITEM NAME
+        String name = bungieDataParsers.getName(key, outputStream);
+        // ITEM VALUES
+        Summarizer summarizer = new Summarizer(outputStream);
+        System.out.printf("%n//item %s: %s%n", key, name);
+        for (Roll itemRoll : itemRollList) {
+            // TAGS
+            // game-mode is in beginning, input type is at end
+            itemRoll.getTagList().sort(Collections.reverseOrder());
+
+            // ITEM DOCUMENTATION IS DIFFERENT
+            if (!currentNoteFull.equals(itemRoll.getNoteList())
+                    || !currentTagsFull.equals(itemRoll.getTagList())
+                    || !currentMWsFull.equals(itemRoll.getMWList())) {
+                currentNoteFull = itemRoll.getNoteList();
+                currentTagsFull = itemRoll.getTagList();
+                currentMWsFull = itemRoll.getMWList();
+                // NOTES
+                System.out.print("//notes:");
+                for (int i = 0; i < currentNoteFull.size(); i++) {
+                    if (!currentNoteFull.get(i).equals("")) {
+                        currentNoteFull.set(i, Formatters.noteFormatter(currentNoteFull.get(i)));
+                    }
+                }
+                if (!currentNoteFull.isEmpty() && !currentNoteFull.equals(List.of(""))) {
+                    String summarizedNote = summarizer.sentenceAnalyzerUsingFrequency(String.join(". ", currentNoteFull) + ". ", List.of("first-choice", "backup", "best in slot"));
+                    summarizedNote = summarizedNote.replace("lightggg", "light.gg");
+                    summarizedNote = summarizedNote.replace("elipsez", "...");
+                    summarizedNote = summarizedNote.replace("v30", "3.0");
+                    System.out.print((summarizedNote + " ").replaceAll("  ", " "));
+                }
+                // MWS
+                if (!itemRoll.getMWList().isEmpty()) {
+                    System.out.print("Recommended MW: ");
+                    for (int i = 0; i < itemRoll.getMWList().size() - 1; i++) {
+                        System.out.print(itemRoll.getMWList().get(i) + ", ");
+                    }
+                    System.out.print(itemRoll.getMWList().get(itemRoll.getMWList().size() - 1) + ". ");
+                }
+                try {
+                    // TAGS
+                    if (!currentTagsFull.get(0).equals("")) {
+                        // hashset is a fast way to remove duplicates, however they may have gotten there
+                        LinkedHashSet<String> linkedHashSet = new LinkedHashSet<>(currentTagsFull);
+                        System.out.print("|tags:");
+                        for (int i = 0; i < linkedHashSet.size(); i++) {
+                            if (i == linkedHashSet.size() - 1) {
+                                System.out.print(linkedHashSet.toArray()[i]);
+                            } else {
+                                System.out.printf("%s,", linkedHashSet.toArray()[i]);
+                            }
+                        }
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    // item has no tags
+                } finally {
+                    System.out.println();
+                }
+            }
+            if (key == 69420L) {
+                key = -69420L;
+            }
+            System.out.printf("dimwishlist:item=%s", key);
+            if (!itemRoll.getPerkList().isEmpty()) {
+                // ITEM
+                System.out.print("&perks=");
+                // check if there is an item in itemRoll.getPerkList()
+                for (int i = 0; i < itemRoll.getPerkList().size() - 1; i++) {
+                    System.out.printf("%s,", itemRoll.getPerkList().get(i));
+                }
+                System.out.printf("%s%n", itemRoll.getPerkList().get(itemRoll.getPerkList().size() - 1));
+            }
+        }
+
+        // reset errorOutputFile to console
+        System.setOut(Formatters.defaultPrintStream);
+        System.setErr(Formatters.defaultPrintStream);
     }
 }
