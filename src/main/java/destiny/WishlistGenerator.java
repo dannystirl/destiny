@@ -28,7 +28,6 @@ public class WishlistGenerator implements AutoCloseable {
 
     public static final String wishlistOutputFileName = "output//WishListScripted.txt";
     public static final String wishlistOutputTestFileName = "output//WishListScriptedTest.txt";
-    public static final String errorOutputFileName = "bin//errors.txt";
     public static final String enhancedMappingFileName = "src//main//data//destiny//enhancedMapping.csv";
     public static final String nameMappingFileName = "src//main//data//destiny//nameMapping.csv";
     public static final String wishListCSourceFileName = "input//CustomDestinyWishlist.txt";
@@ -45,7 +44,7 @@ public class WishlistGenerator implements AutoCloseable {
     public static void main(String[] args) throws Exception {
         // Create the error file and output file
         try {
-            errorOutputFile = new PrintStream(errorOutputFileName);
+            errorOutputFile = new PrintStream(Formatters.errorOutputFileName);
             if (runType == App.RunType.TEST) {
                 scriptedWishlistFile = new PrintStream(wishlistOutputTestFileName);
             } else {
@@ -125,7 +124,7 @@ public class WishlistGenerator implements AutoCloseable {
                 out.println(response.getBody());
                 out.close();
             } catch (Exception e) {
-                Formatters.errorPrint("Unable to get updated contents from " + errorOutputFileName, e);
+                Formatters.errorPrint("Unable to get updated contents from " + Formatters.errorOutputFileName, e);
             }
             br = new BufferedReader(new FileReader(wishlistDSourceFileName));
             loopRead(br);

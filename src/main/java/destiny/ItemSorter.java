@@ -35,8 +35,14 @@ public class ItemSorter {
                 item.getValue().getRollList().sort((Roll roll1, Roll roll2) -> {
                     // First, attempt to sort by notes to lower the file size
                     int noteComparison = String.join("", roll1.noteList).compareTo(String.join("", roll2.noteList));
+                    int mwComparison = String.join("", roll1.mwList).compareTo(String.join("", roll2.mwList));
+                    int tagComparison = String.join("", roll1.tagList).compareTo(String.join("", roll2.tagList));
                     if (noteComparison != 0) {
                         return noteComparison;
+                    } else if (mwComparison != 0) {
+                        return mwComparison;
+                    } else if (tagComparison != 0) {
+                        return tagComparison;
                     } else { // If notes are the same, sort by perks in reverse order
                         List<String> roll1PerkList = roll1.getPerkList();
                         List<String> roll2PerkList = roll2.getPerkList();

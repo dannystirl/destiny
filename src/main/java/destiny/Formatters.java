@@ -10,7 +10,18 @@ import java.util.regex.Pattern;
 
 public class Formatters {
 
+    public static final String errorOutputFileName = "bin//errors.txt";
+
     public static final PrintStream defaultPrintStream = new PrintStream(new FileOutputStream(FileDescriptor.out));
+    public static final PrintStream defaultErrorPrintStream;
+
+    static {
+        try {
+            defaultErrorPrintStream = new PrintStream(new FileOutputStream(errorOutputFileName));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     PrintStream outputStream;
     PrintStream errorStream;
@@ -61,8 +72,8 @@ public class Formatters {
      * @param oldStream the stream to return to
      */
     public static void errorPrint(String err, Exception e, PrintStream oldStream) {
-        System.setOut(WishlistGenerator.errorOutputFile);
-        System.setErr(WishlistGenerator.errorOutputFile);
+        System.setOut(defaultErrorPrintStream);
+        System.setErr(defaultErrorPrintStream);
 
         System.out.println(err + ": " + e.getMessage());
         e.printStackTrace();
@@ -237,7 +248,7 @@ public class Formatters {
                     summarizedNote = summarizedNote.replace("lightggg", "light.gg");
                     summarizedNote = summarizedNote.replace("elipsez", "...");
                     summarizedNote = summarizedNote.replace(" v30 ", " 3.0 ");
-                    System.out.print((summarizedNote + " ").replaceAll(" {2}", " "));
+                    System.out.print((summarizedNote + " ").replaceAll("  ", " "));
                 }
                 // MWS
                 if (!itemRoll.getMWList().isEmpty()) {

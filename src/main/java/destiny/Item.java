@@ -122,7 +122,12 @@ class Roll {
 
     Roll(List<String> perks, List<String> notes, List<String> tags, List<String> mw) {
         // TRANSLATE ENHANCED TO NORMAL PERKS
-        perkList = BungieDataParsers.convertEnhancedPerksToNormal(perks);
+        try {
+            perkList = BungieDataParsers.convertEnhancedPerksToNormal(perks);
+        } catch (Exception e) {
+            Formatters.errorPrint("Error converting enhanced perks to normal perks", e);
+            perkList = perks;
+        }
         noteList = notes;
         tagList = tags;
         mwList = mw;

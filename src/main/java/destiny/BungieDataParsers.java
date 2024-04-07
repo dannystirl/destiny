@@ -153,7 +153,7 @@ public class BungieDataParsers {
                     checkPerk(enhancedPerkList.get(i));
                 } catch (Exception e) {
                     // Really could be any number of reasons for this to happen, but it's probably a timeout.
-                    Formatters.errorPrint("HTTP Error", e);
+                    Formatters.errorPrint(String.format("HTTP Error when checking perk %s", enhancedPerkList.get(i)), e);
                 }
             }
             // if enhancedPerkList contains itemPerkList.get(i), set tempPerkList to the itemMatchingList (convert dead / incorrect perks to the correct / normal version)

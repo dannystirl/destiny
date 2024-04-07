@@ -29,15 +29,8 @@ public class Summarizer {
         Properties props = new Properties();
         props.setProperty("annotators", "tokenize, ssplit, parse");
         props.setProperty("tokenize.options", "untokenizable=allDelete");
-        PrintStream errorOutputFile;
-        try {
-            errorOutputFile = new PrintStream(WishlistGenerator.errorOutputFileName);
-        } catch (FileNotFoundException e) {
-            System.out.println("Error creating error file: " + e);
-            throw new FileNotFoundException();
-        }
-        System.setOut(errorOutputFile);
-        System.setErr(errorOutputFile);
+        System.setOut(Formatters.defaultErrorPrintStream);
+        System.setErr(Formatters.defaultErrorPrintStream);
         pipeline = new StanfordCoreNLP(props);
         System.setOut(file);
         System.setErr(file);

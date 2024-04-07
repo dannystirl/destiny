@@ -8,10 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -390,5 +387,59 @@ public class AppTest {
         assertTrue(lineDataParsers.unwantedItemList.get(item.getItemId()).getRollList().stream().map(Roll::getPerkList).toList().contains(List.of("-")));
         System.out.printf("Test %s passed%n", new Object() {
         }.getClass().getEnclosingMethod().getName());
+    }
+
+    @Test
+    public void testItemSorting() {
+        Map<Long, Item> wantedItemList = new HashMap<>();
+        Roll roll1 = new Roll(
+                List.of("1", "11", "21", "31"),
+                List.of("First Sentence Version 1. ", "Second Sentence Version 1. "),
+                List.of("pve", "controller"),
+                List.of("Velocity", "Handling")
+        );
+        Roll roll2 = new Roll(
+                List.of("3", "13", "23", "33"),
+                List.of("First Sentence Version 1. ", "Second Sentence Version 1. "),
+                List.of("pve", "controller"),
+                List.of("Velocity", "Handling")
+        );
+        Roll roll3 = new Roll(
+                List.of("2", "12", "22", "32"),
+                List.of("First Sentence Version 1. ", "Second Sentence Version 1. "),
+                List.of("pvp", "mkb"),
+                List.of("Velocity", "Handling")
+        );
+        Roll roll4 = new Roll(
+                List.of("1", "11", "21", "31"),
+                List.of("First Sentence Version 1. ", "Second Sentence Version 1. "),
+                List.of("pvp", "mkb"),
+                List.of("Velocity", "Stability")
+        );
+        Roll roll5 = new Roll(
+                List.of("1", "11", "21", "31"),
+                List.of("First Sentence Version 2. ", "Second Sentence Version 1. "),
+                List.of("pvp", "controller"),
+                List.of("Velocity", "Handling")
+        );
+        Roll roll6 = new Roll(
+                List.of("1", "11", "22", "35"),
+                List.of("First Sentence Version 2. ", "Second Sentence Version 1. "),
+                List.of("pvp", "controller"),
+                List.of("Velocity", "Handling")
+        );
+        Roll roll7 = new Roll(
+                List.of("1", "11", "21", "31"),
+                List.of("First Sentence Version 2. ", "Second Sentence Version 2. "),
+                List.of("pve", "controller"),
+                List.of("Velocity", "Handling")
+        );
+        List<Roll> rolls = new ArrayList<>(List.of(roll1, roll2, roll3, roll4, roll5, roll6, roll7));
+        Collections.shuffle(rolls);
+        Item item = new Item(3669616453L, rolls, false);
+        wantedItemList.put(item.getItemId(), item);
+        Map<Long, Item> sortedItemList = new ItemSorter(App.RunType.TEST).sortItems(wantedItemList);
+        assert sortedItemList.containsKey(item.getItemId());
+        assertEquals(sortedItemList.get(item.getItemId()).getRollList(), List.of(roll1, roll2, roll3, roll4, roll5, roll6, roll7));
     }
 }
