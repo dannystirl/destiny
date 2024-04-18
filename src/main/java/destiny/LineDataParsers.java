@@ -1,11 +1,11 @@
 package destiny;
 
-import junit.framework.AssertionFailedError;
-
 import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import junit.framework.AssertionFailedError;
 
 public class LineDataParsers {
 
@@ -16,6 +16,33 @@ public class LineDataParsers {
     public List<ArrayList<Object>> sourceList = new ArrayList<>();
 
     public static Summarizer sentenceAnalyzer;
+
+    enum Masterwork {
+        Range("Range"),
+        Handling("Handling"),
+        Stability("Stability"),
+        Reload("Reload"),
+        BlastRadius("Blast Radius"),
+        Velocity("Velocity"),
+        ChargeTime("Charge Time"),
+        DrawTime("Draw Time"),
+        Impact("Impact");
+
+        final String name;
+
+        Masterwork(String name) {
+            this.name = name;
+        }
+
+        /**
+         * Get the Masterwork by name
+         * @param name
+         * @return Masterwork || null
+         */
+        static Masterwork getMasterwork(String name) {
+            return Arrays.stream(Masterwork.values()).filter(masterwork1 -> masterwork1.name.equalsIgnoreCase(name)).findFirst().orElse(null);
+        }
+    }
 
     static {
         try {
@@ -251,23 +278,25 @@ public class LineDataParsers {
             for (String sentence : note.split("\\.\\s+|\"\\s*|]")) {
                 // Format note
                 Matcher matcher = pattern.matcher(sentence);
-                String formattedMW = "";
+                List<Masterwork> formattedMWs = new ArrayList<>();
                 String formattedNote = "";
-                if (matcher.matches()) {
+                if (matcher.find()) {
                     // MW
                     String[] noteMwList = matcher.group().split(mwRegex)[1].split("[^\\x00-\\x7F]");
-                    formattedMW = Formatters.noteFormatter(noteMwList[0]);
+                    formattedMWs = Formatters.mwFormatter(noteMwList[0]);
                     // Note
                     if (noteMwList.length > 1) {
                         formattedNote = Formatters.noteFormatter(noteMwList[1]);
+                    } else {
+                        formattedNote = "";
                     }
                 } else {
                     formattedNote = Formatters.noteFormatter(sentence);
                 }
                 // Add required items to appropriate lists
-                if (!(formattedMW.equals("") || roll.getMWList().contains(formattedMW))) {
-                    roll.addMW(formattedMW);
-                }
+                formattedMWs.stream()
+                        .filter(formattedMW -> !roll.getMWList().contains(formattedMW))
+                        .forEach(roll::addMW);
                 if (!(formattedNote.equals("") || roll.getNoteList().contains(formattedNote))) {
                     roll.addNote(formattedNote);
                 }

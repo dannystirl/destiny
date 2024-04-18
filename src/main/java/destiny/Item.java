@@ -102,6 +102,7 @@ public class Item {
         System.out.printf("Item %s [%d occurrences]%n", itemId, countOfItem);
         System.out.println(getRollList().stream().map(Roll::getPerkList));
         System.out.println(getRollList().stream().map(Roll::getNoteList));
+        System.out.println(getRollList().stream().map(Roll::getMWList));
         System.out.println(getRollList().stream().map(Roll::getTagList));
         System.out.println();
     }
@@ -114,13 +115,13 @@ class Roll {
     List<String> perkList;
     List<String> noteList;
     List<String> tagList;
-    List<String> mwList;
+    List<LineDataParsers.Masterwork> mwList;
 
     Roll(List<String> perks) {
         this(perks, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
     }
 
-    Roll(List<String> perks, List<String> notes, List<String> tags, List<String> mw) {
+    Roll(List<String> perks, List<String> notes, List<String> tags, List<LineDataParsers.Masterwork> mw) {
         // TRANSLATE ENHANCED TO NORMAL PERKS
         try {
             perkList = BungieDataParsers.convertEnhancedPerksToNormal(perks);
@@ -153,11 +154,11 @@ class Roll {
         tagList.add(tag);
     }
 
-    public List<String> getMWList() {
+    public List<LineDataParsers.Masterwork> getMWList() {
         return mwList;
     }
 
-    public void addMW(String mw) {
+    public void addMW(LineDataParsers.Masterwork mw) {
         mwList.add(mw);
     }
 }

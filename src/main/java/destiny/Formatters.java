@@ -7,6 +7,7 @@ import java.io.PrintStream;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Formatters {
 
@@ -98,6 +99,18 @@ public class Formatters {
         tag = tag.replace("|", "");
         tag = tag.replace(" ", "");
         return tag;
+    }
+
+    /**
+     * Get a list of masterworks from a string
+     *
+     * @param mws
+     * @return List<LineDataParsers.Masterwork>
+     */
+    public static List<LineDataParsers.Masterwork> mwFormatter(String mws) {
+        return Arrays.stream(LineDataParsers.Masterwork.values())
+                .filter(mw -> mws.contains(mw.name()))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -214,7 +227,7 @@ public class Formatters {
         List<Roll> itemRollList = item.getValue().getRollList();
         List<String> currentNoteFull = new ArrayList<>();
         List<String> currentTagsFull = new ArrayList<>();
-        List<String> currentMWsFull = new ArrayList<>();
+        List<LineDataParsers.Masterwork> currentMWsFull = new ArrayList<>();
 
         System.setOut(outputStream);
         System.setErr(errorStream);
@@ -254,9 +267,9 @@ public class Formatters {
                 if (!itemRoll.getMWList().isEmpty()) {
                     System.out.print("Recommended MW: ");
                     for (int i = 0; i < itemRoll.getMWList().size() - 1; i++) {
-                        System.out.print(itemRoll.getMWList().get(i) + ", ");
+                        System.out.print(itemRoll.getMWList().get(i).name + ", ");
                     }
-                    System.out.print(itemRoll.getMWList().get(itemRoll.getMWList().size() - 1) + ". ");
+                    System.out.print(itemRoll.getMWList().get(itemRoll.getMWList().size() - 1).name + ". ");
                 }
                 try {
                     // TAGS

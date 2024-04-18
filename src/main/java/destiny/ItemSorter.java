@@ -4,6 +4,7 @@ import junit.framework.AssertionFailedError;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ItemSorter {
 
@@ -35,7 +36,7 @@ public class ItemSorter {
                 item.getValue().getRollList().sort((Roll roll1, Roll roll2) -> {
                     // First, attempt to sort by notes to lower the file size
                     int noteComparison = String.join("", roll1.noteList).compareTo(String.join("", roll2.noteList));
-                    int mwComparison = String.join("", roll1.mwList).compareTo(String.join("", roll2.mwList));
+                    int mwComparison = String.join("", roll1.mwList.stream().map(LineDataParsers.Masterwork::name).collect(Collectors.toList())).compareTo(String.join("", roll2.mwList.stream().map(LineDataParsers.Masterwork::name).collect(Collectors.toList())));
                     int tagComparison = String.join("", roll1.tagList).compareTo(String.join("", roll2.tagList));
                     if (noteComparison != 0) {
                         return noteComparison;

@@ -324,6 +324,7 @@ public class AppTest {
         lineDataParsers.addItemToWantedList(item);
         assertTrue(lineDataParsers.wantedItemList.containsKey(item.getItemId()));
         assertTrue(lineDataParsers.wantedItemList.get(item.getItemId()).getRollList().stream().map(Roll::getPerkList).toList().contains(List.of("1392496348", "2969185026", "3523296417", "438098033")));
+        assertTrue(item.getRollList().get(0).getMWList().containsAll(List.of(LineDataParsers.Masterwork.Range, LineDataParsers.Masterwork.Stability)));
         System.out.printf("Test %s passed%n", new Object() {
         }.getClass().getEnclosingMethod().getName());
     }
@@ -331,22 +332,41 @@ public class AppTest {
     @Test
     public void testLineParserAll() throws Exception {
         // Setup test values
-        String line = "dimwishlist:item=-69420&perks=1168162263,1015611457#notes:Outlaw + Kill Clip is a classic reload + damage combination.|tags:pve,mkb,controller,pvp";
+        String line = "dimwishlist:item=-69420&perks=1168162263,1015611457#notes:Outlaw + Kill Clip is a classic reload + damage combination. Recommended MW: Reload, Stability. |tags:pve,mkb,controller,pvp";
         Long itemId = 69420L;
         Item item = lineDataParsers.lineParser(itemId, line, "", true);
         // Test Results
         assertEquals(itemId, item.getItemId());
         assertEquals(2, item.getRollList().get(0).getPerkList().size());
         assertEquals(List.of("1168162263", "1015611457"), item.getRollList().get(0).getPerkList());
-        assertEquals(List.of("Outlaw + Kill Clip is a classic reload + damage combination."), item.getRollList().get(0).getNoteList());
+        assertEquals(List.of("Outlaw + Kill Clip is a classic reload + damage combination. Recommended MW: Reload, Stability. "), item.getRollList().get(0).getNoteList());
         assertEquals(List.of("pve", "mkb", "controller", "pvp"), item.getRollList().get(0).getTagList());
         assertFalse(item.isIgnoreItem());
         // Check Item
         lineDataParsers.addItemToWantedList(item);
         assertTrue(lineDataParsers.wantedItemList.containsKey(item.getItemId()));
         assertTrue(lineDataParsers.wantedItemList.get(item.getItemId()).getRollList().stream().map(Roll::getPerkList).toList().contains(List.of("1168162263", "1015611457")));
+        assertTrue(lineDataParsers.wantedItemList.get(item.getItemId()).getRollList().stream().map(Roll::getNoteList).toList().contains(List.of("Outlaw + Kill Clip is a classic reload + damage combination")));
+        assertTrue(item.getRollList().get(0).getMWList().containsAll(List.of(LineDataParsers.Masterwork.Reload, LineDataParsers.Masterwork.Stability)));
         System.out.printf("Test %s passed%n", new Object() {
         }.getClass().getEnclosingMethod().getName());
+    }
+
+    @Test
+    public void testLineParserMasterworks() throws Exception {
+        String line1 = "dimwishlist:item=768621510&perks=1392496348,2969185026,1168162263,1015611457#notes:Outlaw + Kill Clip is a classic reload + damage combination. Recommended MW: Reload or Stability. |tags:pve,mkb,controller,pvp";
+        String line2 = "dimwishlist:item=768621510&perks=1392496348,2969185026,1168162263,1015611457#notes:Outlaw + Kill Clip is a classic reload + damage combination, but a little outdated. Recommended MW: Reload. |tags:pve,mkb,controller,pvp";
+        String line3 = "dimwishlist:item=768621510&perks=1392496348,2969185026,1168162263,1015611457#notes:Outlaw + Kill Clip is a classic reload + damage combination, but a little outdated with how many damage perks we have in the game. Recommended MW: Reload, Handling, or Stability with a Minor Spec mod. |tags:pve,mkb,controller,pvp";
+        Long itemId = 768621510L;
+        // Test Results
+        lineDataParsers.addItemToWantedList(lineDataParsers.lineParser(itemId, line1, "", false));
+        lineDataParsers.addItemToWantedList(lineDataParsers.lineParser(itemId, line2, "", false));
+        lineDataParsers.addItemToWantedList(lineDataParsers.lineParser(itemId, line3, "", false));
+        assertEquals(1, lineDataParsers.wantedItemList.get(itemId).getRollList().size());
+        Roll roll = lineDataParsers.wantedItemList.get(itemId).getRollList().get(0);
+        assertEquals(3, roll.getNoteList().size());
+        assertEquals(3, roll.getMWList().size());
+        assertTrue(roll.getMWList().containsAll(List.of(LineDataParsers.Masterwork.Reload, LineDataParsers.Masterwork.Stability, LineDataParsers.Masterwork.Handling)));
     }
 
     @Test
@@ -396,43 +416,43 @@ public class AppTest {
                 List.of("1", "11", "21", "31"),
                 List.of("First Sentence Version 1. ", "Second Sentence Version 1. "),
                 List.of("pve", "controller"),
-                List.of("Velocity", "Handling")
+                List.of(LineDataParsers.Masterwork.Velocity, LineDataParsers.Masterwork.Handling)
         );
         Roll roll2 = new Roll(
                 List.of("3", "13", "23", "33"),
                 List.of("First Sentence Version 1. ", "Second Sentence Version 1. "),
                 List.of("pve", "controller"),
-                List.of("Velocity", "Handling")
+                List.of(LineDataParsers.Masterwork.Velocity, LineDataParsers.Masterwork.Handling)
         );
         Roll roll3 = new Roll(
                 List.of("2", "12", "22", "32"),
                 List.of("First Sentence Version 1. ", "Second Sentence Version 1. "),
                 List.of("pvp", "mkb"),
-                List.of("Velocity", "Handling")
+                List.of(LineDataParsers.Masterwork.Velocity, LineDataParsers.Masterwork.Handling)
         );
         Roll roll4 = new Roll(
                 List.of("1", "11", "21", "31"),
                 List.of("First Sentence Version 1. ", "Second Sentence Version 1. "),
                 List.of("pvp", "mkb"),
-                List.of("Velocity", "Stability")
+                List.of(LineDataParsers.Masterwork.Velocity, LineDataParsers.Masterwork.Stability)
         );
         Roll roll5 = new Roll(
                 List.of("1", "11", "21", "31"),
                 List.of("First Sentence Version 2. ", "Second Sentence Version 1. "),
                 List.of("pvp", "controller"),
-                List.of("Velocity", "Handling")
+                List.of(LineDataParsers.Masterwork.Velocity, LineDataParsers.Masterwork.Handling)
         );
         Roll roll6 = new Roll(
                 List.of("1", "11", "22", "35"),
                 List.of("First Sentence Version 2. ", "Second Sentence Version 1. "),
                 List.of("pvp", "controller"),
-                List.of("Velocity", "Handling")
+                List.of(LineDataParsers.Masterwork.Velocity, LineDataParsers.Masterwork.Handling)
         );
         Roll roll7 = new Roll(
                 List.of("1", "11", "21", "31"),
                 List.of("First Sentence Version 2. ", "Second Sentence Version 2. "),
                 List.of("pve", "controller"),
-                List.of("Velocity", "Handling")
+                List.of(LineDataParsers.Masterwork.Velocity, LineDataParsers.Masterwork.Handling)
         );
         List<Roll> rolls = new ArrayList<>(List.of(roll1, roll2, roll3, roll4, roll5, roll6, roll7));
         Collections.shuffle(rolls);
