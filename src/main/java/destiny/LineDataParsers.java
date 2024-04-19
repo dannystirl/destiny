@@ -273,7 +273,7 @@ public class LineDataParsers {
             note = note.replace("light.gg", "lightggg");
             note = note.replace("...", "elipsez");
             note = note.replace(" 3.0 ", " v30 ");
-            String mwRegex = "(Recommended\\s|\\[){1,25}MW((:\\s)|(\\s-\\s))";
+            String mwRegex = "(Recommended\\s+|\\[){1,25}MW((:\\s)|(\\s*-\\s))";
             Pattern pattern = Pattern.compile(String.format("%s[^\\.\\|\\n]*", mwRegex), Pattern.CASE_INSENSITIVE);
             for (String sentence : note.split("\\.\\s+|\"\\s*|]")) {
                 // Format note

@@ -138,7 +138,7 @@ public class Formatters {
                 // not an error. just item has no tags
             }
         }
-        return note;
+        return note.replaceAll("  ", " ").replace("Reccommended", "Recommended");
     }
 
     /**
@@ -264,12 +264,12 @@ public class Formatters {
                     System.out.print((summarizedNote + " ").replaceAll("  ", " "));
                 }
                 // MWS
-                if (!itemRoll.getMWList().isEmpty()) {
+                if (!currentMWsFull.isEmpty()) {
                     System.out.print("Recommended MW: ");
-                    for (int i = 0; i < itemRoll.getMWList().size() - 1; i++) {
-                        System.out.print(itemRoll.getMWList().get(i).name + ", ");
+                    for (int i = 0; i < currentMWsFull.size() - 1; i++) {
+                        System.out.print(currentMWsFull.get(i).name + ", ");
                     }
-                    System.out.print(itemRoll.getMWList().get(itemRoll.getMWList().size() - 1).name + ". ");
+                    System.out.print(currentMWsFull.get(currentMWsFull.size() - 1).name + ". ");
                 }
                 try {
                     // TAGS

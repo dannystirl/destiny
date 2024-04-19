@@ -11,6 +11,7 @@ import java.io.Writer;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import org.apache.http.annotation.Experimental;
 
@@ -366,7 +367,7 @@ public class AppTest {
         Roll roll = lineDataParsers.wantedItemList.get(itemId).getRollList().get(0);
         assertEquals(3, roll.getNoteList().size());
         assertEquals(3, roll.getMWList().size());
-        assertTrue(roll.getMWList().containsAll(List.of(LineDataParsers.Masterwork.Reload, LineDataParsers.Masterwork.Stability, LineDataParsers.Masterwork.Handling)));
+        assertEquals(roll.getMWList().stream().sorted().toList(), Stream.of(LineDataParsers.Masterwork.Reload, LineDataParsers.Masterwork.Stability, LineDataParsers.Masterwork.Handling).sorted().toList());
     }
 
     @Test
