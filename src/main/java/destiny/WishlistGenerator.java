@@ -18,7 +18,7 @@ import kong.unirest.Unirest;
 public class WishlistGenerator implements AutoCloseable {
 
     public static App.RunType runType = App.RunType.NORMAL;
-    public static App.SummarizerType summarizerType = App.SummarizerType.NONE;
+    public static App.SummarizerType summarizerType = App.SummarizerType.FREQUENCY;
 
     public static int sourceNum;
     public static BufferedReader br;
