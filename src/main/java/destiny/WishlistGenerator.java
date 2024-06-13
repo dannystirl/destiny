@@ -18,6 +18,7 @@ import kong.unirest.Unirest;
 public class WishlistGenerator implements AutoCloseable {
 
     public static App.RunType runType = App.RunType.NORMAL;
+    public static App.SummarizerType summarizerType = App.SummarizerType.NONE;
 
     public static int sourceNum;
     public static BufferedReader br;
@@ -135,7 +136,7 @@ public class WishlistGenerator implements AutoCloseable {
 
         // SORTING ITEMS
         lineDataParsers.wantedItemList = new ItemSorter(runType).sortItems(lineDataParsers.wantedItemList);
-        new Formatters(runType).withStreams(scriptedWishlistFile, errorOutputFile).withData(lineDataParsers).printWishlist();
+        new Formatters(runType, summarizerType).withStreams(scriptedWishlistFile, errorOutputFile).withData(lineDataParsers).printWishlist();
 
         // Print the enhancedPerkList to a file, so I don't need to call HTTP.GET every time I run the script
         String eol = System.getProperty("line.separator");

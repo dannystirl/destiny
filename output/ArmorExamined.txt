@@ -1,39 +1,27 @@
-id:"6917529780952683580" or id:"6917529974437556316"
-id:"6917529780952683580" : Eidolon Pursuant Pants (Warlock Leg Armor at 1810 power) > 
-id:"6917529974437556316" : Wyrmguard Boots (Warlock Leg Armor at 1800 power)
+id:"6917529806518486408" or id:"6917530006136955839"
+id:"6917529806518486408" : Deep Explorer Strides (Hunter Leg Armor at 1807 power) > 
+id:"6917530006136955839" : Techeun's Regalia Strides (Hunter Leg Armor at 1800 power)
 
-id:"6917529780989550965" or id:"6917529974437556316"
-id:"6917529780989550965" : Eidolon Pursuant Pants (Warlock Leg Armor at 1810 power) > 
-id:"6917529974437556316" : Wyrmguard Boots (Warlock Leg Armor at 1800 power)
+id:"6917529865734281537" or id:"6917529807398145790"
+id:"6917529865734281537" : Tusked Allegiance Vest (Hunter Chest Armor at 1807 power) > 
+id:"6917529807398145790" : Lost Pacific Vest (Hunter Chest Armor at 1810 power)
 
-id:"6917529804444663084" or id:"6917529901263369642"
-id:"6917529804444663084" : Deep Explorer Vestments (Warlock Chest Armor at 1810 power) > 
-id:"6917529901263369642" : Corrupting Echo Robes (Warlock Chest Armor at 1800 power)
+id:"6917529867493338844" or id:"6917530006139762651"
+id:"6917529867493338844" : Tusked Allegiance Mask (Hunter Helmet at 1800 power) > 
+id:"6917530006139762651" : Techeun's Regalia Mask (Hunter Helmet at 1800 power)
 
-id:"6917529867796317124" or id:"6917529974437556316"
-id:"6917529867796317124" : Vigil of Heroes (Warlock Leg Armor at 1810 power) > 
-id:"6917529974437556316" : Wyrmguard Boots (Warlock Leg Armor at 1800 power)
+id:"6917529933055633977" or id:"6917529807398145790"
+id:"6917529933055633977" : Warmind's Avatar Vest (Hunter Chest Armor at 1810 power) > 
+id:"6917529807398145790" : Lost Pacific Vest (Hunter Chest Armor at 1810 power)
 
-id:"6917529902655578716" or id:"6917529990213782677"
-id:"6917529902655578716" : Corrupting Echo Gloves (Warlock Gauntlets at 1800 power) > 
-id:"6917529990213782677" : Wyrmguard Gloves (Warlock Gauntlets at 1800 power)
+id:"6917529933055633977" or id:"6917529865734281537"
+id:"6917529933055633977" : Warmind's Avatar Vest (Hunter Chest Armor at 1810 power) > 
+id:"6917529865734281537" : Tusked Allegiance Vest (Hunter Chest Armor at 1807 power)
 
-id:"6917529902672456301" or id:"6917529990213782677"
-id:"6917529902672456301" : Corrupting Echo Gloves (Warlock Gauntlets at 1810 power) > 
-id:"6917529990213782677" : Wyrmguard Gloves (Warlock Gauntlets at 1800 power)
-
-id:"6917529962403471061" or id:"6917529974437556316"
-id:"6917529962403471061" : Wyrmguard Boots (Warlock Leg Armor at 1800 power) > 
-id:"6917529974437556316" : Wyrmguard Boots (Warlock Leg Armor at 1800 power)
-
-id:"6917529974437555601" or id:"6917529990213788036"
-id:"6917529974437555601" : Wyrmguard Robe (Warlock Chest Armor at 1800 power) > 
-id:"6917529990213788036" : Techeun's Regalia Robes (Warlock Chest Armor at 1800 power)
-
-id:"6917529974440132942" or id:"6917529974437556316"
-id:"6917529974440132942" : Wyrmguard Boots (Warlock Leg Armor at 1800 power) > 
-id:"6917529974437556316" : Wyrmguard Boots (Warlock Leg Armor at 1800 power)
+id:"6917529974430780477" or id:"6917530006136955839"
+id:"6917529974430780477" : NPA "Weir-Walker" Strides (Hunter Leg Armor at 1800 power) > 
+id:"6917530006136955839" : Techeun's Regalia Strides (Hunter Leg Armor at 1800 power)
 
 Vault Spaces Saveable: 7
 DIM string for items to delete:      
-id:"6917529179857656252" or id:"6917529197317824109" or id:"6917529987704269653" or id:"6917529974437556316" or id:"6917529901263369642" or id:"6917529990213782677" or id:"6917529990213788036"
+id:"6917529160878380018" or id:"6917529350236083694" or id:"6917529813656770248" or id:"6917530006136955839" or id:"6917529807398145790" or id:"6917530006139762651" or id:"6917529865734281537"

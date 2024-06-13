@@ -28,12 +28,14 @@ public class Formatters {
     PrintStream errorStream;
 
     App.RunType runType;
+    App.SummarizerType summarizerType;
 
     LineDataParsers lineDataParsers;
     BungieDataParsers bungieDataParsers;
 
-    Formatters(App.RunType runType) {
+    Formatters(App.RunType runType, App.SummarizerType summarizerType) {
         this.runType = runType;
+        this.summarizerType = summarizerType;
         this.outputStream = defaultPrintStream;
         this.errorStream = defaultPrintStream;
         lineDataParsers = new LineDataParsers(runType);
@@ -257,7 +259,11 @@ public class Formatters {
                     }
                 }
                 if (!currentNoteFull.isEmpty() && !currentNoteFull.equals(List.of(""))) {
-                    String summarizedNote = summarizer.sentenceAnalyzerUsingFrequency(String.join(". ", currentNoteFull) + ". ", List.of("first-choice", "backup", "best in slot"));
+                    String summarizedNote = switch (summarizerType) {
+                        case FREQUENCY ->
+                                summarizer.sentenceAnalyzerUsingFrequency(String.join(". ", currentNoteFull) + ". ", List.of("first-choice", "backup", "best in slot"));
+                        case NONE -> String.join(". ", currentNoteFull) + ". ";
+                    };
                     summarizedNote = summarizedNote.replace("lightggg", "light.gg");
                     summarizedNote = summarizedNote.replace("elipsez", "...");
                     summarizedNote = summarizedNote.replace(" v30 ", " 3.0 ");
