@@ -78,6 +78,14 @@ dimwishlist:item=568611922&perks=981914802,3492396210,3300816228,469285294
 dimwishlist:item=568611922&perks=981914802,3492396210,3300816228,438098033
 //notes:Pve utility roll. Demo is great for grenade builds and frenzy is super easy to activate. Implosion rounds and hard launch lower blast radius, which results in higher damage because of the frame, and maxes velocity, which makes it easier to hit far shots. Recommended MW: Handling |tags:pve-endgame, pve
 dimwishlist:item=568611922&perks=981914802,3492396210,3523296417,4104185692
+//notes:PvE first choice roll for DPS. Caster frame allows you to get wolfpack rounds up early and doesn't lock you into a long animation. Enduring blade and swordmaster's guard best for perfect roll. |tags:pve, pve-god
+dimwishlist:item=1681583613&perks=1959135343,1261178282,269888150,519046634
+//notes:PvE first choice roll for gms. Caster frame creates ignitions in 1 heavy attack and allows you to do so from a distance. Enduring blade and swordmaster's guard best for perfect roll. |tags:pve, pve-god
+dimwishlist:item=1681583613&perks=1522566605,1261178282,269888150,519046634
+//notes:PvE add clear roll roll. I feel like vortex frame is the best frame for this roll. Heavy attacks can get multiple kills, which will create multiple robots. |tags:pve
+dimwishlist:item=1681583613&perks=3325420353,1261178282,269888150,2557881346
+//notes:As far as the wave frame goes, I think sacred flame might be the best pick? This frame is about an eager-edge heavy attack into a light attack, which is what the trait is looking for. Will need to test this one. |tags:pve
+dimwishlist:item=1681583613&perks=3034060702,1261178282,2349202967,289811733
 
 // Heavy Weapons
 dimwishlist:item=3652506829&perks=247725512,1771339417#notes:Stormchaser seems to have better dps than other linears. This is a roll to lookout for group activities.|tags:pve,mkb,controller
