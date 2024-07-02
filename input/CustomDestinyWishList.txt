@@ -79,9 +79,14 @@ dimwishlist:item=568611922&perks=981914802,3492396210,3300816228,438098033
 //notes:Pve utility roll. Demo is great for grenade builds and frenzy is super easy to activate. Implosion rounds and hard launch lower blast radius, which results in higher damage because of the frame, and maxes velocity, which makes it easier to hit far shots. Recommended MW: Handling |tags:pve-endgame, pve
 dimwishlist:item=568611922&perks=981914802,3492396210,3523296417,4104185692
 //notes:PvE first choice roll for DPS. Caster frame allows you to get wolfpack rounds up early and doesn't lock you into a long animation. Enduring blade and swordmaster's guard best for perfect roll. |tags:pve, pve-god
+
+// Ergo Sum
+//notes:Pve first choice roll for dps. Boosting swords dps with wolfpack rounds is incredible and brings swords into the fight as a viable option. Use caster frame to start a little early and swap on the way to the boss, or use a lightweight to conserve ammo. 
 dimwishlist:item=1681583613&perks=1959135343,1261178282,269888150,519046634
-//notes:PvE first choice roll for gms. Caster frame creates ignitions in 1 heavy attack and allows you to do so from a distance. Enduring blade and swordmaster's guard best for perfect roll. |tags:pve, pve-god
+dimwishlist:item=1681583613&perks=1959135343,1261178282,269888150,2753228730
+//notes:PvE first choice roll for gms and dps. Caster frame creates ignitions in 1 heavy attack and allows you to do so from a distance. Enduring blade and swordmaster's guard best for perfect roll. |tags:pve, pve-god
 dimwishlist:item=1681583613&perks=1522566605,1261178282,269888150,519046634
+dimwishlist:item=1681583613&perks=1522566605,3666208348,269888150,519046634
 //notes:PvE add clear roll roll. I feel like vortex frame is the best frame for this roll. Heavy attacks can get multiple kills, which will create multiple robots. |tags:pve
 dimwishlist:item=1681583613&perks=3325420353,1261178282,269888150,2557881346
 //notes:As far as the wave frame goes, I think sacred flame might be the best pick? This frame is about an eager-edge heavy attack into a light attack, which is what the trait is looking for. Will need to test this one. |tags:pve
@@ -164,3 +169,35 @@ dimwishlist:item=69420&perks=-2458213969#notes:Multi-kill-clip just is not a per
 dimwishlist:item=69420&perks=-1870851715#notes:Under-Over is just adaptive munitions but worse. 
 dimwishlist:item=69420&perks=-838780105#notes:Shattering Blade
 dimwishlist:item=69420&perks=-2848615171#notes:Dragonfly is increasingly becoming a perk where there's almost always a better option
+
+// Class Items
+// Hunter Cloak
+dimwishlist:item=2809120022&perks=3751917998,1476923955#notes:Star Eater Scales boosting damage as a bonus to whatever perk I get in the first column is a crazy perk. Shards of galanor giving ~50% of a 70% damage boosted super means you can use high damage supers constantly. 
+dimwishlist:item=2809120022&perks=1476923953,1476923955#notes:Star Eater Scales boosting damage as a bonus to whatever perk I get in the first column is a crazy perk. Inmost light also offers a strong neutral loop, giving abliity emergy all the time. 
+dimwishlist:item=2809120022&perks=3751917997,1476923955#notes:Star Eater Scales boosting damage as a bonus to whatever perk I get in the first column is a crazy perk. Foetracer's requirements are a little more specific than some other perks, but its an easy-to-activate damage boost for weapons if any thought is given to your loadout. 
+//notes:Some combination of synthos, liars, calibans, and assassins has to be good. 
+dimwishlist:item=2809120022&perks=1476923952,1476923956
+dimwishlist:item=2809120022&perks=3751917996,1476923956
+dimwishlist:item=2809120022&perks=1476923952,3751917992
+dimwishlist:item=2809120022&perks=3751917996,3751917992
+dimwishlist:item=2809120022&perks=1476923953,3751917994#notes:Woven mail on grenade usage is a fantastic neutral game perk. Inmost light lets you use that grenade more often, and gives energy for other abilities when gaining woven mail. 
+dimwishlist:item=2809120022&perks=3751917995,3751917994#notes:Woven mail on grenade usage is a fantastic neutral game perk. While I think renewal grasps is better on stasis than prismatic, I will say getting double damage resist is likely to keep you alive through anything. 
+dimwishlist:item=2809120022&perks=3751917998,3751917994#notes:Shards of galanor is decent with most of the supers on prismatic, most consistently giving 50% on arc. Woven mail is a nice boost to the neutral game of this build. 
+//notes:With Stylish Execution giving invis on kills on any debuffed enemy, Gyrfalcon seems like a fantastic choice here. You can use assassin's cowl for an increased invis uptime without Stylish Executioner, inmost light for increased invis uptime otherwise, Shards of Galanor for increased super uptime, or Fortracer for a constant damage boost. 
+dimwishlist:item=2809120022&perks=1476923952,3751917993
+dimwishlist:item=2809120022&perks=1476923953,3751917993
+dimwishlist:item=2809120022&perks=3751917998,3751917993
+dimwishlist:item=2809120022&perks=3751917997,3751917993
+// Titan Mark
+dimwishlist:item=266021826&perks=1476923953,1476923955#notes:Inmost light also offers a strong neutral loop, giving abliity emergy all the time. Star Eater Scales boosting damage as a bonus to whatever perk I get in the first column is a crazy perk. 
+dimwishlist:item=266021826&perks=1476923953,1476923956#notes:Inmost light also offers a strong neutral loop, giving abliity emergy all the time. Synthoceps is a decent damage boost on a mostly melee based subclass, but without the surviability of Banner of War, I'm not sure how much I would use this over Strand. 
+dimwishlist:item=266021826&perks=1476923953,3573490504#notes:Inmost light also offers a strong neutral loop, giving abliity emergy all the time. I'm not sure how viable this is on Prismatic, but on melee's that aren't thunderclap it might be viable. 
+dimwishlist:item=266021826&perks=1476923953,3573490507#notes:Inmost light also offers a strong neutral loop, giving abliity emergy all the time. Precious Scar's healing as a neutral trait seems incredible. 
+// Warlock Bond
+dimwishlist:item=2273643087&perks=1476923953,1476923955#notes:Inmost light also offers a strong neutral loop, giving abliity emergy all the time. Star Eater Scales boosting damage as a bonus to whatever perk I get in the first column is a crazy perk. 
+dimwishlist:item=2273643087&perks=183430248,1476923955#notes:Since the well damage reduction nerf, stag might be a good option to boost surviability on a super that isn't well. Star Eater Scales boosting damage as a bonus to whatever perk I get in the first column is a crazy perk. 
+dimwishlist:item=2273643087&perks=183430252,1476923955#notes:I think Necrotic Grips damage boosts dps by a decent amount, so pairing it with Star Eater Scales isn't a bad combo for high damage supers.
+dimwishlist:item=2273643087&perks=183430250,1476923955#notes:The apotheosis and star eater scales combo is a very strong dps option. You get 70% increased super damage followed by ~3 grenades and melees. 
+dimwishlist:item=2273643087&perks=183430248,183430251#notes:Interesting combination of rift perks. 
+dimwishlist:item=2273643087&perks=1476923953,183430254#notes:At the very least, this should be a strong neutral game option to get more supers and abilities. Kills with weapons grant super energy and using any ability grants ability energy. 
+dimwishlist:item=2273643087&perks=183430255,183430249#notes:If I'm going to be using an empowering rift, I might as well use two empowering rift perks. Casting a rift gives devour and any damage done in the rift will give grenade energy. 
