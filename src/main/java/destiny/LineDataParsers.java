@@ -15,8 +15,6 @@ public class LineDataParsers {
     public Map<Long, Item> wantedItemList;
     public List<ArrayList<Object>> sourceList = new ArrayList<>();
 
-    public static Summarizer sentenceAnalyzer;
-
     enum Masterwork {
         Range("Range"),
         Handling("Handling"),
@@ -41,14 +39,6 @@ public class LineDataParsers {
          */
         static Masterwork getMasterwork(String name) {
             return Arrays.stream(Masterwork.values()).filter(masterwork1 -> masterwork1.name.equalsIgnoreCase(name)).findFirst().orElse(null);
-        }
-    }
-
-    static {
-        try {
-            sentenceAnalyzer = new Summarizer(Formatters.defaultPrintStream);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         }
     }
 

@@ -4,10 +4,12 @@ import junit.framework.AssertionFailedError;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import kong.unirest.UnirestException;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InvalidObjectException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +41,16 @@ public class BungieDataParsers {
      */
 
     /**
+     * Is the Bungie API down for maintenance?
+     *
+     * @param response
+     * @return boolean
+     */
+    public static boolean isSystemDisabled(@NotNull JSONObject response) {
+        return response.get("ErrorStatus").equals("SystemDisabled");
+    }
+
+    /**
      * @param hashIdentifier - the unique hash value for an api item
      * @return JSONObject - the display properties of an item from the database
      */
@@ -49,6 +61,9 @@ public class BungieDataParsers {
                 .routeParam("hashIdentifier", hashIdentifier).asString();
 
         JSONObject itemDefinition = new JSONObject(response.getBody());
+        if (isSystemDisabled(itemDefinition)) {
+            return null;
+        }
         itemDefinition = itemDefinition.getJSONObject("Response");
         itemDefinition = itemDefinition.getJSONObject("displayProperties");
         return itemDefinition;
@@ -63,6 +78,9 @@ public class BungieDataParsers {
                 .routeParam("searchTerm", name.split("\s\\(Adept\\)")[0]).asString();
 
         JSONObject mJsonObject = new JSONObject(response.getBody());
+        if (isSystemDisabled(mJsonObject)) {
+            return new JSONArray();
+        }
         JSONObject userJObject = mJsonObject.getJSONObject("Response");
         JSONObject statusJObject = userJObject.getJSONObject("results");
         return statusJObject.getJSONArray("results");
@@ -80,9 +98,19 @@ public class BungieDataParsers {
         String hashIdentifier = itemId.toString();
         if (itemNamingList.containsKey(hashIdentifier)) {
             return itemNamingList.get(hashIdentifier);
+        } else if (itemId == 69420L) {
+            // This ItemID is reserved for a roll on any gun
+            itemNamingList.put(hashIdentifier, "Any");
+            return "";
+        } else if (hashIdentifier.length() < 3) {
+            Formatters.errorPrint("Unable to get name for item type " + itemId, new InvalidObjectException("Item is not a valid item. Check item categories and types."), currentPrintStream);
+            return "";
         } else {
             try {
                 JSONObject itemDefinition = bungieItemDefinitionJSONObject(hashIdentifier);
+                if (itemDefinition == null) {
+                    return "";
+                }
                 itemNamingList.put(hashIdentifier, itemDefinition.getString("name"));
                 return itemDefinition.getString("name");
             } catch (Exception e) {
@@ -147,6 +175,10 @@ public class BungieDataParsers {
         if (enhancedPerkList.size() == 4) {
             j = 2;
         }
+        if (tempPerkList.equals(List.of("-"))) {
+            // When we want to ignore every roll on an item, the perk list is just a single "-"
+            return tempPerkList;
+        }
         for (int i = j; i < enhancedPerkList.size(); i++) {
             if (!checkedItemList.contains(enhancedPerkList.get(i))) {
                 try {
@@ -179,6 +211,9 @@ public class BungieDataParsers {
         }
 
         JSONObject itemDefinition = bungieItemDefinitionJSONObject(hashIdentifier);
+        if (itemDefinition == null) {
+            return;
+        }
         JSONArray resultSet = bungieItemHashSetJSONArray(itemDefinition.getString("name"));
         Long normal = null, enhanced = null;
         for (Object object : resultSet) {

@@ -8,6 +8,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
@@ -209,7 +210,7 @@ public class WishlistGenerator implements AutoCloseable {
                     long itemId = Long.parseLong(line.substring(startKey).split("&")[0].split("#")[0]);
                     if (runType == App.RunType.TEST) {
                         // Update to check specific item if runType == test
-                        if (itemId != 431721920L) {
+                        if (!List.of(1681583613L, 1801007332L, 3947966653L).contains(itemId)) {
                             break;
                         }
                     }

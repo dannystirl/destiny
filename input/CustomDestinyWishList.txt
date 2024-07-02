@@ -78,16 +78,22 @@ dimwishlist:item=568611922&perks=981914802,3492396210,3300816228,469285294
 dimwishlist:item=568611922&perks=981914802,3492396210,3300816228,438098033
 //notes:Pve utility roll. Demo is great for grenade builds and frenzy is super easy to activate. Implosion rounds and hard launch lower blast radius, which results in higher damage because of the frame, and maxes velocity, which makes it easier to hit far shots. Recommended MW: Handling |tags:pve-endgame, pve
 dimwishlist:item=568611922&perks=981914802,3492396210,3523296417,4104185692
-//notes:PvE first choice roll for DPS. Caster frame allows you to get wolfpack rounds up early and doesn't lock you into a long animation. Enduring blade and swordmaster's guard best for perfect roll. |tags:pve, pve-god
+//notes:Pve utility roll. The call has so many incredible rolls its insane. Beacon rounds + hatchling are both great for an adclear roll on The Call. Subsistence, especially enhanced, means you almost never have to reload.
+dimwishlist:item=3947966653&perks=3525010810,2822142346,2859149211,831391274
+dimwishlist:item=3947966653&perks=3525010810,2822142346,1820235745,831391274
+dimwishlist:item=3947966653&perks=3525010810,2822142346,923806249,831391274
+//note:Pve endgame roll. In content where ammo is scarce, access to both Lead from Gold and OFA mean you'll be killing things faster and more often. Slice is a good backup if you need to sever a big target or champion.
+dimwishlist:item=3947966653&perks=3525010810,2822142346,1556840489,4049631843
+dimwishlist:item=3947966653&perks=3525010810,2822142346,923806249,4049631843
 
 // Ergo Sum
-//notes:Pve first choice roll for dps. Boosting swords dps with wolfpack rounds is incredible and brings swords into the fight as a viable option. Use caster frame to start a little early and swap on the way to the boss, or use a lightweight to conserve ammo. 
+//notes:PvE first choice roll for DPS. Caster frame allows you to get wolfpack rounds up early and doesn't lock you into a long animation. Enduring blade and swordmaster's guard best for perfect roll. |tags:pve, pve-god
 dimwishlist:item=1681583613&perks=1261178282,269888150,519046634
 dimwishlist:item=1681583613&perks=1261178282,269888150,2753228730
 //notes:PvE first choice roll for gms and dps. Caster frame creates ignitions in 1 heavy attack and allows you to do so from a distance. Enduring blade and swordmaster's guard best for perfect roll. |tags:pve, pve-god
 dimwishlist:item=1681583613&perks=1261178282,269888150,519046634
 dimwishlist:item=1681583613&perks=3666208348,269888150,519046634
-//notes:PvE add clear roll roll. I feel like vortex frame is the best frame for this roll. Heavy attacks can get multiple kills, which will create multiple robots. |tags:pve
+//notes:PvE add clear roll. I feel like vortex frame is the best frame for this roll. Heavy attacks can get multiple kills, which will create multiple robots. |tags:pve
 dimwishlist:item=1681583613&perks=1261178282,269888150,2557881346
 //notes:As far as the wave frame goes, I think sacred flame might be the best pick? This frame is about an eager-edge heavy attack into a light attack, which is what the trait is looking for. Will need to test this one. |tags:pve
 dimwishlist:item=1681583613&perks=1261178282,2349202967,289811733
@@ -125,7 +131,7 @@ dimwishlist:item=-69420&perks=776531651,2048641572#notes:Repulsor brace is an in
 dimwishlist:item=-69420&perks=2048641572,776531651#notes:Repulsor brace is an incredible perk when combined with destabilizing rounds, allowing near constant over-shields.|tags:pve,mkb,controller
 dimwishlist:item=-69420&perks=461595545,2896748467#notes:Reconstruction and killing tally is such a strong combo, allowing for an infinite damage buff.|tags:pve,mkb,controller
 dimwishlist:item=-69420&perks=4293542123#notes:Incandescent is an incredible perk when combined with solar 3.0.|tags:pve,mkb,controller
-dimwishlist:item=-69420&perks=3418782618,243981275#notes Rewind rounds on a log magazine weapon allows attrition orbs to make 2 orbs every 3 magazines, which adds up quickly when you go through a magazine per second. 
+dimwishlist:item=-69420&perks=3418782618,243981275#notes:Rewind rounds on a log magazine weapon allows attrition orbs to make 2 orbs every 3 magazines, which adds up quickly when you go through a magazine per second.
 
 // Generic weapon type perk combinations
 dimwishlist:item=5&perks=1683379515#notes:Disruption break is amazing for killing barrier champions after breaking their shield.|tags:pve,mkb,controller

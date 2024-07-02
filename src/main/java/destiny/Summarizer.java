@@ -7,6 +7,7 @@ import edu.stanford.nlp.util.CoreMap;
 import org.apache.lucene.analysis.core.StopAnalyzer;
 
 import java.io.FileNotFoundException;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -30,7 +31,11 @@ public class Summarizer {
         props.setProperty("annotators", "tokenize, ssplit, parse");
         props.setProperty("tokenize.options", "untokenizable=allDelete");
         System.setOut(Formatters.defaultErrorPrintStream);
-        System.setErr(Formatters.defaultErrorPrintStream);
+        System.setErr(new PrintStream(new OutputStream() {
+            public void write(int b) {
+                // Avoid logging anything when constructing the pipeline
+            }
+        }));
         pipeline = new StanfordCoreNLP(props);
         System.setOut(file);
         System.setErr(file);

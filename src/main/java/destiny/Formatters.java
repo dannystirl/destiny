@@ -78,9 +78,7 @@ public class Formatters {
         System.setOut(defaultErrorPrintStream);
         System.setErr(defaultErrorPrintStream);
 
-        System.out.println(err + ": " + e.getMessage());
-        e.printStackTrace();
-        System.out.println("\n");
+        System.out.println(err + ": " + e.getMessage() + "\n");
 
         // reset errorOutputFile to console
         System.setOut(oldStream);
