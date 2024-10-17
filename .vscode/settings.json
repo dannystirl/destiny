@@ -2,5 +2,6 @@
 	"java.configuration.updateBuildConfiguration": "automatic",
 	"maven.view": "flat",
 	"python.formatting.provider": "autopep8",
-	"editor.acceptSuggestionOnEnter": "off"
+	"editor.acceptSuggestionOnEnter": "off",
+	"java.compile.nullAnalysis.mode": "automatic"
 }
