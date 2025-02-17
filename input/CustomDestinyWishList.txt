@@ -175,6 +175,10 @@ dimwishlist:item=69420&perks=-2458213969#notes:Multi-kill-clip just is not a per
 dimwishlist:item=69420&perks=-1870851715#notes:Under-Over is just adaptive munitions but worse. 
 dimwishlist:item=69420&perks=-838780105#notes:Shattering Blade
 dimwishlist:item=69420&perks=-2848615171#notes:Dragonfly is increasingly becoming a perk where there's almost always a better option
+dimwishlist:item=69420&perks=-2579169598#notes:Lone Wolf just doesn't do anything
+dimwishlist:item=69420&perks=-2073244114#notes:Lone Wolf (E) just doesn't do anything
+dimwishlist:item=69420&perks=-1821614984#notes:Slick draw is terrible
+dimwishlist:item=69420&perks=-1942880504#notes:Slick draw (E) is terrible
 
 // Class Items
 // Hunter Cloak
