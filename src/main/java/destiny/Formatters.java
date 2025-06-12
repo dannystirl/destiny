@@ -126,7 +126,7 @@ public class Formatters {
         }
         Matcher matcher = Pattern.compile("Inspired by.*?(\\.[^A-Za-z0-9])", Pattern.CASE_INSENSITIVE).matcher(note);
         note = matcher.replaceAll("");
-        List<String> creators = List.of("(\\[YeezyGT)[^\\]]*\\]\\s*", "pandapaxxy\\s*", "Mercules904\\s*", "Chevy.*[(\\.)(\\-)]\\s*", "Shapeable.", "Clegmir\\s*", "SirStallion_\\s*", "\\(\\?+  \\?+\\)\\: ");
+        List<String> creators = List.of("(\\[YeezyGT)[^\\]]*\\]\\s*", "pandapaxxy\\s*", "Mercules904\\s*", "Chevy.*[(\\.)(\\-)]\\s*", "Shapeable.", "Clegmir\\s*", "SirStallion_\\s*", "\\(\\?+  \\?+\\)\\: ","Adamsdown_Boy\\s");
         for (String creator : creators) {
             matcher = Pattern.compile(creator, Pattern.CASE_INSENSITIVE).matcher(note);
             note = matcher.replaceAll("");
