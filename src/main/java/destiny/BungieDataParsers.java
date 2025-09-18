@@ -10,11 +10,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.zip.GZIPInputStream;
 
 public class BungieDataParsers {
 
@@ -116,12 +118,25 @@ public class BungieDataParsers {
                 JSONObject manifestResponse = mJsonObject.getJSONObject("Response");
                 String jsonText = "";
                 try {
-                        URL jsonUrl = new URL(bungieNetUrl + manifestResponse.getJSONObject("jsonWorldComponentContentPaths").getJSONObject("en").getString("DestinyInventoryItemDefinition"));
-                        InputStream is = jsonUrl.openStream();
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
-                        jsonText = reader.lines().collect(Collectors.joining("\n"));
+                        HttpURLConnection conn = (HttpURLConnection) new URL(
+                                bungieNetUrl + manifestResponse.getJSONObject("jsonWorldComponentContentPaths")
+                                .getJSONObject("en")
+                                .getString("DestinyInventoryItemDefinition")
+                        ).openConnection();
+
+                        conn.setRequestProperty("Accept-Encoding", "gzip");
+
+                        try (InputStream is = "gzip".equals(conn.getContentEncoding())
+                                ? new GZIPInputStream(conn.getInputStream())
+                                : conn.getInputStream();
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
+
+                                jsonText = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+                        }
                 } catch (IOException e) {
-                        Formatters.errorPrint("Unable to get manifest", new Exception("Unable to get Destiny Manifest. Check API Status."), currentPrintStream);
+                        Formatters.errorPrint("Unable to get manifest",
+                                new Exception("Unable to get Destiny Manifest. Check API Status."),
+                                currentPrintStream);
                         return null;
                 }
                 manifest = new JSONObject(jsonText);
