@@ -7,7 +7,8 @@ public class App {
 
     enum RunType {
         NORMAL,
-        TEST
+        TEST,
+        EXCLUDE_ENHANCED
     }
 
     enum SummarizerType {
